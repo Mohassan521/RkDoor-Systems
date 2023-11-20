@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/doorDelayedTable.dart';
-import 'package:price_link/components/tables/doorDeliveredTable.dart';
+import 'package:price_link/components/tables/steelDepositReceivedTable.dart';
 
-class DoorDelayed extends StatefulWidget {
-  const DoorDelayed({super.key});
+class SteelDepositReceived extends StatefulWidget {
+  const SteelDepositReceived({super.key});
 
   @override
-  State<DoorDelayed> createState() => _DoorDelayedState();
+  State<SteelDepositReceived> createState() => _SteelDepositReceivedState();
 }
 
-class _DoorDelayedState extends State<DoorDelayed> {
+class _SteelDepositReceivedState extends State<SteelDepositReceived> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -23,7 +22,7 @@ class _DoorDelayedState extends State<DoorDelayed> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Delayed',
+          'Steel Deposit Received',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -77,7 +76,7 @@ class _DoorDelayedState extends State<DoorDelayed> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorDelayedTable(),
+            child: SteelDepositReceivedTable(),
           ),
           SizedBox(
             height: 20,

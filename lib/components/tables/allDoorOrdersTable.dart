@@ -1,8 +1,4 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/round_button.dart';
 
 class AllDoorOrdersTable extends StatefulWidget {
   const AllDoorOrdersTable({super.key});
@@ -12,36 +8,6 @@ class AllDoorOrdersTable extends StatefulWidget {
 }
 
 class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
-  // String? _filePath;
-  // String selectedValue = "";
-
-  // List<String> enquiryStatus = [
-  //   'VIEWED',
-  //   'QUOTATION ISSUED',
-  //   'REVISED QUOTATION ISSUED',
-  //   '1ST FOLLOW UP MADE',
-  //   '2ND FOLLOW UP MADE',
-  //   'POTENTIAL ORDER',
-  //   'ORDERED',
-  //   'CLOSED'
-  // ];
-
-  // Future<void> _pickFile() async {
-  //   try {
-  //     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-  //     if (result != null) {
-  //       setState(() {
-  //         _filePath = result.files.single.path;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error picking file: $e');
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final List<DataRow> _datarow = [];

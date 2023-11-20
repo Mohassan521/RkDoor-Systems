@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/doorDelayedTable.dart';
 
-class DoorOrderReceived extends StatefulWidget {
-  const DoorOrderReceived({super.key});
+class DoorDelayed extends StatefulWidget {
+  const DoorDelayed({super.key});
 
   @override
-  State<DoorOrderReceived> createState() => _DoorOrderReceivedState();
+  State<DoorDelayed> createState() => _DoorDelayedState();
 }
 
-class _DoorOrderReceivedState extends State<DoorOrderReceived> {
+class _DoorDelayedState extends State<DoorDelayed> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -24,7 +22,7 @@ class _DoorOrderReceivedState extends State<DoorOrderReceived> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Orders Received',
+          'Door Delayed',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -78,7 +76,7 @@ class _DoorOrderReceivedState extends State<DoorOrderReceived> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorOrderReceivedTable(),
+            child: DoorDelayedTable(),
           ),
           SizedBox(
             height: 20,

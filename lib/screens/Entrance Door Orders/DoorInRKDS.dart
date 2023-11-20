@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/steelAwaitingDepositTable.dart';
-import 'package:price_link/components/tables/steelOrderPlacedTable.dart';
+import 'package:price_link/components/tables/doorInRKDSWarehouseTable.dart';
 
-class SteelAwaitingDeposit extends StatefulWidget {
-  const SteelAwaitingDeposit({super.key});
+class DoorInRKDS extends StatefulWidget {
+  const DoorInRKDS({super.key});
 
   @override
-  State<SteelAwaitingDeposit> createState() => _SteelAwaitingDepositState();
+  State<DoorInRKDS> createState() => _DoorInRKDSState();
 }
 
-class _SteelAwaitingDepositState extends State<SteelAwaitingDeposit> {
+class _DoorInRKDSState extends State<DoorInRKDS> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -23,7 +22,7 @@ class _SteelAwaitingDepositState extends State<SteelAwaitingDeposit> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Steel Awaiting Deposit',
+          'Door In RKDS Warehouse',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -77,7 +76,7 @@ class _SteelAwaitingDepositState extends State<SteelAwaitingDeposit> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelAwaitingDepositTable(),
+            child: DoorInRKDSTable(),
           ),
           SizedBox(
             height: 20,

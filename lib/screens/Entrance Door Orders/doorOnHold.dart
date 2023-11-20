@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/doorDelayedTable.dart';
-import 'package:price_link/components/tables/doorDeliveredTable.dart';
 import 'package:price_link/components/tables/doorOnHoldTable.dart';
 
 class DoorOnHold extends StatefulWidget {

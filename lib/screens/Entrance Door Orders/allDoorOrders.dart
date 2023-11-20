@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
 
-class DoorOrderPlaced extends StatefulWidget {
-  const DoorOrderPlaced({super.key});
+class AllDoorOrders extends StatefulWidget {
+  const AllDoorOrders({super.key});
 
   @override
-  State<DoorOrderPlaced> createState() => _DoorOrderPlacedState();
+  State<AllDoorOrders> createState() => _AllDoorOrdersState();
 }
 
-class _DoorOrderPlacedState extends State<DoorOrderPlaced> {
+class _AllDoorOrdersState extends State<AllDoorOrders> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -25,7 +22,7 @@ class _DoorOrderPlacedState extends State<DoorOrderPlaced> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Orders Placed',
+          'All Door Orders',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -79,7 +76,7 @@ class _DoorOrderPlacedState extends State<DoorOrderPlaced> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorOrderPlacedTable(),
+            child: AllDoorOrdersTable(),
           ),
           SizedBox(
             height: 20,

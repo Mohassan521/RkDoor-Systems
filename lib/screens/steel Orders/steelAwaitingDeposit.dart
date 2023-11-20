@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/steelAwaitingDepositTable.dart';
 
-class DoorRevisedConfirmation extends StatefulWidget {
-  const DoorRevisedConfirmation({super.key});
+class SteelAwaitingDeposit extends StatefulWidget {
+  const SteelAwaitingDeposit({super.key});
 
   @override
-  State<DoorRevisedConfirmation> createState() =>
-      _DoorRevisedConfirmationState();
+  State<SteelAwaitingDeposit> createState() => _SteelAwaitingDepositState();
 }
 
-class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
+class _SteelAwaitingDepositState extends State<SteelAwaitingDeposit> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -29,7 +22,7 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Revised Confirmation Issued',
+          'Steel Awaiting Deposit',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -83,7 +76,7 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorRevisedConfirmationTable(),
+            child: SteelAwaitingDepositTable(),
           ),
           SizedBox(
             height: 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:price_link/components/drawer.dart';
 
 class BIMFiles extends StatefulWidget {
@@ -31,63 +32,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Entre Profile Door',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Entre Profile Door',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          )
+                        ]),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -98,63 +108,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Entre Profile Door & Sidelight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & Sidelight',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Entre Profile Door & Sidelight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & Sidelight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -165,63 +184,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Entre Profile Door & 2 Sidelights',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & 2 Sidelights',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Entre Profile Door & 2 Sidelights',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & 2 Sidelights',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -232,63 +260,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Entre Profile Door & Fanlight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & Fanlight',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Entre Profile Door & Fanlight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & Fanlight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -299,63 +336,71 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Single Exclusive Profile Door',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('Single Exclusive Profile Door',
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Single Exclusive Profile Door',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'Single Exclusive Profile Door',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -366,63 +411,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Exclusive Profile Door & Sidelight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & Sidelight',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Exclusive Profile Door & Sidelight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & Sidelight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -433,63 +487,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Exclusive Profile Door & 2 Sidelights',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & 2 Sidelights',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Exclusive Profile Door & 2 Sidelights',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & 2 Sidelights',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -500,63 +563,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Exclusive Profile Door & Fanlight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & Fanlight',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Exclusive Profile Door & Fanlight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & Fanlight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -567,63 +639,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Pivot Profile Door',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Pivot Profile Door',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -634,63 +715,72 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Pivot Profile Door & Sidelight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & Sidelight',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Single Pivot Profile Door & Sidelight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & Sidelight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -701,63 +791,71 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Single Pivot Profile Door & 2 Sidelights',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1100 Door Model & 2 Sidelights',
+                  child: Column(
+                    children: [
+                      Text(
+                        'Single Pivot Profile Door & 2 Sidelights',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1100 Door Model & 2 Sidelights',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -768,62 +866,71 @@ class _BIMFilesState extends State<BIMFiles> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Single Pivot Profile Door & Fanlight',
-                          style: TextStyle(
-                              color: Color(0xff941420),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '1. ',
-                                    style: TextStyle(
-                                        color: Color(0xff941420),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text('RK1300 Door Model & Fanlight',
+                  child: Column(
+                    children: [
+                      Text(
+                        'Single Pivot Profile Door & Fanlight',
+                        style: TextStyle(
+                            color: Color(0xff941420),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Slidable(
+                        endActionPane:
+                            ActionPane(motion: StretchMotion(), children: [
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.copy,
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          SlidableAction(
+                            onPressed: (value) {},
+                            icon: Icons.delete,
+                            foregroundColor: Colors.red,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ]),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '1. ',
                                       style: TextStyle(
                                           color: Color(0xff941420),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                ],
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.75,
+                                      child: Text(
+                                        'RK1300 Door Model & Fanlight',
+                                        style: TextStyle(
+                                            color: Color(0xff941420),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    )),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allSteelOrderTable.dart';
-import 'package:price_link/components/tables/doorDeliveredTable.dart';
-import 'package:price_link/components/tables/steelOrderReceivedTable.dart';
+import 'package:price_link/components/tables/doorTransitToUKTable.dart';
 
-class SteelOrderReceived extends StatefulWidget {
-  const SteelOrderReceived({super.key});
+class DoorTransitToUK extends StatefulWidget {
+  const DoorTransitToUK({super.key});
 
   @override
-  State<SteelOrderReceived> createState() => _SteelOrderReceivedState();
+  State<DoorTransitToUK> createState() => _DoorTransitToUKState();
 }
 
-class _SteelOrderReceivedState extends State<SteelOrderReceived> {
+class _DoorTransitToUKState extends State<DoorTransitToUK> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -24,7 +22,7 @@ class _SteelOrderReceivedState extends State<SteelOrderReceived> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Steel Order Received',
+          'Door In Transit to UK',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -78,7 +76,7 @@ class _SteelOrderReceivedState extends State<SteelOrderReceived> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelOrderReceivedTable(),
+            child: DoorTransitToUKTable(),
           ),
           SizedBox(
             height: 20,

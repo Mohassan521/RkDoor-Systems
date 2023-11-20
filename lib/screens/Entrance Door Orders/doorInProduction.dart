@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/doorTransitToUKTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/doorInProductionTable.dart';
 
-class DoorTransitToUK extends StatefulWidget {
-  const DoorTransitToUK({super.key});
+class DoorInProduction extends StatefulWidget {
+  const DoorInProduction({super.key});
 
   @override
-  State<DoorTransitToUK> createState() => _DoorTransitToUKState();
+  State<DoorInProduction> createState() => _DoorInProductionState();
 }
 
-class _DoorTransitToUKState extends State<DoorTransitToUK> {
+class _DoorInProductionState extends State<DoorInProduction> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -29,7 +22,7 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door In Transit to UK',
+          'Door In Production',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -83,7 +76,7 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorTransitToUKTable(),
+            child: DoorInProductionTable(),
           ),
           SizedBox(
             height: 20,

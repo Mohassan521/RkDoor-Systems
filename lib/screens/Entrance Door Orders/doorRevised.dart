@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/doorRevisedTable.dart';
 
-class AllDoorOrders extends StatefulWidget {
-  const AllDoorOrders({super.key});
+class DoorRevisedConfirmation extends StatefulWidget {
+  const DoorRevisedConfirmation({super.key});
 
   @override
-  State<AllDoorOrders> createState() => _AllDoorOrdersState();
+  State<DoorRevisedConfirmation> createState() =>
+      _DoorRevisedConfirmationState();
 }
 
-class _AllDoorOrdersState extends State<AllDoorOrders> {
+class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -23,7 +23,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'All Door Orders',
+          'Door Revised Confirmation Issued',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -77,7 +77,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: AllDoorOrdersTable(),
+            child: DoorRevisedConfirmationTable(),
           ),
           SizedBox(
             height: 20,

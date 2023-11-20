@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/hotLeadsTable.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 
 class HotLeads extends StatefulWidget {
   const HotLeads({super.key});

@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
 import 'package:price_link/components/tables/swindonSBCTable.dart';
 
-class DoorPreliminaryConfirmation extends StatefulWidget {
-  const DoorPreliminaryConfirmation({super.key});
+class SwindonwSBC extends StatefulWidget {
+  const SwindonwSBC({super.key});
 
   @override
-  State<DoorPreliminaryConfirmation> createState() =>
-      _DoorPreliminaryConfirmationState();
+  State<SwindonwSBC> createState() => _SwindonwSBCState();
 }
 
-class _DoorPreliminaryConfirmationState
-    extends State<DoorPreliminaryConfirmation> {
+class _SwindonwSBCState extends State<SwindonwSBC> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Preliminary Confirmation Issued',
+          'Swindon SBC',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -70,7 +63,9 @@ class _DoorPreliminaryConfirmationState
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Perform the search here
+                    },
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -83,7 +78,7 @@ class _DoorPreliminaryConfirmationState
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorPreliminaryConfirmationTable(),
+            child: SwindonSBCTable(),
           ),
           SizedBox(
             height: 20,

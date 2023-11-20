@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorAwaitingBalanceTable.dart';
 import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorInRKDSWarehouseTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorOutOfDeliveryTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/doorTransitToUKTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
 
-class DoorOutOfDelivery extends StatefulWidget {
-  const DoorOutOfDelivery({super.key});
+class DoorPreliminaryConfirmation extends StatefulWidget {
+  const DoorPreliminaryConfirmation({super.key});
 
   @override
-  State<DoorOutOfDelivery> createState() => _DoorOutOfDeliveryState();
+  State<DoorPreliminaryConfirmation> createState() =>
+      _DoorPreliminaryConfirmationState();
 }
 
-class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
+class _DoorPreliminaryConfirmationState
+    extends State<DoorPreliminaryConfirmation> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -32,7 +24,7 @@ class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Out For Delivery',
+          'Door Preliminary Confirmation Issued',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -86,7 +78,7 @@ class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorOutOfDeliveryTable(),
+            child: DoorPreliminaryConfirmationTable(),
           ),
           SizedBox(
             height: 20,

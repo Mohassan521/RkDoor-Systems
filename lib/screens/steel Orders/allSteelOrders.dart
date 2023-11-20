@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/steelAwaitingDepositTable.dart';
-import 'package:price_link/components/tables/steelDepositReceivedTable.dart';
-import 'package:price_link/components/tables/steelOrderPlacedTable.dart';
+import 'package:price_link/components/tables/allSteelOrderTable.dart';
 
-class SteelDepositReceived extends StatefulWidget {
-  const SteelDepositReceived({super.key});
+class AllSteelOrders extends StatefulWidget {
+  const AllSteelOrders({super.key});
 
   @override
-  State<SteelDepositReceived> createState() => _SteelDepositReceivedState();
+  State<AllSteelOrders> createState() => _AllSteelOrdersState();
 }
 
-class _SteelDepositReceivedState extends State<SteelDepositReceived> {
+class _AllSteelOrdersState extends State<AllSteelOrders> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -24,7 +22,7 @@ class _SteelDepositReceivedState extends State<SteelDepositReceived> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Steel Deposit Received',
+          'All Steel Orders',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -78,7 +76,7 @@ class _SteelDepositReceivedState extends State<SteelDepositReceived> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelDepositReceivedTable(),
+            child: AllSteelOrdersTable(),
           ),
           SizedBox(
             height: 20,

@@ -1,37 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorAwaitingBalanceTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorInRKDSWarehouseTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/doorTransitToUKTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/allEnquiriesTable.dart';
 
-class DoorAwaitingBalance extends StatefulWidget {
-  const DoorAwaitingBalance({super.key});
+class AllEnquiries extends StatefulWidget {
+  const AllEnquiries({super.key});
 
   @override
-  State<DoorAwaitingBalance> createState() => _DoorAwaitingBalanceState();
+  State<AllEnquiries> createState() => _AllEnquiriesState();
 }
 
-class _DoorAwaitingBalanceState extends State<DoorAwaitingBalance> {
+class _AllEnquiriesState extends State<AllEnquiries> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Awaiting Balance Payment',
+          'Enquiries',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -72,7 +63,9 @@ class _DoorAwaitingBalanceState extends State<DoorAwaitingBalance> {
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Perform the search here
+                    },
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -85,7 +78,7 @@ class _DoorAwaitingBalanceState extends State<DoorAwaitingBalance> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorAwaitingBalanceTable(),
+            child: AllEnquiriesTable(),
           ),
           SizedBox(
             height: 20,

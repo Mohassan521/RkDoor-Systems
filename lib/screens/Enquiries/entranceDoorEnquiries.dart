@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/steelEnquiriesTable.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/components/tables/hotLeadsTable.dart';
 
-class SteelEnquiries extends StatefulWidget {
-  const SteelEnquiries({super.key});
+class EntranceDoorEnquiries extends StatefulWidget {
+  const EntranceDoorEnquiries({super.key});
 
   @override
-  State<SteelEnquiries> createState() => _SteelEnquiriesState();
+  State<EntranceDoorEnquiries> createState() => _EntranceDoorEnquiriesState();
 }
 
-class _SteelEnquiriesState extends State<SteelEnquiries> {
+class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -23,7 +22,7 @@ class _SteelEnquiriesState extends State<SteelEnquiries> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Steel Enquiries',
+          'Entrance Door Enquiries',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -79,12 +78,12 @@ class _SteelEnquiriesState extends State<SteelEnquiries> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelEnquiriesTable(),
+            child: HotLeadsTable(),
           ),
           SizedBox(
             height: 20,
           ),
-          Text('Showing 1 of 1 Entries'),
+          Text('Showing 0 of 0 Entries'),
           SizedBox(
             height: 20,
           ),
@@ -92,7 +91,7 @@ class _SteelEnquiriesState extends State<SteelEnquiries> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
+              Center(child: Text('0')),
               IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
             ],
           ),

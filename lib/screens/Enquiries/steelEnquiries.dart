@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorInRKDSWarehouseTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/doorTransitToUKTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/steelEnquiriesTable.dart';
 
-class DoorInRKDS extends StatefulWidget {
-  const DoorInRKDS({super.key});
+class SteelEnquiries extends StatefulWidget {
+  const SteelEnquiries({super.key});
 
   @override
-  State<DoorInRKDS> createState() => _DoorInRKDSState();
+  State<SteelEnquiries> createState() => _SteelEnquiriesState();
 }
 
-class _DoorInRKDSState extends State<DoorInRKDS> {
+class _SteelEnquiriesState extends State<SteelEnquiries> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door In RKDS Warehouse',
+          'Steel Enquiries',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -71,7 +63,9 @@ class _DoorInRKDSState extends State<DoorInRKDS> {
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Perform the search here
+                    },
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -84,7 +78,7 @@ class _DoorInRKDSState extends State<DoorInRKDS> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorInRKDSTable(),
+            child: SteelEnquiriesTable(),
           ),
           SizedBox(
             height: 20,

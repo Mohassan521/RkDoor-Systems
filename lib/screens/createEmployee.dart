@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/screens/register.dart';
 
 class CreateEmployee extends StatefulWidget {
   const CreateEmployee({super.key});

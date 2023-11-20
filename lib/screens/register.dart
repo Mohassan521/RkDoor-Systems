@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/screens/login.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';

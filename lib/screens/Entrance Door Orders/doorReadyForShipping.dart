@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorInProductionTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/doorReadyForShippingTable.dart';
 
-class DoorInProduction extends StatefulWidget {
-  const DoorInProduction({super.key});
+class DoorReadyForShipping extends StatefulWidget {
+  const DoorReadyForShipping({super.key});
 
   @override
-  State<DoorInProduction> createState() => _DoorInProductionState();
+  State<DoorReadyForShipping> createState() => _DoorReadyForShippingState();
 }
 
-class _DoorInProductionState extends State<DoorInProduction> {
+class _DoorReadyForShippingState extends State<DoorReadyForShipping> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -29,7 +22,7 @@ class _DoorInProductionState extends State<DoorInProduction> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door In Production',
+          'Door Ready For Shipping',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -83,7 +76,7 @@ class _DoorInProductionState extends State<DoorInProduction> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorInProductionTable(),
+            child: DoorReadyForShippingTable(),
           ),
           SizedBox(
             height: 20,

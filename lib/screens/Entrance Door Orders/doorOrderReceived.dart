@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/hotLeadsTable.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
 
-class EntranceDoorEnquiries extends StatefulWidget {
-  const EntranceDoorEnquiries({super.key});
+class DoorOrderReceived extends StatefulWidget {
+  const DoorOrderReceived({super.key});
 
   @override
-  State<EntranceDoorEnquiries> createState() => _EntranceDoorEnquiriesState();
+  State<DoorOrderReceived> createState() => _DoorOrderReceivedState();
 }
 
-class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
+class _DoorOrderReceivedState extends State<DoorOrderReceived> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerPage(),
+      drawer: const DrawerPage(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Entrance Door Enquiries',
+          'Door Orders Received',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -64,9 +63,7 @@ class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {
-                      // Perform the search here
-                    },
+                    onPressed: () {},
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -79,12 +76,12 @@ class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: HotLeadsTable(),
+            child: DoorOrderReceivedTable(),
           ),
           SizedBox(
             height: 20,
           ),
-          Text('Showing 0 of 0 Entries'),
+          Text('Showing 1 of 1 Entries'),
           SizedBox(
             height: 20,
           ),
@@ -92,7 +89,7 @@ class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('0')),
+              Center(child: Text('1')),
               IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
             ],
           ),

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/doorAwaitingDepositTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
 
 class DoorAwaitingDeposit extends StatefulWidget {
   const DoorAwaitingDeposit({super.key});

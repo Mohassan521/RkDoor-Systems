@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/steelEnquiriesTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/components/tables/doorOutOfDeliveryTable.dart';
 
-class SwindonwSBC extends StatefulWidget {
-  const SwindonwSBC({super.key});
+class DoorOutOfDelivery extends StatefulWidget {
+  const DoorOutOfDelivery({super.key});
 
   @override
-  State<SwindonwSBC> createState() => _SwindonwSBCState();
+  State<DoorOutOfDelivery> createState() => _DoorOutOfDeliveryState();
 }
 
-class _SwindonwSBCState extends State<SwindonwSBC> {
+class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerPage(),
+      drawer: const DrawerPage(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Swindon SBC',
+          'Door Out For Delivery',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -65,9 +63,7 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {
-                      // Perform the search here
-                    },
+                    onPressed: () {},
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -80,7 +76,7 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SwindonSBCTable(),
+            child: DoorOutOfDeliveryTable(),
           ),
           SizedBox(
             height: 20,

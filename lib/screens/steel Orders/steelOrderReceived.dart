@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/allDoorOrdersTable.dart';
-import 'package:price_link/components/tables/doorConfirmationTable.dart';
-import 'package:price_link/components/tables/doorDepositReceivedTable.dart';
-import 'package:price_link/components/tables/doorOrderPlacedTable.dart';
-import 'package:price_link/components/tables/doorOrderReceivedTable.dart';
-import 'package:price_link/components/tables/doorReadyForShippingTable.dart';
-import 'package:price_link/components/tables/doorRevisedTable.dart';
-import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:price_link/components/tables/steelOrderReceivedTable.dart';
 
-class DoorReadyForShipping extends StatefulWidget {
-  const DoorReadyForShipping({super.key});
+class SteelOrderReceived extends StatefulWidget {
+  const SteelOrderReceived({super.key});
 
   @override
-  State<DoorReadyForShipping> createState() => _DoorReadyForShippingState();
+  State<SteelOrderReceived> createState() => _SteelOrderReceivedState();
 }
 
-class _DoorReadyForShippingState extends State<DoorReadyForShipping> {
+class _SteelOrderReceivedState extends State<SteelOrderReceived> {
   late String selectedValue;
   List<String> qtyList = ['10', '25', '50', '100'];
 
@@ -29,7 +22,7 @@ class _DoorReadyForShippingState extends State<DoorReadyForShipping> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
         title: const Text(
-          'Door Ready For Shipping',
+          'Steel Order Received',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -83,7 +76,7 @@ class _DoorReadyForShippingState extends State<DoorReadyForShipping> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorReadyForShippingTable(),
+            child: SteelOrderReceivedTable(),
           ),
           SizedBox(
             height: 20,
