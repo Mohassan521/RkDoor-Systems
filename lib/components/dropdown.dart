@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ReusableDropdown extends StatelessWidget {
   final List<String> items;
   final String value;
-  Function(String?)? onChanged;
+  final Function(String?)? onChanged;
 
   ReusableDropdown({
     required this.items,

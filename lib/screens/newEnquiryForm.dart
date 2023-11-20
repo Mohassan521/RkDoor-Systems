@@ -72,6 +72,9 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
   @override
   Widget build(BuildContext context) {
     String selectedValue = "";
+
+    print(selectedValue);
+
     return Scaffold(
       drawer: const DrawerPage(),
       appBar: AppBar(

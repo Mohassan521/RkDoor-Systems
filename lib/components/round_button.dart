@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
-  Color? color;
-  Function()? onTap;
-  String text;
+  final Color? color;
+  final Function()? onTap;
+  final String text;
   RoundButton({super.key, required this.text, required this.onTap, this.color});
 
   @override
