@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/doorRevisedTable.dart';
+import 'package:provider/provider.dart';
 
 class DoorRevisedConfirmation extends StatefulWidget {
-  const DoorRevisedConfirmation({super.key});
+  final String dealerId;
+  const DoorRevisedConfirmation({super.key, required this.dealerId});
 
   @override
   State<DoorRevisedConfirmation> createState() =>
@@ -18,7 +21,9 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -32,28 +37,31 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
           const SizedBox(
             height: 15,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      child: ReusableDropdown(
-                          items: qtyList,
-                          value: qtyList.first,
-                          onChanged: (newValue) {}),
-                    ),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Text('Show '),
+          //           Consumer<SelectedValueProvider>(
+          //               builder: (context, value, child) {
+          //             return Container(
+          //               height: MediaQuery.of(context).size.height * 0.035,
+          //               width: MediaQuery.of(context).size.width * 0.16,
+          //               child: ReusableDropdown(
+          //                   items: qtyList,
+          //                   valueProvider: value,
+          //                   onChanged: (newValue) {}),
+          //             );
+          //           }),
+          //           Text(' Entries'),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 18,
           ),
@@ -75,24 +83,11 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorRevisedConfirmationTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
+            child: DoorRevisedConfirmationTable(
+              dealerId: widget.dealerId,
+            ),
           ),
         ],
       ),

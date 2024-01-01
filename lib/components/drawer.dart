@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/tables/steelInProductionTable.dart';
+import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/screens/Downloads/BIMFiles.dart';
 import 'package:price_link/screens/Downloads/CADDetails.dart';
 import 'package:price_link/screens/Downloads/Instructions.dart';
@@ -56,10 +58,13 @@ import 'package:price_link/screens/steel%20Orders/steelPreliminaryConfirmation.d
 import 'package:price_link/screens/steel%20Orders/steelReadyForShipping.dart';
 import 'package:price_link/screens/steel%20Orders/steelRevisedConfirmation.dart';
 import 'package:price_link/screens/updates.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerPage extends StatefulWidget {
-  const DrawerPage({super.key});
+  final String? dealer_id;
+  final String? dealerName;
+  const DrawerPage({super.key, this.dealer_id, this.dealerName});
 
   @override
   State<DrawerPage> createState() => _DrawerPageState();
@@ -67,7 +72,15 @@ class DrawerPage extends StatefulWidget {
 
 class _DrawerPageState extends State<DrawerPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('dealer ID in drawer ${widget.dealer_id}');
+
     return SafeArea(
       child: Drawer(
         shape: RoundedRectangleBorder(
@@ -92,7 +105,10 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DashboardPage()));
+                              builder: (context) => DashboardPage(
+                                    dealer_id: widget.dealer_id,
+                                    dealer_name: widget.dealerName,
+                                  )));
                     },
                     title: Text(
                       'Home',
@@ -109,7 +125,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AllEnquiries()));
+                                  builder: (context) => AllEnquiries(
+                                        dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName,
+                                      )));
                         },
                         title: Text('All Enquiries',
                             style: TextStyle(color: Colors.white)),
@@ -119,8 +138,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      EntranceDoorEnquiries()));
+                                  builder: (context) => EntranceDoorEnquiries(
+                                        dealer_id: widget.dealer_id!,
+                                        dealer_name: widget.dealerName!,
+                                      )));
                         },
                         title: Text('Entrance Door Enquiries',
                             style: TextStyle(color: Colors.white)),
@@ -130,7 +151,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SteelEnquiries()));
+                                  builder: (context) => SteelEnquiries(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                      )));
                         },
                         title: Text('Steel Enquiries',
                             style: TextStyle(color: Colors.white)),
@@ -140,7 +164,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SwindonwSBC()));
+                                  builder: (context) => SwindonwSBC(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                      )));
                         },
                         title: Text('Swinton SBC',
                             style: TextStyle(color: Colors.white)),
@@ -152,7 +179,10 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => NewEnquiryForm())));
+                              builder: ((context) => NewEnquiryForm(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                  ))));
                     },
                     title: Text('New Enquiry Form',
                         style: TextStyle(color: Colors.white)),
@@ -170,7 +200,10 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EntranceDoorQuotations()));
+                              builder: (context) => EntranceDoorQuotations(
+                                    dealerId: widget.dealer_id,
+                                    dealerName: widget.dealerName,
+                                  )));
                     },
                     title: Text('Entrance Door Quotations',
                         style: TextStyle(color: Colors.white)),
@@ -185,7 +218,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AllDoorOrders()));
+                                  builder: (context) => AllDoorOrders(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('All Door Orders',
                             style: TextStyle(color: Colors.white)),
@@ -195,8 +230,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorOrderReceived()));
+                                  builder: (context) => DoorOrderReceived(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door Order Received',
                             style: TextStyle(color: Colors.white)),
@@ -206,8 +242,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorOrderPlaced()));
+                                  builder: (context) => DoorOrderPlaced(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door order placed',
                             style: TextStyle(color: Colors.white)),
@@ -217,8 +254,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorAwaitingDeposit()));
+                                  builder: (context) => DoorAwaitingDeposit(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door awaiting deposit',
                             style: TextStyle(color: Colors.white)),
@@ -228,8 +266,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorAwaitedSurvey()));
+                                  builder: (context) => DoorAwaitedSurvey(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door Awaiting Survey / Dimensions',
                             style: TextStyle(color: Colors.white)),
@@ -239,8 +278,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorDepositReceived()));
+                                  builder: (context) => DoorDepositReceived(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door Deposit Received',
                             style: TextStyle(color: Colors.white)),
@@ -251,7 +291,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const DoorPreliminaryConfirmation()));
+                                      DoorPreliminaryConfirmation(
+                                        dealerId: widget.dealer_id,
+                                      )));
                         },
                         title: Text('Door Preliminary Confirmation Issued',
                             style: TextStyle(color: Colors.white)),
@@ -261,8 +303,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorRevisedConfirmation()));
+                                  builder: (context) => DoorRevisedConfirmation(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Revised Confirmation Issued',
                             style: TextStyle(color: Colors.white)),
@@ -272,8 +315,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorReadyForShipping()));
+                                  builder: (context) => DoorReadyForShipping(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Ready For Shipping',
                             style: TextStyle(color: Colors.white)),
@@ -283,8 +327,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorInProduction()));
+                                  builder: (context) => DoorInProduction(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door In Production',
                             style: TextStyle(color: Colors.white)),
@@ -294,8 +339,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorTransitToUK()));
+                                  builder: (context) => DoorTransitToUK(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door In Transit to UK ',
                             style: TextStyle(color: Colors.white)),
@@ -305,7 +351,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DoorInRKDS()));
+                                  builder: (context) => DoorInRKDS(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door In RKDS Warehouse ',
                             style: TextStyle(color: Colors.white)),
@@ -315,8 +363,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorAwaitingBalance()));
+                                  builder: (context) => DoorAwaitingBalance(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Awaiting Balance Payment',
                             style: TextStyle(color: Colors.white)),
@@ -326,8 +375,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DoorOutOfDelivery()));
+                                  builder: (context) => DoorOutOfDelivery(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Out For Delivery',
                             style: TextStyle(color: Colors.white)),
@@ -337,7 +387,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DoorDelivered()));
+                                  builder: (context) => DoorDelivered(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Delivered',
                             style: TextStyle(color: Colors.white)),
@@ -347,7 +399,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DoorDelayed()));
+                                  builder: (context) => DoorDelayed(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door Delayed',
                             style: TextStyle(color: Colors.white)),
@@ -357,7 +411,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DoorOnHold()));
+                                  builder: (context) => DoorOnHold(
+                                        dealerId: widget.dealer_id!,
+                                      )));
                         },
                         title: Text('Door On Hold',
                             style: TextStyle(color: Colors.white)),
@@ -374,8 +430,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AllSteelOrders()));
+                                  builder: (context) => AllSteelOrders(
+                                        dealer_id: widget.dealer_id ?? "",
+                                      )));
                         },
                         title: const Text('All Steel Orders',
                             style: TextStyle(color: Colors.white)),
@@ -720,7 +777,9 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EmployeeList()));
+                              builder: (context) => EmployeeList(
+                                    dealer_id: widget.dealer_id!,
+                                  )));
                     },
                     title: Text('Employee List',
                         style: TextStyle(color: Colors.white)),
@@ -747,10 +806,10 @@ class _DrawerPageState extends State<DrawerPage> {
                   ),
                   ListTile(
                     onTap: () async {
-                      SharedPreferences sp =
+                      SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-
-                      sp.setBool('isLogin', false);
+                      prefs.setBool('isLogin', false);
+                      prefs.clear();
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     },

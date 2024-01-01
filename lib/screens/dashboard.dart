@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
@@ -6,10 +7,16 @@ import 'package:price_link/components/tables/employeeTable.dart';
 import 'package:price_link/components/tables/orderTable.dart';
 import 'package:price_link/components/tables/ownerTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
+import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/services/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  final String? dealer_id;
+  final String? dealer_name;
+  const DashboardPage({super.key, this.dealer_id, this.dealer_name});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -160,329 +167,299 @@ class _DashboardPageState extends State<DashboardPage> {
 
   bool isChecked = false;
   late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
+  List<String> qtyList = ['1', '10', '25', '50', '100'];
+
+  NetworkApiServices apiServices = NetworkApiServices();
 
   @override
   Widget build(BuildContext context) {
+    print('Dealer ID in dashboard ${widget.dealer_id}');
+    var userData = Provider.of<UserLoginData>(context, listen: false).dataModel;
+    //final paginationProvider = Provider.of<PaginationProvider>(context);
+
     return Scaffold(
-      drawer: const DrawerPage(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Dealer',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                          'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
-                    ],
-                  ),
-                  Image(
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      image: const AssetImage('assets/images/logo.jpeg'))
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Owner',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text('Show '),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.16,
-                    child: ReusableDropdown(
-                        items: qtyList,
-                        value: qtyList.first,
-                        onChanged: (newValue) {}),
-                  ),
-                  Text(' Entries'),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TablePage(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Center(child: Text('Showing 1 of 1 entries')),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-                Center(child: Text('1')),
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Employee List',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      createEmployeeForm();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 15,
-                          color: Color(0xff941420),
-                        ),
-                        Text(
-                          'Add Employee',
-                          style: TextStyle(color: Color(0xff941420)),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text('Show '),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.16,
-                    child: ReusableDropdown(
-                        items: qtyList,
-                        value: qtyList.first,
-                        onChanged: (newValue) {}),
-                  ),
-                  Text(' Entries'),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: EmployeeTable(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Center(child: Text('Showing 0 of 0 entries')),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-                Center(child: Text('1')),
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Orders',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text('Show '),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.16,
-                    child: ReusableDropdown(
-                        items: qtyList,
-                        value: qtyList.first,
-                        onChanged: (newValue) {}),
-                  ),
-                  Text(' Entries'),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: OrdersTable(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Center(child: Text('Showing 0 of 0 entries')),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-                Center(child: Text('1')),
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Quotations',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => RkDoorCalculatorView(
-                                  url:
-                                      'https://www.pricelink.net/rk-door-calculator/'))));
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 15,
-                          color: Color(0xff941420),
-                        ),
-                        Text(
-                          'Add New Quote',
-                          style: TextStyle(color: Color(0xff941420)),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text('Show '),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.16,
-                    child: ReusableDropdown(
-                        items: qtyList,
-                        value: qtyList.first,
-                        onChanged: (newValue) {}),
-                  ),
-                  Text(' Entries'),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: QuotationsTable(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Center(child: Text('Showing 1 of 1 entries')),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-                Center(child: Text('1')),
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            )
-          ],
+        drawer: DrawerPage(
+          dealerName: widget.dealer_name,
+          dealer_id: widget.dealer_id,
         ),
-      ),
-    );
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff941420),
+        ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Dealer',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                            'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
+                      ],
+                    ),
+                    Image(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        image: const AssetImage('assets/images/logo.jpeg'))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Owner',
+                      textAlign: TextAlign.left,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 8.0),
+              //   child: Row(
+              //     children: [
+              //       Text('Show '),
+              //       Consumer<SelectedValueProvider>(
+              //           builder: (context, value, child) {
+              //         return Container(
+              //           height: MediaQuery.of(context).size.height * 0.035,
+              //           width: MediaQuery.of(context).size.width * 0.16,
+              //           child: ReusableDropdown(
+              //               items: qtyList,
+              //               valueProvider: value,
+              //               onChanged: (newValue) {}),
+              //         );
+              //       }),
+              //       Text(' Entries'),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TablePage(dealer_id: widget.dealer_id!),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Employee List',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        createEmployeeForm();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 15,
+                            color: Color(0xff941420),
+                          ),
+                          Text(
+                            'Add Employee',
+                            style: TextStyle(color: Color(0xff941420)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 8.0),
+              //   child: Row(
+              //     children: [
+              //       Text('Show '),
+              //       Container(
+              //           height: MediaQuery.of(context).size.height * 0.035,
+              //           width: MediaQuery.of(context).size.width * 0.16,
+              //           child: Consumer<SelectedValueProvider>(
+              //               builder: (context, value, child) {
+              //             return ReusableDropdown(
+              //                 items: qtyList,
+              //                 valueProvider: value,
+              //                 onChanged: (newValue) {});
+              //           })),
+              //       Text(' Entries'),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: EmployeeTable(
+                  dealer_id: widget.dealer_id!,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Orders',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 8.0),
+              //   child: Row(
+              //     children: [
+              //       Text('Show '),
+              //       Consumer<SelectedValueProvider>(
+              //           builder: (context, value, child) {
+              //         return Container(
+              //           height: MediaQuery.of(context).size.height * 0.035,
+              //           width: MediaQuery.of(context).size.width * 0.16,
+              //           child: ReusableDropdown(
+              //               items: qtyList,
+              //               valueProvider: value,
+              //               onChanged: (newValue) {}),
+              //         );
+              //       }),
+              //       Text(' Entries'),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: OrdersTable(
+                  dealerId: widget.dealer_id,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Quotations',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => RkDoorCalculatorView(
+                                    dealerId: widget.dealer_id,
+                                    url:
+                                        'https://www.pricelink.net/rk-door-calculator/?user_id=${widget.dealer_id}&mobile_token=true'))));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            size: 15,
+                            color: Color(0xff941420),
+                          ),
+                          Text(
+                            'Add New Quote',
+                            style: TextStyle(color: Color(0xff941420)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 8.0),
+              //   child: Row(
+              //     children: [
+              //       Text('Show '),
+              //       Consumer<SelectedValueProvider>(
+              //           builder: (context, value, child) {
+              //         return Container(
+              //           height: MediaQuery.of(context).size.height * 0.035,
+              //           width: MediaQuery.of(context).size.width * 0.16,
+              //           child: ReusableDropdown(
+              //               items: qtyList,
+              //               valueProvider: value,
+              //               onChanged: (newValue) {}),
+              //         );
+              //       }),
+              //       Text(' Entries'),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: QuotationsTable(
+                  dealerId: widget.dealer_id,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+        ));
   }
 }

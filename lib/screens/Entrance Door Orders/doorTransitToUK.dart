@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/doorTransitToUKTable.dart';
+import 'package:provider/provider.dart';
 
 class DoorTransitToUK extends StatefulWidget {
-  const DoorTransitToUK({super.key});
+  final String dealerId;
+  const DoorTransitToUK({super.key, required this.dealerId});
 
   @override
   State<DoorTransitToUK> createState() => _DoorTransitToUKState();
@@ -17,7 +20,9 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -31,28 +36,31 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
           const SizedBox(
             height: 15,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      child: ReusableDropdown(
-                          items: qtyList,
-                          value: qtyList.first,
-                          onChanged: (newValue) {}),
-                    ),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Row(
+          //         children: [
+          //           Text('Show '),
+          //           Consumer<SelectedValueProvider>(
+          //               builder: (context, value, child) {
+          //             return Container(
+          //               height: MediaQuery.of(context).size.height * 0.035,
+          //               width: MediaQuery.of(context).size.width * 0.16,
+          //               child: ReusableDropdown(
+          //                   items: qtyList,
+          //                   valueProvider: value,
+          //                   onChanged: (newValue) {}),
+          //             );
+          //           }),
+          //           Text(' Entries'),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 18,
           ),
@@ -74,24 +82,11 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: DoorTransitToUKTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
+            child: DoorTransitToUKTable(
+              dealerId: widget.dealerId,
+            ),
           ),
         ],
       ),

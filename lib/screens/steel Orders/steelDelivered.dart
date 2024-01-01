@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/steelDeliveredTable.dart';
+import 'package:provider/provider.dart';
 
 class SteelDelivered extends StatefulWidget {
   const SteelDelivered({super.key});
@@ -39,14 +41,17 @@ class _SteelDeliveredState extends State<SteelDelivered> {
                 Row(
                   children: [
                     Text('Show '),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      child: ReusableDropdown(
-                          items: qtyList,
-                          value: qtyList.first,
-                          onChanged: (newValue) {}),
-                    ),
+                    Consumer<SelectedValueProvider>(
+                        builder: (context, value, child) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.035,
+                        width: MediaQuery.of(context).size.width * 0.16,
+                        child: ReusableDropdown(
+                            items: qtyList,
+                            valueProvider: value,
+                            onChanged: (newValue) {}),
+                      );
+                    }),
                     Text(' Entries'),
                   ],
                 ),

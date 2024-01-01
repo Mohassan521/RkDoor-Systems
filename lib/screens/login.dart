@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/screens/register.dart';
-import 'package:price_link/utils/utils.dart';
+import 'package:price_link/services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,35 +15,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  NetworkApiServices apiServices = NetworkApiServices();
   String email = "";
   String password = "";
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  void loadData() async {
-    try {
-      SharedPreferences sp = await SharedPreferences.getInstance();
-      email = sp.getString('email') ?? '';
-      password = sp.getString('password') ?? '';
-
-      if (email == emailController.text.trim() &&
-          password == passwordController.text.trim()) {
-        sp.setBool('isLogin', true);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => DashboardPage()));
-      } else {
-        sp.setBool('isLogin', false);
-        if (kDebugMode) {
-          Utils()
-              .showToast('Invalid email or password', Colors.red, Colors.white);
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +79,10 @@ class _LoginPageState extends State<LoginPage> {
                 Center(
                     child: RoundButton(
                   text: 'Login',
-                  onTap: loadData,
+                  onTap: () async {
+                    await apiServices.loginApi(
+                        context, emailController.text, passwordController.text);
+                  },
                   color: Color(0xff941420),
                 )),
                 Row(

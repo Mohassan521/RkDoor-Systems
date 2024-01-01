@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/swindonSBCTable.dart';
+import 'package:provider/provider.dart';
 
 class SwindonwSBC extends StatefulWidget {
-  const SwindonwSBC({super.key});
+  final String dealerId;
+  final String dealerName;
+  const SwindonwSBC(
+      {super.key, required this.dealerId, required this.dealerName});
 
   @override
   State<SwindonwSBC> createState() => _SwindonwSBCState();
@@ -17,7 +22,10 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerPage(),
+      drawer: DrawerPage(
+        dealerName: widget.dealerName,
+        dealer_id: widget.dealerId,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -30,28 +38,6 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
         children: [
           const SizedBox(
             height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      child: ReusableDropdown(
-                          items: qtyList,
-                          value: qtyList.first,
-                          onChanged: (newValue) {}),
-                    ),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
           ),
           SizedBox(
             height: 18,
@@ -76,24 +62,12 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SwindonSBCTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
+            child: SwindonSBCTable(
+              dealerId: widget.dealerId,
+              dealerName: widget.dealerName,
+            ),
           ),
         ],
       ),

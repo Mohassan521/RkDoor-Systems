@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class ReusableDropdown extends StatelessWidget {
   final List<String> items;
-  final String value;
+  final SelectedValueProvider valueProvider;
   final Function(String?)? onChanged;
 
   ReusableDropdown({
     required this.items,
-    required this.value,
+    required this.valueProvider,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final selectedValueProvider =
+        Provider.of<SelectedValueProvider>(context, listen: false);
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -21,7 +26,9 @@ class ReusableDropdown extends StatelessWidget {
         style: TextStyle(fontSize: 10, color: Colors.black),
         underline: const SizedBox(),
         isExpanded: true,
-        value: value,
+        value: valueProvider.selectedValue == ""
+            ? items.first
+            : valueProvider.selectedValue,
         onChanged: onChanged,
         items: items.map((item) {
           return DropdownMenuItem(

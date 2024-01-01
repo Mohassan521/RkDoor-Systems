@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/allSteelOrderTable.dart';
+import 'package:provider/provider.dart';
 
 class AllSteelOrders extends StatefulWidget {
-  const AllSteelOrders({super.key});
+  final String dealer_id;
+  const AllSteelOrders({super.key, required this.dealer_id});
 
   @override
   State<AllSteelOrders> createState() => _AllSteelOrdersState();
@@ -17,7 +20,9 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealer_id,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -36,20 +41,23 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      width: MediaQuery.of(context).size.width * 0.16,
-                      child: ReusableDropdown(
-                          items: qtyList,
-                          value: qtyList.first,
-                          onChanged: (newValue) {}),
-                    ),
-                    Text(' Entries'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Text('Show '),
+                //     Consumer<SelectedValueProvider>(
+                //         builder: (context, value, child) {
+                //       return Container(
+                //         height: MediaQuery.of(context).size.height * 0.035,
+                //         width: MediaQuery.of(context).size.width * 0.16,
+                //         child: ReusableDropdown(
+                //             items: qtyList,
+                //             valueProvider: value,
+                //             onChanged: (newValue) {}),
+                //       );
+                //     }),
+                //     Text(' Entries'),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -74,24 +82,14 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: AllSteelOrdersTable(),
+            child: AllSteelOrdersTable(
+              dealerId: widget.dealer_id,
+            ),
           ),
           SizedBox(
             height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
           ),
         ],
       ),

@@ -1,82 +1,97 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/services/fetchify_api.dart';
+import 'package:price_link/services/services.dart';
+import 'package:provider/provider.dart';
 
 class NewEnquiryForm extends StatefulWidget {
-  const NewEnquiryForm({super.key});
+  final String dealerId;
+  final String dealerName;
+  const NewEnquiryForm(
+      {super.key, required this.dealerId, required this.dealerName});
 
   @override
   State<NewEnquiryForm> createState() => _NewEnquiryFormState();
 }
 
 class _NewEnquiryFormState extends State<NewEnquiryForm> {
-  String? _filePath;
+  File? _image;
+  final _picker = ImagePicker();
+  bool showSpinner = false;
+  NetworkApiServices apiServices = NetworkApiServices();
 
-  final List<String> productType = [
-    'Entrance Door',
-    'Internal Steel',
-    'External Steel'
-  ];
-  final List<String> enquirySource = [
-    'Instagram',
-    'Internet Search',
-    'Returning Customer',
-    'Door Configurator',
-    'Steel Configurator',
-    'Swindon SBC',
-    'ChatBox',
-    'Info@',
-    'Recommendation',
-    'Returning Customer',
-    'Showroom Visit',
-    'Trade Window Company',
-    'Telephone Enquiry',
-    'Trade',
-    'Other'
-  ];
-  final List<String> requirement = [
-    'CallBack',
-    'Brochure',
-    'Quotation',
-    'Chasing Configurator Enquiry',
-    'Technical Details',
-    'Dealership',
-    'Others'
-  ];
-  final List<String> supplyType = [
-    'Supply Only',
-    'Installation',
-    'Not Applicable'
-  ];
-  final List<String> priorityLevel = ['Low', 'Medium', 'High'];
+  Future getImage() async {
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
 
-  Future<void> _pickFile() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-      if (result != null) {
-        setState(() {
-          _filePath = result.files.single.path;
-        });
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error picking file: $e');
-      }
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      setState(() {});
+    } else {
+      print('no image selected');
     }
   }
 
+  // Future<File?> _pickFile() async {
+  //   try {
+  //     FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  //     if (result != null) {
+  //       return File(result.files.single.path!);
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('Error picking file: $e');
+  //     }
+  //   }
+  // }
+
+  final FetchifyService fetchifyService =
+      FetchifyService('de602-9d509-28453-08f87');
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController enquiryEnteredByController =
+      TextEditingController();
+  final TextEditingController dealerController = TextEditingController();
+  final TextEditingController cusNameController = TextEditingController();
+  final TextEditingController companyController = TextEditingController();
+  final TextEditingController deliveryAddressController =
+      TextEditingController();
+  final TextEditingController deliveryAddressController2 =
+      TextEditingController();
+  final TextEditingController deliveryAddressController3 =
+      TextEditingController();
+  final TextEditingController deliveryAddressController4 =
+      TextEditingController();
+  final TextEditingController deliveryPostCode = TextEditingController();
+  final TextEditingController telephoneController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  String entranceDoorValue = "Entrance Door";
+  String enquirySourceValue = "Instagram";
+  String requirementValue = "Call Back";
+  String supplyTypeValue = "Supply Only";
+  String priorityValue = "LOW";
+
   @override
   Widget build(BuildContext context) {
-    String selectedValue = "";
-
-    print(selectedValue);
+    enquiryEnteredByController.text = widget.dealerName;
+    var dealerData = Provider.of<DealerData>(context).model;
+    dealerController.text = dealerData.dealerName!;
 
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+        dealerName: widget.dealerName,
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -96,19 +111,34 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 'Product Type',
                 style: TextStyle(color: Color(0xff941420)),
               ),
-              ReusableDropdown(
-                  items: productType,
-                  value: productType.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
-              SizedBox(
-                height: 10,
+              DropdownButton<String>(
+                alignment: Alignment.center,
+                isExpanded: true,
+                value: entranceDoorValue,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    entranceDoorValue = newValue ?? entranceDoorValue;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'Entrance Door',
+                      child: Center(child: Text('Entrance Door'))),
+                  DropdownMenuItem<String>(
+                      value: 'Internal Steel',
+                      child: Center(child: Text('Internal Steel'))),
+                  DropdownMenuItem<String>(
+                      value: 'External Steel',
+                      child: Center(child: Text('External Steel'))),
+                ],
               ),
               const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: dealerController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -120,6 +150,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Enquiry Entered By',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: enquiryEnteredByController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -130,33 +161,106 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               ),
               const Text('Enquiry Source',
                   style: TextStyle(color: Color(0xff941420))),
-              ReusableDropdown(
-                  items: enquirySource,
-                  value: enquirySource.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
+              DropdownButton<String>(
+                isExpanded: true,
+                value: enquirySourceValue,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    enquirySourceValue = newValue ?? enquirySourceValue;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'Instagram',
+                      child: Center(child: Text('Instagram'))),
+                  DropdownMenuItem<String>(
+                      value: 'Internet Search',
+                      child: Center(child: Text('Internet Search'))),
+                  DropdownMenuItem<String>(
+                      value: 'Returning Customer',
+                      child: Center(child: Text('Returning Customer'))),
+                  DropdownMenuItem<String>(
+                      value: 'Door Configurator',
+                      child: Center(child: Text('Door Configurator'))),
+                  DropdownMenuItem<String>(
+                      value: 'Steel Configurator',
+                      child: Center(child: Text('Steel Configurator'))),
+                  DropdownMenuItem<String>(
+                      value: 'Swindon SBC',
+                      child: Center(child: Text('Swindon SBC'))),
+                  DropdownMenuItem<String>(
+                      value: 'Chat Box',
+                      child: Center(child: Text('Chat Box'))),
+                  DropdownMenuItem<String>(
+                      value: 'Info@', child: Center(child: Text('Info@'))),
+                  DropdownMenuItem<String>(
+                      value: 'Recommendation',
+                      child: Center(child: Text('Recommendation'))),
+                  DropdownMenuItem<String>(
+                      value: 'Showroom Visit',
+                      child: Center(child: Text('Showroom Visit'))),
+                  DropdownMenuItem<String>(
+                      value: 'Trade Window Company',
+                      child: Center(child: Text('Trade Window Company'))),
+                  DropdownMenuItem<String>(
+                      value: 'Telephone Enquiry',
+                      child: Center(child: Text('Telephone Enquiry'))),
+                  DropdownMenuItem<String>(
+                      value: 'Trade', child: Center(child: Text('Trade'))),
+                  DropdownMenuItem<String>(
+                      value: 'Other', child: Center(child: Text('Other'))),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
               const Text('Requirements',
                   style: TextStyle(color: Color(0xff941420))),
-              ReusableDropdown(
-                  items: requirement,
-                  value: requirement.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
+              DropdownButton<String>(
+                isExpanded: true,
+                value: requirementValue,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (String? newValue) {
+                  requirementValue = newValue ?? enquirySourceValue;
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'Call Back',
+                      child: Center(child: Text('Call Back'))),
+                  DropdownMenuItem<String>(
+                      value: 'brochure',
+                      child: Center(child: Text('brochure'))),
+                  DropdownMenuItem<String>(
+                      value: 'Quotation',
+                      child: Center(child: Text('Quotation'))),
+                  DropdownMenuItem<String>(
+                      value: 'Chasing Configurator Enquiry',
+                      child:
+                          Center(child: Text('Chasing Configurator Enquiry'))),
+                  DropdownMenuItem<String>(
+                      value: 'Technical Details',
+                      child: Center(child: Text('Technical Details'))),
+                  DropdownMenuItem<String>(
+                      value: 'Dealership',
+                      child: Center(child: Text('Dealership'))),
+                  DropdownMenuItem<String>(
+                      value: 'Others', child: Center(child: Text('Others'))),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
               const Text('Customer Name',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: cusNameController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -168,6 +272,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Company Name',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: companyController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -178,33 +283,44 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               ),
               const Text('Supply Type',
                   style: TextStyle(color: Color(0xff941420))),
-              ReusableDropdown(
-                  items: supplyType,
-                  value: supplyType.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
+              DropdownButton<String>(
+                alignment: Alignment.center,
+                isExpanded: true,
+                value: supplyTypeValue,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    supplyTypeValue = newValue ?? supplyTypeValue;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'Supply Only',
+                      child: Center(child: Text('Supply Only'))),
+                  DropdownMenuItem<String>(
+                      value: 'Installation',
+                      child: Center(child: Text('Installation'))),
+                  DropdownMenuItem<String>(
+                      value: 'Not Applicable',
+                      child: Center(child: Text('Not Applicable'))),
+                  DropdownMenuItem<String>(
+                      value: 'Not Specified',
+                      child: Center(child: Text('Not Specified'))),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
-              const Text('Delivery Address (Address Search)',
-                  style: TextStyle(color: Color(0xff941420))),
-              ReusableDropdown(
-                  items: supplyType,
-                  value: supplyType.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
               SizedBox(
                 height: 10,
               ),
               const Text('Customer Address Line 1',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: deliveryAddressController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -216,6 +332,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Customer Address Line 2',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: deliveryAddressController2,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -227,6 +344,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Customer Address Line 3',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: deliveryAddressController3,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -238,6 +356,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Customer Address Line 4',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: deliveryAddressController4,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -249,6 +368,19 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Delivery Post Code',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: deliveryPostCode,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    border: OutlineInputBorder()),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              const Text('Customer Email',
+                  style: TextStyle(color: Color(0xff941420))),
+              TextFormField(
+                controller: emailController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -260,6 +392,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               const Text('Customer Tel Number',
                   style: TextStyle(color: Color(0xff941420))),
               TextFormField(
+                controller: telephoneController,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -270,14 +403,27 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               ),
               const Text('Priority Level',
                   style: TextStyle(color: Color(0xff941420))),
-              ReusableDropdown(
-                  items: priorityLevel,
-                  value: priorityLevel.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
+              DropdownButton<String>(
+                isExpanded: true,
+                value: priorityValue,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    priorityValue = newValue ?? priorityValue;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'LOW', child: Center(child: Text('LOW'))),
+                  DropdownMenuItem<String>(
+                      value: 'MEDIUM', child: Center(child: Text('MEDIUM'))),
+                  DropdownMenuItem<String>(
+                      value: 'HIGH', child: Center(child: Text('HIGH'))),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -285,14 +431,15 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   style: TextStyle(color: Color(0xff941420))),
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: _pickFile,
-                    child: Text('Pick File'),
+                  RoundButton(
+                    onTap: () {
+                      getImage();
+                    },
+                    text: 'Choose File',
+                    color: Color(0xff941420),
+                    width: MediaQuery.sizeOf(context).width * 0.3,
                   ),
-                  SizedBox(width: 20),
-                  _filePath != null
-                      ? Flexible(child: Text('$_filePath'))
-                      : Text('No file selected'),
+                  Text(_image?.path ?? "")
                 ],
               ),
               SizedBox(
@@ -300,7 +447,8 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               ),
               const Text('Notes', style: TextStyle(color: Color(0xff941420))),
               TextFormField(
-                maxLines: 5,
+                controller: notesController,
+                maxLines: 6,
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
               SizedBox(
@@ -309,7 +457,29 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               Center(
                 child: RoundButton(
                   text: 'Save',
-                  onTap: () {},
+                  onTap: () {
+                    apiServices.createEnquiries(
+                        widget.dealerId,
+                        entranceDoorValue,
+                        dealerController.text,
+                        enquiryEnteredByController.text,
+                        requirementValue,
+                        cusNameController.text,
+                        companyController.text,
+                        supplyTypeValue,
+                        deliveryAddressController.text,
+                        deliveryAddressController2.text,
+                        deliveryAddressController3.text,
+                        deliveryAddressController4.text,
+                        deliveryPostCode.text,
+                        emailController.text,
+                        telephoneController.text,
+                        priorityValue,
+                        _image!,
+                        notesController.text,
+                        enquirySourceValue,
+                        enquiryEnteredByController.text);
+                  },
                   color: Color(0xff941420),
                 ),
               )

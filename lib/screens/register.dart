@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/screens/login.dart';
+import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,20 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController fNameController = TextEditingController();
   final TextEditingController lNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController dealerController = TextEditingController();
+  final TextEditingController dealerAddressOneController =
+      TextEditingController();
+  final TextEditingController dealerAddressTwoController =
+      TextEditingController();
+  final TextEditingController dealerAddressThreeController =
+      TextEditingController();
+  final TextEditingController postCodeController = TextEditingController();
+  final TextEditingController telephoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  NetworkApiServices apiServices = NetworkApiServices();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Dealer',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: dealerController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -89,6 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Dealer Address (Line 1)',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: dealerAddressOneController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -101,6 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Dealer Address (Line 2)',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: dealerAddressTwoController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -113,6 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Dealer Address (Line 3)',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: dealerAddressThreeController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -125,6 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Post Code',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: postCodeController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -137,6 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Tel',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: telephoneController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -146,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('Emails',
+                  const Text('Email',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
                     controller: emailController,
@@ -175,6 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Confirm Password',
                       style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                   TextFormField(
+                    controller: confirmPasswordController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,

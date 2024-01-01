@@ -1,316 +1,296 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/enquiriesModel.dart';
+import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/services/services.dart';
+import 'package:provider/provider.dart';
 
 class SwindonSBCTable extends StatefulWidget {
-  const SwindonSBCTable({super.key});
+  final String? dealerId;
+  final String? dealerName;
+  const SwindonSBCTable({super.key, this.dealerId, required this.dealerName});
 
   @override
   State<SwindonSBCTable> createState() => _SwindonSBCTableState();
 }
 
 class _SwindonSBCTableState extends State<SwindonSBCTable> {
-  String? _filePath;
-  String selectedValue = "";
+  // String? _filePath;
+  // String selectedValue = "";
 
-  List<String> enquiryStatus = [
-    'VIEWED',
-    'QUOTATION ISSUED',
-    'REVISED QUOTATION ISSUED',
-    '1ST FOLLOW UP MADE',
-    '2ND FOLLOW UP MADE',
-    'POTENTIAL ORDER',
-    'ORDERED',
-    'CLOSED'
-  ];
+  // List<String> enquiryStatus = [
+  //   'VIEWED',
+  //   'QUOTATION ISSUED',
+  //   'REVISED QUOTATION ISSUED',
+  //   '1ST FOLLOW UP MADE',
+  //   '2ND FOLLOW UP MADE',
+  //   'POTENTIAL ORDER',
+  //   'ORDERED',
+  //   'CLOSED'
+  // ];
 
-  Future<void> _pickFile() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
+  // Future<void> _pickFile() async {
+  //   try {
+  //     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-      if (result != null) {
-        setState(() {
-          _filePath = result.files.single.path;
-        });
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error picking file: $e');
-      }
-    }
-  }
+  //     if (result != null) {
+  //       setState(() {
+  //         _filePath = result.files.single.path;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('Error picking file: $e');
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final List<DataRow> _datarow = [
-      DataRow(cells: <DataCell>[
-        DataCell(Text('newdealerupdate 2')),
-        DataCell(Text('another one')),
-        DataCell(Text('Hassan')),
-        DataCell(Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text('Opened'),
-            Text('2023-11-10'),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.035,
-              width: MediaQuery.of(context).size.width * 0.35,
-              child: ReusableDropdown(
-                  items: enquiryStatus,
-                  value: enquiryStatus.first,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  }),
-            ),
-            SizedBox(
-              height: 5,
-            )
-          ],
+    NetworkApiServices apiServices = NetworkApiServices();
+
+    return FutureBuilder<List<EnquiriesModel>>(
+      future: apiServices.getAllEnquiries(widget.dealerId!),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('${snapshot.error}');
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        List<EnquiriesModel>? list = snapshot.data!;
+        List<EnquiriesModel>? swindonSBCList = list
+            .where((result) => result.enquirySource == "Swindon SBC")
+            .toList();
+
+        return Consumer<PaginationProvider>(builder: (context, value, child) {
+          return PaginatedDataTable(
+              rowsPerPage:
+                  (swindonSBCList.length >= 5 && swindonSBCList.isNotEmpty)
+                      ? 5
+                      : (swindonSBCList.isEmpty)
+                          ? 1
+                          : swindonSBCList.length,
+              headingRowColor: MaterialStateProperty.resolveWith(
+                  (states) => Color(0xff941420)),
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Enquiry Allocated To',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Name',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Company',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Tel Number',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Product Type',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Priority',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Requirement',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Supply Type',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Dealer',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Address',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Email',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Post Code',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Source',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Configurator Code',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'File Upload',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'File Upload (From Enquiry Form)',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quotation Number',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Date',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Time',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Notes',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Close Enquiry',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Edit',
+                  style: TextStyle(color: Colors.white),
+                )),
+              ],
+              source: MyData(list, swindonSBCList: swindonSBCList));
+        });
+      },
+    );
+  }
+}
+
+class MyData extends DataTableSource {
+  List<EnquiriesModel> swindonSBCList;
+  final List<EnquiriesModel> data;
+
+  MyData(this.data, {required this.swindonSBCList});
+
+  @override
+  int get rowCount => swindonSBCList.length;
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get selectedRowCount => 0;
+
+  @override
+  DataRow getRow(int index) {
+    final EnquiriesModel result = swindonSBCList[index];
+    return DataRow.byIndex(
+      index: index,
+      cells: <DataCell>[
+        DataCell(Text(result.enquiryAllocatedTo ?? '')),
+        DataCell(Text(result.enquiryCusName ?? '')),
+        DataCell(Text(result.enquiryCompanyName ?? '')),
+        DataCell(Center(child: Text(result.enquiryTelNum ?? ''))),
+        DataCell(Text(result.enquiryType ?? "")),
+        DataCell(Text(result.enquiryPriorityLevel ?? '')),
+        DataCell(Text(result.enquiryRequirement ?? "")),
+        DataCell(Text(result.enquirySupplyType ?? '')),
+        DataCell(Text(result.enquiryDealer ?? '')),
+        DataCell(Center(
+          child: Text(
+              '${result.customerAddress}, ${result.customerAddress2 ?? ''}, ${result.customerAddress3 ?? ''}, ${result.customerAddress4 ?? ''}'),
         )),
-        DataCell(Text('66456 456456')),
-        DataCell(Text('Internal Steel')),
-        DataCell(Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-            decoration: const BoxDecoration(
-              color: Colors.orange,
-            ),
-            child: Text('Medium'))),
-        DataCell(Text('Others')),
-        DataCell(Text('Supply Only')),
-        DataCell(Text('abcd')),
-        DataCell(Text('Gulshan e Iqbal block 11')),
+        DataCell(Text(result.enquiryCusEmail ?? '')),
+        DataCell(Text(result.dileveryPostCodeC13 ?? '')),
+        DataCell(Text(result.enquirySource ?? '')),
+        DataCell(Text(result.enquiryConfCode ?? '')),
+        // DataCell(Text('')),
+        //DataCell(Text('')),
         DataCell(Text('')),
-        DataCell(Text('Other')),
-        DataCell(TextFormField(
-          decoration: InputDecoration(hintText: 'Enter Configurator'),
-        )),
+        // DataCell(Text(
+        //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
         DataCell(
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: _pickFile,
-                child: Text('Pick File'),
-              ),
-              SizedBox(width: 20),
-              _filePath != null
-                  ? Flexible(child: Text('$_filePath'))
-                  : const Text('No file selected'),
-              IconButton(
-                  onPressed: () {},
-                  icon: _filePath != null ? Icon(Icons.delete) : Text(''))
-            ],
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (result.enquiryFileUpload!.isNotEmpty)
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.file_present,
+                        size: 25,
+                      ),
+                      Text(
+                        'Delete',
+                        style: TextStyle(fontSize: 14, color: Colors.blue),
+                      )
+                    ],
+                  ),
+                if (result.enquiryFileUpload!.isEmpty)
+                  Text(""), // Or any other text for empty state
+              ],
+            ),
           ),
         ),
-        DataCell(Center(
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.delete)))),
-        DataCell(RoundButton(
-          text: 'Enquiry Record',
-          onTap: () {},
-          color: Color(0xff941420),
-        )),
-        DataCell(Text('')),
+        //DataCell(Text('')),
+        DataCell(Text(result.quotationNumberForEnquiry ?? '')),
+        DataCell(Text(result.date ?? '')),
+        DataCell(Text(result.time ?? '')),
+        DataCell(Text(result.enquiryNotes ?? '')),
+        // DataCell(Text(result.enquiryEntered ?? '')),
+        // DataCell(Text(result.enquiryEntered ?? '')),
         DataCell(RoundButton(
           text: 'Close Enquiry',
           onTap: () {},
-          color: Color(0xff941420),
-        )),
-        DataCell(Text('2023-11-10')),
-        DataCell(Text('12:02 PM')),
-        DataCell(RoundButton(
-          text: 'Hot Leads',
-          onTap: () {},
-          color: Color(0xff941420),
+          color: Colors.blue,
         )),
         DataCell(Row(
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.edit),
+              iconSize: 16,
+            ),
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.delete),
               color: Colors.red,
+              iconSize: 16,
             ),
           ],
         )),
-      ])
-    ];
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        dataRowMinHeight: MediaQuery.of(context).size.height * 0.1,
-        dataRowMaxHeight: double.infinity,
-        border: TableBorder.all(color: Colors.grey),
-        headingRowColor:
-            MaterialStateColor.resolveWith((states) => Color(0xff941420)),
-        columns: const <DataColumn>[
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Enquiry Allocated To',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Customer Name',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Company',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Tel Number',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Product Type',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Priority',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Requirement',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Supply Type',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Dealer',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Address',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Email',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Post Code',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Enquiry Source',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Configuration Code',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'File Upload',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'File Upload (From Enquiry Form)',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Notes',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Create Quotation',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Quotation Number',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Close Enquiry',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Enquiry Date',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Time',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-          DataColumn(
-              label: Expanded(
-            child: Text(
-              'Edit',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-        ],
-        rows: _datarow,
-      ),
+      ],
     );
   }
 }
