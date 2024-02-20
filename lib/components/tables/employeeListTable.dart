@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 
 class EmployeeListTable extends StatelessWidget {
   final String dealer_id;
-  const EmployeeListTable({super.key, required this.dealer_id});
+  final String dealer_name;
+  const EmployeeListTable(
+      {super.key, required this.dealer_id, required this.dealer_name});
 
   @override
   Widget build(BuildContext context) {
@@ -20,73 +22,86 @@ class EmployeeListTable extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Text('Data is being loaded...'));
         }
 
         List<EmployeeList>? list = snapshot.data!;
+
+        List<EmployeeList> filteredList =
+            Provider.of<EmployeeListSearchedData>(context).filteredDataModel;
+        List<EmployeeList>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              rowsPerPage: (list.length >= 5) ? 5 : list.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Employee ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Employee Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Employee Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Telephone',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Minimum markup',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Maximum Discount',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                // DataColumn(
-                //     label: Text(
-                //   'Create Order Rights',
-                //   style: TextStyle(color: Colors.white),
-                // )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(list));
+          return ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(23),
+                topRight: Radius.circular(23),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0)),
+            child: PaginatedDataTable(
+                rowsPerPage: (list.length >= 5) ? 5 : list.length,
+                headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Color(0xff941420)),
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Employee ID',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Employee Name',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Employee Email',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Telephone',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Type',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Minimum markup',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Maximum Discount',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Status',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'Create Order Rights',
+                  //   style: TextStyle(color: Colors.white),
+                  // )),
+                  DataColumn(
+                      label: Text(
+                    '',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ],
+                source: MyData(displayData)),
+          );
         });
       },
     );
@@ -109,6 +124,7 @@ class MyData extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final EmployeeList result = data[index];
+    NetworkApiServices apiServices = NetworkApiServices();
     return DataRow.byIndex(index: index, cells: <DataCell>[
       DataCell(Text('${result.id}')),
       DataCell(Text(result.display_name ?? '')),
@@ -118,7 +134,34 @@ class MyData extends DataTableSource {
       DataCell(Text('${result.quotation_type}')),
       DataCell(Text('${result.markup}')),
       DataCell(Text('${result.maxDiscount}')),
-      DataCell(Text('${result.user_status}')),
+      DataCell(
+        Consumer<setEmployeeStatus>(
+          builder: (context, value, child) {
+            return FutureBuilder(
+              future: apiServices.getEmployeeStatus(result.id.toString()),
+              builder: (context, snapshot) {
+                String? currentValue =
+                    snapshot.data!.isNotEmpty ? snapshot.data : "";
+                return DropdownButton(
+                  value: currentValue,
+                  onChanged: (String? newValue) async {
+                    value.setStatusForUser(result.id.toString(), newValue!);
+
+                    apiServices.setEmployeeStatus(
+                        result.id.toString(), newValue);
+                  },
+                  items: [
+                    DropdownMenuItem(value: '', child: Text('')),
+                    DropdownMenuItem(
+                        value: 'Employee', child: Text('Employee')),
+                    DropdownMenuItem(value: 'Admin', child: Text('Admin')),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ),
       DataCell(Row(
         children: [
           IconButton(

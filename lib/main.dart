@@ -17,9 +17,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => SelectedValueProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => HandlingStates(),
         ),
         ChangeNotifierProvider(
@@ -35,6 +32,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => setEmployeeStatus()),
         ChangeNotifierProvider(create: (_) => UserLoginData()),
         ChangeNotifierProvider(create: (_) => DealerData()),
+        ChangeNotifierProvider(create: (_) => EnquiryDetailsDate()),
+        ChangeNotifierProvider(create: (_) => EnquiryDropdown()),
+        ChangeNotifierProvider(
+            create: (_) => AnticipatedDeliveryDateSteelOrder()),
+        ChangeNotifierProvider(create: (_) => AllSteelOrdersData()),
+        ChangeNotifierProvider(
+            create: (_) => AllEntranceDoorOrderSearchedData()),
+        ChangeNotifierProvider(create: (_) => QuotationsSearchedData()),
+        ChangeNotifierProvider(create: (_) => CompletedOrdersSearchData()),
+        ChangeNotifierProvider(create: (_) => ClosedEnquiriesSearchedData()),
+        ChangeNotifierProvider(create: (_) => EmployeeListSearchedData()),
+        ChangeNotifierProvider(create: (_) => AllEnquiriesSearchedData()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   NetworkApiServices apiServices = NetworkApiServices();
   String email = "";
   String password = "";
+  bool visibility = false;
+  bool isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -66,8 +68,22 @@ class _LoginPageState extends State<LoginPage> {
                 const Text('Password',
                     style: TextStyle(fontSize: 15, color: Color(0xff941420))),
                 TextFormField(
+                  obscureText: visibility == false ? true : false,
                   controller: passwordController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            visibility = !visibility;
+                          });
+                        },
+                        child: Icon(
+                          visibility == true
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                      ),
                       fillColor: Colors.white,
                       filled: true,
                       border: OutlineInputBorder(),
@@ -77,14 +93,43 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Center(
-                    child: RoundButton(
-                  text: 'Login',
-                  onTap: () async {
-                    await apiServices.loginApi(
-                        context, emailController.text, passwordController.text);
-                  },
-                  color: Color(0xff941420),
-                )),
+                  child: Stack(
+                    children: [
+                      RoundButton(
+                        text: isLoading ? '' : 'Login',
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await apiServices.loginApi(
+                            context,
+                            emailController.text,
+                            passwordController.text,
+                          );
+                          setState(() {
+                            isLoading = false;
+                          });
+                        },
+                        color: Color(0xff941420),
+                      ),
+                      Positioned.fill(
+                        child: Center(
+                          child: isLoading
+                              ? SizedBox(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.05,
+                                  width: MediaQuery.sizeOf(context).width * 0.1,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.0,
+                                  ),
+                                )
+                              : SizedBox(), // This SizedBox is necessary to maintain the layout
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/steelOrderTables/steelPCIssued.dart';
 import 'package:price_link/components/tables/steelPreliminaryConfirmationTable.dart';
+import 'package:price_link/models/steelOrderModel.dart';
+import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
 class SteelPreliminaryConfirmation extends StatefulWidget {
-  const SteelPreliminaryConfirmation({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? empId;
+  final String? role;
+  const SteelPreliminaryConfirmation(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.empId,
+      this.role});
 
   @override
   State<SteelPreliminaryConfirmation> createState() =>
@@ -15,92 +27,81 @@ class SteelPreliminaryConfirmation extends StatefulWidget {
 
 class _SteelPreliminaryConfirmationState
     extends State<SteelPreliminaryConfirmation> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
+  NetworkApiServices apiServices = NetworkApiServices();
+  Future<void> _handleRefresh() async {
+    List<SteelOrderModel>? newData =
+        await apiServices.allSteelOrders(context, widget.dealerId);
+
+    // Update the UI with the new data
+    setState(() {});
+
+    // Return a delayed Future to simulate a refresh
+    return await Future.delayed(Duration(seconds: 2));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const DrawerPage(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
-        title: const Text(
-          'Steel Preliminary Confirmation Issued',
-          style: TextStyle(color: Colors.white),
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: Scaffold(
+        drawer: DrawerPage(
+          dealer_id: widget.dealerId,
+          dealerName: widget.dealerName,
+          empId: widget.empId,
+          role: widget.role,
         ),
-      ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 15,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff941420),
+          title: const Text(
+            'Steel Preliminary Confirmation Issued',
+            style: TextStyle(color: Colors.white),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Consumer<SelectedValueProvider>(
-                        builder: (context, value, child) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: ReusableDropdown(
-                            items: qtyList,
-                            valueProvider: value,
-                            onChanged: (newValue) {}),
-                      );
-                    }),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
+        ),
+        body: ListView(
+          children: [
+            SizedBox(
+              height: 18,
             ),
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  prefixIcon: IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {},
+            Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  onChanged: (value) {
+                    Provider.of<AllSteelOrdersData>(context, listen: false)
+                        .getPCData(context, widget.dealerId, value);
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {},
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    hintText: 'Search here',
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  hintText: 'Search here',
-                ),
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelPreliminaryConfirmationTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
-          ),
-        ],
+                )),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0, right: 8),
+              child: widget.role == "admin"
+                  ? AdminSteelPCIssued(
+                      dealerId: widget.dealerId,
+                      dealerName: widget.dealerName,
+                      role: widget.role,
+                    )
+                  : SteelPreliminaryConfirmationTable(
+                      dealerId: widget.role == "employee"
+                          ? widget.empId!
+                          : widget.dealerId,
+                      dealerName: widget.dealerName,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

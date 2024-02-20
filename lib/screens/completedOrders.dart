@@ -2,103 +2,103 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/completedOrders.dart';
 import 'package:price_link/components/tables/completedOrdersTable.dart';
+import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
 class CompletedOrders extends StatefulWidget {
-  const CompletedOrders({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? empId;
+  final String? role;
+  const CompletedOrders(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.empId,
+      this.role});
 
   @override
   State<CompletedOrders> createState() => _CompletedOrdersState();
 }
 
 class _CompletedOrdersState extends State<CompletedOrders> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
+  NetworkApiServices apiServices = NetworkApiServices();
+  Future<void> _handleRefresh() async {
+    await apiServices.getCompletedOrders(widget.dealerId);
+
+    // Update the UI with the new data
+    setState(() {});
+
+    // Return a delayed Future to simulate a refresh
+    return await Future.delayed(Duration(seconds: 2));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const DrawerPage(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
-        title: const Text(
-          'Completed Orders',
-          style: TextStyle(color: Colors.white),
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: Scaffold(
+        drawer: DrawerPage(
+          dealer_id: widget.dealerId,
+          dealerName: widget.dealerName,
+          empId: widget.empId,
+          role: widget.role,
         ),
-      ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 15,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff941420),
+          title: const Text(
+            'Completed Orders',
+            style: TextStyle(color: Colors.white),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Consumer<SelectedValueProvider>(
-                        builder: (context, value, child) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: ReusableDropdown(
-                            items: qtyList,
-                            valueProvider: value,
-                            onChanged: (newValue) {}),
-                      );
-                    }),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
+        ),
+        body: ListView(
+          children: [
+            SizedBox(
+              height: 18,
             ),
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  prefixIcon: IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {},
+            Container(
+                padding: EdgeInsets.only(left: 20.0, right: 20),
+                child: TextFormField(
+                  onChanged: (value) {
+                    Provider.of<CompletedOrdersSearchData>(context,
+                            listen: false)
+                        .getAllData(widget.dealerId, value);
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {},
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    hintText: 'Search here',
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  hintText: 'Search here',
-                ),
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: CompletedOrdersTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
-          ),
-        ],
+                )),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0, right: 8),
+              child: widget.role == "admin"
+                  ? AdminCompletedOrdersTable(
+                      dealerId: widget.dealerId,
+                      dealerName: widget.dealerName,
+                      role: widget.role,
+                    )
+                  : CompletedOrdersTable(
+                      dealerId: widget.role == "employee"
+                          ? widget.empId!
+                          : widget.dealerId,
+                      dealerName: widget.dealerName,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

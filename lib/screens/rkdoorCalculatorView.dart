@@ -5,7 +5,16 @@ import 'package:webview_flutter/webview_flutter.dart';
 class RkDoorCalculatorView extends StatefulWidget {
   final String url;
   final String? dealerId;
-  const RkDoorCalculatorView({super.key, required this.url, this.dealerId});
+  final String? role;
+  final String? dealerName;
+  final String? empId;
+  const RkDoorCalculatorView(
+      {super.key,
+      required this.url,
+      this.dealerId,
+      this.role,
+      this.dealerName,
+      this.empId});
 
   @override
   State<RkDoorCalculatorView> createState() => _RkDoorCalculatorViewState();
@@ -45,7 +54,12 @@ class _RkDoorCalculatorViewState extends State<RkDoorCalculatorView> {
   Widget build(BuildContext context) {
     print(widget.url);
     return Scaffold(
-      drawer: DrawerPage(),
+      drawer: DrawerPage(
+        dealerName: widget.dealerName,
+        dealer_id: widget.dealerId,
+        role: widget.role,
+        empId: widget.empId,
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 0,

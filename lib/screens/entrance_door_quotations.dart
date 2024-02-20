@@ -2,41 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/quotationsTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
+import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
 class EntranceDoorQuotations extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
-  const EntranceDoorQuotations({super.key, this.dealerId, this.dealerName});
+  final String? empId;
+  final String? role;
+  const EntranceDoorQuotations(
+      {super.key, this.dealerId, this.dealerName, this.empId, this.role});
 
   @override
   State<EntranceDoorQuotations> createState() => _EntranceDoorQuotationsState();
 }
 
 class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
+  NetworkApiServices apiServices = NetworkApiServices();
+  Future<void> _handleRefresh() async {
+    await apiServices.getQuotationsList(widget.dealerId!);
+
+    // Update the UI with the new data
+    setState(() {});
+
+    // Return a delayed Future to simulate a refresh
+    return await Future.delayed(Duration(seconds: 2));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: DrawerPage(
-        dealer_id: widget.dealerId,
-        dealerName: widget.dealerName,
-      ),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
-        title: const Text(
-          'Quotations',
-          style: TextStyle(color: Colors.white),
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: Scaffold(
+        drawer: DrawerPage(
+          dealer_id: widget.dealerId,
+          dealerName: widget.dealerName,
+          empId: widget.empId,
+          role: widget.role,
         ),
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xff941420),
+          title: const Text(
+            'Quotations',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        body: ListView(
           children: [
             SizedBox(
               height: 15,
@@ -53,7 +68,7 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
                           MaterialPageRoute(
                               builder: (context) => RkDoorCalculatorView(
                                   url:
-                                      'https://www.pricelink.net/rk-door-calculator/${widget.dealerId}&mobile_token=true')));
+                                      'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
                     },
                     child: Row(
                       children: [
@@ -76,8 +91,12 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
               height: 18,
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.75,
+                padding: EdgeInsets.only(left: 20, right: 20),
                 child: TextFormField(
+                  onChanged: (value) {
+                    Provider.of<QuotationsSearchedData>(context, listen: false)
+                        .getAllData(widget.dealerId!, value);
+                  },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
                     prefixIcon: IconButton(
@@ -97,9 +116,18 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8),
-              child: QuotationsTable(
-                dealerId: widget.dealerId,
-              ),
+              child: widget.role == "admin"
+                  ? AdminQuotationsTable(
+                      dealerId: widget.dealerId,
+                      dealerName: widget.dealerName,
+                      role: "admin",
+                    )
+                  : QuotationsTable(
+                      dealerId: widget.role == "employee"
+                          ? widget.empId
+                          : widget.dealerId,
+                      dealerName: widget.dealerName,
+                    ),
             ),
             SizedBox(
               height: 20,

@@ -19,7 +19,7 @@ class _EmployeeTableState extends State<EmployeeTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder(
+    return FutureBuilder<List<EmployeeList>>(
       future: apiServices.getEmployeeList(widget.dealer_id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -27,78 +27,85 @@ class _EmployeeTableState extends State<EmployeeTable> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Text('Data is being loaded...');
         }
 
         List<EmployeeList> data = snapshot.data as List<EmployeeList>;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              rowsPerPage: (data.length >= 5 && data.isNotEmpty)
-                  ? 5
-                  : (data.isEmpty)
-                      ? 1
-                      : data.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Employee ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Employee Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Employee Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Telephone',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Minimum markup',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Maximum Discount',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Create Order Rights',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(data, context, widget.dealer_id));
+          return ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(23),
+                topRight: Radius.circular(23),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0)),
+            child: PaginatedDataTable(
+                rowsPerPage: (data.length >= 5 && data.isNotEmpty)
+                    ? 5
+                    : (data.isEmpty)
+                        ? 1
+                        : data.length,
+                headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Color(0xff941420)),
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Employee ID',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Employee Name',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Employee Email',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Telephone',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Type',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Minimum markup',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Maximum Discount',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Status',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Create Order Rights',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ],
+                source: MyData(data, context, widget.dealer_id)),
+          );
         });
       },
     );
@@ -122,7 +129,6 @@ class MyData extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    String prevValue = "Employee";
     NetworkApiServices apiServices = NetworkApiServices();
     final EmployeeList result = data[index];
     print('employee ID in employee Table ${result.id}');
@@ -142,7 +148,8 @@ class MyData extends DataTableSource {
             return FutureBuilder(
               future: apiServices.getEmployeeStatus(result.id.toString()),
               builder: (context, snapshot) {
-                String? currentValue = snapshot.data;
+                String? currentValue =
+                    snapshot.data!.isNotEmpty ? snapshot.data : '';
                 return DropdownButton(
                   value: currentValue,
                   onChanged: (String? newValue) async {
@@ -152,6 +159,7 @@ class MyData extends DataTableSource {
                         result.id.toString(), newValue);
                   },
                   items: [
+                    DropdownMenuItem(value: '', child: Text('')),
                     DropdownMenuItem(
                         value: 'Employee', child: Text('Employee')),
                     DropdownMenuItem(value: 'Admin', child: Text('Admin')),
@@ -167,19 +175,18 @@ class MyData extends DataTableSource {
         Consumer<HandlingStates>(
           builder: (context, value, child) {
             return FutureBuilder<bool>(
-              future: apiServices.getOrderRights(result.id.toString()),
+              future: apiServices.getOrderRights(result.id),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  bool apiValue = snapshot.data ?? false;
-                  bool isChecked = value.isChecked(result.id.toString());
+                  bool apiValue = snapshot.data == true ? true : false;
                   return Checkbox(
-                    value: isChecked,
+                    value: apiValue,
                     onChanged: (newValue) async {
                       value.toggleCheckbox(
                           result.id.toString(), newValue ?? false);
-
+                      print(apiValue);
                       apiServices.setOrderRights(
                           result.id.toString(), newValue.toString());
                     },

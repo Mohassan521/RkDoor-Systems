@@ -30,144 +30,152 @@ class _SteelEnquiriesTableState extends State<SteelEnquiriesTable> {
         if (snapshot.hasError) {
           print('${snapshot.error}');
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Text('Data is being loaded...'));
         }
 
-        List<EnquiriesModel>? list = snapshot.data!;
+        List<EnquiriesModel>? list = snapshot.data ?? [];
         List<EnquiriesModel>? steelEnquiriesList = list
             .where((result) =>
-                result.enquiryType == "Internal Steel" &&
+                result.enquiryType == "Internal Steel" ||
                 result.enquiryType == "External Steel")
             .toList();
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              rowsPerPage: (steelEnquiriesList.length >= 5 &&
-                      steelEnquiriesList.isNotEmpty)
-                  ? 5
-                  : (steelEnquiriesList.isEmpty)
-                      ? 1
-                      : steelEnquiriesList.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Enquiry Allocated To',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Company',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Details',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Product Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Priority',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Requirement',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Address',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Source',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Configurator Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload',
-                //   style: TextStyle(color: Colors.white),
-                // )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload (From Enquiry Form)',
-                //   style: TextStyle(color: Colors.white),
-                // )),
-                // DataColumn(
-                //     label: Text(
-                //   'Quotation Number',
-                //   style: TextStyle(color: Colors.white),
-                // )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Hot Leads',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Entered By',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Close Enquiry',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Edit',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(list, steelEnquiriesList: steelEnquiriesList));
+          return ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(23),
+                topRight: Radius.circular(23),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0)),
+            child: PaginatedDataTable(
+                rowsPerPage: (steelEnquiriesList.length >= 5 &&
+                        steelEnquiriesList.isNotEmpty)
+                    ? 5
+                    : (steelEnquiriesList.isEmpty)
+                        ? 1
+                        : steelEnquiriesList.length,
+                headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Color(0xff941420)),
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Allocated To',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Company',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Status',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Details',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Product Type',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Priority',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Requirement',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Supply Type',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Address',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Source',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Configurator Code',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload',
+                  //   style: TextStyle(color: Colors.white),
+                  // )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload (From Enquiry Form)',
+                  //   style: TextStyle(color: Colors.white),
+                  // )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'Quotation Number',
+                  //   style: TextStyle(color: Colors.white),
+                  // )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Date',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Hot Leads',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Entered By',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Close Enquiry',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ],
+                source: MyData(list, context,
+                    steelEnquiriesList: steelEnquiriesList)),
+          );
         });
       },
     );
@@ -176,9 +184,10 @@ class _SteelEnquiriesTableState extends State<SteelEnquiriesTable> {
 
 class MyData extends DataTableSource {
   List<EnquiriesModel> steelEnquiriesList;
+  final BuildContext context;
   final List<EnquiriesModel> data;
 
-  MyData(this.data, {required this.steelEnquiriesList});
+  MyData(this.data, this.context, {required this.steelEnquiriesList});
 
   @override
   int get rowCount => steelEnquiriesList.length;
@@ -200,7 +209,19 @@ class MyData extends DataTableSource {
         DataCell(Text(result.enquiryAllocatedTo ?? '')),
         DataCell(Text(result.enquiryCusName ?? '')),
         DataCell(Text(result.enquiryCompanyName ?? '')),
-        DataCell(Text(result.newSymbol ?? '')),
+        DataCell((result.newSymbol != "")
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.5),
+                  color: Color(0xffff0000),
+                ),
+                height: MediaQuery.sizeOf(context).height * 0.04,
+                child: Center(
+                    child: Text(
+                  result.newSymbol!,
+                  style: TextStyle(color: Colors.white),
+                )))
+            : Text("")),
         DataCell(RoundButton(
           text: 'Enquiry Details',
           onTap: () {},
@@ -209,9 +230,15 @@ class MyData extends DataTableSource {
         DataCell(Text(result.enquiryType ?? '')),
         DataCell(Builder(builder: (context) {
           return Container(
-              color: Colors.orange,
+              decoration: BoxDecoration(
+                  color: result.enquiryPriorityLevel == "LOW"
+                      ? Color(0xffffc0cb)
+                      : result.enquiryPriorityLevel == "MEDIUM"
+                          ? Color(0xffffa500)
+                          : Color(0xffff0000),
+                  borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.22,
+              width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(child: Text(result.enquiryPriorityLevel ?? '')));
         })),
         DataCell(Text(result.enquiryRequirement ?? '')),

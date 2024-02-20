@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/steelOrderTables/delivered.dart';
 import 'package:price_link/components/tables/steelDeliveredTable.dart';
 import 'package:provider/provider.dart';
 
 class SteelDelivered extends StatefulWidget {
-  const SteelDelivered({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? empId;
+  final String? role;
+  const SteelDelivered(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.empId,
+      this.role});
 
   @override
   State<SteelDelivered> createState() => _SteelDeliveredState();
@@ -19,7 +29,10 @@ class _SteelDeliveredState extends State<SteelDelivered> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+        dealerName: widget.dealerName,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -30,40 +43,16 @@ class _SteelDeliveredState extends State<SteelDelivered> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Consumer<SelectedValueProvider>(
-                        builder: (context, value, child) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: ReusableDropdown(
-                            items: qtyList,
-                            valueProvider: value,
-                            onChanged: (newValue) {}),
-                      );
-                    }),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
-          ),
           SizedBox(
             height: 18,
           ),
           Container(
               width: MediaQuery.of(context).size.width * 0.75,
               child: TextFormField(
+                onChanged: (value) {
+                  Provider.of<AllSteelOrdersData>(context, listen: false)
+                      .getDeliveredData(context, widget.dealerId, value);
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
@@ -79,24 +68,20 @@ class _SteelDeliveredState extends State<SteelDelivered> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelDeliveredTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
+            child: widget.role == "admin"
+                ? AdminSteelDelivered(
+                    dealerId: widget.dealerId,
+                    dealerName: widget.dealerName,
+                    role: widget.role,
+                  )
+                : SteelDeliveredTable(
+                    dealerId: widget.role == "employee"
+                        ? widget.empId!
+                        : widget.dealerId,
+                    dealerName: widget.dealerName,
+                  ),
           ),
         ],
       ),

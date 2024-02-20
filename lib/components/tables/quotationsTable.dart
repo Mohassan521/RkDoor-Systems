@@ -15,7 +15,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class QuotationsTable extends StatefulWidget {
   final String? dealerId;
-  const QuotationsTable({super.key, this.dealerId});
+  final String? dealerName;
+  final String? role;
+  const QuotationsTable({super.key, this.dealerId, this.dealerName, this.role});
 
   @override
   State<QuotationsTable> createState() => _QuotationsTableState();
@@ -41,8 +43,8 @@ class _QuotationsTableState extends State<QuotationsTable> {
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
-
-    return FutureBuilder(
+    print(widget.dealerName);
+    return FutureBuilder<List<QuotationsModel>>(
       future: apiServices.getQuotationsList(widget.dealerId),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -50,109 +52,122 @@ class _QuotationsTableState extends State<QuotationsTable> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(child: Text('Data is being loaded...'));
         }
 
-        List<QuotationsModel> data = snapshot.data as List<QuotationsModel>;
+        List<QuotationsModel> data = snapshot.data!;
+
+        List<QuotationsModel> filteredList =
+            Provider.of<QuotationsSearchedData>(context).filteredDataModel;
+        List<QuotationsModel>? displayData =
+            filteredList.isNotEmpty ? filteredList : data;
         //print(object)
 
-        return PaginatedDataTable(
-            rowsPerPage: (data.length >= 5 && data.isNotEmpty)
-                ? 5
-                : (data.isEmpty)
-                    ? 1
-                    : data.length,
-            headingRowColor: MaterialStateProperty.resolveWith(
-                (states) => Color(0xff941420)),
-            columns: const <DataColumn>[
-              DataColumn(
-                  label: Text(
-                'Customer Name',
-                style: TextStyle(color: Colors.white),
+        return ClipRRect(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(23),
+              topRight: Radius.circular(23),
+              bottomLeft: Radius.circular(0),
+              bottomRight: Radius.circular(0)),
+          child: PaginatedDataTable(
+              rowsPerPage: (data.length >= 5 && data.isNotEmpty)
+                  ? 5
+                  : (data.isEmpty)
+                      ? 1
+                      : data.length,
+              headingRowColor: MaterialStateProperty.resolveWith(
+                  (states) => Color(0xff941420)),
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Customer Name',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quotation Number',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote Created By',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Tel No.',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Email',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Post Code',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Date',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Time',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Total Quote Value (inc. VAT)',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote ID',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Follow up Date',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Follow up Made',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote Analysis',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Notes',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Action',
+                  style: TextStyle(color: Colors.white),
+                )),
+                DataColumn(
+                    label: Text(
+                  '',
+                  style: TextStyle(color: Colors.white),
+                )),
+              ],
+              source: MyData(
+                myGlobalBuildContext: context,
+                displayData,
+                widget.dealerId,
+                dealerName: widget.dealerName!,
+                showDatePickerCallback: _showDatePicker,
+                datetime: _dateTime,
               )),
-              DataColumn(
-                  label: Text(
-                'Quotation Number',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Created By',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Tel No.',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Email',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Post Code',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Date',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Time',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Total Quote Value (inc. VAT)',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote ID',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow up Date',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow up Made',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Analysis',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Notes',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                'Action',
-                style: TextStyle(color: Colors.white),
-              )),
-              DataColumn(
-                  label: Text(
-                '',
-                style: TextStyle(color: Colors.white),
-              )),
-            ],
-            source: MyData(
-              myGlobalBuildContext: context,
-              data,
-              widget.dealerId,
-              showDatePickerCallback: _showDatePicker,
-              datetime: _dateTime,
-            ));
+        );
       },
     );
   }
@@ -163,6 +178,7 @@ class MyData extends DataTableSource {
   final List<QuotationsModel> data;
   TextEditingController notesController = TextEditingController();
   final String? dealerId;
+  final String dealerName;
   final DateTime datetime;
   final BuildContext myGlobalBuildContext;
   final void Function() showDatePickerCallback;
@@ -170,6 +186,7 @@ class MyData extends DataTableSource {
   MyData(
     this.data,
     this.dealerId, {
+    required this.dealerName,
     required this.datetime,
     required this.myGlobalBuildContext,
     required this.showDatePickerCallback,
@@ -194,7 +211,7 @@ class MyData extends DataTableSource {
     return DataRow.byIndex(index: index, cells: <DataCell>[
       DataCell(Text(result.name ?? "")),
       DataCell(Text(result.quotationNumber ?? "")),
-      DataCell(Text(result.name ?? "")),
+      DataCell(Text(dealerName)),
       DataCell(Text(result.telephoneNumber ?? "")),
       DataCell(Text(result.customerEmail ?? "")),
       DataCell(Text(result.dileveryPostCodeC13 ?? "")),
@@ -233,26 +250,51 @@ class MyData extends DataTableSource {
       )),
       DataCell(Consumer<setFollowUpValue>(
         builder: (context, value, child) {
-          return DropdownButton<String>(
-            value: result.orderFUpQVal ?? "NO",
-            underline: Container(
-              height: 2,
-              color: Colors.white,
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(context).width * 0.4,
+              decoration: BoxDecoration(
+                  color: result.orderFUpQVal == "YES"
+                      ? Color(0Xff008000)
+                      : Color(0xffFF0000),
+                  border: Border.all(width: 1)),
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: result.orderFUpQVal ?? "NO",
+                iconEnabledColor: result.orderFUpQVal == "YES"
+                    ? Color(0Xff008000)
+                    : Color(0xffFF0000),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    apiServices.setFollowUpValue(
+                        dealerId!, result.id!, newValue);
+                  } else {
+                    apiServices.setFollowUpValue(
+                        dealerId!, result.id!, result.orderFUpQVal!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'YES',
+                      alignment: Alignment.center,
+                      child: Text(
+                        'YES',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'NO',
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
+                ],
+              ),
             ),
-            onChanged: (String? newValue) {
-              // Provider.of<setFollowUpValue>(context, listen: false)
-              //     .changeValue(newValue: newValue, quoteId: result.id!);
-              if (newValue != null) {
-                apiServices.setFollowUpValue(dealerId!, result.id!, newValue);
-              } else {
-                apiServices.setFollowUpValue(
-                    dealerId!, result.id!, result.orderFUpQVal!);
-              }
-            },
-            items: [
-              DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
-              DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
-            ],
           );
         },
       )),
@@ -264,12 +306,13 @@ class MyData extends DataTableSource {
               MaterialPageRoute(
                   builder: (context) => RkDoorCalculatorView(
                       url:
-                          'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}')));
+                          'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}&mobile_token=true')));
         },
         color: Colors.blue,
       )),
       DataCell(RoundButton(
         text: 'Notes',
+        width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.13,
         onTap: () async {
           notesController.text = result.notes!;
           await showDialog(
@@ -371,7 +414,9 @@ class MyData extends DataTableSource {
           ),
           IconButton(
             // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-            onPressed: () {},
+            onPressed: () {
+              apiServices.duplicateQuotes(dealerId!, result.id!);
+            },
             icon: Icon(Icons.copy),
             iconSize: 16,
           ),

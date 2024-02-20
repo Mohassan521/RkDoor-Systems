@@ -14,206 +14,218 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OrdersTable extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
-  const OrdersTable({super.key, this.dealerId, this.dealerName});
+  final String? role;
+  const OrdersTable({super.key, this.dealerId, this.dealerName, this.role});
 
   @override
   State<OrdersTable> createState() => _OrdersTableState();
 }
 
 class _OrdersTableState extends State<OrdersTable> {
-  DateTime _dateTime = DateTime.now();
-  String? prevValue;
-  void _showDatePicker() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
-  }
+  // DateTime _dateTime = DateTime.now();
+  // String? prevValue;
+  // void _showDatePicker() {
+  //   showDatePicker(
+  //           context: context,
+  //           initialDate: DateTime.now(),
+  //           firstDate: DateTime(2000),
+  //           lastDate: DateTime(2050))
+  //       .then((value) {
+  //     setState(() {
+  //       _dateTime = value!;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
-
-    return FutureBuilder<List<OrdersModel>>(
-      future: apiServices.getOrdersList(widget.dealerId!, ""),
+    //print('employee/dealerId: ${widget.dealerId}');
+    return FutureBuilder(
+      future: apiServices.getOrdersList(widget.dealerId!.toString(), ""),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        print(widget.dealerId);
+        List<OrdersModel>? list =
+            snapshot.data != null || snapshot.data!.isNotEmpty
+                ? snapshot.data
+                : [];
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              rowsPerPage: (list.length >= 5 && list.isNotEmpty)
-                  ? 5
-                  : (list.isEmpty)
-                      ? 1
-                      : list.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Created By',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Order No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Confirmation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anticipated Delivery Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Invoices',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Note',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Marine Grade Finish',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Frame Size',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Goalpost Construction',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Overall Weight',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Threshold Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Made',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Balance Due',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Financial History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Back To Quote',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Date History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source:
-                  MyData(list, widget.dealerId, myGlobalBuildContext: context));
+          return ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(23),
+                topRight: Radius.circular(23),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0)),
+            child: PaginatedDataTable(
+                rowsPerPage: (list!.length >= 5 && list.isNotEmpty)
+                    ? 5
+                    : (list.isEmpty)
+                        ? 1
+                        : list.length,
+                headingRowColor: MaterialStateProperty.resolveWith(
+                    (states) => Color(0xff941420)),
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Created By',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Factory Order No.',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Status',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Confirmation',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Anticipated Delivery Date',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Invoices',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Delivery Note',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Marine Grade Finish',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Frame Size',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Goalpost Construction',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Overall Weight',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Threshold Type',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Tel No.',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Email',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote ID',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Date',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Total Quote Value',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Date',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Made',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Balance Due',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Financial History',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Analysis',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Back To Quote',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Date History',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Action Status',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ],
+                source: MyData(list, widget.dealerId, widget.dealerName,
+                    myGlobalBuildContext: context)),
+          );
         });
       },
     );
@@ -222,13 +234,15 @@ class _OrdersTableState extends State<OrdersTable> {
 
 class MyData extends DataTableSource {
   final String? dealerId;
+  final String? dealerName;
   NetworkApiServices apiServices = NetworkApiServices();
 
   final BuildContext myGlobalBuildContext;
   TextEditingController orderNotesController = TextEditingController();
   final List<OrdersModel> data;
 
-  MyData(this.data, this.dealerId, {required this.myGlobalBuildContext});
+  MyData(this.data, this.dealerId, this.dealerName,
+      {required this.myGlobalBuildContext});
 
   @override
   int get rowCount => data.length;
@@ -244,33 +258,50 @@ class MyData extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final OrdersModel result = data[index];
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
 
     return DataRow.byIndex(index: index, cells: <DataCell>[
-      DataCell(Text(result.name ?? '')),
-      DataCell(Text(result.quotationNumber ?? '')),
-      DataCell(Text(userData.displayName ?? "")),
-      DataCell(Text('')),
-      DataCell(Text(result.orderStatusVal ?? '')),
+      DataCell(Text(result.name != null ? result.name! : "")),
       DataCell(
-          Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-      DataCell(Text(result.anticipatedDateVal ?? '')),
+          Text(result.quotationNumber != null ? result.quotationNumber! : "")),
+      DataCell(Text(dealerName != null ? dealerName! : "")),
+      DataCell(Text(result.orderNoVal != null ? result.orderNoVal! : "")),
       DataCell(
-          Text(result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
+          Text(result.orderStatusVal != null ? result.orderStatusVal! : "")),
+      // DataCell(
+      //     Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
+      DataCell(result.facConfDocuments!.isNotEmpty
+          ? Center(child: Icon(Icons.file_open))
+          : Center(child: Text('No file avaibale'))),
+      DataCell(Text(
+          result.anticipatedDateVal != null ? result.anticipatedDateVal! : "")),
+      // DataCell(
+      //     Text(result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
+      DataCell(result.invoicesDocuments!.isNotEmpty
+          ? Center(child: Icon(Icons.file_open))
+          : Center(child: Text('No file avaibale'))),
+      // DataCell(
+      //     Text(result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
+      DataCell(result.deliveryDocuments!.isNotEmpty
+          ? Center(child: Icon(Icons.file_open))
+          : Center(child: Text('No file avaibale'))),
       DataCell(
-          Text(result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
-      DataCell(Text(result.marineGradeVal ?? '')),
-      DataCell(Text(result.frameSizeHeightWidth ?? '')),
-      DataCell(Text(result.lhGoalPostE44 ?? '')),
-      DataCell(Text(result.totalWeightKg ?? '')),
-      DataCell(Text(result.thresholdType ?? '')),
-      DataCell(Text(result.telephoneNumber ?? '')),
-      DataCell(Text(result.customerEmail ?? '')),
-      DataCell(Text(result.dileveryPostCodeC13 ?? '')),
-      DataCell(Text(result.id ?? '')),
-      DataCell(Text(result.date ?? '')),
-      DataCell(Text(result.time ?? '')),
-      DataCell(Text(result.wholeTotal ?? '')),
+          Text(result.marineGradeVal != null ? result.marineGradeVal! : '')),
+      DataCell(Text(result.frameSizeHeightWidth != null
+          ? result.frameSizeHeightWidth!
+          : "")),
+      DataCell(Text(result.lhGoalPostE44 != null ? result.lhGoalPostE44! : "")),
+      DataCell(Text(result.totalWeightKg != null ? result.totalWeightKg! : "")),
+      DataCell(Text(result.thresholdType != null ? result.thresholdType! : "")),
+      DataCell(
+          Text(result.telephoneNumber != null ? result.telephoneNumber! : "")),
+      DataCell(Text(result.customerEmail != null ? result.customerEmail! : "")),
+      DataCell(Text(result.dileveryPostCodeC13 != null
+          ? result.dileveryPostCodeC13!
+          : "")),
+      DataCell(Text(result.id != null ? result.id! : "")),
+      DataCell(Text(result.date != null ? result.date! : "")),
+      DataCell(Text(result.time != null ? result.time! : "")),
+      DataCell(Text(result.wholeTotal != null ? result.wholeTotal! : "")),
       DataCell(Consumer<FollowUpOrderDate>(
         builder: (context, value, child) {
           return Row(
@@ -336,7 +367,9 @@ class MyData extends DataTableSource {
           );
         },
       )),
-      DataCell(Text(result.balDueBeforeDelivery ?? '')),
+      DataCell(Text(result.balDueBeforeDelivery != null
+          ? result.balDueBeforeDelivery!
+          : "")),
       //DataCell(Text(result.orderFinHisNoteBox ?? '')),
       //DataCell(Text(result.customNotes ?? '')),
       DataCell(RoundButton(
@@ -349,6 +382,7 @@ class MyData extends DataTableSource {
                         dealerId: dealerId,
                         id: result.id,
                         quotationNumber: result.quotationNumber,
+                        ordersModel: result,
                       )));
         },
         color: Colors.blue,
@@ -446,7 +480,8 @@ class MyData extends DataTableSource {
         },
         color: Colors.blue,
       )),
-      DataCell(Text('${result.date} ${result.orderStatusVal ?? ''}')),
+      DataCell(Text(
+          '${result.date != null ? result.date : ""} ${result.orderStatusVal != null ? result.orderStatusVal! : ""}')),
       DataCell(Row(
         children: [
           IconButton(

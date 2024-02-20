@@ -26,69 +26,76 @@ class _TablePageState extends State<TablePage> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Text('Data is being loaded...');
           }
 
-          List<DealersModel> data = snapshot.data as List<DealersModel>;
+          List<DealersModel> data = snapshot.data ?? [];
 
           return Consumer<PaginationProvider>(builder: (context, value, child) {
-            return PaginatedDataTable(
-                rowsPerPage: value.rowsPerPage,
-                headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Color(0xff941420)),
-                columns: const <DataColumn>[
-                  DataColumn(
-                      label: Text(
-                    'Dealer ID',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Dealer Name',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Email',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Tel',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Post Code',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quotation Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Dealer Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'License Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'License Expiry Date',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    '',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  )),
-                ],
-                source: MyData(data, context));
+            return ClipRRect(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(23),
+                  topRight: Radius.circular(23),
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0)),
+              child: PaginatedDataTable(
+                  rowsPerPage: value.rowsPerPage,
+                  headingRowColor: MaterialStateProperty.resolveWith(
+                      (states) => Color(0xff941420)),
+                  columns: const <DataColumn>[
+                    DataColumn(
+                        label: Text(
+                      'Dealer ID',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Dealer Name',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Email',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Tel',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Post Code',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Quotation Type',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Dealer Type',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'License Type',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'License Expiry Date',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      '',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    )),
+                  ],
+                  source: MyData(data, context)),
+            );
           });
         });
   }

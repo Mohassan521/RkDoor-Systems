@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/components/drawer.dart';
+import 'package:price_link/models/updatedModel.dart';
+import 'package:price_link/services/services.dart';
 
 class Updates extends StatefulWidget {
-  const Updates({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? role;
+  final String? empId;
+  const Updates(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.role,
+      this.empId});
 
   @override
   State<Updates> createState() => _UpdatesState();
@@ -11,81 +23,95 @@ class _UpdatesState extends State<Updates> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-              child: Text(
-            'Updates',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-          )),
-          SizedBox(
-            height: 10,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 0.95,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5.0, vertical: 5),
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.height * 0.12,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.blue),
-                        child: Text(
-                          '27.09.23 - Powder coat finish thumbturn now available for Ultion cylinders.',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w500),
-                        )),
-                  ),
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.vertical,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(
-                  //         horizontal: 5.0, vertical: 5),
-                  //     child: Container(
-                  //         width: MediaQuery.of(context).size.width * 0.9,
-                  //         height: MediaQuery.of(context).size.height,
-                  //         decoration: const BoxDecoration(color: Colors.blue),
-                  //         child: Text(
-                  //             '13.10.23 - New ES1202 switch added to enable day release type function for doors with motorised locks. Switch is located on the hinged side of the door sash and when depressed retracts the locking points and holds in to allow the door to be push and pull open. When the switched is pushed again, the locks are released and return to their normal function. This is available for the ES1200, ES1760 & ES1950 lock types and the code for a quotation can be found in the Electronic Opener (Day Release) drop down list in the Accessories stage. The code is also in the General Items drop down list.    ',
-                  //             style: TextStyle(
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.w500))),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //       horizontal: 5.0, vertical: 5),
-                  //   child: SingleChildScrollView(
-                  //     scrollDirection: Axis.vertical,
-                  //     child: Container(
-                  //         width: MediaQuery.of(context).size.width * 0.9,
-                  //         height: MediaQuery.of(context).size.height * 0.12,
-                  //         decoration: const BoxDecoration(color: Colors.blue),
-                  //         child: Text(
-                  //             'Test Updates for testing Red Badge & Alert When user already login ',
-                  //             style: TextStyle(
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.w500))),
-                  //   ),
-                  // ),
-                ],
-              ),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+        dealerName: widget.dealerName,
+        role: widget.role,
+        empId: widget.empId,
+      ),
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Color(0xff941420),
+        title: const Text(
+          'Updates',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 10,
             ),
-          )
-        ],
+            SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.82,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: FutureBuilder(
+                    future: NetworkApiServices().getUpdatesValue(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                      List<UpdatesModel> list = snapshot.data!;
+
+                      return ListView.builder(
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 15),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.blue),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 12),
+                                          child: Text(
+                                            '${list[index].updateMessage}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            '${list[index].date} ${list[index].time}',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }

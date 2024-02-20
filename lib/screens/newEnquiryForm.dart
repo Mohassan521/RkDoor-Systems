@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
@@ -16,8 +15,14 @@ import 'package:provider/provider.dart';
 class NewEnquiryForm extends StatefulWidget {
   final String dealerId;
   final String dealerName;
+  final String? role;
+  final String? empId;
   const NewEnquiryForm(
-      {super.key, required this.dealerId, required this.dealerName});
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.role,
+      this.empId});
 
   @override
   State<NewEnquiryForm> createState() => _NewEnquiryFormState();
@@ -26,8 +31,8 @@ class NewEnquiryForm extends StatefulWidget {
 class _NewEnquiryFormState extends State<NewEnquiryForm> {
   File? _image;
   final _picker = ImagePicker();
-  bool showSpinner = false;
   NetworkApiServices apiServices = NetworkApiServices();
+  List<File> filesToUpload = [];
 
   Future getImage() async {
     final pickedFile =
@@ -35,6 +40,8 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
       setState(() {});
     } else {
       print('no image selected');
@@ -87,10 +94,14 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
     var dealerData = Provider.of<DealerData>(context).model;
     dealerController.text = dealerData.dealerName!;
 
+    // print(_image);
+
     return Scaffold(
       drawer: DrawerPage(
         dealer_id: widget.dealerId,
         dealerName: widget.dealerName,
+        role: widget.role,
+        empId: widget.empId,
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -403,26 +414,44 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               ),
               const Text('Priority Level',
                   style: TextStyle(color: Color(0xff941420))),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: priorityValue,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
+              Container(
+                alignment: Alignment.center,
+                height: MediaQuery.sizeOf(context).height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.5),
+                    border: Border.all(width: 1),
+                    color: priorityValue == "LOW"
+                        ? Colors.pink
+                        : priorityValue == "MEDIUM"
+                            ? Colors.orange
+                            : Colors.red),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: priorityValue,
+                  underline: SizedBox(),
+                  iconEnabledColor: priorityValue == "LOW"
+                      ? Colors.pink
+                      : priorityValue == "MEDIUM"
+                          ? Colors.orange
+                          : Colors.red,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      priorityValue = newValue ?? priorityValue;
+                    });
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                        value: 'LOW',
+                        child: Center(
+                            child: Text(
+                          'LOW',
+                        ))),
+                    DropdownMenuItem<String>(
+                        value: 'MEDIUM', child: Center(child: Text('MEDIUM'))),
+                    DropdownMenuItem<String>(
+                        value: 'HIGH', child: Center(child: Text('HIGH'))),
+                  ],
                 ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    priorityValue = newValue ?? priorityValue;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'LOW', child: Center(child: Text('LOW'))),
-                  DropdownMenuItem<String>(
-                      value: 'MEDIUM', child: Center(child: Text('MEDIUM'))),
-                  DropdownMenuItem<String>(
-                      value: 'HIGH', child: Center(child: Text('HIGH'))),
-                ],
               ),
               SizedBox(
                 height: 10,
@@ -437,9 +466,16 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                     },
                     text: 'Choose File',
                     color: Color(0xff941420),
-                    width: MediaQuery.sizeOf(context).width * 0.3,
+                    width: MediaQuery.sizeOf(context).width * 0.25,
                   ),
-                  Text(_image?.path ?? "")
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.sizeOf(context).width * 0.70),
+                    child: Text(
+                      _image?.path ?? "",
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -475,7 +511,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                         emailController.text,
                         telephoneController.text,
                         priorityValue,
-                        _image!,
+                        filesToUpload,
                         notesController.text,
                         enquirySourceValue,
                         enquiryEnteredByController.text);

@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/hotLeads.dart';
 import 'package:price_link/components/tables/hotLeadsTable.dart';
 import 'package:provider/provider.dart';
 
 class HotLeads extends StatefulWidget {
-  const HotLeads({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? empId;
+  final String? role;
+  const HotLeads(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.empId,
+      this.role});
 
   @override
   State<HotLeads> createState() => _HotLeadsState();
@@ -19,7 +29,12 @@ class _HotLeadsState extends State<HotLeads> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerPage(),
+      drawer: DrawerPage(
+        dealerName: widget.dealerName,
+        dealer_id: widget.dealerId,
+        empId: widget.empId,
+        role: widget.role,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -28,41 +43,13 @@ class _HotLeadsState extends State<HotLeads> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Consumer<SelectedValueProvider>(
-                        builder: (context, value, child) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: ReusableDropdown(
-                            items: qtyList,
-                            valueProvider: value,
-                            onChanged: (newValue) {}),
-                      );
-                    }),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
-          ),
           SizedBox(
             height: 18,
           ),
           Container(
-              width: MediaQuery.of(context).size.width * 0.75,
+              padding: EdgeInsets.only(left: 20.0, right: 20),
               child: TextFormField(
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -81,24 +68,22 @@ class _HotLeadsState extends State<HotLeads> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: HotLeadsTable(),
+            child: widget.role == "admin"
+                ? AdminHotLeads(
+                    dealerId: widget.dealerId,
+                    dealerName: widget.dealerName,
+                  )
+                : HotLeadsTable(
+                    dealerId: widget.role == "employee"
+                        ? widget.empId
+                        : widget.dealerId,
+                    dealerName: widget.dealerName,
+                  ),
           ),
           SizedBox(
             height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
           ),
         ],
       ),

@@ -1,10 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/drawer.dart';
+import 'package:price_link/components/mobile.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/enquiriesModel.dart';
+import 'package:price_link/services/pdfService.dart';
+import 'package:price_link/services/services.dart';
+import 'package:provider/provider.dart';
 
 class EnquiryDetails extends StatefulWidget {
   final String dealerId;
@@ -21,24 +26,62 @@ class EnquiryDetails extends StatefulWidget {
 }
 
 class _EnquiryDetailsState extends State<EnquiryDetails> {
-  DateTime _dateTime = DateTime.now();
-
-  void _showDatePicker() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MM/dd/yyyy').format(_dateTime);
+    showImageDialog(BuildContext context, List<dynamic> imageUrl) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                insetPadding: EdgeInsets.all(9),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: imageUrl
+                          .map(
+                            (imageUrl) => SizedBox(
+                              height: 200.0, // Set the height as needed
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ));
+    }
+
+    final TextEditingController app1 = TextEditingController();
+    final TextEditingController app2 = TextEditingController();
+    final TextEditingController app3 = TextEditingController();
+    final TextEditingController app4 = TextEditingController();
+    final TextEditingController app5 = TextEditingController();
+    final TextEditingController app6 = TextEditingController();
+    final TextEditingController app7 = TextEditingController();
+    final TextEditingController app8 = TextEditingController();
+    final TextEditingController app9 = TextEditingController();
+    final TextEditingController app10 = TextEditingController();
+    final TextEditingController rkdsTop = TextEditingController();
+    final TextEditingController rkds1 = TextEditingController();
+    final TextEditingController rkds2 = TextEditingController();
+    final TextEditingController rkds3 = TextEditingController();
+    final TextEditingController rkds4 = TextEditingController();
+    final TextEditingController rkds5PartTwo = TextEditingController();
+    final TextEditingController rkds5 = TextEditingController();
+    final TextEditingController rkds6 = TextEditingController();
+    final TextEditingController rkds7 = TextEditingController();
+    final TextEditingController rkds8 = TextEditingController();
+    final TextEditingController survey = TextEditingController();
+    final TextEditingController rkds9 = TextEditingController();
+    NetworkApiServices apiServices = NetworkApiServices();
+
     return Scaffold(
       drawer: DrawerPage(
         dealer_id: widget.dealerId,
@@ -110,10 +153,10 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.sizeOf(context).width *
-                            0.58), // Adjust maxWidth as needed
+                            0.7), // Adjust maxWidth as needed
                     child: Text(
-                      widget.enquiries!.customerAddress!,
-                      overflow: TextOverflow.visible,
+                      '${widget.enquiries!.customerAddress!} ${widget.enquiries!.customerAddress2} ${widget.enquiries!.customerAddress3} ${widget.enquiries!.customerAddress4}',
+                      textAlign: TextAlign.end,
                     ),
                   ),
                 ],
@@ -200,12 +243,13 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(context, _showDatePicker, formattedDate)),
+                source: MyData(context, rkds1, rkds2, rkds3, rkds4,
+                    rkds5PartTwo, rkds5, rkds6, rkds7, rkds8, survey, rkds9)),
             SizedBox(
               height: 15,
             ),
             PaginatedDataTable(
-                rowsPerPage: 6,
+                rowsPerPage: 5,
                 headingRowColor: MaterialStateProperty.resolveWith(
                     (states) => Color(0xff941420)),
                 columns: const <DataColumn>[
@@ -220,7 +264,8 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                     style: TextStyle(color: Colors.white),
                   ))
                 ],
-                source: MyDataTwo(context)),
+                source: MyDataTwo(context, app1, app2, app3, app4, app5, app6,
+                    app7, app8, app9, app10)),
             SizedBox(
               height: 12,
             ),
@@ -233,9 +278,20 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                     Text('File upload From Order Folder'),
                   ],
                 ),
-                Text((widget.enquiries!.enquiryFileUpload != [])
-                    ? widget.enquiries!.enquiryFileUpload.toString()
-                    : ""),
+                widget.enquiries!.enquiryOrderConfFile!.isNotEmpty
+                    ? InkWell(
+                        onTap: () {
+                          List<dynamic> imageUrl =
+                              widget.enquiries!.enquiryOrderConfFile!;
+                          showImageDialog(context, imageUrl);
+                        },
+                        child: Center(
+                            child: Icon(
+                          Icons.file_download,
+                          size: 18,
+                        )),
+                      )
+                    : Text(""),
                 SizedBox(
                   height: 20,
                 ),
@@ -245,9 +301,21 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                     Text('File upload From Quotation'),
                   ],
                 ),
-                Text((widget.enquiries!.enquiryFileUpload != [])
-                    ? widget.enquiries!.enquiryFileUpload.toString()
-                    : ""),
+                widget.enquiries!.enquiryFileUpload!.isNotEmpty
+                    ? InkWell(
+                        onTap: () {
+                          List<dynamic> imageUrl =
+                              widget.enquiries!.enquiryFileUpload!;
+                          showImageDialog(context, imageUrl);
+                        },
+                        child: Center(
+                            child: Icon(
+                          Icons.file_open,
+                          size: 18,
+                          color: Colors.blue,
+                        )),
+                      )
+                    : Text(""),
                 SizedBox(
                   height: 20,
                 ),
@@ -257,19 +325,28 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
                     Text('Design File upload From Quotation'),
                   ],
                 ),
-                Text((widget.enquiries!.enquiryFileUpload != [])
-                    ? widget.enquiries!.enquiryFileUpload.toString()
-                    : ""),
+                widget.enquiries!.EnquirydoorsedignfileToUpload!.isNotEmpty
+                    ? Center(
+                        child: Icon(
+                        Icons.file_download,
+                        size: 18,
+                      ))
+                    : Text(""),
               ],
             ),
             SizedBox(
               height: 20,
             ),
             RoundButton(
-              onTap: () {},
+              onTap: () async {
+                //PdfService().createPDF(widget.enquiries!);
+                final pdfFile = await PdfService()
+                    .generateEnquiryDetailsPDF(widget.enquiries!);
+                PdfService().openFile(pdfFile);
+              },
               width: MediaQuery.sizeOf(context).width * 0.3,
               color: Colors.black,
-              text: 'Print PDF',
+              text: 'Create PDF',
             ),
             SizedBox(
               height: 10,
@@ -284,7 +361,57 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
               height: 10,
             ),
             RoundButton(
-              onTap: () {},
+              onTap: () {
+                apiServices.saveEnquiryRecord(
+                    widget.enquiries!.id!,
+                    widget.dealerId,
+                    "",
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate1,
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate2,
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate3,
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate4,
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate5,
+                    Provider.of<EnquiryDetailsDate>(context, listen: false)
+                        .formattedDate6,
+                    rkds1.text,
+                    rkds2.text,
+                    rkds3.text,
+                    rkds4.text,
+                    rkds5PartTwo.text,
+                    rkds5.text,
+                    rkds6.text,
+                    rkds7.text,
+                    rkds8.text,
+                    survey.text,
+                    rkds9.text,
+                    app1.text,
+                    app2.text,
+                    app3.text,
+                    app4.text,
+                    app5.text,
+                    app6.text,
+                    app7.text,
+                    app8.text,
+                    app9.text,
+                    app10.text,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue2,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue3,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue4,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue5,
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .defaultValue6);
+              },
               color: Colors.green,
               width: MediaQuery.sizeOf(context).width * 0.6,
               text: 'Save Enquiry Record',
@@ -309,12 +436,23 @@ class _EnquiryDetailsState extends State<EnquiryDetails> {
 }
 
 class MyDataTwo extends DataTableSource {
+  TextEditingController app1 = TextEditingController();
+  TextEditingController app2 = TextEditingController();
+  TextEditingController app3 = TextEditingController();
+  TextEditingController app4 = TextEditingController();
+  TextEditingController app5 = TextEditingController();
+  TextEditingController app6 = TextEditingController();
+  TextEditingController app7 = TextEditingController();
+  TextEditingController app8 = TextEditingController();
+  TextEditingController app9 = TextEditingController();
+  TextEditingController app10 = TextEditingController();
+
   BuildContext context;
 
   //final List<EnquiriesModel> data;
 
   @override
-  int get rowCount => 6;
+  int get rowCount => 5;
 
   @override
   bool get isRowCountApproximate => false;
@@ -322,7 +460,8 @@ class MyDataTwo extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-  MyDataTwo(this.context);
+  MyDataTwo(this.context, this.app1, this.app2, this.app3, this.app4, this.app5,
+      this.app6, this.app7, this.app8, this.app9, this.app10);
 
   @override
   DataRow? getRow(int index) {
@@ -330,44 +469,57 @@ class MyDataTwo extends DataTableSource {
       case 0:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: app1,
+            )),
+            DataCell(TextField(
+              controller: app2,
+            )),
           ],
         );
       case 1:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: app3,
+            )),
+            DataCell(TextField(
+              controller: app4,
+            )),
           ],
         );
 
       case 2:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: app5,
+            )),
+            DataCell(TextField(
+              controller: app6,
+            )),
           ],
         );
       case 3:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: app7,
+            )),
+            DataCell(TextField(
+              controller: app8,
+            )),
           ],
         );
       case 4:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
-          ],
-        );
-      case 5:
-        return DataRow(
-          cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: app9,
+            )),
+            DataCell(TextField(
+              controller: app10,
+            )),
           ],
         );
 
@@ -378,9 +530,18 @@ class MyDataTwo extends DataTableSource {
 }
 
 class MyData extends DataTableSource {
+  TextEditingController rkds1 = TextEditingController();
+  TextEditingController rkds2 = TextEditingController();
+  TextEditingController rkds3 = TextEditingController();
+  TextEditingController rkds4 = TextEditingController();
+  TextEditingController rkds5Part2 = TextEditingController();
+  TextEditingController rkds5 = TextEditingController();
+  TextEditingController rkds6 = TextEditingController();
+  TextEditingController rkds7 = TextEditingController();
+  TextEditingController rkds8 = TextEditingController();
+  TextEditingController survey = TextEditingController();
+  TextEditingController rkds9 = TextEditingController();
   BuildContext context;
-  final void Function() showDatePickerCallback;
-  final String datetime;
   //final List<EnquiriesModel> data;
 
   @override
@@ -392,7 +553,32 @@ class MyData extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-  MyData(this.context, this.showDatePickerCallback, this.datetime);
+  MyData(
+      this.context,
+      this.rkds1,
+      this.rkds2,
+      this.rkds3,
+      this.rkds4,
+      this.rkds5,
+      this.rkds5Part2,
+      this.rkds6,
+      this.rkds7,
+      this.rkds8,
+      this.survey,
+      this.rkds9);
+
+  _showDatePicker(String initialDate, Function(DateTime)? onDateSelected) {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2050))
+        .then((value) {
+      if (value != null) {
+        onDateSelected!(value);
+      }
+    });
+  }
 
   @override
   DataRow? getRow(int index) {
@@ -401,16 +587,22 @@ class MyData extends DataTableSource {
         return DataRow(
           cells: <DataCell>[
             DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: rkds1,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  Provider.of<EnquiryDropdown>(context, listen: false)
+                      .updateSelectedValueOne(newValue!);
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -436,10 +628,19 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate1
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    _showDatePicker(
+                      Provider.of<EnquiryDetailsDate>(context, listen: false)
+                          .formattedDate1,
+                      (newDateTime) {
+                        Provider.of<EnquiryDetailsDate>(context, listen: false)
+                            .updateDateTime1(newDateTime);
+                      },
+                    );
                   },
                   icon: Icons.calendar_month,
                 )
@@ -450,17 +651,25 @@ class MyData extends DataTableSource {
       case 1:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: rkds2,
+            )),
+            DataCell(TextField(
+              controller: rkds3,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue2,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  Provider.of<EnquiryDropdown>(context, listen: false)
+                      .updateSelectedValueTwo(newValue!);
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -486,10 +695,26 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate2
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    DateButton(
+                      onTap: () {
+                        _showDatePicker(
+                          Provider.of<EnquiryDetailsDate>(context,
+                                  listen: false)
+                              .formattedDate2,
+                          (newDateTime) {
+                            Provider.of<EnquiryDetailsDate>(context,
+                                    listen: false)
+                                .updateDateTime2(newDateTime);
+                          },
+                        );
+                      },
+                      icon: Icons.calendar_month,
+                    );
                   },
                   icon: Icons.calendar_month,
                 )
@@ -501,17 +726,27 @@ class MyData extends DataTableSource {
       case 2:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: rkds4,
+            )),
+            DataCell(TextField(
+              controller: rkds5Part2,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue3,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .updateSelectedValueThree(newValue);
+                  }
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -537,10 +772,19 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate3
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    _showDatePicker(
+                      Provider.of<EnquiryDetailsDate>(context, listen: false)
+                          .formattedDate3,
+                      (newDateTime) {
+                        Provider.of<EnquiryDetailsDate>(context, listen: false)
+                            .updateDateTime3(newDateTime);
+                      },
+                    );
                   },
                   icon: Icons.calendar_month,
                 )
@@ -551,17 +795,28 @@ class MyData extends DataTableSource {
       case 3:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: rkds5,
+            )),
+            DataCell(TextField(
+              controller: rkds6,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue4,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .updateSelectedValueFour(newValue);
+                    print('Dropdown Value: $newValue');
+                  }
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -587,10 +842,26 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate4
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    DateButton(
+                      onTap: () {
+                        _showDatePicker(
+                          Provider.of<EnquiryDetailsDate>(context,
+                                  listen: false)
+                              .formattedDate4,
+                          (newDateTime) {
+                            Provider.of<EnquiryDetailsDate>(context,
+                                    listen: false)
+                                .updateDateTime4(newDateTime);
+                          },
+                        );
+                      },
+                      icon: Icons.calendar_month,
+                    );
                   },
                   icon: Icons.calendar_month,
                 )
@@ -601,17 +872,28 @@ class MyData extends DataTableSource {
       case 4:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: rkds7,
+            )),
+            DataCell(TextField(
+              controller: rkds8,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue5,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    Provider.of<EnquiryDropdown>(context, listen: false)
+                        .updateSelectedValueFive(newValue);
+                    print('Dropdown Value: $newValue');
+                  }
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -637,10 +919,26 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate5
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    DateButton(
+                      onTap: () {
+                        _showDatePicker(
+                          Provider.of<EnquiryDetailsDate>(context,
+                                  listen: false)
+                              .formattedDate5,
+                          (newDateTime) {
+                            Provider.of<EnquiryDetailsDate>(context,
+                                    listen: false)
+                                .updateDateTime5(newDateTime);
+                          },
+                        );
+                      },
+                      icon: Icons.calendar_month,
+                    );
                   },
                   icon: Icons.calendar_month,
                 )
@@ -651,17 +949,25 @@ class MyData extends DataTableSource {
       case 5:
         return DataRow(
           cells: <DataCell>[
-            DataCell(TextField()),
-            DataCell(TextField()),
+            DataCell(TextField(
+              controller: survey,
+            )),
+            DataCell(TextField(
+              controller: rkds9,
+            )),
             DataCell(
               DropdownButton<String>(
                 isExpanded: true,
-                value: 'Choose Options',
+                value: Provider.of<EnquiryDropdown>(context, listen: false)
+                    .defaultValue6,
                 underline: Container(
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {},
+                onChanged: (String? newValue) {
+                  Provider.of<EnquiryDropdown>(context, listen: false)
+                      .updateSelectedValueSixth(newValue!);
+                },
                 items: [
                   DropdownMenuItem<String>(
                       value: 'Choose Options',
@@ -687,10 +993,19 @@ class MyData extends DataTableSource {
             ),
             DataCell(Row(
               children: [
-                Text(datetime.toString()),
+                Text(Provider.of<EnquiryDetailsDate>(context, listen: false)
+                    .formattedDate6
+                    .toString()),
                 DateButton(
                   onTap: () {
-                    showDatePickerCallback();
+                    _showDatePicker(
+                      Provider.of<EnquiryDetailsDate>(context, listen: false)
+                          .formattedDate6,
+                      (newDateTime) {
+                        Provider.of<EnquiryDetailsDate>(context, listen: false)
+                            .updateDateTime6(newDateTime);
+                      },
+                    );
                   },
                   icon: Icons.calendar_month,
                 )

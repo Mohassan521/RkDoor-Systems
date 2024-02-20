@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
+import 'package:price_link/components/tables/employeeTables/completedSteelOrdersForEmp.dart';
+import 'package:price_link/components/tables/employeeTables/settings.dart';
 import 'package:price_link/components/tables/steelInProductionTable.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/screens/Downloads/BIMFiles.dart';
@@ -33,6 +35,16 @@ import 'package:price_link/screens/Entrance%20Door%20Orders/doorOrderReceived.da
 import 'package:price_link/screens/Entrance%20Door%20Orders/doorReadyForShipping.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/doorRevised.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/doorTransitToUK.dart';
+import 'package:price_link/screens/adminScreens/adminHome.dart';
+import 'package:price_link/screens/adminScreens/administrationStaffForm.dart';
+import 'package:price_link/screens/adminScreens/administratorsList.dart';
+import 'package:price_link/screens/adminScreens/ankaItems.dart';
+import 'package:price_link/screens/adminScreens/dealerList.dart';
+import 'package:price_link/screens/adminScreens/enquiryAllocation.dart';
+import 'package:price_link/screens/adminScreens/newEnquiryForm.dart';
+import 'package:price_link/screens/adminScreens/orderAllocation.dart';
+import 'package:price_link/screens/adminScreens/queuesAllocation.dart';
+import 'package:price_link/screens/adminScreens/steelOrderForm.dart';
 import 'package:price_link/screens/closedEnquiries.dart';
 import 'package:price_link/screens/completedOrders.dart';
 import 'package:price_link/screens/createEmployee.dart';
@@ -51,6 +63,8 @@ import 'package:price_link/screens/steel%20Orders/steelAwaitingDeposit.dart';
 import 'package:price_link/screens/steel%20Orders/steelDelayed.dart';
 import 'package:price_link/screens/steel%20Orders/steelDelivered.dart';
 import 'package:price_link/screens/steel%20Orders/steelDepositReceived.dart';
+import 'package:price_link/screens/steel%20Orders/steelInProduction.dart';
+import 'package:price_link/screens/steel%20Orders/steelOrderForm.dart';
 import 'package:price_link/screens/steel%20Orders/steelOrderPlaced.dart';
 import 'package:price_link/screens/steel%20Orders/steelOrderReceived.dart';
 import 'package:price_link/screens/steel%20Orders/steelOutForDelivery.dart';
@@ -58,13 +72,15 @@ import 'package:price_link/screens/steel%20Orders/steelPreliminaryConfirmation.d
 import 'package:price_link/screens/steel%20Orders/steelReadyForShipping.dart';
 import 'package:price_link/screens/steel%20Orders/steelRevisedConfirmation.dart';
 import 'package:price_link/screens/updates.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerPage extends StatefulWidget {
   final String? dealer_id;
   final String? dealerName;
-  const DrawerPage({super.key, this.dealer_id, this.dealerName});
+  final String? empId;
+  final String? role;
+  const DrawerPage(
+      {super.key, this.dealer_id, this.dealerName, this.empId, this.role});
 
   @override
   State<DrawerPage> createState() => _DrawerPageState();
@@ -105,10 +121,18 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DashboardPage(
-                                    dealer_id: widget.dealer_id,
-                                    dealer_name: widget.dealerName,
-                                  )));
+                              builder: (context) => widget.role == "admin"
+                                  ? AdminHomePage(
+                                      dealer_id: widget.dealer_id,
+                                      dealer_name: widget.dealerName,
+                                      role: "admin",
+                                    )
+                                  : DashboardPage(
+                                      dealer_id: widget.dealer_id,
+                                      dealer_name: widget.dealerName,
+                                      empId: widget.empId,
+                                      role: widget.role,
+                                    )));
                     },
                     title: Text(
                       'Home',
@@ -128,6 +152,8 @@ class _DrawerPageState extends State<DrawerPage> {
                                   builder: (context) => AllEnquiries(
                                         dealerId: widget.dealer_id,
                                         dealerName: widget.dealerName,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('All Enquiries',
@@ -141,6 +167,8 @@ class _DrawerPageState extends State<DrawerPage> {
                                   builder: (context) => EntranceDoorEnquiries(
                                         dealer_id: widget.dealer_id!,
                                         dealer_name: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Entrance Door Enquiries',
@@ -154,6 +182,8 @@ class _DrawerPageState extends State<DrawerPage> {
                                   builder: (context) => SteelEnquiries(
                                         dealerId: widget.dealer_id!,
                                         dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Steel Enquiries',
@@ -167,6 +197,8 @@ class _DrawerPageState extends State<DrawerPage> {
                                   builder: (context) => SwindonwSBC(
                                         dealerId: widget.dealer_id!,
                                         dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Swinton SBC',
@@ -174,23 +206,41 @@ class _DrawerPageState extends State<DrawerPage> {
                       ),
                     ],
                   ),
+                  Visibility(
+                    visible: widget.role == "employee" ? false : true,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => widget.role == "admin"
+                                    ? AdminEnquiryForm(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                      )
+                                    : NewEnquiryForm(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      ))));
+                      },
+                      title: Text('New Enquiry Form',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
                   ListTile(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => NewEnquiryForm(
+                              builder: (context) => HotLeads(
                                     dealerId: widget.dealer_id!,
                                     dealerName: widget.dealerName!,
-                                  ))));
-                    },
-                    title: Text('New Enquiry Form',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HotLeads()));
+                                    empId: widget.empId,
+                                    role: widget.role,
+                                  )));
                     },
                     title: Text('Hot Leads',
                         style: TextStyle(color: Colors.white)),
@@ -203,6 +253,8 @@ class _DrawerPageState extends State<DrawerPage> {
                               builder: (context) => EntranceDoorQuotations(
                                     dealerId: widget.dealer_id,
                                     dealerName: widget.dealerName,
+                                    empId: widget.empId,
+                                    role: widget.role,
                                   )));
                     },
                     title: Text('Entrance Door Quotations',
@@ -220,6 +272,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => AllDoorOrders(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('All Door Orders',
@@ -232,6 +287,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorOrderReceived(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Order Received',
@@ -244,6 +302,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorOrderPlaced(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door order placed',
@@ -256,6 +317,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorAwaitingDeposit(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door awaiting deposit',
@@ -268,6 +332,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorAwaitedSurvey(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Awaiting Survey / Dimensions',
@@ -280,6 +347,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorDepositReceived(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Deposit Received',
@@ -293,6 +363,9 @@ class _DrawerPageState extends State<DrawerPage> {
                                   builder: (context) =>
                                       DoorPreliminaryConfirmation(
                                         dealerId: widget.dealer_id,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Preliminary Confirmation Issued',
@@ -305,6 +378,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorRevisedConfirmation(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Revised Confirmation Issued',
@@ -317,6 +393,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorReadyForShipping(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Ready For Shipping',
@@ -329,6 +408,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorInProduction(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door In Production',
@@ -341,6 +423,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorTransitToUK(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door In Transit to UK ',
@@ -353,6 +438,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorInRKDS(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door In RKDS Warehouse ',
@@ -365,6 +453,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorAwaitingBalance(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Awaiting Balance Payment',
@@ -377,6 +468,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorOutOfDelivery(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Out For Delivery',
@@ -389,6 +483,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorDelivered(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Delivered',
@@ -401,6 +498,9 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorDelayed(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door Delayed',
@@ -413,12 +513,58 @@ class _DrawerPageState extends State<DrawerPage> {
                               MaterialPageRoute(
                                   builder: (context) => DoorOnHold(
                                         dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: Text('Door On Hold',
                             style: TextStyle(color: Colors.white)),
                       ),
                     ],
+                  ),
+                  Visibility(
+                    visible: widget.role == "admin" || widget.role == "dealer"
+                        ? true
+                        : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AnkaItemsForAdmin(
+                                      dealerId: widget.dealer_id,
+                                      dealerName: widget.dealerName,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title:
+                          Text('Anka', style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "employee" ? false : true,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => widget.role == "admin"
+                                    ? SteelOrderFormForAdmin(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                      )
+                                    : SteelOrderForm(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
+                      },
+                      title: Text('Steel Order Form',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
                   ExpansionTile(
                     collapsedIconColor: Color(0xffFFFFFF),
@@ -431,7 +577,10 @@ class _DrawerPageState extends State<DrawerPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AllSteelOrders(
-                                        dealer_id: widget.dealer_id ?? "",
+                                        dealer_id: widget.dealer_id!,
+                                        dealer_name: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
                                       )));
                         },
                         title: const Text('All Steel Orders',
@@ -442,8 +591,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelOrderReceived()));
+                                  builder: (context) => SteelOrderReceived(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: const Text('Steel Order Received',
                             style: TextStyle(color: Colors.white)),
@@ -453,8 +606,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelOrderPlaced()));
+                                  builder: (context) => SteelOrderPlaced(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Order Placed',
                             style: TextStyle(color: Colors.white)),
@@ -464,8 +621,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelAwaitingDeposit()));
+                                  builder: (context) => SteelAwaitingDeposit(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Awaiting Deposit',
                             style: TextStyle(color: Colors.white)),
@@ -475,8 +636,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelDepositReceived()));
+                                  builder: (context) => SteelDepositReceived(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Deposit Received',
                             style: TextStyle(color: Colors.white)),
@@ -487,7 +652,12 @@ class _DrawerPageState extends State<DrawerPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const SteelPreliminaryConfirmation()));
+                                      SteelPreliminaryConfirmation(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Preliminary Confirmation Issued',
                             style: TextStyle(color: Colors.white)),
@@ -498,7 +668,12 @@ class _DrawerPageState extends State<DrawerPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const SteelRevisedConfirmation()));
+                                      SteelRevisedConfirmation(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Revised Confirmation Issued',
                             style: TextStyle(color: Colors.white)),
@@ -508,8 +683,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelReadyForShipping()));
+                                  builder: (context) => SteelReadyForShipping(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Ready For Shipping',
                             style: TextStyle(color: Colors.white)),
@@ -519,8 +698,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelInProduction()));
+                                  builder: (context) => SteelInProduction(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel In production',
                             style: TextStyle(color: Colors.white)),
@@ -530,8 +713,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelAwaitingBalance()));
+                                  builder: (context) => SteelAwaitingBalance(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Awaiting Balance Payment',
                             style: TextStyle(color: Colors.white)),
@@ -541,8 +728,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelOutForDelivery()));
+                                  builder: (context) => SteelOutForDelivery(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Out For Delivery',
                             style: TextStyle(color: Colors.white)),
@@ -552,8 +743,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SteelDelivered()));
+                                  builder: (context) => SteelDelivered(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Delivered',
                             style: TextStyle(color: Colors.white)),
@@ -563,19 +758,80 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SteelDelayed()));
+                                  builder: (context) => SteelDelayed(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        empId: widget.empId,
+                                        role: widget.role,
+                                      )));
                         },
                         title: Text('Steel Delayed',
                             style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QueuesAllocation(
+                                      dealerId: widget.dealer_id,
+                                      dealerName: widget.dealerName,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title: Text('Quotes Allocation',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrdersAllocation(
+                                      dealerId: widget.dealer_id,
+                                      dealerName: widget.dealerName,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title: Text('Orders Allocation',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EnquiryAllocation(
+                                      dealerId: widget.dealer_id,
+                                      dealerName: widget.dealerName,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title: Text('Enquiry Allocation',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
                   ListTile(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Updates()));
+                              builder: (context) => Updates(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    role: widget.role,
+                                    empId: widget.empId,
+                                  )));
                     },
                     title:
                         Text('Updates', style: TextStyle(color: Colors.white)),
@@ -590,17 +846,17 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CADDetails()));
+                                  builder: (context) => CADDetails(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: const Text('CAD Details',
                             style: TextStyle(color: Colors.white)),
                         trailing: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PDFDetails()));
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               Icons.edit,
                               color: Colors.white,
@@ -611,7 +867,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PDFDetails()));
+                                  builder: (context) => PDFDetails(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('PDF details',
                             style: TextStyle(color: Colors.white)),
@@ -624,7 +885,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BIMFiles()));
+                                  builder: (context) => BIMFiles(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('BIM Files',
                             style: TextStyle(color: Colors.white)),
@@ -637,7 +903,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CareAndMaintenance()));
+                                  builder: (context) => CareAndMaintenance(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Care & Maintenance',
                             style: TextStyle(color: Colors.white)),
@@ -650,7 +921,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Instructions()));
+                                  builder: (context) => Instructions(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Instructions',
                             style: TextStyle(color: Colors.white)),
@@ -663,7 +939,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DataSheets()));
+                                  builder: (context) => DataSheets(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Data Sheets',
                             style: TextStyle(color: Colors.white)),
@@ -676,7 +957,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Testing()));
+                                  builder: (context) => Testing(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Testing',
                             style: TextStyle(color: Colors.white)),
@@ -689,8 +975,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TechnicalAndWiring()));
+                                  builder: (context) => TechnicalAndWiring(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Technical & Wiring',
                             style: TextStyle(color: Colors.white)),
@@ -703,8 +993,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MarketingMaterial()));
+                                  builder: (context) => MarketingMaterial(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Marketing Material',
                             style: TextStyle(color: Colors.white)),
@@ -717,8 +1011,12 @@ class _DrawerPageState extends State<DrawerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MarketingImages()));
+                                  builder: (context) => MarketingImages(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
                         },
                         title: Text('Marketing Images',
                             style: TextStyle(color: Colors.white)),
@@ -734,19 +1032,61 @@ class _DrawerPageState extends State<DrawerPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => RkDoorCalculatorView(
+                                    dealerId: widget.dealer_id,
+                                    dealerName: widget.dealerName,
+                                    role: widget.role,
+                                    empId: widget.empId,
                                     url:
-                                        'https://www.pricelink.net/rk-door-calculator/',
+                                        'https://www.pricelink.net/rk-door-calculator/?user_id=${widget.role == "employee" ? widget.empId : widget.role == "dealer" || widget.role == "admin" ? widget.dealer_id : ""}&mobile_token=true',
                                   )));
                     },
                     title: Text('RK Door Calculator',
                         style: TextStyle(color: Colors.white)),
+                  ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateAdministrationStaff(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    role: widget.role!)));
+                      },
+                      title: Text('Create Administration Staff',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdministratorList(
+                                      dealerId: widget.dealer_id,
+                                      dealerName: widget.dealerName,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title: Text('Administrators',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
                   ListTile(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CompletedOrders()));
+                              builder: (context) => CompletedOrders(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    empId: widget.empId,
+                                    role: widget.role,
+                                  )));
                     },
                     title: Text('Completed Orders',
                         style: TextStyle(color: Colors.white)),
@@ -756,8 +1096,20 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const CompletedSteelOrders()));
+                              builder: (context) => widget.role == "employee" ||
+                                      widget.role == "admin"
+                                  ? CompletedSteelOrders(
+                                      dealerId: widget.dealer_id!,
+                                      dealerName: widget.dealerName!,
+                                      role: widget.role,
+                                      empId: widget.empId,
+                                    )
+                                  : CompletedSteelOrders(
+                                      dealerId: widget.dealer_id!,
+                                      dealerName: widget.dealerName!,
+                                      role: widget.role,
+                                      empId: widget.empId,
+                                    )));
                     },
                     title: Text('Completed Steel Orders',
                         style: TextStyle(color: Colors.white)),
@@ -767,42 +1119,103 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ClosedEnquiry()));
+                              builder: (context) => ClosedEnquiry(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    empId: widget.empId,
+                                    role: widget.role,
+                                  )));
                     },
                     title: Text('Closed Enquiries',
                         style: TextStyle(color: Colors.white)),
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EmployeeList(
-                                    dealer_id: widget.dealer_id!,
-                                  )));
-                    },
-                    title: Text('Employee List',
-                        style: TextStyle(color: Colors.white)),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DealerList(
+                                      dealerId: widget.dealer_id!,
+                                      dealerName: widget.dealerName!,
+                                      role: widget.role,
+                                    )));
+                      },
+                      title: Text('User/Dealer',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CreateEmployee()));
-                    },
-                    title: const Text('Create Employee',
-                        style: TextStyle(color: Colors.white)),
+                  Visibility(
+                    visible: widget.role == "dealer" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EmployeeList(
+                                      dealer_id: widget.dealer_id!,
+                                      dealerName: widget.dealerName!,
+                                      role: widget.role,
+                                      empId: widget.empId,
+                                    )));
+                      },
+                      title: Text('Employee List',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DealerLogo()));
-                    },
-                    title: Text('Dealer Logo',
-                        style: TextStyle(color: Colors.white)),
+                  Visibility(
+                    visible: widget.role == "dealer" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateEmployee(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    role: widget.role!)));
+                      },
+                      title: const Text('Create Employee',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "employee" ? true : false,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EmployeeDetails(
+                                      empId: widget.empId!,
+                                      empName: widget.dealerName!,
+                                      role: widget.role,
+                                      dealerId: widget.dealer_id,
+                                    )));
+                      },
+                      title: Text('Settings',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.role == "employee" || widget.role == "admin"
+                        ? false
+                        : true,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DealerLogo(
+                                    dealerId: widget.dealer_id!,
+                                    dealerName: widget.dealerName!,
+                                    role: widget.role,
+                                    empId: widget.empId)));
+                      },
+                      title: Text('Dealer Logo',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
                   ListTile(
                     onTap: () async {

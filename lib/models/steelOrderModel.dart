@@ -13,8 +13,8 @@ class SteelOrderModel {
   String? customerAddress2;
   String? customerAddress3;
   String? saleBonus;
-  String? steelOrderSaleBonus;
-  String? steelOrderAdminStaffBonus;
+  dynamic steelOrderSaleBonus;
+  dynamic steelOrderAdminStaffBonus;
   String? steelSupplier;
   String? emailSaleBouns;
   String? date;
@@ -35,8 +35,8 @@ class SteelOrderModel {
   String? steelAnticipatedDate;
   String? steelFacWeekVal;
   String? notes;
-  String? steelOrderConfFile;
-  String? steelInvoices;
+  List<dynamic>? steelOrderConfFile;
+  List<dynamic>? steelInvoices;
   String? steelFacOrderNoVal;
   String? steelDepositAmountPaid;
   String? steelDepPayDate;
@@ -101,6 +101,7 @@ class SteelOrderModel {
   factory SteelOrderModel.fromJson(Map<String, dynamic> json) {
     var manual_pdf_url = json['ManualPDFImageURL'] ?? [];
     var steel_del_notes = json['Steel_del_notes'] ?? [];
+
     return SteelOrderModel(
       id: json['id'] ?? '',
       productType: json['product_type'] ?? '',
@@ -116,8 +117,8 @@ class SteelOrderModel {
       customerAddress2: json['customer_address_2'] ?? '',
       customerAddress3: json['customer_address_3'] ?? '',
       saleBonus: json['sale_bonus'] ?? '',
-      steelOrderSaleBonus: json['steel_order_sale_bonus'] ?? '',
-      steelOrderAdminStaffBonus: json['steel_order_admin_staff_bonus'] ?? '',
+      steelOrderSaleBonus: json['steel_order_sale_bonus'],
+      steelOrderAdminStaffBonus: json['steel_order_admin_staff_bonus'],
       steelSupplier: json['steel_supplier'] ?? '',
       emailSaleBouns: json['email_sale_bouns'] ?? '',
       date: json['date'] ?? '',
@@ -131,15 +132,15 @@ class SteelOrderModel {
       steelInstCost: json['steel_inst_cost'] ?? '',
       steelOrderNetVal: json['steel_order_net_val'] ?? '',
       steelFrameSize: json['steel_frameSize'] ?? '',
-      pDFImageURL: json['PDFImageURL'] ?? '',
-      manualPDFImageURL: manual_pdf_url != null ? manual_pdf_url : [],
-      steelDelNotes: steel_del_notes != null ? steel_del_notes : [],
+      pDFImageURL: json['PDFImageURL'] ?? [],
+      manualPDFImageURL: manual_pdf_url,
+      steelDelNotes: steel_del_notes,
       steelOrderStatusVal: json['steel_order_status_val'] ?? '',
       steelAnticipatedDate: json['steel_anticipated_date'] ?? '',
       steelFacWeekVal: json['steel_Fac_week_val'] ?? '',
       notes: json['notes'] ?? '',
-      steelOrderConfFile: json['Steel_Order_Conf_File'] ?? '',
-      steelInvoices: json['Steel_invoices'] ?? '',
+      steelOrderConfFile: json['Steel_Order_Conf_File'] ?? [],
+      steelInvoices: json['Steel_invoices'] ?? [],
       steelFacOrderNoVal: json['steel_fac_order_no_val'] ?? '',
       steelDepositAmountPaid: json['steel_deposit_amount_paid'] ?? '',
       steelDepPayDate: json['steel_dep_pay_date'] ?? '',

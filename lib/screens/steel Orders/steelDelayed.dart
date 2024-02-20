@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/steelOrderTables/delayed.dart';
 import 'package:price_link/components/tables/steelDelayedTable.dart';
 import 'package:provider/provider.dart';
 
 class SteelDelayed extends StatefulWidget {
-  const SteelDelayed({super.key});
+  final String dealerId;
+  final String dealerName;
+  final String? empId;
+  final String? role;
+  const SteelDelayed(
+      {super.key,
+      required this.dealerId,
+      required this.dealerName,
+      this.empId,
+      this.role});
 
   @override
   State<SteelDelayed> createState() => _SteelDelayedState();
@@ -19,7 +29,12 @@ class _SteelDelayedState extends State<SteelDelayed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+        dealerName: widget.dealerName,
+        empId: widget.empId,
+        role: widget.role,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -30,40 +45,16 @@ class _SteelDelayedState extends State<SteelDelayed> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Show '),
-                    Consumer<SelectedValueProvider>(
-                        builder: (context, value, child) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        width: MediaQuery.of(context).size.width * 0.16,
-                        child: ReusableDropdown(
-                            items: qtyList,
-                            valueProvider: value,
-                            onChanged: (newValue) {}),
-                      );
-                    }),
-                    Text(' Entries'),
-                  ],
-                ),
-              ],
-            ),
-          ),
           SizedBox(
             height: 18,
           ),
           Container(
               width: MediaQuery.of(context).size.width * 0.75,
               child: TextFormField(
+                onChanged: (value) {
+                  Provider.of<AllSteelOrdersData>(context, listen: false)
+                      .getDelayedData(context, widget.dealerId, value);
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(
@@ -79,24 +70,20 @@ class _SteelDelayedState extends State<SteelDelayed> {
           SizedBox(
             height: 20,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8),
-            child: SteelDelayedTable(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('Showing 1 of 1 Entries'),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_left_sharp)),
-              Center(child: Text('1')),
-              IconButton(onPressed: () {}, icon: Icon(Icons.arrow_right_sharp))
-            ],
+            child: widget.role == "admin"
+                ? AdminSteelDelayed(
+                    dealerId: widget.dealerId,
+                    dealerName: widget.dealerName,
+                    role: widget.role,
+                  )
+                : SteelDelayedTable(
+                    dealerId: widget.role == "employee"
+                        ? widget.empId!
+                        : widget.dealerId,
+                    dealerName: widget.dealerName,
+                  ),
           ),
         ],
       ),

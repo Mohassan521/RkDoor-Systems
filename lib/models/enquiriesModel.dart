@@ -22,6 +22,7 @@ class EnquiriesModel {
   List<dynamic>? enquiryFileUpload;
   String? enquiryAllocatedTo;
   List<dynamic>? enquiryOrderConfFile;
+  List<dynamic>? EnquirydoorsedignfileToUpload;
   String? enquiryFolderNotes;
   String? quotationNumberForEnquiry;
   String? enquiryConfCode;
@@ -83,6 +84,7 @@ class EnquiriesModel {
       this.enquiryFileUpload,
       this.enquiryAllocatedTo,
       this.enquiryOrderConfFile,
+      this.EnquirydoorsedignfileToUpload,
       this.enquiryFolderNotes,
       this.quotationNumberForEnquiry,
       this.enquiryConfCode,
@@ -123,6 +125,8 @@ class EnquiriesModel {
   factory EnquiriesModel.fromJson(Map<String, dynamic> json) {
     var enquiryFileUpload = json['enquiryFileUpload'] ?? [];
     var enquiry_Order_Conf_File = json['enquiry_Order_Conf_File'] ?? [];
+    var enquiry_door_sedign_file_to_upload =
+        json['EnquirydoorsedignfileToUpload'] ?? [];
 
     return EnquiriesModel(
       id: json['id'],
@@ -146,6 +150,7 @@ class EnquiriesModel {
       enquiryNotes: json['enquiry_notes'] ?? "NA",
       enquirySource: json['enquiry_source'] ?? "NA",
       enquiryFileUpload: enquiryFileUpload,
+      EnquirydoorsedignfileToUpload: enquiry_door_sedign_file_to_upload,
       enquiryAllocatedTo: json['enquiry_allocated_to'] ?? "NA",
       enquiryFolderNotes: json['enquiry_folder_notes'] ?? "NA",
       quotationNumberForEnquiry: json['quotation_number_for_enquiry'] ?? "NA",
