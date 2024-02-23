@@ -276,13 +276,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<DealersModel> dealersData = [];
     print("dealer Id in dashboard: ${widget.role}");
     //var userData = Provider.of<UserLoginData>(context, listen: false).dataModel;
     //final paginationProvider = Provider.of<PaginationProvider>(context);
     // var dealerData = Provider.of<DealerData>(context).model;
     // print(dealerData.iD);
     Future<void> _handleRefresh() async {
-      await apiServices.getDealersList(context, widget.dealer_id!);
+      dealersData = await apiServices.getDealersList(context, widget.dealer_id!);
 
       await apiServices.getEmployeeList(widget.dealer_id!);
       await apiServices.getOrdersList(widget.dealer_id!, "");
@@ -294,6 +295,8 @@ class _DashboardPageState extends State<DashboardPage> {
       // Return a delayed Future to simulate a refresh
       return await Future.delayed(Duration(seconds: 2));
     }
+
+    print("dealer data length ${dealersData.length}");
 
     // print(dealerData);
     return RefreshIndicator(
