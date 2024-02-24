@@ -52,9 +52,7 @@ class _OrdersTableState extends State<OrdersTable> {
 
         print(widget.dealerId);
         List<OrdersModel>? list =
-            snapshot.data != null || snapshot.data!.isNotEmpty
-                ? snapshot.data
-                : [];
+            snapshot.data ?? [];
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(

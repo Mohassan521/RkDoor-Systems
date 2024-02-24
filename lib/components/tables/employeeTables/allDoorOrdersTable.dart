@@ -53,7 +53,7 @@ class _AllDoorOrdersTableForEmployeesState
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
         List<OrdersModel> filteredList =
             Provider.of<AllEntranceDoorOrderSearchedData>(context)

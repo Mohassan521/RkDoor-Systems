@@ -55,7 +55,7 @@ class _QuotationsTableState extends State<QuotationsTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<QuotationsModel> data = snapshot.data!;
+        List<QuotationsModel> data = snapshot.data ?? [];
 
         List<QuotationsModel> filteredList =
             Provider.of<QuotationsSearchedData>(context).filteredDataModel;

@@ -50,7 +50,7 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
         List<OrdersModel> filteredList =
             Provider.of<AllEntranceDoorOrderSearchedData>(context)

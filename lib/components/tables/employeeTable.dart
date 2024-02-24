@@ -30,7 +30,7 @@ class _EmployeeTableState extends State<EmployeeTable> {
           return Text('Data is being loaded...');
         }
 
-        List<EmployeeList> data = snapshot.data as List<EmployeeList>;
+        List<EmployeeList> data = snapshot.data ?? [];
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(
