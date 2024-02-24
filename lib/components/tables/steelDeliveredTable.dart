@@ -38,7 +38,7 @@ class _SteelDeliveredTableState extends State<SteelDeliveredTable> {
           return Center(child: CircularProgressIndicator());
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var delivered = list
             .where((result) => result.steelOrderStatusVal == "Delivered")
             .toList();

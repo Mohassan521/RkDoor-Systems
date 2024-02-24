@@ -52,7 +52,7 @@ class _DoorPreliminaryConfirmationTableState
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> doorConfirmationList = list
             .where((result) =>
                 result.orderStatusVal == "Preliminary Confirmation Issued")

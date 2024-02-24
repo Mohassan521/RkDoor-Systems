@@ -50,7 +50,7 @@ class _DoorInProductionTableState extends State<DoorInProductionTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> inProductionList = list
             .where((result) => result.orderStatusVal == 'In Production')
             .toList();

@@ -39,7 +39,7 @@ class _SteelAwaitingDepositTableState extends State<SteelAwaitingDepositTable> {
           return Center(child: Text('Data is being loaded'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var awaitingDeposit = list
             .where((result) => result.steelOrderStatusVal == "Awaiting Deposit")
             .toList();

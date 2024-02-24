@@ -50,7 +50,7 @@ class _DoorAwaitingBalanceTableState extends State<DoorAwaitingBalanceTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> awaitingBalanceList = list
             .where(
                 (result) => result.orderStatusVal == "Awaiting Balance Payment")

@@ -39,7 +39,7 @@ class _SteelAwaitingBalanceTableState extends State<SteelAwaitingBalanceTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var awaitingBalanceList = list
             .where((result) =>
                 result.steelOrderStatusVal == "Awaiting Balance Payment")

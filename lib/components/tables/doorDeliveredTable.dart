@@ -49,7 +49,7 @@ class _DoorDeliveredTableState extends State<DoorDeliveredTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> doorDeliveredList = list
             .where((result) => result.orderStatusVal == "Delivered")
             .toList();

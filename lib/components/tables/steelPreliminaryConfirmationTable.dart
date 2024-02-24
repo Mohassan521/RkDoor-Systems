@@ -40,7 +40,7 @@ class _SteelPreliminaryConfirmationTableState
           return Center(child: Text('Data is being loaded..'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var preliminaryConfirmationList = list
             .where((result) =>
                 result.steelOrderStatusVal == "Preliminary Confirmation Issued")

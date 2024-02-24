@@ -49,7 +49,7 @@ class _DoorInRKDSTableState extends State<DoorInRKDSTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> inRKDSWarehouseList = list
             .where((result) => result.orderStatusVal == 'In RKDS Warehouse')
             .toList();

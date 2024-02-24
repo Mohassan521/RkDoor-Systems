@@ -52,7 +52,7 @@ class _DoorRevisedConfirmationTableState
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> doorRevisedList = list
             .where((result) =>
                 result.orderStatusVal == "Revised Confirmation Issued")

@@ -49,7 +49,7 @@ class _DoorOnHoldTableState extends State<DoorOnHoldTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> doorOnHoldList = list
             .where((result) =>
                 result.orderStatusVal == "Final Confirmation Issued")

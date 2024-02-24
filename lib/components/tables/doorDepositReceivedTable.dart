@@ -50,7 +50,7 @@ class _DoorDepositReceivedTableState extends State<DoorDepositReceivedTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> depositReceivedList = list
             .where((result) => result.orderStatusVal == "Deposit Received")
             .toList();

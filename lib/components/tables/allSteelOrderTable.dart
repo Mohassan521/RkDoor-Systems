@@ -43,7 +43,7 @@ class _AllSteelOrdersTableState extends State<AllSteelOrdersTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
         List<SteelOrderModel> filteredList =
             Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;

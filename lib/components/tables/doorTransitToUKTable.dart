@@ -49,7 +49,7 @@ class _DoorTransitToUKTableState extends State<DoorTransitToUKTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> transitToUkList = list
             .where((result) => result.orderStatusVal == "In Transit To UK")
             .toList();

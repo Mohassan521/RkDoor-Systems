@@ -49,7 +49,7 @@ class _DoorDelayedTableState extends State<DoorDelayedTable> {
           return Center(child: Text('Data is being loaded'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> doorDelayedList =
             list.where((result) => result.orderStatusVal == "Delayed").toList();
 

@@ -40,7 +40,7 @@ class _SteelRevisedConfirmationTableState
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var revisedConfirmationIssued = list
             .where((result) =>
                 result.steelOrderStatusVal == "Revised Confirmation Issued")

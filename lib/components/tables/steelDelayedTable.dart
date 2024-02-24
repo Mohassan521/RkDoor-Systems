@@ -39,7 +39,7 @@ class _SteelDelayedTableState extends State<SteelDelayedTable> {
           return Center(child: CircularProgressIndicator());
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var delayed = list
             .where((result) => result.steelOrderStatusVal == "Delayed")
             .toList();

@@ -50,7 +50,7 @@ class _DoorAwaitingDepositTableState extends State<DoorAwaitingDepositTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> awaitedSurveyList = list
             .where((result) =>
                 result.orderStatusVal == "Awaiting Survey / Dimensions")

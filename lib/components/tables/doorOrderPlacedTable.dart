@@ -49,7 +49,7 @@ class _DoorOrderPlacedTableState extends State<DoorOrderPlacedTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> orderPlacedList = list
             .where((result) => result.orderStatusVal == "Order Placed")
             .toList();

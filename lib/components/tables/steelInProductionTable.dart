@@ -38,7 +38,7 @@ class _SteelInProductionTableState extends State<SteelInProductionTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var inProductionList = list
             .where((result) => result.steelOrderStatusVal == "In Production")
             .toList();

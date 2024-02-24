@@ -50,7 +50,7 @@ class _DoorReadyForShippingTableState extends State<DoorReadyForShippingTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<OrdersModel>? list = snapshot.data!;
+        List<OrdersModel>? list = snapshot.data ?? [];
         List<OrdersModel> readyForShippingList = list
             .where((result) => result.orderStatusVal == "Ready For Shipping")
             .toList();

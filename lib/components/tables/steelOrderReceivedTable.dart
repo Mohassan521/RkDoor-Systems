@@ -39,7 +39,7 @@ class _SteelOrderReceivedTableState extends State<SteelOrderReceivedTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var steelOrderList = list
             .where((result) => result.steelOrderStatusVal == "Order Received")
             .toList();

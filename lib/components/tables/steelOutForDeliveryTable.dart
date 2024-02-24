@@ -39,7 +39,7 @@ class _SteelOutForDeliveryTableState extends State<SteelOutForDeliveryTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<SteelOrderModel>? list = snapshot.data!;
+        List<SteelOrderModel>? list = snapshot.data ?? [];
         var outForDelivery = list
             .where((result) => result.steelOrderStatusVal == "Out For Delivery")
             .toList();
