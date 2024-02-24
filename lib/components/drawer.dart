@@ -1198,25 +1198,25 @@ class _DrawerPageState extends State<DrawerPage> {
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                  Visibility(
-                    visible: widget.role == "employee" || widget.role == "admin"
-                        ? false
-                        : true,
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DealerLogo(
-                                    dealerId: widget.dealer_id!,
-                                    dealerName: widget.dealerName!,
-                                    role: widget.role,
-                                    empId: widget.empId)));
-                      },
-                      title: Text('Dealer Logo',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
+                  // Visibility(
+                  //   visible: widget.role == "employee" || widget.role == "admin"
+                  //       ? false
+                  //       : true,
+                  //   child: ListTile(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => DealerLogo(
+                  //                   dealerId: widget.dealer_id!,
+                  //                   dealerName: widget.dealerName!,
+                  //                   role: widget.role,
+                  //                   empId: widget.empId)));
+                  //     },
+                  //     title: Text('Dealer Logo',
+                  //         style: TextStyle(color: Colors.white)),
+                  //   ),
+                  // ),
                   ListTile(
                     onTap: () async {
                       SharedPreferences prefs =

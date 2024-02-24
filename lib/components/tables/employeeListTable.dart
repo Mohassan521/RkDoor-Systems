@@ -25,7 +25,7 @@ class EmployeeListTable extends StatelessWidget {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<EmployeeList>? list = snapshot.data!;
+        List<EmployeeList>? list = snapshot.data ?? [];
 
         List<EmployeeList> filteredList =
             Provider.of<EmployeeListSearchedData>(context).filteredDataModel;
