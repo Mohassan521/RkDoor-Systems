@@ -94,6 +94,8 @@ class _SteelOrderPlacedState extends State<SteelOrderPlaced> {
                           ? widget.empId!
                           : widget.dealerId,
                       dealerName: widget.dealerName,
+                      role: widget.role,
+                      empId: widget.empId,
                     ),
             ),
           ],

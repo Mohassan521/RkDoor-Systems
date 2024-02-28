@@ -127,6 +127,7 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
                           ? widget.empId
                           : widget.dealerId,
                       dealerName: widget.dealerName,
+                      empId: widget.empId,
                     ),
             ),
             SizedBox(

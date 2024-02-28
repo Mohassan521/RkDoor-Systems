@@ -98,6 +98,8 @@ class _SteelPreliminaryConfirmationState
                           ? widget.empId!
                           : widget.dealerId,
                       dealerName: widget.dealerName,
+                      role: widget.role,
+                      empId: widget.empId,
                     ),
             ),
           ],

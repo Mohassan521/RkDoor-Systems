@@ -90,7 +90,7 @@ class _DoorInProductionState extends State<DoorInProduction> {
                   ? AdminDoorInProduction(
                       dealerId: widget.dealerId, dealerName: widget.dealerName)
                   : DoorInProductionTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

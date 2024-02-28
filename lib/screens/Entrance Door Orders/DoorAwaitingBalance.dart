@@ -93,7 +93,7 @@ class _DoorAwaitingBalanceState extends State<DoorAwaitingBalance> {
                       role: widget.role,
                     )
                   : DoorAwaitingBalanceTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             )

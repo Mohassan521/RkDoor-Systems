@@ -403,8 +403,7 @@ class MyData extends DataTableSource {
                 MaterialPageRoute(
                     builder: (context) => FinancialHistory(
                           dealerId: dealerId,
-                          id: result.id,
-                          quotationNumber: result.quotationNumber,
+                          dealerName: dealerName,
                           ordersModel: result,
                         )));
           },

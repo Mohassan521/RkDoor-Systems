@@ -94,6 +94,8 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
                           ? widget.empId!
                           : widget.dealer_id,
                       dealerName: widget.dealer_name,
+                      role: widget.role,
+                      empId: widget.empId,
                     ),
             ),
             SizedBox(

@@ -9,6 +9,7 @@ import 'package:price_link/models/CadDetailsModel.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/PDFDetailsModel.dart';
+import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
 import 'package:price_link/models/careAndMaintenanceModel.dart';
 import 'package:price_link/models/completedOrders.dart';
 import 'package:price_link/models/completedSteelOrdersModel.dart';
@@ -17,7 +18,6 @@ import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/models/enquiriesModel.dart';
 import 'package:price_link/models/hotLeadsModel.dart';
 import 'package:price_link/models/instructionsModel.dart';
-import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/marketingImagesModel.dart';
 import 'package:price_link/models/marketingMaterial.dart';
 import 'package:price_link/models/ordersListModel.dart';
@@ -403,9 +403,10 @@ class NetworkApiServices {
       // Map each item in the JSON array to a enquiries object
       print('printing json response here $jsonResponse');
       List<OrdersModel> orders = jsonResponse.map((data) {
+        print("data after mapping adam gingell $data");
         return OrdersModel.fromJson(data);
       }).toList();
-      //print("orders after mapping in model class: ${List<OrdersModel>}");
+      //print("orders adam gingell: ${orders[0].name}");
       return orders;
     } else {
       throw Exception('Failed to load data');
@@ -430,7 +431,6 @@ class NetworkApiServices {
       final dealerProvider = Provider.of<DealerData>(context, listen: false);
       dealerProvider.setDealerData(dealersModel);
 
-      //print('Dealer Name: ${jsonResponse[0]['dealerName']}');
 
       return dealers;
     } else {
@@ -1661,4 +1661,12 @@ class NetworkApiServices {
       print('something went wrong $response');
     }
   }
+
+  ///////////////////// admin panel APIs
+  ///
+  
+  // Future<AdminQuotesModel> getAdminQuotes() async {
+
+  // }
+
 }

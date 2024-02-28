@@ -93,7 +93,7 @@ class _DoorOnHoldState extends State<DoorOnHold> {
                       role: widget.role,
                     )
                   : DoorOnHoldTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

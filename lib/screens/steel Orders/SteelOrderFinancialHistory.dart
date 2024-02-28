@@ -8,14 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SteelOrderFinancialHistory extends StatefulWidget {
   final String? dealerId;
-  final String? id;
-  final String? quotationNumber;
+  final String? dealerName;
+  final String? role;
+  final String? empId;
   final SteelOrderModel steelOrdersModel;
   const SteelOrderFinancialHistory(
       {super.key,
-      this.id,
+      this.dealerName,
       this.dealerId,
-      this.quotationNumber,
+      this.role,
+      this.empId,
       required this.steelOrdersModel});
 
   @override
@@ -32,6 +34,9 @@ class _SteelOrderFinancialHistoryState
     return Scaffold(
         drawer: DrawerPage(
           dealer_id: widget.dealerId,
+          dealerName: widget.dealerName,
+          role: widget.role,
+          empId: widget.empId,
         ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),

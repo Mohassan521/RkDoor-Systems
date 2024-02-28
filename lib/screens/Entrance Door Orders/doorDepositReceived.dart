@@ -89,7 +89,7 @@ class _DoorDepositReceivedState extends State<DoorDepositReceived> {
                       role: widget.role,
                     )
                   : DoorDepositReceivedTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

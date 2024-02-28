@@ -6,10 +6,14 @@ import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
+import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
+import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:path/path.dart';
 
 class DoorOrderReceivedTable extends StatefulWidget {
   final String? dealerId;
@@ -27,7 +31,7 @@ class _DoorOrderReceivedTableState extends State<DoorOrderReceivedTable> {
   String? prevValue;
   void _showDatePicker() {
     showDatePicker(
-            context: context,
+            context: context as BuildContext,
             initialDate: DateTime.now(),
             firstDate: DateTime(2000),
             lastDate: DateTime(2050))
@@ -94,12 +98,11 @@ class _DoorOrderReceivedTableState extends State<DoorOrderReceivedTable> {
                     'Dealer',
                     style: TextStyle(color: Colors.white),
                   )),
-                  if (widget.role == "dealer")
-                    DataColumn(
-                        label: Text(
-                      'Quote Created By',
-                      style: TextStyle(color: Colors.white),
-                    )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Created By',
+                    style: TextStyle(color: Colors.white),
+                  )),
                   DataColumn(
                       label: Text(
                     'Factory Order No.',
@@ -122,7 +125,7 @@ class _DoorOrderReceivedTableState extends State<DoorOrderReceivedTable> {
                   )),
                   DataColumn(
                       label: Text(
-                    'File Upload',
+                    'Quick PDF Quotation',
                     style: TextStyle(color: Colors.white),
                   )),
                   DataColumn(
@@ -252,19 +255,14 @@ class _DoorOrderReceivedTableState extends State<DoorOrderReceivedTable> {
                   )),
                   DataColumn(
                       label: Text(
-                    'Action Status',
+                    '',
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
                 source: MyData(
-                    displayData,
-                    orderReceivedList,
-                    widget.role,
-                    _dateTime,
-                    widget.dealerId,
-                    widget.dealerName,
-                    _showDatePicker,
-                    myGlobalBuildContext: context)),
+                    displayData, _dateTime, widget.dealerId,
+                  widget.dealerName, _showDatePicker,
+                  myGlobalBuildContext: context)),
           );
         });
       },
@@ -273,10 +271,8 @@ class _DoorOrderReceivedTableState extends State<DoorOrderReceivedTable> {
 }
 
 class MyData extends DataTableSource {
-  List<OrdersModel> orderReceivedList;
   final String? dealerId;
   final String? dealerName;
-  final String? role;
   NetworkApiServices apiServices = NetworkApiServices();
   DateTime _datetime = DateTime.now();
   //final String? prevNotesValue;
@@ -285,12 +281,12 @@ class MyData extends DataTableSource {
   TextEditingController orderNotesController = TextEditingController();
   final List<OrdersModel> data;
 
-  MyData(this.data, this.orderReceivedList, this.role, this._datetime,
-      this.dealerId, this.dealerName, this._showDatePicker,
+  MyData(this.data, this._datetime, this.dealerId, this.dealerName,
+      this._showDatePicker,
       {required this.myGlobalBuildContext});
 
   @override
-  int get rowCount => orderReceivedList.length;
+  int get rowCount => data.length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -298,20 +294,59 @@ class MyData extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
+
   @override
   DataRow getRow(int index) {
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
+    // String? prevValue =
+    //print(prevNotesValue);
+    //var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
     var dealerData = Provider.of<DealerData>(myGlobalBuildContext).model;
-    final OrdersModel result = orderReceivedList[index];
+    final OrdersModel result = data[index];
+
+    List<dynamic> steelOrderFile = result.documents ?? [];
+    String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.last : '';
+    String fileExtension = extension(filePath).toLowerCase();
+
+    List<dynamic> invoicesDocuments = result.invoicesDocuments ?? [];
+    String invoiceFilePath = invoicesDocuments.isNotEmpty ? invoicesDocuments.last : '';
+    String invoiceFileExtension = extension(invoiceFilePath).toLowerCase();
+
+    // print(invoiceFileExtension);
+
+    List<dynamic> deliveryDocuments = result.deliveryDocuments ?? [];
+    String ddFilePath = deliveryDocuments.isNotEmpty ? deliveryDocuments.first : '';
+    String ddFileExtension = extension(ddFilePath).toLowerCase();
+
+    print('delivery doc file ext: $ddFileExtension');
+
+    //Widget selectedTable = determineTable(result, dealerId!);
+    showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        insetPadding: EdgeInsets.all(9),
+        content: SizedBox(
+          height: 200.0, // Set the height as needed
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
+  }
+
 
     return DataRow.byIndex(
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.name ?? '')),
-        DataCell(Text(result.quotationNumber ?? '')),
+        DataCell(Text(result.name ?? "")),
+        DataCell(Text(result.quotationNumber ?? "")),
         DataCell(Text(dealerData.dealerName ?? "")),
         DataCell(Text(dealerName ?? "")),
-        DataCell(Text(result.orderNoVal ?? "")),
+        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "")),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -346,61 +381,276 @@ class MyData extends DataTableSource {
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
-                result.orderStatusVal ?? '',
+                result.orderStatusVal!,
                 style: TextStyle(color: Colors.black),
               )));
         })),
-        DataCell(Container(
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.45,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.06,
-            decoration: BoxDecoration(
-                color: Colors.yellow,
-                border: Border.all(width: 0.5, color: Colors.transparent)),
-            child: Text(result.orderPaymentStatusVal ?? ''))),
+        
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.orderPaymentStatusVal == "Awaiting Deposit"
+                      ? Colors.yellow
+                      : result.orderPaymentStatusVal == "Deposit Received"
+                          ? Color(0xffffd5cd)
+                          : result.orderPaymentStatusVal == "Awaiting Survey Fee"
+                              ? Color(0xffbde2fd)
+                              : result.orderPaymentStatusVal == "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : result.orderPaymentStatusVal == "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : result.orderPaymentStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : result.orderPaymentStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : result.orderPaymentStatusVal == "All Invoices Paid"
+                                                  ? Color(0xff0d714b) : Colors.yellow,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.orderPaymentStatusVal!,
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
         DataCell(
-            Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.quickPdfUrl ?? '')),
-        DataCell(Container(
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.45,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.06,
-            decoration: BoxDecoration(
-                color: Colors.yellow,
-                border: Border.all(width: 0.5, color: Colors.transparent)),
-            child: Text(result.anticipatedDateVal ?? ''))),
-        DataCell(Text(
-            result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.balDueBeforeDelivery ?? '')),
-        DataCell(Text(
-            result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.profile ?? '')),
-        DataCell(Text(result.doorModel ?? '')),
-        DataCell(Container(
-            alignment: Alignment.center,
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.45,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.06,
-            decoration: BoxDecoration(
-                color: Color(0xff9ad9ea),
-                border: Border.all(width: 0.5, color: Colors.transparent)),
-            child: Text(result.marineGradeVal ?? ''))),
-        DataCell(Text(result.frameSizeHeightWidth ?? '')),
-        DataCell(Text(result.lhGoalPostE44 ?? '')),
-        DataCell(Text(result.totalWeightKg ?? '')),
-        DataCell(Container(
-            alignment: Alignment.center,
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.65,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.06,
-            decoration: BoxDecoration(
-                color: Color(0xff9ad9ea),
-                border: Border.all(width: 0.5, color: Colors.transparent)),
-            child: Text(result.thresholdType ?? ''))),
-        DataCell(Text(result.ekeylessAccess ?? '')),
-        DataCell(Text(result.telephoneNumber ?? '')),
-        DataCell(Text(result.customerEmail ?? '')),
-        DataCell(Text(result.dileveryPostCodeC13 ?? '')),
-        DataCell(Text(result.id ?? '')),
-        DataCell(Text(result.date ?? '')),
-        DataCell(Text(result.time ?? '')),
-        DataCell(Text(result.wholeTotal ?? '')),
+        result.documents!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.documents!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == '.jpg' ||
+                                  fileExtension == '.jpeg' ||
+                                  fileExtension == '.png')
+                              ? Icons.file_open
+                              : (fileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 21,
+                          color: Colors.blue,
+                        ),
+                        
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+
+        //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
+        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "")),
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.anticipatedDateVal ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+        // DataCell(Text(
+        //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
+        DataCell(
+        result.invoicesDocuments!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.invoicesDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (invoiceFileExtension == '.jpg' ||
+                                  invoiceFileExtension == '.jpeg' ||
+                                  invoiceFileExtension == '.png')
+                              ? Icons.file_open
+                              : (invoiceFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 21,
+                          color: Colors.blue,
+                        ),
+                        
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+        DataCell(Text(result.balDueBeforeDelivery ?? "")),
+        // DataCell(Text(
+        //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
+        // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
+        DataCell(
+        result.deliveryDocuments!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.deliveryDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (ddFileExtension == '.jpg' ||
+                                  ddFileExtension == '.jpeg' ||
+                                  ddFileExtension == '.png')
+                              ? Icons.file_open
+                              : (ddFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 21,
+                          color: Colors.blue,
+                        ),
+                        
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+        DataCell(Text(result.profile ?? "")),
+        DataCell(Text(result.doorModel ?? "")),
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.marineGradeVal == "YES" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.marineGradeVal ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+
+        DataCell(Text(result.frameSizeHeightWidth ?? "")),
+        //DataCell(Text(result.lhGoalPostE44 ?? "")),
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.lhGoalPostE44 == "YES" ? Colors.yellow : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.lhGoalPostE44 ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+ 
+        DataCell(Text(result.totalWeightKg ?? "")),
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 225MM WIDE" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.thresholdType ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+        DataCell(Text(result.ekeylessAccess ?? "")),
+        DataCell(Text(result.telephoneNumber ?? "")),
+        DataCell(Text(result.customerEmail ?? "")),
+        DataCell(Text(result.dileveryPostCodeC13 ?? "")),
+        DataCell(Text(result.id ?? "")),
+        DataCell(Text(result.date ?? "")),
+        DataCell(Text(result.time ?? "")),
+        DataCell(Text(result.wholeTotal ?? "")),
         DataCell(Consumer<FollowUpOrderDate>(
           builder: (context, value, child) {
             return Row(
@@ -466,8 +716,8 @@ class MyData extends DataTableSource {
             );
           },
         )),
-        //DataCell(Text(result.orderFinHisNoteBox ?? '')),
-        //DataCell(Text(result.customNotes ?? '')),
+        //DataCell(Text(result.orderFinHisNoteBox ?? "")),
+        //DataCell(Text(result.customNotes ?? "")),
         DataCell(RoundButton(
           text: 'Financial History',
           onTap: () {
@@ -476,8 +726,7 @@ class MyData extends DataTableSource {
                 MaterialPageRoute(
                     builder: (context) => FinancialHistory(
                           dealerId: dealerId,
-                          id: result.id,
-                          quotationNumber: result.quotationNumber,
+                          dealerName: dealerName,
                           ordersModel: result,
                         )));
           },
@@ -570,73 +819,74 @@ class MyData extends DataTableSource {
           color: Colors.blue,
         )),
 
-        DataCell(Text('${result.date} ${result.orderStatusVal ?? ''}')),
-        DataCell(Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    myGlobalBuildContext,
-                    MaterialPageRoute(
-                        builder: (context) => RkDoorCalculatorView(
-                            url:
-                                'https://www.pricelink.net/rk-door-calculator/?user_id=$dealerId&cal_order_id=${result.id}&mobile_token=true')));
-              },
-              icon: Icon(Icons.edit),
-              iconSize: 16,
-            ),
-            IconButton(
-              onPressed: () {
-                apiServices.duplicateOrders(dealerId!, result.id!);
-              },
-              icon: Icon(Icons.copy),
-              iconSize: 16,
-            ),
-            IconButton(
-              onPressed: () {
-                showDialog(
-                    context: myGlobalBuildContext,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Icon(Icons.warning),
-                        content:
-                            Text('Are u sure you want to delete this Order'),
-                        actions: [
-                          Center(
-                            child: Column(
-                              children: [
-                                RoundButton(
-                                  text: 'Delete',
-                                  onTap: () {
-                                    apiServices.deleteOrders(
-                                        dealerId!, result.id!);
-                                    Navigator.pop(context);
-                                  },
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                RoundButton(
-                                  text: 'Cancel',
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  color: Colors.blue,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-                    });
-              },
-              icon: Icon(Icons.delete),
-              iconSize: 16,
-              color: Colors.red,
-            ),
-          ],
-        )),
+        DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}')),
+        DataCell(Text(""))
+        // DataCell(Row(
+        //   children: [
+        //     IconButton(
+        //       onPressed: () {
+        //         Navigator.push(
+        //             myGlobalBuildContext,
+        //             MaterialPageRoute(
+        //                 builder: (context) => RkDoorCalculatorView(
+        //                     url:
+        //                         'https://www.pricelink.net/rk-door-calculator/?user_id=$dealerId&cal_order_id=${result.id}&mobile_token=true')));
+        //       },
+        //       icon: Icon(Icons.edit),
+        //       iconSize: 16,
+        //     ),
+        //     IconButton(
+        //       onPressed: () {
+        //         apiServices.duplicateOrders(dealerId!, result.id!);
+        //       },
+        //       icon: Icon(Icons.copy),
+        //       iconSize: 16,
+        //     ),
+        //     IconButton(
+        //       onPressed: () {
+        //         showDialog(
+        //             context: myGlobalBuildContext,
+        //             builder: (BuildContext context) {
+        //               return AlertDialog(
+        //                 title: Icon(Icons.warning),
+        //                 content:
+        //                     Text('Are u sure you want to delete this Order'),
+        //                 actions: [
+        //                   Center(
+        //                     child: Column(
+        //                       children: [
+        //                         RoundButton(
+        //                           text: 'Delete',
+        //                           onTap: () {
+        //                             apiServices.deleteOrders(
+        //                                 dealerId!, result.id!);
+        //                             Navigator.pop(context);
+        //                           },
+        //                           color: Colors.red,
+        //                         ),
+        //                         SizedBox(
+        //                           height: 15,
+        //                         ),
+        //                         RoundButton(
+        //                           text: 'Cancel',
+        //                           onTap: () {
+        //                             Navigator.pop(context);
+        //                           },
+        //                           color: Colors.blue,
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   )
+        //                 ],
+        //               );
+        //             });
+        //       },
+        //       icon: Icon(Icons.delete),
+        //       iconSize: 16,
+        //       color: Colors.red,
+        //     ),
+        //   ],
+        // )),
       ],
     );
   }

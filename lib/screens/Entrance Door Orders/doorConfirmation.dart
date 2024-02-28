@@ -95,7 +95,7 @@ class _DoorPreliminaryConfirmationState
                       role: widget.role,
                     )
                   : DoorPreliminaryConfirmationTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

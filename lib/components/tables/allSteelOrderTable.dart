@@ -18,8 +18,10 @@ import 'package:provider/provider.dart';
 class AllSteelOrdersTable extends StatefulWidget {
   final String dealerId;
   final String dealerName;
+  final String? role;
+  final String? empId;
   const AllSteelOrdersTable(
-      {super.key, required this.dealerId, required this.dealerName});
+      {super.key, required this.dealerId, required this.dealerName, this.role, this.empId});
 
   @override
   State<AllSteelOrdersTable> createState() => _AllSteelOrdersTableState();
@@ -217,7 +219,7 @@ class _AllSteelOrdersTableState extends State<AllSteelOrdersTable> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  displayData, context, widget.dealerId, widget.dealerName, widget.role ?? "", widget.empId ?? "")),
         );
       },
     );
@@ -229,8 +231,10 @@ class MyData extends DataTableSource {
   final List<SteelOrderModel>? data;
   final String dealerId;
   final String dealerName;
+  final String role;
+  final String empId;
 
-  MyData(this.data, this.context, this.dealerId, this.dealerName);
+  MyData(this.data, this.context, this.dealerId, this.dealerName, this.role, this.empId);
 
   @override
   int get rowCount => data!.length;
@@ -313,7 +317,10 @@ class MyData extends DataTableSource {
     TextEditingController notesController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     NetworkApiServices apiServices = NetworkApiServices();
-    return DataRow.byIndex(index: index, cells: <DataCell>[
+    print("steel supplier value: ${result.steelSupplier}");
+    return DataRow.byIndex(
+      color: MaterialStateProperty.resolveWith((states) => result.steelSupplier == "RK Aluminium" ? Colors.white : result.steelSupplier == "Steelline" ? Color(0XFFECECEC) : Colors.white),
+      index: index, cells: <DataCell>[
       //1
       DataCell(Text(result.steelCustomerName ?? "")),
       //2
@@ -366,11 +373,42 @@ class MyData extends DataTableSource {
             },
           ))),
       //7
-      DataCell(Container(
-        margin: EdgeInsets.only(bottom: 5, top: 5),
-        color: Colors.lightBlue,
-        child: Center(child: Text(result.steelOrderStatusVal ?? '')),
-      )),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.steelOrderStatusVal == "Awaiting Deposit" || result.steelOrderStatusVal == "Awaiting Balance Payment"
+                      ? Colors.yellow
+                      : result.steelOrderStatusVal == "Delayed" || result.steelOrderStatusVal == "Preliminary Confirmation Issued"
+                          ? Colors.red
+                          : result.steelOrderStatusVal == "In Production" || result.steelOrderStatusVal == "Delivered"
+                              ? Color(0xffb5e51d)
+                              : result.steelOrderStatusVal == "Ready For Shipping"
+                                  ? Color(0xff008001)
+                                  : result.steelOrderStatusVal == "Order Received"
+                                      ? Color(0xff9ad9ea)
+                                      : result.steelOrderStatusVal ==
+                                              "Order Placed"
+                                          ? Color(0xffffc90d)
+                                          : result.steelOrderStatusVal ==
+                                                  "Revised Confirmation Issued"
+                                              ? Color(0xffa747a2)
+                                              : result.steelOrderStatusVal == "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6) : result.steelOrderStatusVal == "In Transit To UK" ? Color(0xfffeaec9) : result.steelOrderStatusVal == "In RKDS Warehouse" ?  Color(0xff9ad9ea)
+                                                  : result.steelOrderStatusVal == "Out For Delivery" || result.steelOrderStatusVal == "Awaiting Survey / Dimensions" ? Color(0xff7092bf) : Colors.white,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.steelOrderStatusVal!,
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+      // DataCell(Container(
+      //   margin: EdgeInsets.only(bottom: 5, top: 5),
+      //   color: Colors.lightBlue,
+      //   child: Center(child: Text(result.steelOrderStatusVal ?? '')),
+      // )),
       //8
       DataCell(Container(
           margin: EdgeInsets.only(bottom: 10),
@@ -734,6 +772,9 @@ class MyData extends DataTableSource {
               MaterialPageRoute(
                   builder: (context) => SteelOrderFinancialHistory(
                         steelOrdersModel: result,
+                        dealerId: dealerId,
+                        dealerName: dealerName,
+                        role: role
                       )));
         },
         color: Colors.blue,

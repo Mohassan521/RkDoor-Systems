@@ -89,7 +89,7 @@ class _DoorAwaitedSurveyState extends State<DoorAwaitedSurvey> {
                       role: widget.role,
                     )
                   : DoorAwaitingDepositTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId : widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

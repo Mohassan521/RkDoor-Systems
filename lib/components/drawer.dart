@@ -524,7 +524,7 @@ class _DrawerPageState extends State<DrawerPage> {
                     ],
                   ),
                   Visibility(
-                    visible: widget.role == "admin" || widget.role == "dealer"
+                    visible: widget.dealer_id == "180" || widget.empId == "181" || widget.empId == "182"
                         ? true
                         : false,
                     child: ListTile(

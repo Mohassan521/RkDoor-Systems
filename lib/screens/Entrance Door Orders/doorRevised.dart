@@ -94,7 +94,7 @@ class _DoorRevisedConfirmationState extends State<DoorRevisedConfirmation> {
                       role: widget.role,
                     )
                   : DoorRevisedConfirmationTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

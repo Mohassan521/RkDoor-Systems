@@ -415,6 +415,10 @@ class QuotationsSearchedData extends ChangeNotifier {
 class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
   List<OrdersModel> dataModel = [];
   List<OrdersModel> filteredDataModel = [];
+  List<OrdersModel> receivedDataModel = [];
+  List<OrdersModel> placedDataModel = [];
+  List<OrdersModel> awaitingDataModel = [];
+  
 
   Future<void> getAllData(String dealerId, String query) async {
     dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
@@ -434,7 +438,7 @@ class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
   Future<void> doorOrderReceived(String dealerId, String query) async {
     dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
 
-    filteredDataModel = dataModel
+    receivedDataModel = dataModel
         .where((data) =>
             data.name!.toLowerCase().contains(query.toLowerCase()) ||
             data.quotationNumber!.toLowerCase().contains(query.toLowerCase()) ||
@@ -449,8 +453,9 @@ class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
   Future<void> doorOrderPlaced(String dealerId, String query) async {
     dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
 
-    filteredDataModel = dataModel
+    placedDataModel = dataModel
         .where((data) =>
+            data.orderStatusVal!.contains("Order Placed") &&
             data.name!.toLowerCase().contains(query.toLowerCase()) ||
             data.quotationNumber!.toLowerCase().contains(query.toLowerCase()) ||
             data.orderStatusVal!.toLowerCase().contains(query.toLowerCase()) ||
@@ -464,7 +469,7 @@ class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
   Future<void> awaitingDeposit(String dealerId, String query) async {
     dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
 
-    filteredDataModel = dataModel
+    awaitingDataModel = dataModel
         .where((data) =>
             data.name!.toLowerCase().contains(query.toLowerCase()) ||
             data.quotationNumber!.toLowerCase().contains(query.toLowerCase()) ||

@@ -81,6 +81,8 @@ class _SteelDeliveredState extends State<SteelDelivered> {
                         ? widget.empId!
                         : widget.dealerId,
                     dealerName: widget.dealerName,
+                    role: widget.role,
+                    empId: widget.empId
                   ),
           ),
         ],

@@ -93,7 +93,7 @@ class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
                       role: widget.role,
                     )
                   : DoorOutOfDeliveryTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             )

@@ -93,7 +93,7 @@ class _DoorReadyForShippingState extends State<DoorReadyForShipping> {
                       role: widget.role,
                     )
                   : DoorReadyForShippingTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

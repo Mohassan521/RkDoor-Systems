@@ -17,7 +17,8 @@ class QuotationsTable extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
   final String? role;
-  const QuotationsTable({super.key, this.dealerId, this.dealerName, this.role});
+  final String? empId;
+  const QuotationsTable({super.key, this.dealerId, this.dealerName, this.role, this.empId});
 
   @override
   State<QuotationsTable> createState() => _QuotationsTableState();
@@ -165,6 +166,7 @@ class _QuotationsTableState extends State<QuotationsTable> {
                 widget.dealerId,
                 dealerName: widget.dealerName!,
                 showDatePickerCallback: _showDatePicker,
+                empId: widget.empId,
                 datetime: _dateTime,
               )),
         );
@@ -179,6 +181,7 @@ class MyData extends DataTableSource {
   TextEditingController notesController = TextEditingController();
   final String? dealerId;
   final String dealerName;
+  final String? empId;
   final DateTime datetime;
   final BuildContext myGlobalBuildContext;
   final void Function() showDatePickerCallback;
@@ -190,6 +193,7 @@ class MyData extends DataTableSource {
     required this.datetime,
     required this.myGlobalBuildContext,
     required this.showDatePickerCallback,
+    this.empId
     //required this.getSavedValue
   });
 
@@ -305,6 +309,9 @@ class MyData extends DataTableSource {
               myGlobalBuildContext,
               MaterialPageRoute(
                   builder: (context) => RkDoorCalculatorView(
+                    dealerId: dealerId,
+                    dealerName: dealerName,
+                    empId: empId,
                       url:
                           'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}&mobile_token=true')));
         },

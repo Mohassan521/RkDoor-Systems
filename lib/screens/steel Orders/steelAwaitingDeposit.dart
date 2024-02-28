@@ -97,6 +97,8 @@ class _SteelAwaitingDepositState extends State<SteelAwaitingDeposit> {
                           ? widget.empId!
                           : widget.dealerId,
                       dealerName: widget.dealerName,
+                      role: widget.role,
+                      empId: widget.empId,
                     ),
             )
           ],

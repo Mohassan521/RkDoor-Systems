@@ -93,7 +93,7 @@ class _DoorTransitToUKState extends State<DoorTransitToUK> {
                       role: widget.role,
                     )
                   : DoorTransitToUKTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

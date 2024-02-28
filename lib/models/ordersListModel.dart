@@ -159,7 +159,7 @@ class OrdersModel {
   factory OrdersModel.fromJson(Map<String, dynamic> json) {
     var deliveryDocuments = json['delivery_documents'] ?? [];
     var invoice_documents = json['invoices_documents'] ?? [];
-    var documents = json['documents'] ?? [];
+    var documents = json['documents'];
     var manual_quick_document_upload =
         json['manual_quick_document_upload'] ?? [];
     var fac_conf_documents = json['fac_conf_documents'] ?? [];
@@ -174,7 +174,7 @@ class OrdersModel {
       quoteDesc: json['quote_desc'] ?? "",
       telephoneNumber: json['telephone_number'] ?? "",
       customerEmail: json['customer_email'] ?? "",
-      saleBonus: json['sale_bonus'] ?? 0,
+      saleBonus: json['sale_bonus'].toString(),
       wholeTotal: json['whole_total'] ?? "",
       thresholdType: json['threshold_type'] ?? "",
       marineGradeVal: json['marine_grade_val'] ?? "",

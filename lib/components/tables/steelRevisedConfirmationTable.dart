@@ -17,8 +17,10 @@ import 'package:provider/provider.dart';
 class SteelRevisedConfirmationTable extends StatefulWidget {
   final String dealerId;
   final String dealerName;
+  final String? role;
+  final String? empId;
   const SteelRevisedConfirmationTable(
-      {super.key, required this.dealerId, required this.dealerName});
+      {super.key, required this.dealerId, required this.dealerName, this.empId, this.role});
 
   @override
   State<SteelRevisedConfirmationTable> createState() =>
@@ -219,7 +221,7 @@ class _SteelRevisedConfirmationTableState
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  displayData, context, widget.dealerId, widget.dealerName, widget.role!, widget.empId ?? "")),
         );
       },
     );
@@ -231,8 +233,10 @@ class MyData extends DataTableSource {
   final List<SteelOrderModel>? data;
   final String dealerId;
   final String dealerName;
+  final String role;
+  final String empId;
 
-  MyData(this.data, this.context, this.dealerId, this.dealerName);
+  MyData(this.data, this.context, this.dealerId, this.dealerName, this.role, this.empId);
 
   @override
   int get rowCount => data!.length;
@@ -264,34 +268,22 @@ class MyData extends DataTableSource {
     }
   }
 
-  showImageDialog(BuildContext context, List<dynamic> imageUrl) {
+  showImageDialog(BuildContext context, String imageUrl) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              insetPadding: EdgeInsets.all(9),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    children: imageUrl
-                        .map(
-                          (imageUrl) => SizedBox(
-                            height: 200.0, // Set the height as needed
-                            child: Image.network(
-                              imageUrl,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
-              ),
-            ));
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        insetPadding: EdgeInsets.all(9),
+        content: SizedBox(
+          height: 200.0, // Set the height as needed
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -397,68 +389,79 @@ class MyData extends DataTableSource {
             onEditingComplete: () {},
           ))),
       //9
+
       DataCell(
         result.steelOrderConfFile!.isNotEmpty
-            ? InkWell(
-                onTap: () {
-                  fileExtension == ".pdf"
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PDFViewer(
-                                  url: result.steelOrderConfFile!.isNotEmpty
-                                      ? result.steelOrderConfFile![0]
-                                      : [])))
-                      : fileExtension == ".jpg" ||
+            ? Center(
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        getImage().then((value) {
+                          apiServices.setSteelConfFile(
+                              result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    // Create icons for each file
+                    for (var file in result.steelOrderConfFile!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
                               fileExtension == ".jpeg" ||
-                              fileExtension == ".png"
-                          ? showImageDialog(context, steelOrderFile)
-                          : Utils().showToast('File Format not supported',
-                              Color(0xff941420), Colors.white);
-                  print(result.steelInvoices![0]);
-                },
-                child: Center(
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            getImage().then((value) {
-                              apiServices.setSteelConfFile(
-                                  result.id!, dealerId, value);
-                              print('Value in steel order file: $value');
-                            });
-                          },
-                          icon: Icon(Icons.add_circle_outline)),
-                      SizedBox(
-                        width: 20,
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(context, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == '.jpg' ||
+                                  fileExtension == '.jpeg' ||
+                                  fileExtension == '.png')
+                              ? Icons.file_open
+                              : (fileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
                       ),
-                      Icon(
-                        (fileExtension == '.jpg' ||
-                                fileExtension == '.jpeg' ||
-                                fileExtension == '.png')
-                            ? Icons.file_open
-                            : (fileExtension == '.pdf')
-                                ? Icons.picture_as_pdf
-                                : Icons.file_present,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
               )
             : Center(
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          getImage().then((value) {
-                            apiServices.setSteelConfFile(
-                                result.id!, dealerId, value);
-                            print('Value in steel order file: $value');
-                          });
-                        },
-                        icon: Icon(Icons.add_circle_outline)),
+                      onPressed: () {
+                        getImage().then((value) {
+                          apiServices.setSteelConfFile(
+                              result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
                     Text(
                       'Add Files',
                       style: TextStyle(color: Colors.grey),
@@ -467,6 +470,77 @@ class MyData extends DataTableSource {
                 ),
               ),
       ),
+
+      // DataCell(
+      //   result.steelOrderConfFile!.isNotEmpty
+      //       ? InkWell(
+      //           onTap: () {
+      //             fileExtension == ".pdf"
+      //                 ? Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => PDFViewer(
+      //                             url: result.steelOrderConfFile!.isNotEmpty
+      //                                 ? result.steelOrderConfFile![0]
+      //                                 : [])))
+      //                 : fileExtension == ".jpg" ||
+      //                         fileExtension == ".jpeg" ||
+      //                         fileExtension == ".png"
+      //                     ? showImageDialog(context, steelOrderFile)
+      //                     : Utils().showToast('File Format not supported',
+      //                         Color(0xff941420), Colors.white);
+      //             print(result.steelInvoices![0]);
+      //           },
+      //           child: Center(
+      //             child: Row(
+      //               children: [
+      //                 IconButton(
+      //                     onPressed: () {
+      //                       getImage().then((value) {
+      //                         apiServices.setSteelConfFile(
+      //                             result.id!, dealerId, value);
+      //                         print('Value in steel order file: $value');
+      //                       });
+      //                     },
+      //                     icon: Icon(Icons.add_circle_outline)),
+      //                 SizedBox(
+      //                   width: 20,
+      //                 ),
+      //                 Icon(
+      //                   (fileExtension == '.jpg' ||
+      //                           fileExtension == '.jpeg' ||
+      //                           fileExtension == '.png')
+      //                       ? Icons.file_open
+      //                       : (fileExtension == '.pdf')
+      //                           ? Icons.picture_as_pdf
+      //                           : Icons.file_present,
+      //                   size: 16,
+      //                   color: Colors.blue,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         )
+      //       : Center(
+      //           child: Row(
+      //             children: [
+      //               IconButton(
+      //                   onPressed: () {
+      //                     getImage().then((value) {
+      //                       apiServices.setSteelConfFile(
+      //                           result.id!, dealerId, value);
+      //                       print('Value in steel order file: $value');
+      //                     });
+      //                   },
+      //                   icon: Icon(Icons.add_circle_outline)),
+      //               Text(
+      //                 'Add Files',
+      //                 style: TextStyle(color: Colors.grey),
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      // ),
       //10
       DataCell(Consumer<AnticipatedDeliveryDateSteelOrder>(
         builder: (context, value, child) {
@@ -507,72 +581,154 @@ class MyData extends DataTableSource {
         },
       )),
       //11
+
       DataCell(
         result.steelInvoices!.isNotEmpty
-            ? InkWell(
-                onTap: () {
-                  invoiceFileExtension == ".pdf"
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PDFViewer(
-                                  url: result.steelInvoices!.isNotEmpty
-                                      ? result.steelInvoices![0]
-                                      : [])))
-                      : invoiceFileExtension == ".jpg" ||
-                              invoiceFileExtension == ".jpeg" ||
-                              invoiceFileExtension == ".png"
-                          ? showImageDialog(context, invoices)
-                          : Utils().showToast('File Format not supported',
-                              Color(0xff941420), Colors.white);
-                  print(result.steelInvoices![0]);
-                },
+            ? Center(
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          getImage().then((value) {
-                            apiServices.setInvoicesSteelOrder(
-                                result.id!, dealerId, value);
-                          });
-                        },
-                        icon: Icon(Icons.add_circle_outline)),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Center(
-                      child: Icon(
-                        (invoiceFileExtension == '.jpg' ||
-                                invoiceFileExtension == '.jpeg' ||
-                                invoiceFileExtension == '.png')
-                            ? Icons.file_open
-                            : (invoiceFileExtension == '.pdf')
-                                ? Icons.picture_as_pdf
-                                : Icons.file_present,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Row(
-                children: [
-                  IconButton(
                       onPressed: () {
                         getImage().then((value) {
                           apiServices.setInvoicesSteelOrder(
                               result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
                         });
                       },
-                      icon: Icon(Icons.add_circle_outline)),
-                  Text(
-                    'Add Files',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    // Create icons for each file
+                    for (var file in result.steelInvoices!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(context, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (invoiceFileExtension == '.jpg' ||
+                                  invoiceFileExtension == '.jpeg' ||
+                                  invoiceFileExtension == '.png')
+                              ? Icons.file_open
+                              : (invoiceFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        getImage().then((value) {
+                          apiServices.setInvoicesSteelOrder(
+                              result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    Text(
+                      'Add Files',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
               ),
       ),
+
+      // DataCell(
+      //   result.steelInvoices!.isNotEmpty
+      //       ? InkWell(
+      //           onTap: () {
+      //             invoiceFileExtension == ".pdf"
+      //                 ? Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => PDFViewer(
+      //                             url: result.steelInvoices!.isNotEmpty
+      //                                 ? result.steelInvoices![0]
+      //                                 : [])))
+      //                 : invoiceFileExtension == ".jpg" ||
+      //                         invoiceFileExtension == ".jpeg" ||
+      //                         invoiceFileExtension == ".png"
+      //                     ? Text('data') //showImageDialog(context, invoices)
+      //                     : Utils().showToast('File Format not supported',
+      //                         Color(0xff941420), Colors.white);
+      //             print(result.steelInvoices![0]);
+      //           },
+      //           child: Row(
+      //             children: [
+      //               IconButton(
+      //                   onPressed: () {
+      //                     getImage().then((value) {
+      //                       apiServices.setInvoicesSteelOrder(
+      //                           result.id!, dealerId, value);
+      //                     });
+      //                   },
+      //                   icon: Icon(Icons.add_circle_outline)),
+      //               SizedBox(
+      //                 width: 20,
+      //               ),
+      //               Center(
+      //                 child: Icon(
+      //                   (invoiceFileExtension == '.jpg' ||
+      //                           invoiceFileExtension == '.jpeg' ||
+      //                           invoiceFileExtension == '.png')
+      //                       ? Icons.file_open
+      //                       : (invoiceFileExtension == '.pdf')
+      //                           ? Icons.picture_as_pdf
+      //                           : Icons.file_present,
+      //                   size: 16,
+      //                   color: Colors.blue,
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         )
+      //       : Row(
+      //           children: [
+      //             IconButton(
+      //                 onPressed: () {
+      //                   getImage().then((value) {
+      //                     apiServices.setInvoicesSteelOrder(
+      //                         result.id!, dealerId, value);
+      //                   });
+      //                 },
+      //                 icon: Icon(Icons.add_circle_outline)),
+      //             Text(
+      //               'Add Files',
+      //               style: TextStyle(color: Colors.grey),
+      //             )
+      //           ],
+      //         ),
+      // ),
       //12
       DataCell(Text(result.steelBalDueBeforeDelivery ?? "")),
       //13
@@ -584,64 +740,21 @@ class MyData extends DataTableSource {
               MaterialPageRoute(
                   builder: (context) => SteelOrderFinancialHistory(
                         steelOrdersModel: result,
+                        dealerId: dealerId,
+                        dealerName: dealerName,
+                        role: role
                       )));
         },
         color: Colors.blue,
       )),
       //14
+
       DataCell(
         result.steelDelNotes!.isNotEmpty
-            ? InkWell(
-                onTap: () {
-                  delNotesFileExtension == ".pdf"
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PDFViewer(
-                                  url: result.steelDelNotes!.isNotEmpty
-                                      ? result.steelDelNotes![0]
-                                      : [])))
-                      : delNotesFileExtension == ".jpg" ||
-                              delNotesFileExtension == ".jpeg" ||
-                              delNotesFileExtension == ".png"
-                          ? showImageDialog(context, delNotes)
-                          : Utils().showToast('File Format not supported',
-                              Color(0xff941420), Colors.white);
-                  //print(result.steelInvoices![0]);
-                },
+            ? Center(
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          getImage().then((value) {
-                            apiServices.setDelNotesSteelOrder(
-                                result.id!, dealerId, value);
-                            print('Value in steel order file: $value');
-                          });
-                        },
-                        icon: Icon(Icons.add_circle_outline)),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Center(
-                      child: Icon(
-                        (delNotesFileExtension == '.jpg' ||
-                                delNotesFileExtension == '.jpeg' ||
-                                delNotesFileExtension == '.png')
-                            ? Icons.file_open
-                            : (delNotesFileExtension == '.pdf')
-                                ? Icons.picture_as_pdf
-                                : Icons.file_present,
-                        size: 16,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Row(
-                children: [
-                  IconButton(
                       onPressed: () {
                         getImage().then((value) {
                           apiServices.setDelNotesSteelOrder(
@@ -649,14 +762,142 @@ class MyData extends DataTableSource {
                           print('Value in steel order file: $value');
                         });
                       },
-                      icon: Icon(Icons.add_circle_outline)),
-                  Text(
-                    'Add Files',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    // Create icons for each file
+                    for (var file in result.steelDelNotes!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(context, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (delNotesFileExtension == '.jpg' ||
+                                  delNotesFileExtension == '.jpeg' ||
+                                  delNotesFileExtension == '.png')
+                              ? Icons.file_open
+                              : (delNotesFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        getImage().then((value) {
+                          apiServices.setDelNotesSteelOrder(
+                              result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    Text(
+                      'Add Files',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
               ),
       ),
+
+      // DataCell(
+      //   result.steelDelNotes!.isNotEmpty
+      //       ? InkWell(
+      //           onTap: () {
+      //             delNotesFileExtension == ".pdf"
+      //                 ? Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => PDFViewer(
+      //                             url: result.steelDelNotes!.isNotEmpty
+      //                                 ? result.steelDelNotes![0]
+      //                                 : [])))
+      //                 : delNotesFileExtension == ".jpg" ||
+      //                         delNotesFileExtension == ".jpeg" ||
+      //                         delNotesFileExtension == ".png"
+      //                     ? Text('data') // showImageDialog(context, delNotes)
+      //                     : Utils().showToast('File Format not supported',
+      //                         Color(0xff941420), Colors.white);
+      //             //print(result.steelInvoices![0]);
+      //           },
+      //           child: Row(
+      //             children: [
+      //               IconButton(
+      //                   onPressed: () {
+      //                     getImage().then((value) {
+      //                       apiServices.setDelNotesSteelOrder(
+      //                           result.id!, dealerId, value);
+      //                       print('Value in steel order file: $value');
+      //                     });
+      //                   },
+      //                   icon: Icon(Icons.add_circle_outline)),
+      //               SizedBox(
+      //                 width: 20,
+      //               ),
+      //               Center(
+      //                 child: Icon(
+      //                   (delNotesFileExtension == '.jpg' ||
+      //                           delNotesFileExtension == '.jpeg' ||
+      //                           delNotesFileExtension == '.png')
+      //                       ? Icons.file_open
+      //                       : (delNotesFileExtension == '.pdf')
+      //                           ? Icons.picture_as_pdf
+      //                           : Icons.file_present,
+      //                   size: 16,
+      //                   color: Colors.blue,
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         )
+      //       : Row(
+      //           children: [
+      //             IconButton(
+      //                 onPressed: () {
+      //                   getImage().then((value) {
+      //                     apiServices.setDelNotesSteelOrder(
+      //                         result.id!, dealerId, value);
+      //                     print('Value in steel order file: $value');
+      //                   });
+      //                 },
+      //                 icon: Icon(Icons.add_circle_outline)),
+      //             Text(
+      //               'Add Files',
+      //               style: TextStyle(color: Colors.grey),
+      //             )
+      //           ],
+      //         ),
+      // ),
       //15
       DataCell(Text(result.steelSupplyType ?? '')),
       //16
@@ -695,63 +936,13 @@ class MyData extends DataTableSource {
       //23
       DataCell(Text(result.steelTotalOrderValue ?? '')),
       //24
+
       DataCell(
         result.manualPDFImageURL!.isNotEmpty
-            ? InkWell(
-                onTap: () async {
-                  for (int i = 0; i < result.manualPDFImageURL!.length; i++) {
-                    String currentUrl = result.manualPDFImageURL![i];
-                    pdfUrlFileExtension == ".pdf"
-                        ? await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PDFViewer(
-                                    url: currentUrl.isNotEmpty
-                                        ? currentUrl
-                                        : "")))
-                        : pdfUrlFileExtension == ".jpg" ||
-                                pdfUrlFileExtension == ".jpeg" ||
-                                pdfUrlFileExtension == ".png"
-                            ? showImageDialog(context, pdfUrl[i])
-                            : Utils().showToast('File Format not supported',
-                                Color(0xff941420), Colors.white);
-                    print(result.steelInvoices![0]);
-                  }
-                },
+            ? Center(
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          getImage().then((value) {
-                            apiServices.ManualFileUploadSteelOrder(
-                                result.id!, dealerId, value);
-                            print('Value in steel order file: $value');
-                          });
-                        },
-                        icon: Icon(Icons.add_circle_outline)),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    for (int i = 0; i < result.manualPDFImageURL!.length; i++)
-                      Center(
-                          child: Icon(
-                        ((pdfUrlFileExtension == '.jpg' ||
-                                pdfUrlFileExtension == '.jpeg' ||
-                                pdfUrlFileExtension == '.png')
-                            ? Icons.file_open
-                            : Icons.picture_as_pdf),
-                        size: 15,
-                        color: Colors.blue,
-                      )),
-                    SizedBox(
-                      width: 150,
-                    )
-                  ],
-                ),
-              )
-            : Row(
-                children: [
-                  IconButton(
                       onPressed: () {
                         getImage().then((value) {
                           apiServices.ManualFileUploadSteelOrder(
@@ -759,14 +950,146 @@ class MyData extends DataTableSource {
                           print('Value in steel order file: $value');
                         });
                       },
-                      icon: Icon(Icons.add_circle_outline)),
-                  Text(
-                    'Add Files',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    // Create icons for each file
+                    for (var file in result.manualPDFImageURL!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(context, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (pdfUrlFileExtension == '.jpg' ||
+                                  pdfUrlFileExtension == '.jpeg' ||
+                                  pdfUrlFileExtension == '.png')
+                              ? Icons.file_open
+                              : (pdfUrlFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        getImage().then((value) {
+                          apiServices.ManualFileUploadSteelOrder(
+                              result.id!, dealerId, value);
+                          print('Value in steel order file: $value');
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                    SizedBox(width: 20),
+                    Text(
+                      'Add Files',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
               ),
       ),
+
+      // DataCell(
+      //   result.manualPDFImageURL!.isNotEmpty
+      //       ? InkWell(
+      //           onTap: () async {
+      //             for (int i = 0; i < result.manualPDFImageURL!.length; i++) {
+      //               String currentUrl = result.manualPDFImageURL![i];
+      //               pdfUrlFileExtension == ".pdf"
+      //                   ? await Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                           builder: (context) => PDFViewer(
+      //                               url: currentUrl.isNotEmpty
+      //                                   ? currentUrl
+      //                                   : "")))
+      //                   : pdfUrlFileExtension == ".jpg" ||
+      //                           pdfUrlFileExtension == ".jpeg" ||
+      //                           pdfUrlFileExtension == ".png"
+      //                       ? showImageDialog(context, pdfUrl[i])
+      //                       : Utils().showToast('File Format not supported',
+      //                           Color(0xff941420), Colors.white);
+      //               print(result.steelInvoices![0]);
+      //             }
+      //           },
+      //           child: Row(
+      //             children: [
+      //               IconButton(
+      //                   onPressed: () {
+      //                     getImage().then((value) {
+      //                       apiServices.ManualFileUploadSteelOrder(
+      //                           result.id!, dealerId, value);
+      //                       print('Value in steel order file: $value');
+      //                     });
+      //                   },
+      //                   icon: Icon(Icons.add_circle_outline)),
+      //               SizedBox(
+      //                 width: 20,
+      //               ),
+      //               for (int i = 0; i < result.manualPDFImageURL!.length; i++)
+      //                 Center(
+      //                     child: Icon(
+      //                   ((pdfUrlFileExtension == '.jpg' ||
+      //                           pdfUrlFileExtension == '.jpeg' ||
+      //                           pdfUrlFileExtension == '.png')
+      //                       ? Icons.file_open
+      //                       : Icons.picture_as_pdf),
+      //                   size: 15,
+      //                   color: Colors.blue,
+      //                 )),
+      //               SizedBox(
+      //                 width: 150,
+      //               )
+      //             ],
+      //           ),
+      //         )
+      //       : Row(
+      //           children: [
+      //             IconButton(
+      //                 onPressed: () {
+      //                   getImage().then((value) {
+      //                     apiServices.ManualFileUploadSteelOrder(
+      //                         result.id!, dealerId, value);
+      //                     print('Value in steel order file: $value');
+      //                   });
+      //                 },
+      //                 icon: Icon(Icons.add_circle_outline)),
+      //             Text(
+      //               'Add Files',
+      //               style: TextStyle(color: Colors.grey),
+      //             )
+      //           ],
+      //         ),
+      // ),
 
       //25
       DataCell(result.pDFImageURL!.isNotEmpty
@@ -783,7 +1106,7 @@ class MyData extends DataTableSource {
                     : pdfImageUrlFileExtension == ".jpg" ||
                             pdfImageUrlFileExtension == ".jpeg" ||
                             pdfImageUrlFileExtension == ".png"
-                        ? showImageDialog(context, pdfImageUrl)
+                        ? Text('data') // showImageDialog(context, pdfImageUrl)
                         : Utils().showToast(
                             'File Format not supported ${pdfImageUrlFileExtension}',
                             Color(0xff941420),

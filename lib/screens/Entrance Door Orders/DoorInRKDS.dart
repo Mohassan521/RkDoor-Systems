@@ -93,7 +93,7 @@ class _DoorInRKDSState extends State<DoorInRKDS> {
                       role: widget.role,
                     )
                   : DoorInRKDSTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

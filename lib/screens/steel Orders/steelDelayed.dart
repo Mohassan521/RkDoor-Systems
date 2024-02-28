@@ -83,6 +83,8 @@ class _SteelDelayedState extends State<SteelDelayed> {
                         ? widget.empId!
                         : widget.dealerId,
                     dealerName: widget.dealerName,
+                    role: widget.role,
+                    empId: widget.empId
                   ),
           ),
         ],

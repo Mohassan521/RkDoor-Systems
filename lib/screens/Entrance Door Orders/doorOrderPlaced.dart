@@ -87,7 +87,7 @@ class _DoorOrderPlacedState extends State<DoorOrderPlaced> {
                       dealerId: widget.dealerId!,
                       dealerName: widget.dealerName!)
                   : DoorOrderPlacedTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId : widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
@@ -6,8 +9,10 @@ import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
+import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
+import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +67,7 @@ class _OrdersTableState extends State<OrdersTable> {
                 bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(0)),
             child: PaginatedDataTable(
-                rowsPerPage: (list!.length >= 5 && list.isNotEmpty)
+                rowsPerPage: (list.length >= 5 && list.isNotEmpty)
                     ? 5
                     : (list.isEmpty)
                         ? 1
@@ -217,7 +222,7 @@ class _OrdersTableState extends State<OrdersTable> {
                   )),
                   DataColumn(
                       label: Text(
-                    'Action Status',
+                    '',
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
@@ -253,9 +258,57 @@ class MyData extends DataTableSource {
 
   OrdersTable table = OrdersTable();
 
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
+
+  showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        insetPadding: EdgeInsets.all(9),
+        content: SizedBox(
+          height: 200.0, // Set the height as needed
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
+  }
+
+  
+
   @override
   DataRow getRow(int index) {
     final OrdersModel result = data[index];
+
+    //print("documents length: ${result.}");
+
+    List<dynamic> steelOrderFile = result.documents ?? [];
+    String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.first : '';
+    String fileExtension = extension(filePath).toLowerCase();
+
+
 
     return DataRow.byIndex(index: index, cells: <DataCell>[
       DataCell(Text(result.name != null ? result.name! : "")),
@@ -267,21 +320,185 @@ class MyData extends DataTableSource {
           Text(result.orderStatusVal != null ? result.orderStatusVal! : "")),
       // DataCell(
       //     Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-      DataCell(result.facConfDocuments!.isNotEmpty
-          ? Center(child: Icon(Icons.file_open))
-          : Center(child: Text('No file avaibale'))),
+
+      DataCell(
+        result.documents!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.documents!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == '.jpg' ||
+                                  fileExtension == '.jpeg' ||
+                                  fileExtension == '.png')
+                              ? Icons.file_open
+                              : (fileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+
+      // DataCell(result.facConfDocuments!.isNotEmpty
+      //     ? Center(child: Icon(Icons.file_open))
+      //     : Center(child: Text('No file avaibale'))),
       DataCell(Text(
           result.anticipatedDateVal != null ? result.anticipatedDateVal! : "")),
       // DataCell(
       //     Text(result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
-      DataCell(result.invoicesDocuments!.isNotEmpty
-          ? Center(child: Icon(Icons.file_open))
-          : Center(child: Text('No file avaibale'))),
+      // DataCell(result.invoicesDocuments!.isNotEmpty
+      //     ? Center(child: Icon(Icons.file_open))
+      //     : Center(child: Text('No file avaibale'))),
+
+      DataCell(
+        result.invoicesDocuments!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.invoicesDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == ".jpg" ||
+                                  fileExtension == ".jpeg" ||
+                                  fileExtension == ".png")
+                              ? Icons.file_open
+                              : (fileExtension == ".pdf")
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+
+
       // DataCell(
       //     Text(result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
-      DataCell(result.deliveryDocuments!.isNotEmpty
-          ? Center(child: Icon(Icons.file_open))
-          : Center(child: Text('No file avaibale'))),
+      // DataCell(result.deliveryDocuments!.isNotEmpty
+      //     ? Center(child: Icon(Icons.file_open))
+      //     : Center(child: Text('No file avaibale'))),
+
+      DataCell(
+        result.deliveryDocuments!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.deliveryDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == '.jpg' ||
+                                  fileExtension == '.jpeg' ||
+                                  fileExtension == '.png')
+                              ? Icons.file_open
+                              : (fileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text('')
+              ),
+      ),
+
+
+
       DataCell(
           Text(result.marineGradeVal != null ? result.marineGradeVal! : '')),
       DataCell(Text(result.frameSizeHeightWidth != null
@@ -378,8 +595,7 @@ class MyData extends DataTableSource {
               MaterialPageRoute(
                   builder: (context) => FinancialHistory(
                         dealerId: dealerId,
-                        id: result.id,
-                        quotationNumber: result.quotationNumber,
+                        dealerName: dealerName,
                         ordersModel: result,
                       )));
         },
@@ -480,69 +696,70 @@ class MyData extends DataTableSource {
       )),
       DataCell(Text(
           '${result.date != null ? result.date : ""} ${result.orderStatusVal != null ? result.orderStatusVal! : ""}')),
-      DataCell(Row(
-        children: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  myGlobalBuildContext,
-                  MaterialPageRoute(
-                      builder: (context) => RkDoorCalculatorView(
-                          url:
-                              'https://www.pricelink.net/rk-door-calculator/?user_id=$dealerId&cal_order_id=${result.id}&mobile_token=true')));
-            },
-            icon: Icon(Icons.edit),
-            iconSize: 16,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.copy),
-            iconSize: 16,
-          ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: myGlobalBuildContext,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Icon(Icons.warning),
-                      content: Text('Are u sure you want to delete this Order'),
-                      actions: [
-                        Center(
-                          child: Column(
-                            children: [
-                              RoundButton(
-                                text: 'Delete',
-                                onTap: () {
-                                  apiServices.deleteOrders(
-                                      dealerId!, result.id!);
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RoundButton(
-                                text: 'Cancel',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  });
-            },
-            icon: Icon(Icons.delete),
-            iconSize: 16,
-            color: Colors.red,
-          ),
-        ],
-      )),
+      DataCell(Text(""))
+      // DataCell(Row(
+      //   children: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Navigator.push(
+      //             myGlobalBuildContext,
+      //             MaterialPageRoute(
+      //                 builder: (context) => RkDoorCalculatorView(
+      //                     url:
+      //                         'https://www.pricelink.net/rk-door-calculator/?user_id=$dealerId&cal_order_id=${result.id}&mobile_token=true')));
+      //       },
+      //       icon: Icon(Icons.edit),
+      //       iconSize: 16,
+      //     ),
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: Icon(Icons.copy),
+      //       iconSize: 16,
+      //     ),
+      //     IconButton(
+      //       onPressed: () {
+      //         showDialog(
+      //             context: myGlobalBuildContext,
+      //             builder: (BuildContext context) {
+      //               return AlertDialog(
+      //                 title: Icon(Icons.warning),
+      //                 content: Text('Are u sure you want to delete this Order'),
+      //                 actions: [
+      //                   Center(
+      //                     child: Column(
+      //                       children: [
+      //                         RoundButton(
+      //                           text: 'Delete',
+      //                           onTap: () {
+      //                             apiServices.deleteOrders(
+      //                                 dealerId!, result.id!);
+      //                             Navigator.pop(context);
+      //                           },
+      //                           color: Colors.red,
+      //                         ),
+      //                         SizedBox(
+      //                           height: 15,
+      //                         ),
+      //                         RoundButton(
+      //                           text: 'Cancel',
+      //                           onTap: () {
+      //                             Navigator.pop(context);
+      //                           },
+      //                           color: Colors.blue,
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   )
+      //                 ],
+      //               );
+      //             });
+      //       },
+      //       icon: Icon(Icons.delete),
+      //       iconSize: 16,
+      //       color: Colors.red,
+      //     ),
+      //   ],
+      // )),
     ]);
   }
 }

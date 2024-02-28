@@ -114,7 +114,7 @@ class _DoorAwaitingDepositState extends State<DoorAwaitingDeposit> {
                       role: widget.role,
                     )
                   : DoorAwaitingDepositTable(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.role == "employee" ? widget.empId : widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

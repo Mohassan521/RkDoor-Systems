@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/components/tables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/employeeTable.dart';
 import 'package:price_link/components/tables/employeeTables/employeeTable.dart';
 import 'package:price_link/components/tables/orderTable.dart';
@@ -10,6 +12,7 @@ import 'package:price_link/components/tables/ownerTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/dealersModel.dart';
+import 'package:price_link/screens/Entrance%20Door%20Orders/allDoorOrders.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -276,14 +279,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<DealersModel> dealersData = [];
     print("dealer Id in dashboard: ${widget.role}");
     //var userData = Provider.of<UserLoginData>(context, listen: false).dataModel;
     //final paginationProvider = Provider.of<PaginationProvider>(context);
     // var dealerData = Provider.of<DealerData>(context).model;
     // print(dealerData.iD);
     Future<void> _handleRefresh() async {
-      dealersData = await apiServices.getDealersList(context, widget.dealer_id!);
+      await apiServices.getDealersList(context, widget.dealer_id!);
 
       await apiServices.getEmployeeList(widget.dealer_id!);
       await apiServices.getOrdersList(widget.dealer_id!, "");
@@ -296,7 +298,6 @@ class _DashboardPageState extends State<DashboardPage> {
       return await Future.delayed(Duration(seconds: 2));
     }
 
-    print("dealer data length ${dealersData.length}");
 
     // print(dealerData);
     return RefreshIndicator(
@@ -333,8 +334,13 @@ class _DashboardPageState extends State<DashboardPage> {
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w600),
                           ),
-                          Text(
-                              'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
+                          FutureBuilder(
+                            future: apiServices.getDealersList(context, widget.dealer_id!),
+                            builder: (context, snapshot) {
+                              return Text(
+                                '${snapshot.data != null ? snapshot.data![0].dealerName : "loading name..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress1 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress2 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress3 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].postCodeRegister : "loading post code..."}');
+                            },
+                          )
                         ],
                       ),
                       Image(
@@ -412,10 +418,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: OrdersTable(
-                    dealerId: widget.dealer_id,
-                    dealerName: widget.dealer_name,
+                  child: AllDoorOrdersTable(
+                    dealerId: widget.role == "employee" ? widget.empId :  widget.dealer_id,
+                    dealerName: widget.dealer_name ?? "",
                     role: widget.role,
+                    
                   ),
                 ),
                 SizedBox(
@@ -467,7 +474,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: QuotationsTable(
-                    dealerId: widget.dealer_id,
+                    dealerId: widget.role == "employee" ? widget.empId : widget.dealer_id,
                     dealerName: widget.dealer_name,
                     role: widget.role,
                   ),

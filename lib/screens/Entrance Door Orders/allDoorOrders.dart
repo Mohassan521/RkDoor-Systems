@@ -29,7 +29,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
     List<OrdersModel>? newData =
-        await apiServices.getOrdersList(widget.dealerId!, "");
+        await apiServices.getOrdersList(widget.dealerId!,"");
 
     // Update the UI with the new data
     setState(() {});
@@ -89,7 +89,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
               padding: EdgeInsets.only(left: 8.0, right: 8),
               child: widget.role == "employee"
                   ? AllDoorOrdersTableForEmployees(
-                      dealerId: widget.dealerId,
+                      dealerId: widget.empId,
                       dealerName: widget.dealerName,
                     )
                   : widget.role == "admin"
