@@ -92,23 +92,29 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             ),
             Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
-                child: TextFormField(
-                  onChanged: (value) {
-                    Provider.of<QuotationsSearchedData>(context, listen: false)
-                        .getAllData(widget.dealerId!, value);
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).requestFocus(FocusNode());
                   },
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        // Perform the search here
-                      },
+                  child: TextFormField(
+                    onChanged: (value) {
+                      Provider.of<QuotationsSearchedData>(context, listen: false)
+                          .getAllData(widget.dealerId!, value);
+                  
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 5),
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          // Perform the search here
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      hintText: 'Search Records here',
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    hintText: 'Search Records here',
                   ),
                 )),
             SizedBox(
