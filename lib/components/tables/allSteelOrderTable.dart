@@ -935,14 +935,19 @@ class MyData extends DataTableSource {
       //16
       DataCell(Text(result.steelFrameSize ?? "")),
       //17
-      DataCell(Container(
-          alignment: Alignment.center,
-          width: MediaQuery.sizeOf(context).width * 0.45,
-          height: MediaQuery.sizeOf(context).height * 0.055,
-          decoration: BoxDecoration(
-              color: Colors.orange,
-              border: Border.all(width: 1, color: Colors.transparent)),
-          child: Text(result.steelColor ?? ''))),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: result.steelColor == "RAL 9003 MS" || result.steelColor == "RAL 7021 MS" || result.steelColor == "RAL 7039 MS" || result.steelColor == "RAL 7022 MS" || result.steelColor == "DB703 MS" || result.steelColor == "CUSTOM COLOUR" ? Colors.orange : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                result.steelColor ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
       // 18
       DataCell(Container(
           margin: EdgeInsets.only(bottom: 10),

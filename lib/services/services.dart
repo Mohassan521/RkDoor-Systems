@@ -22,6 +22,7 @@ import 'package:price_link/models/marketingImagesModel.dart';
 import 'package:price_link/models/marketingMaterial.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/models/quotationsModel.dart';
+import 'package:price_link/models/quoteAnalysis.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/models/technicalWiring.dart';
 import 'package:price_link/models/testingModel.dart';
@@ -1659,6 +1660,20 @@ class NetworkApiServices {
           .showToast('Anticipated Date set', Color(0xff941420), Colors.white);
     } else {
       print('something went wrong $response');
+    }
+  }
+
+  Future<QuoteAnalysis> getQuotesRecord(String dealerId, String quoteId) async {
+    var apiUrl = "https://pricelink.net/wp-json/mobile_api/v1/Quote_analysis_api/${dealerId}/${quoteId}";
+
+    var response = await http.get(Uri.parse(apiUrl));
+
+    if(response.statusCode == 200){
+      print("quotes record ${response.body}");
+      return QuoteAnalysis.fromJson(jsonDecode(response.body));
+    }
+    else{
+      throw Exception('Something went wrong');
     }
   }
 

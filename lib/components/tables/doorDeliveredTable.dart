@@ -5,6 +5,7 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
+import 'package:price_link/screens/Entrance%20Door%20Orders/quoteAnalysis.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
@@ -807,12 +808,10 @@ class MyData extends DataTableSource {
             Navigator.push(
                 myGlobalBuildContext,
                 MaterialPageRoute(
-                    builder: (context) => RkDoorCalculatorView(
+                    builder: (context) => OrdersQuoteAnalysis(
                       dealerId: dealerId,
-                      dealerName: dealerName,
-                        url:
-                            'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}&mobile_token=true')));
-          },
+                      quoteId: result.id,
+                    )));          },
           color: Colors.blue,
         )),
 

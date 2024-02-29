@@ -8,6 +8,7 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/quotationsModel.dart';
+import 'package:price_link/screens/Entrance%20Door%20Orders/quoteAnalysis.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -305,16 +306,10 @@ class MyData extends DataTableSource {
       DataCell(RoundButton(
         text: 'Quote Analysis',
         onTap: () {
-          Navigator.push(
-              myGlobalBuildContext,
-              MaterialPageRoute(
-                  builder: (context) => RkDoorCalculatorView(
-                    dealerId: dealerId,
-                    dealerName: dealerName,
-                    empId: empId,
-                      url:
-                          'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}&mobile_token=true')));
-        },
+          Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => OrdersQuoteAnalysis(
+            dealerId: dealerId,
+            quoteId: result.id,
+          )));        },
         color: Colors.blue,
       )),
       DataCell(RoundButton(
