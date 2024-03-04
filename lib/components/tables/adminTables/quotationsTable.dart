@@ -1,17 +1,13 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
+
 import 'package:price_link/Provider/provider.dart';
-import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/EmployeeList.dart';
+import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
 import 'package:price_link/models/quotationsModel.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminQuotationsTable extends StatefulWidget {
   final String? dealerId;
@@ -45,24 +41,19 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
     print(widget.dealerName);
-    return FutureBuilder<List<QuotationsModel>>(
-      future: apiServices.getQuotationsList(widget.dealerId),
+    return FutureBuilder<List<CompleteResponse>>(
+      future: apiServices.getAdminQuotes(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<QuotationsModel> data = snapshot.data!;
-
-        List<QuotationsModel> filteredList =
-            Provider.of<QuotationsSearchedData>(context).filteredDataModel;
-        List<QuotationsModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : data;
-        //print(object)
+        List<CompleteResponse> list = snapshot.data ?? [];
+        
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -71,11 +62,7 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
-              rowsPerPage: (data.length >= 5 && data.isNotEmpty)
-                  ? 5
-                  : (data.isEmpty)
-                      ? 1
-                      : data.length,
+            rowsPerPage: (list.length > 5 && list.isNotEmpty) ? 5 : list.isEmpty ? 1 : list.length,
               headingRowColor: MaterialStateProperty.resolveWith(
                   (states) => Color(0xff941420)),
               columns: const <DataColumn>[
@@ -196,12 +183,14 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
                 )),
               ],
               source: MyData(
-                myGlobalBuildContext: context,
-                displayData,
+
+                list,
                 widget.dealerId,
                 dealerName: widget.dealerName!,
+                                myGlobalBuildContext: context,
+                                datetime: _dateTime,
                 showDatePickerCallback: _showDatePicker,
-                datetime: _dateTime,
+                
               )),
         );
       },
@@ -211,8 +200,7 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
 
 class MyData extends DataTableSource {
   NetworkApiServices apiServices = NetworkApiServices();
-  final List<QuotationsModel> data;
-  TextEditingController notesController = TextEditingController();
+  final List<CompleteResponse> data;
   final String? dealerId;
   final String dealerName;
   final DateTime datetime;
@@ -240,288 +228,140 @@ class MyData extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    print('Dealer ID in quotation table my data class $dealerId');
-    final _formKey = GlobalKey<FormState>();
-    NetworkApiServices apiServices = NetworkApiServices();
-    final QuotationsModel result = data[index];
+    //print('Dealer ID in quotation table my data class $dealerId');
+    final quote = data[index].quotes;
+    final displayname = data[index];
+    
+    //print(displayname.displayName);
+    print("quote length: ${quote!.length}");
     return DataRow.byIndex(index: index, cells: <DataCell>[
       //1
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].name! : "")),
       //2
-      DataCell(Text("")),
+      DataCell(Text(displayname.displayName ?? "")),
       //3
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].quotationNumber! : "")),
       //4
-      DataCell(Text("")),
+      DataCell(Text(displayname.dealerName ?? "")),
       //5
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].id! : "")),
       //6
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].telephoneNumber! : "")),
       //7
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].customerEmail! : "")),
       //8
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].deliveryPostCode! : "")),
       //9
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].date! : "")),
       //10
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].time! : "")),
       //11
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].wholeTotal! : "")),
       //12
       DataCell(Text("")),
       //13
       DataCell(Text("")),
       //14
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? "${quote[index].randtSelectBox} - ${quote[index].markupVal}" : "")),
       //15
       DataCell(Text("")),
       //16
-      DataCell(Text("")),
+      DataCell(Text(quote.isNotEmpty ? quote[index].saleBonus! : "")),
       //17
+      // follow up date
       DataCell(Text("")),
       //18
-      DataCell(Text("")),
+      DataCell(Consumer<setFollowUpValue>(
+        builder: (context, value, child) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(context).width * 0.4,
+              decoration: BoxDecoration(
+                  color: Color(0Xff008000),
+                  border: Border.all(width: 1)),
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: "NO",
+                onChanged: (String? newValue) {
+                  // if (newValue != null) {
+                  //   apiServices.setFollowUpValue(
+                  //       dealerId!, result.id!, newValue);
+                  // } else {
+                  //   apiServices.setFollowUpValue(
+                  //       dealerId!, result.id!, result.orderFUpQVal!);
+                  // }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'YES',
+                      alignment: Alignment.center,
+                      child: Text(
+                        'YES',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'NO',
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          );
+        },
+      )),
+
       //19
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Quote Analysis",
+      color: Colors.blue,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+      )),
       //20
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Notes",
+      color: Colors.blue,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+      )),
       //21
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Survey Form",
+      color: Colors.blue,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+      )),
       //22
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Create Order",
+      color: Colors.blue,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+      )),
       //23
-      DataCell(Text("")),
+      DataCell(Row(
+        children: [
+          Icon(Icons.edit, size: 14,),
+          Icon(Icons.copy, size: 14,),
+          Icon(Icons.delete, color: Colors.red,size: 14,),
+        ],
+      )),
 
-      // DataCell(Text(result.name ?? "")),
-      // DataCell(Text(result.quotationNumber ?? "")),
-      // DataCell(Text(dealerName ?? "")),
-      // DataCell(Text(result.telephoneNumber ?? "")),
-      // DataCell(Text(result.customerEmail ?? "")),
-      // DataCell(Text(result.dileveryPostCodeC13 ?? "")),
-      // DataCell(Text(result.date ?? "")),
-      // DataCell(Text(result.time ?? "")),
-      // DataCell(Text(result.wholeTotal ?? "")),
-      // DataCell(Text(result.id ?? "")),
-      // DataCell(Consumer<FollowUpDate>(
-      //   builder: (context, value, child) {
-      //     return Row(mainAxisSize: MainAxisSize.min, children: [
-      //       Text(
-      //         (result.orderDateQArray != null)
-      //             ? result.orderDateQArray!
-      //             : value.getDate(result.id!),
-      //         style: TextStyle(fontSize: 12),
-      //       ),
-      //       DateButton(
-      //         onTap: () async {
-      //           DateTime? pickedDate = await showDatePicker(
-      //             context: context,
-      //             initialDate: DateTime.now(),
-      //             firstDate: DateTime(2000),
-      //             lastDate: DateTime(2050),
-      //           );
-
-      //           if (pickedDate != null) {
-      //             // value.setDate(result.id!, pickedDate);
-      //             apiServices.setFollowUpDate(
-      //                 dealerId!, result.id!, pickedDate);
-      //           }
-      //         },
-      //         icon: Icons.calendar_month,
-      //       )
-      //     ]);
-      //   },
-      // )),
-      // DataCell(Consumer<setFollowUpValue>(
-      //   builder: (context, value, child) {
-      //     return DropdownButton<String>(
-      //       value: result.orderFUpQVal ?? "NO",
-      //       underline: Container(
-      //         height: 2,
-      //         color: Colors.white,
-      //       ),
-      //       onChanged: (String? newValue) {
-      //         // Provider.of<setFollowUpValue>(context, listen: false)
-      //         //     .changeValue(newValue: newValue, quoteId: result.id!);
-      //         if (newValue != null) {
-      //           apiServices.setFollowUpValue(dealerId!, result.id!, newValue);
-      //         } else {
-      //           apiServices.setFollowUpValue(
-      //               dealerId!, result.id!, result.orderFUpQVal!);
-      //         }
-      //       },
-      //       items: [
-      //         DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
-      //         DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
-      //       ],
-      //     );
-      //   },
-      // )),
-      // DataCell(RoundButton(
-      //   text: 'Quote Analysis',
-      //   onTap: () {
-      //     Navigator.push(
-      //         myGlobalBuildContext,
-      //         MaterialPageRoute(
-      //             builder: (context) => RkDoorCalculatorView(
-      //                 url:
-      //                     'https://www.pricelink.net/dashboard/sales_details.php?user_id=$dealerId&quote_id=${result.id}&mobile_token=true')));
-      //   },
-      //   color: Colors.blue,
-      // )),
-      // DataCell(RoundButton(
-      //   text: 'Notes',
-      //   onTap: () async {
-      //     notesController.text = result.notes!;
-      //     await showDialog(
-      //         context: myGlobalBuildContext,
-      //         builder: (context) => AlertDialog(
-      //               shape: RoundedRectangleBorder(
-      //                   borderRadius: BorderRadius.all(Radius.circular(10))),
-      //               insetPadding: EdgeInsets.all(9),
-      //               content: Stack(
-      //                 clipBehavior: Clip.none,
-      //                 children: [
-      //                   Positioned(
-      //                       right: -40,
-      //                       top: -40,
-      //                       child: InkResponse(
-      //                         onTap: () {
-      //                           Navigator.of(context).pop();
-      //                         },
-      //                         child: const CircleAvatar(
-      //                           backgroundColor: Color(0xff941420),
-      //                           child: Icon(
-      //                             Icons.close,
-      //                             color: Colors.white,
-      //                           ),
-      //                         ),
-      //                       )),
-      //                   Form(
-      //                       key: _formKey,
-      //                       child: Column(
-      //                         mainAxisSize: MainAxisSize.min,
-      //                         children: [
-      //                           Center(
-      //                               child: Text('Enter Notes',
-      //                                   style: TextStyle(
-      //                                       fontSize: 20,
-      //                                       color: Color(0xff941420),
-      //                                       fontWeight: FontWeight.w600))),
-      //                           SizedBox(
-      //                             height: 15,
-      //                           ),
-      //                           Padding(
-      //                             padding: const EdgeInsets.all(8),
-      //                             child: TextFormField(
-      //                               maxLines: 6,
-      //                               // initialValue: result.notes,
-      //                               controller: notesController,
-      //                               decoration: InputDecoration(
-      //                                   border: OutlineInputBorder(
-      //                                       borderSide: BorderSide(
-      //                                           color: Color(0xff941420))),
-      //                                   hintText: 'Notes'),
-      //                             ),
-      //                           ),
-      //                           SizedBox(
-      //                             height: 10,
-      //                           ),
-      //                           RoundButton(
-      //                             text: 'Save',
-      //                             onTap: () async {
-      //                               if (_formKey.currentState!.validate()) {
-      //                                 apiServices.setNotesValue(dealerId!,
-      //                                     result.id!, notesController.text);
-      //                               }
-
-      //                               Navigator.of(context, rootNavigator: true)
-      //                                   .pop('dialog');
-      //                             },
-      //                             color: Color(0xff941420),
-      //                           )
-      //                         ],
-      //                       ))
-      //                 ],
-      //               ),
-      //             ));
-      //   },
-      //   color: Colors.blue,
-      // )),
-      // DataCell(RoundButton(
-      //   text: 'Create Order',
-      //   onTap: () {
-      //     apiServices.createOrder(dealerId!, result.id!);
-      //   },
-      //   color: Colors.blue,
-      // )),
-      // DataCell(Row(
-      //   children: [
-      //     IconButton(
-      //       // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-      //       onPressed: () {
-      //         Navigator.push(
-      //             myGlobalBuildContext,
-      //             MaterialPageRoute(
-      //                 builder: (context) => RkDoorCalculatorView(
-      //                     url:
-      //                         'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerId}&cal_id=${result.id}&mobile_token=true')));
-      //       },
-      //       icon: Icon(Icons.edit),
-      //       iconSize: 16,
-      //     ),
-      //     IconButton(
-      //       // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-      //       onPressed: () {
-      //         apiServices.duplicateQuotes(dealerId!, result.id!);
-      //       },
-      //       icon: Icon(Icons.copy),
-      //       iconSize: 16,
-      //     ),
-      //     IconButton(
-      //       // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-      //       onPressed: () {
-      //         showDialog(
-      //             context: myGlobalBuildContext,
-      //             builder: (BuildContext context) {
-      //               return AlertDialog(
-      //                 title: Icon(Icons.warning),
-      //                 content:
-      //                     Text('Are u sure you want to delete this quotation'),
-      //                 actions: [
-      //                   Center(
-      //                     child: Column(
-      //                       children: [
-      //                         RoundButton(
-      //                           text: 'Delete',
-      //                           onTap: () {
-      //                             apiServices.deleteQuotes(
-      //                                 dealerId!, result.id!);
-      //                             Navigator.pop(context);
-      //                           },
-      //                           color: Colors.red,
-      //                         ),
-      //                         SizedBox(
-      //                           height: 15,
-      //                         ),
-      //                         RoundButton(
-      //                           text: 'Cancel',
-      //                           onTap: () {
-      //                             Navigator.pop(context);
-      //                           },
-      //                           color: Colors.blue,
-      //                         ),
-      //                       ],
-      //                     ),
-      //                   )
-      //                 ],
-      //               );
-      //             });
-      //       },
-      //       icon: Icon(Icons.delete),
-      //       iconSize: 16,
-      //     ),
-      //   ],
-      // )),
     ]);
   }
 }

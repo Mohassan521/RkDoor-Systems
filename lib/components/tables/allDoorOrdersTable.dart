@@ -611,7 +611,7 @@ class MyData extends DataTableSource {
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.lhGoalPostE44 == "YES" ? Colors.yellow : Colors.transparent,
+                  color: result.lhGoalPostE44 == "YES" ? const Color.fromARGB(255, 200, 197, 169) : Colors.transparent,
                                     borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
               width: MediaQuery.sizeOf(context).width * 0.35,

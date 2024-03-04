@@ -9,7 +9,10 @@ import 'package:price_link/models/CadDetailsModel.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/PDFDetailsModel.dart';
+import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
+import 'package:price_link/models/admin%20models/steelOrderModel.dart';
 import 'package:price_link/models/careAndMaintenanceModel.dart';
 import 'package:price_link/models/completedOrders.dart';
 import 'package:price_link/models/completedSteelOrdersModel.dart';
@@ -1680,8 +1683,84 @@ class NetworkApiServices {
   ///////////////////// admin panel APIs
   ///
   
-  // Future<AdminQuotesModel> getAdminQuotes() async {
+  Future<List<CompleteResponse>> getAdminQuotes() async {
+  final apiUrl =
+      "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_quotes/1";
 
-  // }
+  final response = await http.get(Uri.parse(apiUrl));
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> data = jsonDecode(response.body);
+    List<CompleteResponse> apiResponses = [];
+    data.forEach((key, value) {
+      apiResponses.add(CompleteResponse.fromJson(value));
+    });
+    return apiResponses;
+  } else {
+    throw Exception('Failed to load quotes');
+  }
+}
+
+  Future<List<AdminPanelOrders>> getAdminOrders() async {
+    var apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_orders/1";
+
+    var response = await http.get(Uri.parse(apiUrl));
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      List<AdminPanelOrders> orders = [];
+
+      data.forEach((key, value) { 
+        if(value is List){
+          orders.addAll(value.map((order) => AdminPanelOrders.fromJson(order)).toList());
+        }
+      });
+
+      return orders;
+    }
+    else{
+      throw Exception('something went wrong');
+    }
+  }
+
+  Future<List<AdminSteelOrder>> getSteelOrdersForAdmin() async {
+    var apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_steelorders/1";
+
+    var response = await http.get(Uri.parse(apiUrl));
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final List<dynamic> steelorders = [];
+
+      data.forEach((key, value) {
+        steelorders.addAll(value);
+      });
+
+      return steelorders.map((e) => AdminSteelOrder.fromJson(e)).toList();
+    }
+    else{
+      throw Exception('Something went wrong');
+    }
+  }
+
+
+  Future<List<AdminEnquiryModel>> getAdminPanelEnquiries() async {
+    var apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_enquries/1";
+
+    var response = await http.get(Uri.parse(apiUrl));
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final List<dynamic> enquiries = [];
+
+      data.forEach((key, value) {
+        enquiries.addAll(value);
+      });
+
+      return enquiries.map((e) => AdminEnquiryModel.fromJson(e)).toList();
+    }
+    else{
+      throw Exception('Something went wrong');
+    }
+  }
 
 }

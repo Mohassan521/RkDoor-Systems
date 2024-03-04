@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
@@ -27,15 +28,15 @@ class AdminDoorDelivered extends StatefulWidget {
 
 class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
   NetworkApiServices apiServices = NetworkApiServices();
-  List<SteelOrderModel>? list = [];
+  List<AdminPanelOrders>? list = [];
 
   @override
   Widget build(BuildContext context) {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<SteelOrderModel>>(
-      future: apiServices.allSteelOrders(context, widget.dealerId),
+    return FutureBuilder(
+      future: apiServices.getAdminOrders(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -45,10 +46,12 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
 
         list = snapshot.data!;
 
-        List<SteelOrderModel> filteredList =
-            Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        List<SteelOrderModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        List<AdminPanelOrders> filteredList = list!.where((result) => result.orderStatusVal == "Delivered").toList();
+
+        // List<SteelOrderModel> filteredList =
+        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
+        // List<SteelOrderModel>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -282,7 +285,7 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  filteredList, context, widget.dealerId, widget.dealerName)),
         );
       },
     );
@@ -291,7 +294,7 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
 
 class MyData extends DataTableSource {
   final BuildContext context;
-  final List<SteelOrderModel>? data;
+  final List<AdminPanelOrders>? data;
   final String dealerId;
   final String dealerName;
 
@@ -359,124 +362,389 @@ class MyData extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    final SteelOrderModel result = data![index];
-    TextEditingController factoryValue = TextEditingController();
-    TextEditingController factoryDeliveryWeek = TextEditingController();
-    factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
-    factoryValue.text = result.steelFacOrderNoVal ?? "";
+    // final SteelOrderModel result = data![index];
+    // TextEditingController factoryValue = TextEditingController();
+    // TextEditingController factoryDeliveryWeek = TextEditingController();
+    // factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
+    // factoryValue.text = result.steelFacOrderNoVal ?? "";
 
-    List<dynamic> steelOrderFile = result.steelOrderConfFile ?? [];
-    String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.first : '';
-    String fileExtension = extension(filePath).toLowerCase();
+    // List<dynamic> steelOrderFile = result.steelOrderConfFile ?? [];
+    // String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.first : '';
+    // String fileExtension = extension(filePath).toLowerCase();
 
-    List<dynamic> invoices = result.steelInvoices ?? [];
-    String invoicesFilePath = invoices.isNotEmpty ? invoices.first : '';
-    String invoiceFileExtension = extension(invoicesFilePath).toLowerCase();
+    // List<dynamic> invoices = result.steelInvoices ?? [];
+    // String invoicesFilePath = invoices.isNotEmpty ? invoices.first : '';
+    // String invoiceFileExtension = extension(invoicesFilePath).toLowerCase();
 
-    List<dynamic> delNotes = result.steelDelNotes ?? [];
-    String delNotesFilePath = delNotes.isNotEmpty ? delNotes.first : '';
-    String delNotesFileExtension = extension(delNotesFilePath).toLowerCase();
+    // List<dynamic> delNotes = result.steelDelNotes ?? [];
+    // String delNotesFilePath = delNotes.isNotEmpty ? delNotes.first : '';
+    // String delNotesFileExtension = extension(delNotesFilePath).toLowerCase();
 
-    List<dynamic> pdfUrl = result.manualPDFImageURL ?? [];
-    String pdfUrlFilePath = pdfUrl.isNotEmpty ? pdfUrl.first : '';
-    String pdfUrlFileExtension = extension(pdfUrlFilePath).toLowerCase();
+    // List<dynamic> pdfUrl = result.manualPDFImageURL ?? [];
+    // String pdfUrlFilePath = pdfUrl.isNotEmpty ? pdfUrl.first : '';
+    // String pdfUrlFileExtension = extension(pdfUrlFilePath).toLowerCase();
 
-    List<dynamic> pdfImageUrl = result.pDFImageURL ?? [];
-    String pdfImageUrlFilePath =
-        pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
-    String pdfImageUrlFileExtension =
-        extension(pdfImageUrlFilePath).toLowerCase();
+    // List<dynamic> pdfImageUrl = result.pDFImageURL ?? [];
+    // String pdfImageUrlFilePath =
+    //     pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
+    // String pdfImageUrlFileExtension =
+    //     extension(pdfImageUrlFilePath).toLowerCase();
 
-    TextEditingController notesController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
-    NetworkApiServices apiServices = NetworkApiServices();
+    // TextEditingController notesController = TextEditingController();
+    // final _formKey = GlobalKey<FormState>();
+    // NetworkApiServices apiServices = NetworkApiServices();
+    final orders = data![index];
     return DataRow.byIndex(index: index, cells: <DataCell>[
       //1
-      DataCell(Text("")),
+      DataCell(Text(orders.name ?? "")),
       //2
       DataCell(Text("")),
       //3
       DataCell(Text('')),
       //4
-      DataCell(Text('')),
+      DataCell(Text(orders.quotationNumber ?? "")),
       //5
       DataCell(Text('')),
       //6
-      DataCell(Text("")),
-      //7
-      DataCell(Text("")),
+      DataCell(Text(orders.orderNoVal ?? "")),
       //8
-      DataCell(Text("")),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: orders.orderStatusVal == "Order Received"
+                      ? Color(0xff9ad9ea)
+                      : orders.orderStatusVal == "Order Placed"
+                          ? Color(0xffffc90d)
+                          : orders.orderStatusVal == "Awaiting Balance Payment"
+                              ? Colors.yellow
+                              : orders.orderStatusVal == "Delayed"
+                                  ? Colors.red
+                                  : orders.orderStatusVal == "In Production"
+                                      ? Color(0xffb5351d)
+                                      : orders.orderStatusVal ==
+                                              "Ready For Shipping"
+                                          ? Color(0xff0080001)
+                                          : orders.orderStatusVal ==
+                                                  "Revised Confirmation Issued"
+                                              ? Color(0xffa747a2)
+                                              : orders.orderStatusVal ==
+                                                      "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6)
+                                                  : orders.orderStatusVal ==
+                                                          "In Transit To UK"
+                                                      ? Color(0xfffeaec9)
+                                                      : orders.orderStatusVal ==
+                                                              "In RKDS Warehouse"
+                                                          ? Color(0xff9ad9ea)
+                                                          : Color(0xff7092bf),
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.40,
+              child: Center(
+                  child: Text(
+                    
+                orders.orderStatusVal!,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+
       //9
-      DataCell(Text("")),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: orders.orderPaymentStatusVal == "Awaiting Deposit"
+                      ? Colors.yellow
+                      : orders.orderPaymentStatusVal == "Deposit Received"
+                          ? Color(0xffffd5cd)
+                          : orders.orderPaymentStatusVal == "Awaiting Survey Fee"
+                              ? Color(0xffbde2fd)
+                              : orders.orderPaymentStatusVal == "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : orders.orderPaymentStatusVal == "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : orders.orderPaymentStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : orders.orderPaymentStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : orders.orderPaymentStatusVal == "All Invoices Paid"
+                                                  ? Color(0xff0d714b) : Colors.yellow,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                orders.orderPaymentStatusVal!,
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+
       //10
-      DataCell(Text("")),
+      DataCell(Row(
+        children: [
+          Icon(Icons.add_circle_outline),
+          SizedBox(
+            width: 18,
+          ),
+          orders.documents!.isNotEmpty ? Icon(Icons.file_copy, color: Colors.blue,size: 18,) : Text('')
+        ],
+      )),
       //11
-      DataCell(Text('')),
+      DataCell(Row(
+        children: [
+          Icon(Icons.add_circle_outline),
+          SizedBox(
+            width: 18,
+          ),
+          orders.manualQuickDocumentUpload!.isNotEmpty ? Icon(Icons.file_copy, color: Colors.blue,size: 18,) : Text('')
+        ],
+      )),
       //12
-      DataCell(Text('')),
+      DataCell(Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          
+          orders.anticipatedDateVal!.isNotEmpty ? Text(orders.anticipatedDateVal!) : Text('mm/dd/yyyy'),
+          DateButton(onTap: (){
+
+          },
+          icon: Icons.date_range,
+          ),
+        ],
+      )),
       //13
-      DataCell(Text('')),
+      DataCell(Row(
+        children: [
+          Icon(Icons.add_circle_outline),
+          SizedBox(
+            width: 18,
+          ),
+          orders.invoicesDocuments!.isNotEmpty ? Icon(Icons.file_copy, color: Colors.blue,size: 18,) : Text('')
+        ],
+      )),
       //14
-      DataCell(Text("")),
+      DataCell(Text(orders.balDueBeforeDelivery ?? "")),
       //15
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      color: Colors.blue,
+      text: "Financial History",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.4,
+      )),
       //16
-      DataCell(Text("")),
+      DataCell(Row(
+        children: [
+          Icon(Icons.add_circle_outline),
+          SizedBox(
+            width: 18,
+          ),
+          orders.deliveryDocuments!.isNotEmpty ? Icon(Icons.file_copy, color: Colors.blue,size: 18,) : Text('')
+        ],
+      )),
       //17
-      DataCell(Text("")),
+      DataCell(Text(orders.profile ?? "")),
       //18
-      DataCell(Text("")),
+      DataCell(Text(orders.doorModel ?? "")),
       //19
-      DataCell(Text('')),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: orders.marineGradeVal == "YES" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                orders.marineGradeVal ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
       //20
-      DataCell(Text('')),
+      DataCell(Text(orders.frameSizeHeightWidth ?? "")),
       //21
-      DataCell(Text('')),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: orders.lhGoalPostE44 == "YES" ? const Color.fromARGB(255, 200, 197, 169) : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                orders.lhGoalPostE44 ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
       //22
-      DataCell(Text("")),
+      DataCell(Text(orders.totalWeightKg ?? "")),
       //23
-      DataCell(Text("")),
+              DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: orders.thresholdType == "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" || orders.thresholdType == "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" || orders.thresholdType == "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" || orders.thresholdType == "C - 25MM HIGH PROJECTING CILL - 225MM WIDE" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: Center(
+                  child: Text(
+                orders.thresholdType ?? "",
+                style: TextStyle(color: Colors.black),
+              )));
+        })),
+
       //24
-      DataCell(Text("")),
+      DataCell(Text(orders.ekeylessAccess ?? "")),
       //25
-      DataCell(Text("")),
+      DataCell(Text(orders.facDeliveryWeeksVal ?? "")),
       //26
-      DataCell(Text("")),
+      DataCell(Text(orders.telephoneNumber ?? "")),
       //27
-      DataCell(Text('')),
+      DataCell(Text(orders.customerEmail ?? "")),
       //28
-      DataCell(Text('')),
+      DataCell(Text(orders.deliveryPostCode ?? "")),
       //29
-      DataCell(Text('')),
+      DataCell(Text(orders.date ?? "")),
       //30
-      DataCell(Text("")),
+      DataCell(Text(orders.time ?? "")),
       //31
-      DataCell(Text("")),
+      DataCell(Text(orders.wholeTotal ?? "")),
       //32
-      DataCell(Text("")),
+      DataCell(Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          
+          orders.dateOfOrder!.isNotEmpty ? Text(orders.anticipatedDateVal!) : Text('mm/dd/yyyy'),
+          DateButton(onTap: (){
+
+          },
+          icon: Icons.date_range,
+          ),
+        ],
+      )),
       //33
-      DataCell(Text("")),
+      DataCell(Consumer<setFollowUpOrderValue>(
+          builder: (context, value, child) {
+            return Center(
+              child: DropdownButton<String>(
+                value:
+                    (orders.orderFollowup == "") ? "NO" : orders.orderFollowup!,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = orders.orderFollowup;
+                  // if (newValue != null) {
+                  //   // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                  //   //     .changeValue(newValue: newValue, quoteId: result.id!);
+                  //   apiServices.setFollowUpOrderValue(
+                  //       dealerId!, result.id!, newValue);
+                  // } else {
+                  //   // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                  //   //     .changeValue(
+                  //   //         newValue: result.orderFollowup, quoteId: result.id!);
+                  //   apiServices.setFollowUpOrderValue(
+                  //       dealerId!, result.id!, result.orderFollowup!);
+                  // }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: '', child: Text('')),
+                  DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
+                  DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
+                ],
+              ),
+            );
+          },
+        )),
+
       //34
-      DataCell(Text("")),
+      DataCell(Text(orders.id ?? "")),
       //35
-      DataCell(Text('')),
-      //36
-      DataCell(Text('')),
+      DataCell(Text(orders.ankaItems ?? "")),
+      
       //37
-      DataCell(Text('')),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Notes",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.4,
+      color: Colors.blue,
+      )),
       //38
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Custom Handles",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.4,
+      color: Colors.blue,
+      )),
       //39
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Quote Analysis",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.4,
+      color: Colors.blue,
+      )),
       //40
-      DataCell(Text("")),
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Back To Quote",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.4,
+      color: Colors.blue,
+      )),
       //41
-      DataCell(Text("")),
+      DataCell(Row(
+        children: [
+          Text(orders.date ?? ""),
+          Text(orders.orderStatusVal ?? "")
+        ],
+      )),
       //42
-      DataCell(Text("")),
+      DataCell(Text(orders.saleBonus.toString())),
       //43
-      DataCell(Text('')),
+      //45
+      // dealer support
+      DataCell(Text("")),
+      //46
+      //47
+      DataCell(RoundButton(onTap: (){
+
+      },
+      text: "Order Complete - Archive File",
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      width: MediaQuery.sizeOf(context).width * 0.55,
+      color: Colors.blue,
+      )),
+      //48
+      //49
+      DataCell(Row(
+        children: [
+          Icon(
+            Icons.edit,
+            size: 14,
+          ),
+          Icon(
+            Icons.content_copy_rounded,
+            size: 14,
+            color: Colors.greenAccent,
+          ),
+          Icon(
+            Icons.delete,
+            size: 14,
+            color: Colors.red,
+          ),
+        ],
+      )),
     ]);
   }
 }

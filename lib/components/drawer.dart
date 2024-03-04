@@ -827,7 +827,7 @@ class _DrawerPageState extends State<DrawerPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Updates(
-                                    dealerId: widget.dealer_id!,
+                                    dealerId: widget.role == "employee" ? widget.empId! : widget.dealer_id!,
                                     dealerName: widget.dealerName!,
                                     role: widget.role,
                                     empId: widget.empId,

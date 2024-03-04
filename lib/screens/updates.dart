@@ -24,7 +24,7 @@ class _UpdatesState extends State<Updates> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerPage(
-        dealer_id: widget.dealerId,
+        dealer_id: widget.role == "employee" ? widget.empId : widget.dealerId,
         dealerName: widget.dealerName,
         role: widget.role,
         empId: widget.empId,
@@ -58,10 +58,26 @@ class _UpdatesState extends State<Updates> {
                     future: NetworkApiServices().getUpdatesValue(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.info),
+                            Text('No Updates Available', style: TextStyle(fontSize: 23),),
+                          ],
+                        ));
+                      }
+                      if(snapshot.connectionState == ConnectionState.waiting){
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Data is being loaded...'),
+                            ],
+                          ),
+                        );
                       }
 
-                      List<UpdatesModel> list = snapshot.data!;
+                      List<UpdatesModel> list = snapshot.data ?? [];
 
                       return ListView.builder(
                           itemCount: list.length,

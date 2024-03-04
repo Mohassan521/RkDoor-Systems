@@ -86,7 +86,7 @@ class OrdersQuoteAnalysis extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('VAT Amount: '),
-                    Text('${snapshot.data != null && snapshot.data!.quotationType == "T" ? "0" : snapshot.data != null && snapshot.data!.quotationType == "R" ? snapshot.data!.vatRate : "0"} '),
+                    Text('${snapshot.data != null && snapshot.data!.quotationType == "T" ? "0" : snapshot.data != null && snapshot.data!.quotationType == "R" ? snapshot.data!.vatValue : "0"} '),
                     
                   ],
                 ),

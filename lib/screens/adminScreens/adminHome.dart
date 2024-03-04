@@ -14,6 +14,7 @@ import 'package:price_link/components/tables/adminTables/doorInProduction.dart';
 import 'package:price_link/components/tables/adminTables/doorOnHold.dart';
 import 'package:price_link/components/tables/adminTables/doorOrderPlaced.dart';
 import 'package:price_link/components/tables/adminTables/doorOrderReceived.dart';
+import 'package:price_link/components/tables/adminTables/doorOutForDelivery.dart';
 import 'package:price_link/components/tables/adminTables/doorPCIssued.dart';
 import 'package:price_link/components/tables/adminTables/doorRCIssued.dart';
 import 'package:price_link/components/tables/adminTables/doorReadyForShipping.dart';
@@ -512,7 +513,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: AdminDoorAwaitingPayment(
+                  child: AdminDoorOutForDelivery(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
