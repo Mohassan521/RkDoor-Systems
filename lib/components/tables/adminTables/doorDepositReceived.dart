@@ -399,7 +399,17 @@ class MyData extends DataTableSource {
     String facConfDocsFilepath = facConfDocuments.isNotEmpty ? facConfDocuments.first : '';
     String facConfExtension = extension(facConfDocsFilepath).toLowerCase();
 
-    
+     List<AdminPanelOrders> getFilteredQuotes() {
+    List<AdminPanelOrders> filteredQuotes = [];
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.orders) {
+        if (quote.orderStatusVal == "Deposit Received") {
+          filteredQuotes.add(quote);
+        }
+      }
+    }
+    return filteredQuotes;
+  }
 
     // List<dynamic> pdfImageUrl = result.pDFImageURL ?? [];
     // String pdfImageUrlFilePath =
@@ -408,6 +418,9 @@ class MyData extends DataTableSource {
     //     extension(pdfImageUrlFilePath).toLowerCase();
 
         if (currentIndex == index) {
+          var filteredOrders = getFilteredQuotes();
+
+          var quote = filteredOrders[index];
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -1097,7 +1110,11 @@ class MyData extends DataTableSource {
   int get totalRowCount {
     int count = 0;
     for (var dealerData in dealerDataList!) {
-      count += dealerData.orders.length;
+      for (var quote in dealerData.orders) {
+        if (quote.orderStatusVal == 'Deposit Received') {
+          count++;
+        }
+      }
     }
     return count;
   }
