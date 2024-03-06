@@ -1,8 +1,11 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:price_link/Provider/provider.dart';
+import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
 import 'package:price_link/models/quotationsModel.dart';
@@ -41,7 +44,7 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
     print(widget.dealerName);
-    return FutureBuilder<List<CompleteResponse>>(
+    return FutureBuilder(
       future: apiServices.getAdminQuotes(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -183,11 +186,10 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
                 )),
               ],
               source: MyData(
-
                 list,
                 widget.dealerId,
                 dealerName: widget.dealerName!,
-                                myGlobalBuildContext: context,
+                                context: context,
                                 datetime: _dateTime,
                 showDatePickerCallback: _showDatePicker,
                 
@@ -199,79 +201,134 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
 }
 
 class MyData extends DataTableSource {
-  NetworkApiServices apiServices = NetworkApiServices();
-  final List<CompleteResponse> data;
+  final List<CompleteResponse> dealerDataList;
+  TextEditingController notesController = TextEditingController();
   final String? dealerId;
   final String dealerName;
+  final String? empId;
   final DateTime datetime;
-  final BuildContext myGlobalBuildContext;
+  final BuildContext context;
   final void Function() showDatePickerCallback;
   //final void Function() getSavedValue;
   MyData(
-    this.data,
+    this.dealerDataList,
     this.dealerId, {
     required this.dealerName,
     required this.datetime,
-    required this.myGlobalBuildContext,
+    required this.context,
     required this.showDatePickerCallback,
+    this.empId
     //required this.getSavedValue
   });
 
-  @override
-  int get rowCount => data.length;
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
 
   @override
-  bool get isRowCountApproximate => false;
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
 
-  @override
-  int get selectedRowCount => 0;
+  //   showImageDialog(BuildContext context, String imageUrl) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(10))),
+  //       insetPadding: EdgeInsets.all(9),
+  //       content: SizedBox(
+  //         height: 200.0, // Set the height as needed
+  //         child: Image.network(
+  //           imageUrl,
+  //           fit: BoxFit.fill,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  @override
-  DataRow getRow(int index) {
-    //print('Dealer ID in quotation table my data class $dealerId');
-    final quote = data[index].quotes;
-    final displayname = data[index];
-    
-    //print(displayname.displayName);
-    print("quote length: ${quote!.length}");
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      //1
-      DataCell(Text(quote.isNotEmpty ? quote[index].name! : "")),
-      //2
-      DataCell(Text(displayname.displayName ?? "")),
-      //3
-      DataCell(Text(quote.isNotEmpty ? quote[index].quotationNumber! : "")),
-      //4
-      DataCell(Text(displayname.dealerName ?? "")),
-      //5
-      DataCell(Text(quote.isNotEmpty ? quote[index].id! : "")),
-      //6
-      DataCell(Text(quote.isNotEmpty ? quote[index].telephoneNumber! : "")),
-      //7
-      DataCell(Text(quote.isNotEmpty ? quote[index].customerEmail! : "")),
-      //8
-      DataCell(Text(quote.isNotEmpty ? quote[index].deliveryPostCode! : "")),
-      //9
-      DataCell(Text(quote.isNotEmpty ? quote[index].date! : "")),
-      //10
-      DataCell(Text(quote.isNotEmpty ? quote[index].time! : "")),
-      //11
-      DataCell(Text(quote.isNotEmpty ? quote[index].wholeTotal! : "")),
-      //12
-      DataCell(Text("")),
-      //13
-      DataCell(Text("")),
-      //14
-      DataCell(Text(quote.isNotEmpty ? "${quote[index].randtSelectBox} - ${quote[index].markupVal}" : "")),
-      //15
-      DataCell(Text("")),
-      //16
-      DataCell(Text(quote.isNotEmpty ? quote[index].saleBonus! : "")),
-      //17
-      // follow up date
-      DataCell(Text("")),
-      //18
-      DataCell(Consumer<setFollowUpValue>(
+    int currentIndex = 0;
+    for (var dealerData in dealerDataList) {
+      for (var quote in dealerData.quotes) {
+        
+    //     TextEditingController configuratorCode = TextEditingController();
+    //     configuratorCode.text = quote.enquiryConfCode ?? "";
+
+    //     List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
+    // String fileUploadPath= fileUpload.isNotEmpty ? fileUpload.first : '';
+    // String fileuploadExtension= extension(fileUploadPath).toLowerCase();
+
+    // List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
+    // String enqFormFileUpload = enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
+    // String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
+
+
+        if (currentIndex == index) {
+          return DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(quote.name ?? "")),
+              DataCell(Text(dealerData.displayName ?? "")),
+              DataCell(Text(quote.quotationNumber ?? "")),
+              DataCell(Text(dealerData.dealerName ?? "")),
+              DataCell(Text(quote.id ?? "")),
+              DataCell(Text(quote.telephoneNumber ?? "")),
+              DataCell(Text(quote.customerEmail ?? "")),
+              DataCell(Text(quote.deliveryPostCode ?? "")),
+              DataCell(Text(quote.date ?? "")),
+              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(quote.wholeTotal ?? "")),
+              DataCell(Text(quote.installationCostForQuote ?? "")),
+              DataCell(Text(quote.deliveryCostForQuote ?? "")),
+              DataCell(Text("${quote.randtSelectBox}-${quote.markupVal}")),
+              DataCell(Text(quote.discountLevel ?? "")),
+              DataCell(Text(quote.saleBonus ?? "")),
+              
+              DataCell(Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  (quote.orderDateQArray != null)
+                      ? quote.orderDateQArray!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                DateButton(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                    );
+
+                    if (pickedDate != null) {
+                      // value.setDate(result.id!, pickedDate);
+                      // apiServices.setAnticipatedDate(
+                      //     dealerId, result.id!, pickedDate);
+                    }
+                  },
+                  icon: Icons.calendar_month,
+                )
+              ],
+            )),
+              DataCell(Consumer<setFollowUpValue>(
         builder: (context, value, child) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0, top: 8),
@@ -279,11 +336,16 @@ class MyData extends DataTableSource {
               alignment: Alignment.center,
               width: MediaQuery.sizeOf(context).width * 0.4,
               decoration: BoxDecoration(
-                  color: Color(0Xff008000),
+                  color: quote.orderFUpQVal == "YES"
+                      ? Color(0Xff008000)
+                      : Color(0xffFF0000),
                   border: Border.all(width: 1)),
               child: DropdownButton<String>(
                 isExpanded: true,
-                value: "NO",
+                value: quote.orderFUpQVal ?? "NO",
+                iconEnabledColor: quote.orderFUpQVal == "YES"
+                    ? Color(0Xff008000)
+                    : Color(0xffFF0000),
                 onChanged: (String? newValue) {
                   // if (newValue != null) {
                   //   apiServices.setFollowUpValue(
@@ -294,6 +356,13 @@ class MyData extends DataTableSource {
                   // }
                 },
                 items: [
+                  DropdownMenuItem<String>(
+                      value: '',
+                      alignment: Alignment.center,
+                      child: Text(
+                        '',
+                        style: TextStyle(color: Colors.black),
+                      )),
                   DropdownMenuItem<String>(
                       value: 'YES',
                       alignment: Alignment.center,
@@ -317,51 +386,66 @@ class MyData extends DataTableSource {
         },
       )),
 
-      //19
-      DataCell(RoundButton(onTap: (){
-
-      },
-      text: "Quote Analysis",
-      color: Colors.blue,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
-      )),
-      //20
-      DataCell(RoundButton(onTap: (){
-
-      },
-      text: "Notes",
-      color: Colors.blue,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
-      )),
-      //21
-      DataCell(RoundButton(onTap: (){
-
-      },
-      text: "Survey Form",
-      color: Colors.blue,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
-      )),
-      //22
-      DataCell(RoundButton(onTap: (){
-
-      },
-      text: "Create Order",
-      color: Colors.blue,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
-      )),
-      //23
-      DataCell(Row(
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Quote Analysis",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Notes",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Survey Form",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Create Order",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(Row(
         children: [
           Icon(Icons.edit, size: 14,),
           Icon(Icons.copy, size: 14,),
           Icon(Icons.delete, color: Colors.red,size: 14,),
         ],
-      )),
+      ))
+              
+              // Add more cells for other quote fields if needed
+            ],
+          );
+        }
+        currentIndex++;
+      }
+    }
+    return null;
+  }
 
-    ]);
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => totalRowCount;
+
+  @override
+  int get selectedRowCount => 0;
+
+  int get totalRowCount {
+    int count = 0;
+    for (var dealerData in dealerDataList) {
+      count += dealerData.quotes.length;
+    }
+    return count;
   }
 }

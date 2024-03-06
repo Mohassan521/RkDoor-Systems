@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
@@ -44,7 +45,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
   TextEditingController dealer = TextEditingController();
   TextEditingController salesperson = TextEditingController();
   String productType = "";
-  String user = "";
+  var user;
   String useDealerAddress = "NO";
   String vat = "";
   String supply = "";
@@ -169,7 +170,11 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 'User',
                 style: TextStyle(color: Color(0xff941420)),
               ),
-              DropdownButton<String>(
+              FutureBuilder<List<AllDealersModel>>(
+                future: NetworkApiServices().getAllDealers(), 
+                builder: ((context, snapshot) {
+                  return  DropdownButton<String>(
+                hint: Text('Select value'),
                 alignment: Alignment.center,
                 isExpanded: true,
                 value: user,
@@ -177,20 +182,22 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {
-                  // setState(() {
-                  //   productType = newValue ?? productType;
-                  // });
+                onChanged: (newValue) {
+                  user = newValue ?? "";
+                  setState(() {
+                    
+                  });
                 },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: '', child: Center(child: Text(''))),
-                  DropdownMenuItem<String>(
-                      value: 'User A', child: Center(child: Text('User A'))),
-                  DropdownMenuItem<String>(
-                      value: 'User B', child: Center(child: Text('User A'))),
-                ],
-              ),
+                items: snapshot.data != null ? snapshot.data!.map((e) {
+                  print("name present in API: ${e.name}");
+                  return DropdownMenuItem(
+                    value: e.name ?? "",
+                    child: Center(child: Text(e.name ?? "")));
+                }).toList() : [],
+              );
+
+                
+              })),
               SizedBox(
                 height: 15,
               ),

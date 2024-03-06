@@ -18,17 +18,17 @@ import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class AdminAllEnquiriesTable extends StatefulWidget {
+class AdminSwindonSBCTable extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
   final String? role;
-  const AdminAllEnquiriesTable({super.key, this.dealerId, required this.dealerName, this.role});
+  const AdminSwindonSBCTable({super.key, this.dealerId, required this.dealerName, this.role});
 
   @override
-  State<AdminAllEnquiriesTable> createState() => _AdminAllEnquiriesTableState();
+  State<AdminSwindonSBCTable> createState() => _AdminSwindonSBCTableState();
 }
 
-class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
+class _AdminSwindonSBCTableState extends State<AdminSwindonSBCTable> {
   // String? _filePath;
   // String selectedValue = "";
 
@@ -63,7 +63,7 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<CompleteResponseOfEnquiries>>(
+    return FutureBuilder(
       future: apiServices.getAdminPanelEnquiries(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -72,7 +72,10 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<CompleteResponseOfEnquiries> dealerDataList = snapshot.data ?? [];
+        List<CompleteResponseOfEnquiries>? list = snapshot.data ?? [];
+        // List<CompleteResponseOfEnquiries>? swindonSBCList = list
+        //     .where((result) => result.enquirySource == "Swindon SBC")
+        //     .toList();
 
         // List<EnquiriesModel> filteredList =
         //     Provider.of<AllEnquiriesSearchedData>(context).filteredDataModel;
@@ -87,13 +90,17 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                 bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(0)),
             child: PaginatedDataTable(
-                rowsPerPage: 5,
+                rowsPerPage: (list.length >= 5 && list.isNotEmpty)
+                    ? 5
+                    : (list.isEmpty)
+                        ? 1
+                        : list.length,
                 headingRowColor: MaterialStateProperty.resolveWith(
                     (states) => Color(0xff941420)),
                 columns: const <DataColumn>[
                   DataColumn(
                       label: Text(
-                    'Enquiry Allocated To',
+                    'Enquiry Allocated Toss',
                     style: TextStyle(color: Colors.white),
                   )),
                   DataColumn(
@@ -227,7 +234,7 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(dealerDataList, context)),
+                source: MyData(list, context)),
           );
         });
       },
@@ -299,7 +306,8 @@ class MyData extends DataTableSource {
     String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
 
 
-        if (currentIndex == index) {
+
+        if (currentIndex == index && quote.enquirySource == "Swindon SBC" ) {
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -320,9 +328,10 @@ class MyData extends DataTableSource {
             //       style: TextStyle(color: Colors.white),
             //     )))
             // : Text("")),
-              DataCell(RoundButton(onTap: (){
+              DataCell(RoundButton(
+                onTap: (){
 
-              },
+                },
               text: "Enquiry Details",
               height: MediaQuery.sizeOf(context).height * 0.045,
               width: MediaQuery.sizeOf(context).width * 0.4,
@@ -592,7 +601,11 @@ class MyData extends DataTableSource {
   int get totalRowCount {
     int count = 0;
     for (var dealerData in dealerDataList) {
-      count += dealerData.quotes.length;
+      for (var quote in dealerData.quotes) {
+        if (quote.enquirySource == 'Swindon SBC') {
+          count++;
+        }
+      }
     }
     return count;
   }

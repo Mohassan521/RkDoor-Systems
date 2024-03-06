@@ -217,7 +217,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                     ? AdminEnquiryForm(
                                         dealerId: widget.dealer_id!,
                                         dealerName: widget.dealerName!,
-                                        role: widget.role,
+                                        role: "admin",
                                       )
                                     : NewEnquiryForm(
                                         dealerId: widget.dealer_id!,

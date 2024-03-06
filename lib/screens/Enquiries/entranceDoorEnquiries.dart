@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
+import 'package:price_link/components/tables/adminTables/AdminEntranceDoorTable.dart';
 import 'package:price_link/components/tables/entranceDoorEnquiriesTable.dart';
 import 'package:price_link/components/tables/hotLeadsTable.dart';
 import 'package:price_link/services/services.dart';
@@ -81,7 +82,7 @@ class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, right: 8),
-                child: EntranceDoorEnquiriesTable(
+                child: widget.role == "admin" ? AdminEntranceDoorEnquiries(dealerId: widget.dealer_id,dealerName: widget.dealer_name) : EntranceDoorEnquiriesTable(
                   dealerId: widget.role == "employee"
                       ? widget.empId
                       : widget.dealer_id,

@@ -8,6 +8,7 @@ import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/services/fetchify_api.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +38,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
 
     if (pickedFile != null) {
       _image2 = File(pickedFile.path);
-      filesToUpload.clear();
-      filesToUpload.add(_image2!);
+      filesToUploadForDoorDesign.clear();
+      filesToUploadForDoorDesign.add(_image2!);
       setState(() {});
     } else {
       print('no image selected');
@@ -85,14 +86,11 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
   String supplyTypeValue = "Supply Only";
   String priorityValue = "LOW";
 
-  String enqAllocatedTo = "";
+  var enqAllocatedTo;
   String enqEnteredBy = "";
 
   @override
   Widget build(BuildContext context) {
-    enquiryEnteredByController.text = widget.dealerName;
-    var dealerData = Provider.of<DealerData>(context).model;
-    dealerController.text = dealerData.dealerName!;
 
     // print(_image);
 
@@ -151,7 +149,11 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               ),
               const Text('Enquiry Allocated To',
                   style: TextStyle(color: Color(0xff941420))),
-              DropdownButton<String>(
+              FutureBuilder<List<AllDealersModel>>(
+                future: apiServices.getAllDealers(), 
+                builder: ((context, snapshot) {
+                  return  DropdownButton<String>(
+                hint: Text('Select value'),
                 alignment: Alignment.center,
                 isExpanded: true,
                 value: enqAllocatedTo,
@@ -159,20 +161,22 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {
-                  // setState(() {
-                  //   entranceDoorValue = newValue ?? entranceDoorValue;
-                  // });
+                onChanged: (newValue) {
+                  enqAllocatedTo = newValue ?? "";
+                  setState(() {
+                    
+                  });
                 },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: '', child: Center(child: Text(''))),
-                  DropdownMenuItem<String>(
-                      value: 'Basit', child: Center(child: Text('Basit'))),
-                  DropdownMenuItem<String>(
-                      value: 'Hassooo', child: Center(child: Text('Hassooo'))),
-                ],
-              ),
+                items: snapshot.data != null ? snapshot.data!.map((e) {
+                  print("name present in API: ${e.name}");
+                  return DropdownMenuItem(
+                    value: e.name ?? "",
+                    child: Center(child: Text(e.name ?? "")));
+                }).toList() : [],
+              );
+
+                
+              })),
               SizedBox(
                 height: 10,
               ),
@@ -197,10 +201,10 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   height: 2,
                   color: Colors.grey,
                 ),
-                onChanged: (String? newValue) {
-                  // setState(() {
-                  //   entranceDoorValue = newValue ?? entranceDoorValue;
-                  // });
+                onChanged: (newValue) {
+                  enqEnteredBy = newValue ?? enqEnteredBy;
+                  setState(() {
+                  });
                 },
                 items: [
                   DropdownMenuItem<String>(
@@ -209,6 +213,22 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       value: 'Ian', child: Center(child: Text('Ian'))),
                   DropdownMenuItem<String>(
                       value: 'Trish', child: Center(child: Text('Trish'))),
+                      DropdownMenuItem<String>(
+                      value: 'Alecia', child: Center(child: Text('Alecia'))),
+                  DropdownMenuItem<String>(
+                      value: 'Tressy', child: Center(child: Text('Tressy'))),
+                      DropdownMenuItem<String>(
+                      value: 'Domimic', child: Center(child: Text('Domimic'))),
+                  DropdownMenuItem<String>(
+                      value: 'Graham', child: Center(child: Text('Graham'))),
+                      DropdownMenuItem<String>(
+                      value: 'Julie', child: Center(child: Text('Julie'))),
+                  DropdownMenuItem<String>(
+                      value: 'Ben', child: Center(child: Text('Ben'))),
+                      DropdownMenuItem<String>(
+                      value: 'Elliot', child: Center(child: Text('Elliot'))),
+                      DropdownMenuItem<String>(
+                      value: 'Other', child: Center(child: Text('Other'))),
                 ],
               ),
               SizedBox(
@@ -284,6 +304,9 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 ),
                 onChanged: (String? newValue) {
                   requirementValue = newValue ?? enquirySourceValue;
+                  setState(() {
+                    
+                  });
                 },
                 items: [
                   DropdownMenuItem<String>(
@@ -365,9 +388,6 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       value: 'Not Specified',
                       child: Center(child: Text('Not Specified'))),
                 ],
-              ),
-              SizedBox(
-                height: 10,
               ),
               SizedBox(
                 height: 10,
@@ -544,7 +564,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               Center(
                 child: RoundButton(
                   text: 'Save',
-                  onTap: () {},
+                  onTap: () {
+                    apiServices.createEnquiriesForAdmin(widget.dealerId, entranceDoorValue, dealerController.text, enqAllocatedTo, enqEnteredBy, enqEnteredBy, cusNameController.text, companyController.text, supplyTypeValue, addressController.text, deliveryAddressController2.text, deliveryAddressController3.text, deliveryAddressController4.text, deliveryPostCode.text, emailController.text, telephoneController.text, priorityValue, filesToUpload, filesToUploadForDoorDesign, notesController.text, enquirySourceValue)  ;                },
                   color: Color(0xff941420),
                 ),
               ),

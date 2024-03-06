@@ -278,3 +278,26 @@ class AdminPanelOrders {
     );
   }
 }
+
+class OrdersCompleteResponse {
+  List<AdminPanelOrders> orders;
+  final String? displayName;
+  final String? dealerName;
+
+  OrdersCompleteResponse({
+     required this.orders,
+     this.displayName,
+     this.dealerName,
+  });
+
+  factory OrdersCompleteResponse.fromJson(Map<String, dynamic> json) {
+    List<dynamic> quoteList = json['quotes'];
+    List<AdminPanelOrders> quotes = quoteList.map((quoteJson) => AdminPanelOrders.fromJson(quoteJson)).toList();
+
+    return OrdersCompleteResponse(
+      orders: quotes,
+      displayName: json['display_name'],
+      dealerName: json['dealerName'],
+    );
+  }
+}

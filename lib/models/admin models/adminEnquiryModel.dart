@@ -182,3 +182,26 @@ class AdminEnquiryModel {
     );
   }
 }
+
+class CompleteResponseOfEnquiries {
+  final List<AdminEnquiryModel> quotes;
+  final String displayName;
+  final String dealerName;
+
+  CompleteResponseOfEnquiries({
+    required this.quotes,
+    required this.displayName,
+    required this.dealerName,
+  });
+
+  factory CompleteResponseOfEnquiries.fromJson(Map<String, dynamic> json) {
+    List<dynamic> quoteList = json['quotes'];
+    List<AdminEnquiryModel> quotes = quoteList.map((quoteJson) => AdminEnquiryModel.fromJson(quoteJson)).toList();
+
+    return CompleteResponseOfEnquiries(
+      quotes: quotes,
+      displayName: json['display_name'],
+      dealerName: json['dealerName'],
+    );
+  }
+}

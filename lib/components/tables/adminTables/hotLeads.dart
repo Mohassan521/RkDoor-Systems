@@ -1,16 +1,22 @@
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/adminHotleads.dart';
 import 'package:price_link/models/hotLeadsModel.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/Enquiries/hotLeadsEdit.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
+import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
+import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +34,7 @@ class _AdminHotLeadsState extends State<AdminHotLeads> {
   String? prevValue;
   void _showDatePicker() {
     showDatePicker(
-            context: context,
+            context: context as BuildContext,
             initialDate: DateTime.now(),
             firstDate: DateTime(2000),
             lastDate: DateTime(2050))
@@ -43,8 +49,8 @@ class _AdminHotLeadsState extends State<AdminHotLeads> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<HotLeadsModel>>(
-      future: apiServices.hotLeads(widget.dealerId!),
+    return FutureBuilder(
+      future: apiServices.getHotLeadsForAdmin(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -52,7 +58,8 @@ class _AdminHotLeadsState extends State<AdminHotLeads> {
           return Center(child: Text('Admin Hot Leads Data is being loaded...'));
         }
 
-        List<HotLeadsModel>? list = snapshot.data ?? [];
+        List<CompleteResponseOfHotLeads> list = snapshot.data ?? [];
+        //print("admin hot leads data: $list ");
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(
@@ -241,7 +248,7 @@ class _AdminHotLeadsState extends State<AdminHotLeads> {
                 ],
                 source: MyData(list, _dateTime, widget.dealerId,
                     widget.dealerName, _showDatePicker,
-                    myGlobalBuildContext: context)),
+                    context: context)),
           );
         });
       },
@@ -256,154 +263,318 @@ class MyData extends DataTableSource {
   DateTime _datetime = DateTime.now();
   //final String? prevNotesValue;
   void Function()? _showDatePicker;
-  final BuildContext myGlobalBuildContext;
+  final BuildContext context;
   TextEditingController orderNotesController = TextEditingController();
-  final List<HotLeadsModel> data;
+  final List<CompleteResponseOfHotLeads> dealerDataList;
 
-  MyData(this.data, this._datetime, this.dealerId, this.dealerName,
+  MyData(this.dealerDataList, this._datetime, this.dealerId, this.dealerName,
       this._showDatePicker,
-      {required this.myGlobalBuildContext});
+      {required this.context});
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
 
   @override
-  int get rowCount => data.length;
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
+
+    showImageDialog(BuildContext context, String imageUrl) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      );
+    }
+
+    int currentIndex = 0;
+    for (var dealerData in dealerDataList) {
+      for (var quote in dealerData.hotleads) {
+        TextEditingController configuratorCode = TextEditingController();
+        configuratorCode.text = quote.enquiryConfCode ?? "";
+
+        List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
+        String fileUploadPath = fileUpload.isNotEmpty ? fileUpload.first : '';
+        String fileuploadExtension = extension(fileUploadPath).toLowerCase();
+
+        List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
+        String enqFormFileUpload =
+            enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
+        String enqFormExtension = extension(enqFormFileUpload).toLowerCase();
+
+        if (currentIndex == index) {
+          return DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(quote.enquiryAllocatedTo ?? "")),
+              DataCell(Text(quote.enquiryCusName ?? "")),
+              DataCell(Text(quote.enquiryCompanyName ?? "")),
+              //DataCell(Text("")),
+              DataCell((quote != "")
+                  ? Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Color(0xffff0000),
+                      ),
+                      height: MediaQuery.sizeOf(context).height * 0.04,
+                      width: MediaQuery.sizeOf(context).width * 0.3,
+                      child: Center(
+                          child: Text(
+                        quote.newSymbol!,
+                        style: TextStyle(color: Colors.white),
+                      )))
+                  : Text("")),
+              DataCell(Text(quote.enquiryTelNum ?? "")),
+              DataCell(Text(quote.enquiryType ?? "")),
+              DataCell(Text(quote.enquiryPriorityLevel ?? "")),
+              DataCell(Text(quote.enquiryRequirement ?? "")),
+              DataCell(Text(quote.enquirySupplyType ?? "")),
+              DataCell(Text(dealerData.dealerName)),
+              DataCell(Text(
+                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
+              DataCell(Text(quote.enquiryCusEmail ?? "")),
+              DataCell(Text(quote.dileveryPostCodeC13 ?? "")),
+              DataCell(Text(quote.enquirySource ?? "")),
+              DataCell(Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 13),
+                    controller: configuratorCode,
+                    onChanged: (value) {
+                      // Timer(Duration(seconds: 5), () {
+                      //   apiServices.factoryDeliveryWeekSteelOrder(
+                      //       dealerId, value, result.id!);
+                      // });
+                    },
+                  ))),
+              DataCell(
+                quote.enquiryOrderConfFile!.isNotEmpty
+                    ? Center(
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                getImage();
+                              },
+                              icon: Icon(Icons.add_circle_outline),
+                            ),
+                            SizedBox(width: 20),
+                            // Create icons for each file
+                            for (var file in quote.enquiryOrderConfFile!)
+                              InkWell(
+                                onTap: () {
+                                  String fileExtension =
+                                      extension(file).toLowerCase();
+                                  if (fileExtension == ".pdf") {
+                                    print(file);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PDFViewer(url: file),
+                                      ),
+                                    );
+                                  } else if (fileExtension == ".jpg" ||
+                                      fileExtension == ".jpeg" ||
+                                      fileExtension == ".png") {
+                                    print(file);
+                                    showImageDialog(context, file);
+                                  } else {
+                                    print(file);
+                                    Utils().showToast(
+                                      'File Format not supported',
+                                      Color(0xff941420),
+                                      Colors.white,
+                                    );
+                                  }
+                                },
+                                child: Icon(
+                                  (fileuploadExtension == '.jpg' ||
+                                          fileuploadExtension == '.jpeg' ||
+                                          fileuploadExtension == '.png')
+                                      ? Icons.file_open
+                                      : (fileuploadExtension == '.pdf')
+                                          ? Icons.picture_as_pdf
+                                          : Icons.file_present,
+                                  size: 16,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                getImage();
+                              },
+                              icon: Icon(Icons.add_circle_outline),
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              'Add Files',
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
+                        ),
+                      ),
+              ),
+              DataCell(
+                quote.enquiryFileUpload!.isNotEmpty
+                    ? Center(
+                        child: Row(
+                          children: [
+                            // Create icons for each file
+                            for (var file in quote.enquiryFileUpload!)
+                              InkWell(
+                                onTap: () {
+                                  String fileExtension =
+                                      extension(file).toLowerCase();
+                                  if (fileExtension == ".pdf") {
+                                    print(file);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PDFViewer(url: file),
+                                      ),
+                                    );
+                                  } else if (fileExtension == ".jpg" ||
+                                      fileExtension == ".jpeg" ||
+                                      fileExtension == ".png") {
+                                    print(file);
+                                    showImageDialog(context, file);
+                                  } else {
+                                    print(file);
+                                    Utils().showToast(
+                                      'File Format not supported',
+                                      Color(0xff941420),
+                                      Colors.white,
+                                    );
+                                  }
+                                },
+                                child: Icon(
+                                  (enqFormExtension == '.jpg' ||
+                                          enqFormExtension == '.jpeg' ||
+                                          enqFormExtension == '.png')
+                                      ? Icons.file_open
+                                      : (enqFormExtension == '.pdf')
+                                          ? Icons.picture_as_pdf
+                                          : Icons.file_present,
+                                  size: 16,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Row(
+                          children: [
+                            Text(
+                              '',
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
+                        ),
+                      ),
+              ),
+
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Enquiry Record",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Create Quotation",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Close Enquiry",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(Text(quote.date ?? "")),
+              DataCell(Text(quote.time ?? "")),
+
+              DataCell(Row(
+                children: [
+                  Icon(
+                    Icons.edit,
+                    size: 14,
+                  ),
+                  Icon(
+                    Icons.copy,
+                    size: 14,
+                  ),
+                  Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                    size: 14,
+                  ),
+                ],
+              ))
+
+              // Add more cells for other quote fields if needed
+            ],
+          );
+        }
+        currentIndex++;
+      }
+    }
+    return null;
+  }
 
   @override
   bool get isRowCountApproximate => false;
 
   @override
-  int get selectedRowCount => 0;
+  int get rowCount => totalRowCount;
 
   @override
-  DataRow getRow(int index) {
-    // String? prevValue =
-    //print(prevNotesValue);
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
-    var dealerData = Provider.of<DealerData>(myGlobalBuildContext).model;
-    final HotLeadsModel result = data[index];
+  int get selectedRowCount => 0;
 
-    //Widget selectedTable = determineTable(result, dealerId!);
-
-    return DataRow.byIndex(
-      index: index,
-      cells: <DataCell>[
-        DataCell(Text(result.enquiryAllocatedTo!.isNotEmpty
-            ? result.enquiryAllocatedTo!
-            : "")),
-        DataCell(Text(
-            result.enquiryCusName!.isNotEmpty ? result.enquiryCusName! : "")),
-        DataCell(Text(result.enquiryCompanyName!.isNotEmpty
-            ? result.enquiryCompanyName!
-            : "")),
-        DataCell(Text(
-          result.newSymbol!.isNotEmpty ? result.newSymbol! : "",
-          style:
-              TextStyle(color: Color(0xff941420), fontWeight: FontWeight.w600),
-        )),
-
-        DataCell(Text(
-            result.enquiryTelNum!.isNotEmpty ? result.enquiryTelNum! : "")),
-        DataCell(
-            Text(result.enquiryType!.isNotEmpty ? result.enquiryType! : "")),
-        DataCell(Text((result.enquiryPriorityLevel!.isNotEmpty
-            ? result.enquiryPriorityLevel!
-            : ""))),
-        DataCell(Text(result.enquiryRequirement!.isNotEmpty
-            ? result.enquiryRequirement!
-            : "")),
-        // DataCell(
-        //     Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.enquirySupplyType!.isNotEmpty
-            ? result.enquirySupplyType!
-            : "")),
-        DataCell(Text(dealerName!.isNotEmpty ? dealerName! : "")),
-        DataCell(Text('${(
-          result.customerAddress!.isNotEmpty ? result.customerAddress! : "",
-          result.customerAddress2!.isNotEmpty ? result.customerAddress2! : "",
-          result.customerAddress3!.isNotEmpty ? result.customerAddress3! : "",
-          result.customerAddress4!.isNotEmpty ? result.customerAddress4! : ""
-        )}')),
-        // DataCell(Text(
-        //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(
-            result.enquiryCusEmail!.isNotEmpty ? result.enquiryCusEmail! : "")),
-        // DataCell(Text(
-        //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.dileveryPostCodeC13!.isNotEmpty
-            ? result.dileveryPostCodeC13!
-            : "")),
-        DataCell(Text(
-            result.enquirySource!.isNotEmpty ? result.enquirySource! : "")),
-        DataCell(Text(
-            result.enquiryConfCode!.isNotEmpty ? result.enquiryConfCode! : "")),
-        DataCell(result.enquiryFileUpload!.isNotEmpty
-            ? Icon(Icons.file_download)
-            : Text("")),
-        DataCell(result.enquiryOrderConfFile!.isNotEmpty
-            ? Icon(Icons.file_download)
-            : Text("")),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Enquiry Record',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {
-            Navigator.push(
-                myGlobalBuildContext,
-                MaterialPageRoute(
-                    builder: (context) => RkDoorCalculatorView(
-                        url:
-                            "https://www.pricelink.net/rk-door-calulator-by-admin/?user_id=$dealerId&method=enquiryorder&cus_name=${result.enquiryCusName}&add1=${result.customerAddress}&add2=${result.customerAddress2}&add3=${result.customerAddress3}&add4=&quote_id=${result.id}&postcode=${result.dileveryPostCodeC13}&supplyType=${result.enquirySupplyType}&telno=${result.enquiryTelNum}&email=${result.enquiryCusEmail}&allocatedto=${result.enquiryAllocatedTo}&mobile_token=true")));
-          },
-          text: 'Create Quotation',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(Text(result.quotationNumberForEnquiry!.isNotEmpty
-            ? result.quotationNumberForEnquiry!
-            : "")),
-        DataCell(RoundButton(
-          onTap: () {
-            apiServices.closeEnquiry(dealerId!, result.id!);
-          },
-          text: 'Close Enquiry',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(Text(result.date!.isNotEmpty ? result.date! : "")),
-        DataCell(Text(result.time!.isNotEmpty ? result.time! : "")),
-        DataCell(Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    myGlobalBuildContext,
-                    MaterialPageRoute(
-                        builder: (context) => EditHotLeads(
-                            dealerId: dealerId ?? "",
-                            dealerName: dealerName ?? "",
-                            hotLeadsModel: result)));
-              },
-              icon: Icon(Icons.edit),
-              iconSize: 16,
-            ),
-            IconButton(
-              onPressed: () {
-                apiServices.deleteEnquiry(dealerId ?? "", result.id ?? "");
-              },
-              icon: Icon(Icons.delete),
-              color: Colors.red,
-              iconSize: 16,
-            ),
-          ],
-        ))
-        //DataCell(Text(result.orderFinHisNoteBox ?? '')),
-        //DataCell(Text(result.customNotes ?? '')),
-      ],
-    );
+  int get totalRowCount {
+    int count = 0;
+    for (var dealerData in dealerDataList) {
+      count += dealerData.hotleads.length;
+    }
+    return count;
   }
 }

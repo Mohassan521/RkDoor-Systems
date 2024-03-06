@@ -9,9 +9,12 @@ import 'package:price_link/models/CadDetailsModel.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/PDFDetailsModel.dart';
+import 'package:price_link/models/admin%20models/adminCompletedOrders.dart';
 import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/adminHotleads.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
+import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/models/admin%20models/steelOrderModel.dart';
 import 'package:price_link/models/careAndMaintenanceModel.dart';
 import 'package:price_link/models/completedOrders.dart';
@@ -1689,32 +1692,28 @@ class NetworkApiServices {
 
   final response = await http.get(Uri.parse(apiUrl));
   if (response.statusCode == 200) {
-    final Map<String, dynamic> data = jsonDecode(response.body);
-    List<CompleteResponse> apiResponses = [];
-    data.forEach((key, value) {
-      apiResponses.add(CompleteResponse.fromJson(value));
-    });
-    return apiResponses;
+    Map<String, dynamic> data = jsonDecode(response.body);
+      List<CompleteResponse> quotes = [];
+      data.forEach((key, value) {
+        quotes.add(CompleteResponse.fromJson(value));
+      });
+      return quotes;
   } else {
     throw Exception('Failed to load quotes');
   }
 }
 
-  Future<List<AdminPanelOrders>> getAdminOrders() async {
+  Future<List<OrdersCompleteResponse>> getAdminOrders() async {
     var apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_orders/1";
 
     var response = await http.get(Uri.parse(apiUrl));
 
     if(response.statusCode == 200){
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      List<AdminPanelOrders> orders = [];
-
-      data.forEach((key, value) { 
-        if(value is List){
-          orders.addAll(value.map((order) => AdminPanelOrders.fromJson(order)).toList());
-        }
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<OrdersCompleteResponse> orders = [];
+      data.forEach((key, value) {
+        orders.add(OrdersCompleteResponse.fromJson(value));
       });
-
       return orders;
     }
     else{
@@ -1743,24 +1742,247 @@ class NetworkApiServices {
   }
 
 
-  Future<List<AdminEnquiryModel>> getAdminPanelEnquiries() async {
+  Future<List<CompleteResponseOfEnquiries>> getAdminPanelEnquiries() async {
     var apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_enquries/1";
 
     var response = await http.get(Uri.parse(apiUrl));
 
     if(response.statusCode == 200){
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final List<dynamic> enquiries = [];
-
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<CompleteResponseOfEnquiries> dealerDataList = [];
       data.forEach((key, value) {
-        enquiries.addAll(value);
+        dealerDataList.add(CompleteResponseOfEnquiries.fromJson(value));
       });
-
-      return enquiries.map((e) => AdminEnquiryModel.fromJson(e)).toList();
+      return dealerDataList;
     }
     else{
       throw Exception('Something went wrong');
     }
   }
+
+  Future<List<CompleteResponseOfHotLeads>> getHotLeadsForAdmin() async {
+    var apiurl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_Hotleads/1";
+
+    var response = await http.get(Uri.parse(apiurl));
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final List<CompleteResponseOfHotLeads> hotleads = [];
+
+      data.forEach((key, value) {
+        hotleads.add(CompleteResponseOfHotLeads.fromJson(value));
+      });
+
+      return hotleads;
+    }
+    else{
+      throw Exception('Something went wrong');
+    }
+  }
+
+  Future<List<CompleteResponseForCompletedOrders>> getCompletedOrdersForAdmin() async {
+    var apiurl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_completedOrders/1";
+
+    var response = await http.get(Uri.parse(apiurl));
+
+    if(response.statusCode == 200){
+final Map<String, dynamic> data = json.decode(response.body);
+    List<CompleteResponseForCompletedOrders> quoteDataList = [];
+    data.forEach((key, value) {
+      quoteDataList.add(CompleteResponseForCompletedOrders.fromJson({'quotes': value['quotes'], 'display_name': value['display_name'], 'dealerName': value['dealerName']}));
+    });
+    return quoteDataList;
+    }
+    else{
+      throw Exception('Something went wrong'); 
+    }
+  }
+
+  Future<void> createEnquiriesForAdmin(
+      String userId,
+      String type,
+      String dealer,
+      String enquiryAllocatedTo,
+      String enquiryEntered,
+      String requirement,
+      String cus_name,
+      String company,
+      String supply_type,
+      String address,
+      String address2,
+      String address3,
+      String address4,
+      String postcode,
+      String cus_email,
+      String telephone,
+      String priority,
+      List<File>? fileToUpload,
+      List<File>? doorDesignFile,
+      String notes,
+      String source) async {
+    var apiUrl = "https://pricelink.net/wp-json/mobile_api/v1/create_enquries";
+
+    var result = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+    List<http.MultipartFile> newList = [];
+    List<http.MultipartFile> doorDesignFileList = [];
+
+    for (int i = 0; i < fileToUpload!.length; i++) {
+      //File imageFile = File(fileToUpload[i]);
+      File imageFile = fileToUpload[i];
+      var stream = new http.ByteStream(imageFile.openRead());
+      var length = await imageFile.length();
+      var multipartFile = http.MultipartFile(
+          "EnquiryfileToUpload[$i]", stream, length,
+          filename: imageFile.path.split("/").last);
+      print(imageFile.path);
+      newList.add(multipartFile);
+    }
+
+    for (int i = 0; i < doorDesignFile!.length; i++) {
+      //File imageFile = File(fileToUpload[i]);
+      File imageFile = doorDesignFile[i];
+      var stream = new http.ByteStream(imageFile.openRead());
+      var length = await imageFile.length();
+      var multipartFile = http.MultipartFile(
+          "EnquirydoorsedignfileToUpload[$i]", stream, length,
+          filename: imageFile.path.split("/").last);
+      print(imageFile.path);
+      doorDesignFileList.add(multipartFile);
+    }
+
+    result.files.addAll(newList);
+    result.files.addAll(doorDesignFileList);
+
+    result.fields["user_id"] = userId;
+    result.fields["enquiry_type"] = type;
+    result.fields['enquiry_allocated_to'] = enquiryAllocatedTo;
+    result.fields["enquiry_dealer"] = dealer;
+    result.fields["enquiry_entered"] = enquiryEntered;
+    result.fields["enquiry_requirement"] = requirement;
+    result.fields["enquiry_cus_name"] = cus_name;
+    result.fields["enquiry_company_name"] = company;
+    result.fields["enquiry_supply_type"] = supply_type;
+    result.fields["customer_address"] = address;
+    result.fields["customer_address_2"] = address2;
+    result.fields["customer_address_3"] = address3;
+    result.fields["customer_address_4"] = address4;
+    result.fields["dilevery_post_code_c13"] = postcode;
+    result.fields["enquiry_cus_email"] = cus_email;
+    result.fields["enquiry_tel_num"] = telephone;
+    result.fields["enquiry_priorityLevel"] = priority;
+    result.fields["enquiry_notes"] = notes;
+    result.fields["enquiry_source"] = source;
+
+    //result.files.add(multiport);
+
+    var response = await result.send();
+
+    if (response.statusCode == 200) {
+      print('uploaded file path: ${fileToUpload}');
+      Utils().showToast('Enquiry Created', Color(0xff941420), Colors.white);
+    } else {
+      //print('multiport path:  ${multiport.filename}');
+      print('Something went wrong ${response.statusCode}');
+    }
+
+    // response.stream.transform(utf8.decoder).listen((value) {
+    //   print(value);
+    // });
+  }
+
+  Future<void> createSteelOrderForAdmin(
+      String dealerId,
+      type,
+      cname,
+      qnum,
+      dealer,
+      salesperson,
+      supply,
+      address1,
+      address2,
+      address3,
+      postcode,
+      color,
+      frame,
+      cusEmail,
+      telephone,
+      totalOrderValue,
+      discount,
+      deliveryCost,
+      weight,
+      netOrderValue,
+      List<File>? fileToUpload,
+      String notes) async {
+    var apiUrl =
+        "https://pricelink.net/wp-json/mobile_api/v1/save_steel_orderApi";
+
+    var request = await http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+    List<http.MultipartFile> newList = [];
+
+    for (int i = 0; i < fileToUpload!.length; i++) {
+      File imageFile = fileToUpload[i];
+
+      var stream = http.ByteStream(imageFile.openRead());
+      var length = await imageFile.length();
+      var multipartfile = http.MultipartFile(
+          "fileToUploadPdf[$i]", stream, length,
+          filename: imageFile.path.split("/").last);
+      newList.add(multipartfile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields["user_id"] = dealerId;
+    request.fields["product_type"] = type;
+    request.fields["steel_customer_name"] = cname;
+    request.fields["steel_q_number"] = qnum;
+    request.fields["steel_saleperson"] = dealer;
+    request.fields["steel_dealer_email"] = salesperson;
+    request.fields["steel_supply_type"] = supply;
+    request.fields["customer_address"] = address1;
+    request.fields["customer_address_2"] = address2;
+    request.fields["customer_address_3"] = address3;
+    request.fields["dilevery_post_code_c13"] = postcode;
+    request.fields["steel_color"] = color;
+    request.fields["steel_frameSize"] = frame;
+    request.fields["steel_customer_email"] = cusEmail;
+    request.fields["steel_customer_tel"] = telephone;
+    request.fields["steel_total_order_value"] = totalOrderValue;
+    request.fields["steel_discount"] = discount;
+    request.fields["steel_delivery_cost"] = deliveryCost;
+    request.fields["steel_weight"] = weight;
+    request.fields["steel_order_net_val"] = netOrderValue;
+    request.fields["Notes"] = notes;
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      Utils().showToast('Steel Order Created', Color(0xff941420), Colors.white);
+    } else {
+      print('something went wrong $response');
+    }
+  }
+
+
+  Future<List<AllDealersModel>> getAllDealers() async {
+    var response = await http.get(Uri.parse('https://www.pricelink.net/wp-json/mobile_api/v1/All_dealers_from_admin/1'));
+
+    final body = json.decode(response.body) as List;
+    if(response.statusCode == 200){
+      return body.map((e) {
+        final map = e as Map<String, dynamic>;
+        return AllDealersModel(
+          iD: map['ID'],
+          name: map['name']
+        );
+      }).toList();
+    }
+    else{
+      throw Exception('Something went wrong');
+    }
+  }
+
 
 }

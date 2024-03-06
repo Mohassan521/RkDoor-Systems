@@ -18,17 +18,17 @@ import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class AdminAllEnquiriesTable extends StatefulWidget {
+class AdminEntranceDoorEnquiries extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
   final String? role;
-  const AdminAllEnquiriesTable({super.key, this.dealerId, required this.dealerName, this.role});
+  const AdminEntranceDoorEnquiries({super.key, this.dealerId, required this.dealerName, this.role});
 
   @override
-  State<AdminAllEnquiriesTable> createState() => _AdminAllEnquiriesTableState();
+  State<AdminEntranceDoorEnquiries> createState() => _AdminEntranceDoorEnquiriesState();
 }
 
-class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
+class _AdminEntranceDoorEnquiriesState extends State<AdminEntranceDoorEnquiries> {
   // String? _filePath;
   // String selectedValue = "";
 
@@ -63,7 +63,7 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<CompleteResponseOfEnquiries>>(
+    return FutureBuilder(
       future: apiServices.getAdminPanelEnquiries(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -73,6 +73,9 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
         }
 
         List<CompleteResponseOfEnquiries> dealerDataList = snapshot.data ?? [];
+        // List<CompleteResponseOfEnquiries>? entranceDoorList = dealerDataList
+        //     .where((result) => result.quotes.where((element) => element.enquiryType == "Entrance Door"));
+            
 
         // List<EnquiriesModel> filteredList =
         //     Provider.of<AllEnquiriesSearchedData>(context).filteredDataModel;
@@ -87,7 +90,11 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                 bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(0)),
             child: PaginatedDataTable(
-                rowsPerPage: 5,
+                rowsPerPage: (dealerDataList.length >= 5 && dealerDataList.isNotEmpty)
+                    ? 5
+                    : (dealerDataList.isEmpty)
+                        ? 1
+                        : dealerDataList.length,
                 headingRowColor: MaterialStateProperty.resolveWith(
                     (states) => Color(0xff941420)),
                 columns: const <DataColumn>[
@@ -299,7 +306,7 @@ class MyData extends DataTableSource {
     String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
 
 
-        if (currentIndex == index) {
+        if (currentIndex == index && quote.enquiryType == "Entrance Door") {
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -592,7 +599,11 @@ class MyData extends DataTableSource {
   int get totalRowCount {
     int count = 0;
     for (var dealerData in dealerDataList) {
-      count += dealerData.quotes.length;
+      for (var quote in dealerData.quotes) {
+        if (quote.enquiryType == 'Entrance Door') {
+          count++;
+        }
+      }
     }
     return count;
   }

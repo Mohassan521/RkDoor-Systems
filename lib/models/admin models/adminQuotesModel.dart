@@ -37,6 +37,9 @@ class AdminQuotesModel {
   final String? quickPdfUrl;
   final String? profile;
   final String? doorModel;
+  final String? deliveryCostForQuote;
+  final String? installationCostForQuote;
+  final String? discountLevel;
 
   AdminQuotesModel({
      this.quotationNumber,
@@ -77,6 +80,9 @@ class AdminQuotesModel {
      this.quickPdfUrl,
      this.profile,
      this.doorModel,
+     this.deliveryCostForQuote,
+     this.installationCostForQuote,
+     this.discountLevel
   });
 
   factory AdminQuotesModel.fromJson(Map<String, dynamic> json) {
@@ -119,30 +125,32 @@ class AdminQuotesModel {
       quickPdfUrl: json['Quick_pdf_url'] ?? "",
       profile: json['profile'] ?? "",
       doorModel: json['door_model'] ?? "",
-    );
+      deliveryCostForQuote: json['delivery_cost_for_quote'] ?? "",
+      installationCostForQuote: json['intallation_cost_for_quote'] ?? "",
+      discountLevel: json['Discount_level_for_quote'] ?? ""
+    ); 
   }
 }
 
 class CompleteResponse {
-  final List<AdminQuotesModel>? quotes;
+  final List<AdminQuotesModel> quotes;
   final String? displayName;
   final String? dealerName;
 
   CompleteResponse({
-     this.quotes,
+     required this.quotes,
      this.displayName,
      this.dealerName,
   });
 
   factory CompleteResponse.fromJson(Map<String, dynamic> json) {
-    final List<AdminQuotesModel> quotes = (json['quotes'] as List)
-        .map((quoteJson) => AdminQuotesModel.fromJson(quoteJson))
-        .toList();
+    List<dynamic> quoteList = json['quotes'];
+    List<AdminQuotesModel> quotes = quoteList.map((quoteJson) => AdminQuotesModel.fromJson(quoteJson)).toList();
 
     return CompleteResponse(
       quotes: quotes,
-      displayName: json['display_name'] ?? "",
-      dealerName: json['dealerName'] ?? "",
+      displayName: json['display_name'],
+      dealerName: json['dealerName'],
     );
   }
 }

@@ -1,14 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/completedOrders.dart';
-import 'package:price_link/models/dealersModel.dart';
+import 'package:price_link/models/admin%20models/adminCompletedOrders.dart';
+import 'package:path/path.dart';
 import 'package:price_link/models/steelOrderModel.dart';
-import 'package:price_link/screens/FinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
+import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
+import 'package:price_link/utils/utils.dart';
 
 class AdminCompletedOrdersTable extends StatefulWidget {
   final String dealerId;
@@ -25,11 +25,6 @@ class AdminCompletedOrdersTable extends StatefulWidget {
 class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
   //List<DealersModel> dealers = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +33,8 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<CompletedOrders>>(
-      future: apiServices.getCompletedOrders(widget.dealerId),
+    return FutureBuilder(
+      future: apiServices.getCompletedOrdersForAdmin(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -47,12 +42,14 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<CompletedOrders>? list = snapshot.data ?? [];
+        List<CompleteResponseForCompletedOrders>? list = snapshot.data ?? [];
+        print("completed orders: ${list.length}");
 
-        List<CompletedOrders> filteredList =
-            Provider.of<CompletedOrdersSearchData>(context).filteredDataModel;
-        List<CompletedOrders>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        print("completed orders list: $list");
+        // List<CompletedOrders> filteredList =
+        //     Provider.of<CompletedOrdersSearchData>(context).filteredDataModel;
+        // List<CompletedOrders>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -181,7 +178,7 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  list, context, widget.dealerId, widget.dealerName)),
         );
       },
     );
@@ -189,15 +186,15 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
 }
 
 class MyData extends DataTableSource {
+  final List<CompleteResponseForCompletedOrders> data;
   final BuildContext context;
-  final List<CompletedOrders>? data;
-  final String dealerId;
-  final String dealerName;
+  final String? dealerId;
+  final String? dealerName;
 
   MyData(this.data, this.context, this.dealerId, this.dealerName);
 
   @override
-  int get rowCount => data!.length;
+  int get rowCount => data.length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -205,155 +202,178 @@ class MyData extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-  SteelOrderModel table = SteelOrderModel();
-
   @override
-  DataRow getRow(int index) {
-    final CompletedOrders result = data![index];
-    //List<DealersModel> dealers = NetworkApiServices().getDealersList(context,dealerId) as List<DealersModel>;
-    TextEditingController notesController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
-    NetworkApiServices apiServices = NetworkApiServices();
-    var dealerData = Provider.of<DealerData>(context).model;
-    return DataRow.byIndex(
+  DataRow? getRow(int index) {
+    print("Completed orders data in MyData class  ${data[index].quotes}");
+    final quote = data[index].quotes;
+    final displayName = data[index].displayName;
+    final dealerName = data[index].dealerName;
+    print("total weight ${data[index].quotes}");
+    quote.map((e) {
+      return DataRow.byIndex(
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.quotationNumber ?? "")),
-        DataCell(Text(dealerData.dealerName ?? "")),
+        DataCell(Text(displayName)),
+        DataCell(Text(e.totalWeightKg ?? "")),
         DataCell(Text(dealerName)),
-        DataCell(Text(result.name ?? '')),
-        DataCell(Text(result.orderNoVal ?? 'No File Chosen')),
-        DataCell(Text(result.orderStatusVal ?? '')),
-        DataCell((result.documents!.isNotEmpty
-            ? Icon(Icons.file_download_done)
-            : Text(""))),
-        DataCell(Text(result.anticipatedDateVal ?? '')),
-        DataCell((result.invoicesDocuments!.isNotEmpty
-            ? Icon(Icons.file_download_done)
-            : Text(""))),
-
-        DataCell((result.deliveryDocuments!.isNotEmpty
-            ? Icon(Icons.file_download_done)
-            : Text(""))),
-        DataCell(Text(result.telephoneNumber ?? '')),
-        //DataCell(Text('')),
-        DataCell(Text(result.customerEmail ?? "")),
-        DataCell(Text(result.dileveryPostCodeC13 ?? '')),
-        // factory delivery week
-        //DataCell(TextFormField()),
-        DataCell(Text(result.id ?? '')),
-        DataCell(Text(result.date ?? '')),
-        DataCell(Text(result.time ?? '')),
-        DataCell(Text(result.wholeTotal ?? '')),
-        DataCell(Text(result.orderDate ?? '')),
-        DataCell(Text(result.orderFollowup ?? '')),
-        // DataCell(Text(result.manualPDFImageURL!.map((e) => e.toString()).join(', '))),
-
-        DataCell(RoundButton(
-          text: 'Notes',
-          onTap: () async {
-            notesController.text = result.notes!;
-            await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      insetPadding: EdgeInsets.all(9),
-                      content: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                              right: -40,
-                              top: -40,
-                              child: InkResponse(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const CircleAvatar(
-                                  backgroundColor: Color(0xff941420),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )),
-                          Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Center(
-                                      child: Text('Enter Notes',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color(0xff941420),
-                                              fontWeight: FontWeight.w600))),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: TextFormField(
-                                      maxLines: 6,
-                                      // initialValue: result.notes,
-                                      controller: notesController,
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xff941420))),
-                                          hintText: 'Notes'),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  RoundButton(
-                                    text: 'Save',
-                                    onTap: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        apiServices.setNotesValue(dealerId!,
-                                            result.id!, notesController.text);
-                                      }
-
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop('dialog');
-                                    },
-                                    color: Color(0xff941420),
-                                  )
-                                ],
-                              ))
-                        ],
-                      ),
-                    ));
-          },
-          color: Colors.blue,
-        )),
-        DataCell(RoundButton(
-          text: 'Quote Analysis',
-          onTap: () async {},
-          color: Colors.blue,
-        )),
-
-        DataCell(Text('${result.date} ${result.time}')),
-
-        DataCell(Row(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.edit),
-              iconSize: 16,
-            ),
-            IconButton(
-              onPressed: () {
-                apiServices.deleteSteelOrder(dealerId, result.id!);
-              },
-              icon: Icon(Icons.delete),
-              color: Colors.red,
-              iconSize: 16,
-            ),
-          ],
-        )),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        DataCell(Text(dealerName)),
+        
+        // Add more cells as needed
       ],
     );
+
+    });
+      
   }
 }
+
+    // return DataRow.byIndex(index: index, cells: <DataCell>[
+    //   //1
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].name ?? "" : "")),
+    //   //2
+    //   DataCell(Text(displayname.displayName ?? "")),
+    //   //3
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].quotationNumber ?? "" : "")),
+    //   //4
+    //   DataCell(Text(displayname.dealerName ?? "")),
+    //   //5
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].id ?? "" : "")),
+    //   //6
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].telephoneNumber ?? "" : "")),
+    //   //7
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].customerEmail ?? "" : "")),
+    //   //8
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].deliveryPostCode ?? "" : "")),
+    //   //9
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].date ?? "" : "")),
+    //   //10
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].time ?? "" : "")),
+    //   //11
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].wholeTotal ?? "" : "")),
+    //   //12
+    //   // DataCell(Text(quote.isNotEmpty ? "${quote[index].deliveryCostForQuote ?? ""}" : "")),
+    //   DataCell(Text("")),
+    //   //13
+    //   DataCell(Text("")),
+    //   //14
+    //   DataCell(Text(quote.isNotEmpty ? "${quote[index].randtSelectBox ?? ""} - ${quote[index].markupVal ?? ""}" : "")),
+    //   //15
+    //   DataCell(Text("")),
+    //   //16
+    //   DataCell(Text(quote.isNotEmpty ? quote[index].saleBonus ?? "" : "")),
+    //   //17
+    //   // follow up date
+    //   DataCell(Text("")),
+    //   //18
+    //   DataCell(Consumer<setFollowUpValue>(
+    //     builder: (context, value, child) {
+    //       return Padding(
+    //         padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+    //         child: Container(
+    //           alignment: Alignment.center,
+    //           width: MediaQuery.sizeOf(context).width * 0.4,
+    //           decoration: BoxDecoration(
+    //               color: Color(0Xff008000),
+    //               border: Border.all(width: 1)),
+    //           child: DropdownButton<String>(
+    //             isExpanded: true,
+    //             value: "NO",
+    //             onChanged: (String? newValue) {
+    //               // if (newValue != null) {
+    //               //   apiServices.setFollowUpValue(
+    //               //       dealerId!, result.id!, newValue);
+    //               // } else {
+    //               //   apiServices.setFollowUpValue(
+    //               //       dealerId!, result.id!, result.orderFUpQVal!);
+    //               // }
+    //             },
+    //             items: [
+    //               DropdownMenuItem<String>(
+    //                   value: 'YES',
+    //                   alignment: Alignment.center,
+    //                   child: Text(
+    //                     'YES',
+    //                     style: TextStyle(color: Colors.black),
+    //                   )),
+    //               DropdownMenuItem<String>(
+    //                   value: 'NO',
+    //                   alignment: Alignment.center,
+    //                   child: Center(
+    //                     child: Text(
+    //                       'NO',
+    //                       style: TextStyle(color: Colors.black),
+    //                     ),
+    //                   )),
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   )),
+
+    //   //19
+    //   DataCell(RoundButton(onTap: (){
+
+    //   },
+    //   text: "Quote Analysis",
+    //   color: Colors.blue,
+    //   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+    //   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+    //   )),
+    //   //20
+    //   DataCell(RoundButton(onTap: (){
+
+    //   },
+    //   text: "Notes",
+    //   color: Colors.blue,
+    //   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+    //   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+    //   )),
+    //   //21
+    //   DataCell(RoundButton(onTap: (){
+
+    //   },
+    //   text: "Survey Form",
+    //   color: Colors.blue,
+    //   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+    //   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+    //   )),
+    //   //22
+    //   DataCell(RoundButton(onTap: (){
+
+    //   },
+    //   text: "Create Order",
+    //   color: Colors.blue,
+    //   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+    //   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+    //   )),
+    //   //23
+    //   DataCell(Row(
+    //     children: [
+    //       Icon(Icons.edit, size: 14,),
+    //       Icon(Icons.copy, size: 14,),
+    //       Icon(Icons.delete, color: Colors.red,size: 14,),
+    //     ],
+    //   )),
+
+    // ]);
+  
+
