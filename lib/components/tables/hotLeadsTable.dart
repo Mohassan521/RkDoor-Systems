@@ -419,6 +419,7 @@ class MyData extends DataTableSource {
                 myGlobalBuildContext,
                 MaterialPageRoute(
                     builder: (context) => RkDoorCalculatorView(
+                      dealerId: dealerId!,
                         url:
                             "https://www.pricelink.net/rk-door-calulator-by-admin/?user_id=$dealerId&method=enquiryorder&cus_name=${result.enquiryCusName}&add1=${result.customerAddress}&add2=${result.customerAddress2}&add3=${result.customerAddress3}&add4=&quote_id=${result.id}&postcode=${result.dileveryPostCodeC13}&supplyType=${result.enquirySupplyType}&telno=${result.enquiryTelNum}&email=${result.enquiryCusEmail}&allocatedto=${result.enquiryAllocatedTo}&mobile_token=true")));
           },

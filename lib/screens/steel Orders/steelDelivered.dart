@@ -32,6 +32,8 @@ class _SteelDeliveredState extends State<SteelDelivered> {
       drawer: DrawerPage(
         dealer_id: widget.dealerId,
         dealerName: widget.dealerName,
+        empId: widget.empId,
+        role: widget.role,
       ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),

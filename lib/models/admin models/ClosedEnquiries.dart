@@ -1,4 +1,4 @@
-class AdminEnquiryModel {
+class AdminClosedEnquiries {
   final String? id;
   final String? date;
   final String? time;
@@ -58,7 +58,7 @@ class AdminEnquiryModel {
   final String? chooseOpt5;
   final String? chooseOpt6;
 
-  AdminEnquiryModel({
+  AdminClosedEnquiries({
      this.id,
      this.date,
      this.time,
@@ -119,8 +119,8 @@ class AdminEnquiryModel {
      this.chooseOpt6,
   });
 
-  factory AdminEnquiryModel.fromJson(Map<String, dynamic> json) {
-    return AdminEnquiryModel(
+  factory AdminClosedEnquiries.fromJson(Map<String, dynamic> json) {
+    return AdminClosedEnquiries(
       id: json['id'] ?? "",
       date: json['date'] ?? "",
       time: json['time'] ?? "",
@@ -183,28 +183,25 @@ class AdminEnquiryModel {
   }
 }
 
-class CompleteResponseOfEnquiries {
-  final List<AdminEnquiryModel> quotes;
+class ClosedResponseOfEnquiries {
+  final List<AdminClosedEnquiries> quotes;
   final String displayName;
   final String dealerName;
-  final int userId;
 
-  CompleteResponseOfEnquiries({
+  ClosedResponseOfEnquiries({
     required this.quotes,
     required this.displayName,
     required this.dealerName,
-    required this.userId
   });
 
-  factory CompleteResponseOfEnquiries.fromJson(Map<String, dynamic> json) {
+  factory ClosedResponseOfEnquiries.fromJson(Map<String, dynamic> json) {
     List<dynamic> quoteList = json['quotes'];
-    List<AdminEnquiryModel> quotes = quoteList.map((quoteJson) => AdminEnquiryModel.fromJson(quoteJson)).toList();
+    List<AdminClosedEnquiries> quotes = quoteList.map((quoteJson) => AdminClosedEnquiries.fromJson(quoteJson)).toList();
 
-    return CompleteResponseOfEnquiries(
+    return ClosedResponseOfEnquiries(
       quotes: quotes,
       displayName: json['display_name'],
       dealerName: json['dealerName'],
-      userId: json['user_id']
     );
   }
 }

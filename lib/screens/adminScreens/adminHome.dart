@@ -116,8 +116,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w600),
                           ),
-                          Text(
-                              'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
+                          // Text(
+                          //     'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
                         ],
                       ),
                       Image(

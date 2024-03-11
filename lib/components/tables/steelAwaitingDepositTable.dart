@@ -219,7 +219,7 @@ class _SteelAwaitingDepositTableState extends State<SteelAwaitingDepositTable> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName, widget.role!, widget.empId ?? "")),
+                  displayData, context, widget.dealerId, widget.dealerName, widget.role ?? "", widget.empId ?? "")),
         );
       },
     );

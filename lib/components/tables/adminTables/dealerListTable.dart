@@ -4,6 +4,7 @@ import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/dealersList.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
@@ -42,8 +43,8 @@ class _DealerListTableState extends State<DealerListTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<ClosedEnquiryModel>>(
-      future: apiServices.closedEnquiries(widget.dealerId!),
+    return FutureBuilder(
+      future: apiServices.getDealersListForAdmin(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -51,12 +52,12 @@ class _DealerListTableState extends State<DealerListTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<ClosedEnquiryModel>? list = snapshot.data ?? [];
+        List<DealersList>? list = snapshot.data ?? [];
 
-        List<ClosedEnquiryModel> filteredList =
-            Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
-        List<ClosedEnquiryModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        // List<ClosedEnquiryModel> filteredList =
+        //     Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
+        // List<ClosedEnquiryModel>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(
@@ -165,9 +166,8 @@ class _DealerListTableState extends State<DealerListTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(displayData, _dateTime, widget.dealerId,
-                    widget.dealerName, _showDatePicker,
-                    myGlobalBuildContext: context)),
+                source: MyData(
+                  list, context, widget.dealerId ?? "", widget.dealerName ?? "")),
           );
         });
       },
@@ -176,22 +176,15 @@ class _DealerListTableState extends State<DealerListTable> {
 }
 
 class MyData extends DataTableSource {
-  final String? dealerId;
-  final String? dealerName;
-  NetworkApiServices apiServices = NetworkApiServices();
-  DateTime _datetime = DateTime.now();
-  //final String? prevNotesValue;
-  void Function()? _showDatePicker;
-  final BuildContext myGlobalBuildContext;
-  TextEditingController orderNotesController = TextEditingController();
-  final List<ClosedEnquiryModel> data;
+  final BuildContext context;
+  final List<DealersList>? data;
+  final String dealerId;
+  final String dealerName;
 
-  MyData(this.data, this._datetime, this.dealerId, this.dealerName,
-      this._showDatePicker,
-      {required this.myGlobalBuildContext});
+  MyData(this.data, this.context, this.dealerId, this.dealerName);
 
   @override
-  int get rowCount => data.length;
+  int get rowCount => data!.length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -199,80 +192,272 @@ class MyData extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
+
+  // File? _image;
+  // List<File> filesToUpload = [];
+  // Future<List<File>> getImage() async {
+  //   final _picker = ImagePicker();
+
+  //   final pickedFile =
+  //       await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+  //   if (pickedFile != null) {
+  //     _image = File(pickedFile.path);
+  //     filesToUpload.clear();
+  //     filesToUpload.add(_image!);
+  //     return filesToUpload;
+  //   } else {
+  //     print('no image selected');
+  //     return [];
+  //   }
+  // }
+
+  // showImageDialog(BuildContext context, List<dynamic> imageUrl) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(10))),
+  //             insetPadding: EdgeInsets.all(9),
+  //             content: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Stack(
+  //                   children: imageUrl
+  //                       .map(
+  //                         (imageUrl) => SizedBox(
+  //                           height: 200.0, // Set the height as needed
+  //                           child: Image.network(
+  //                             imageUrl,
+  //                             fit: BoxFit.fill,
+  //                           ),
+  //                         ),
+  //                       )
+  //                       .toList(),
+  //                 ),
+  //               ],
+  //             ),
+  //           ));
+  // }
+
   @override
   DataRow getRow(int index) {
-    // String? prevValue =
-    //print(prevNotesValue);
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
-    var dealerData = Provider.of<DealerData>(myGlobalBuildContext).model;
-    final ClosedEnquiryModel result = data[index];
+    final  result = data![index];
+    // TextEditingController factoryValue = TextEditingController();
+    // TextEditingController factoryDeliveryWeek = TextEditingController();
+    // factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
+    // factoryValue.text = result.steelFacOrderNoVal ?? "";
 
-    //Widget selectedTable = determineTable(result, dealerId!);
+    //NetworkApiServices apiServices = NetworkApiServices();
 
-    return DataRow.byIndex(
-      index: index,
-      cells: <DataCell>[
-        DataCell(Text(result.enquiryCusName ?? "")),
-        DataCell(Text(result.enquiryCompanyName ?? "")),
-        DataCell(Text(result.enquiryTelNum ?? "")),
-        DataCell(Text(result.enquiryType ?? "")),
-        DataCell(Text(result.enquiryPriorityLevel ?? "")),
-        DataCell(Text((result.enquiryRequirement ?? ""))),
-        DataCell(Text(result.enquiryAllocatedTo ?? '')),
-        // DataCell(
-        //     Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(dealerData.displayName ?? '')),
-        DataCell(Text(result.customerAddress ?? "")),
-        DataCell(Text(result.enquiryCusEmail ?? '')),
-        // DataCell(Text(
-        //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.enquirySource ?? '')),
-        // DataCell(Text(
-        //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
-        DataCell((result.enquiryFileUpload!.isNotEmpty)
-            ? Center(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Icon(
-                    Icons.file_download,
-                    size: 15,
-                  ),
+    TextEditingController supportMember = TextEditingController();
+    supportMember.text = result.supportMember ?? "";
+
+    String status = result.marketingImages ?? "";
+
+    return DataRow.byIndex(index: index, cells: <DataCell>[
+      //1
+      DataCell(Text(result.iD.toString())),
+      //2
+      DataCell(Text(result.name ?? "")),
+      //3
+      DataCell(Text(result.dealerName ?? "")),
+      //4
+      DataCell(Text(result.dealerAddress1 ?? "")),
+      //5
+      DataCell(Text(result.dealerAddress2 ?? "")),
+      //6
+      DataCell(Text(result.dealerAddress3 ?? "")),
+
+      DataCell(Text(result.postCodeRegister ?? "")),
+
+      DataCell(Text(result.telephone ?? "")),
+
+      DataCell(Text(result.email ?? "")),
+
+      DataCell(Text(result.userRegistered ?? "")),
+
+      DataCell(Center(
+              child: DropdownButton<String>(
+                value:
+                    (result.dealerType == "") ? "" : result.dealerType,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
                 ),
-              )
-            : Text("")),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Notes',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.2,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Create Quotation',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Close Enquiry',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Back To Enquiry',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(Text("")),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, newValue);
+                  } else {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, result.orderFollowup!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: '', child: Text('')),
+                  DropdownMenuItem<String>(value: 'TRADE', child: Text('TRADE')),
+                  DropdownMenuItem<String>(value: 'TRADE DEALER', child: Text('TRADE DEALER')),
+                  DropdownMenuItem<String>(value: 'RKDS DEALER', child: Text('RKDS DEALER')),
+                  DropdownMenuItem<String>(value: 'RKDS PREMIER DEALER', child: Text('RKDS PREMIER DEALER')),
+                  DropdownMenuItem<String>(value: 'RK ALUMINIUM', child: Text('RK ALUMINIUM')),
+                  DropdownMenuItem<String>(value: 'IQ GLASS', child: Text('IQ GLASS')),
+                  
+                ],
+              ),
+            )
+),
+  DataCell(Center(
+              child: DropdownButton<String>(
+                value:
+                    (result.lDealer == "") ? "" : result.lDealer,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, newValue);
+                  } else {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, result.orderFollowup!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: '', child: Text('')),
+                  DropdownMenuItem<String>(value: '2 user', child: Text('2 user')),
+                  DropdownMenuItem<String>(value: '4 user', child: Text('4 user')),
+                  DropdownMenuItem<String>(value: '6 user', child: Text('6 user')),
+                  DropdownMenuItem<String>(value: '10 user', child: Text('10 user')),
 
-        //DataCell(Text(result.orderFinHisNoteBox ?? '')),
-        //DataCell(Text(result.customNotes ?? '')),
-      ],
-    );
+                  
+                ],
+              ),
+            )
+),    
+DataCell(Center(
+              child: DropdownButton<String>(
+                value:
+                    (result.lStatus == "") ? "" : result.lStatus,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, newValue);
+                  } else {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, result.orderFollowup!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: '', child: Text('')),
+                  DropdownMenuItem<String>(value: 'active', child: Text('active')),
+                  DropdownMenuItem<String>(value: 'inactive', child: Text('inactive')),
+
+                  
+                ],
+              ),
+            )
+),    
+DataCell(Row(
+  children: [
+    Text(result.lDate != "" ? result.lDate! : ""),
+    DateButton(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                    );
+
+                    if (pickedDate != null) {
+                      // value.setDate(result.id!, pickedDate);
+                      // apiServices.setFollowUpOrderDate(
+                      //     dealerId!, result.id!, pickedDate);
+                    }
+                  },
+                  icon: Icons.calendar_month,
+                )
+  ],
+)),
+DataCell(Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 13),
+            controller: supportMember,
+            onChanged: (value) {
+              // Timer(Duration(seconds: 5), () {
+              //   apiServices.factoryDeliveryWeekSteelOrder(
+              //       dealerId, value, result.id!);
+              // });
+            },
+          ))),
+          DataCell(Center(
+              child: DropdownButton<String>(
+                value: status,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, newValue);
+                  } else {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, result.orderFollowup!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: "", child: Text("")),
+                  DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
+                  DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
+
+                  
+                ],
+              ),
+            )
+), 
+DataCell(result.userMarketingRecord!.isNotEmpty ? Text('Marketing Record Available') : Text('No Record of Marketing Images')),
+      //7
+      DataCell(Row(
+        children: [
+          Icon(Icons.edit, size: 14,),
+          Icon(Icons.delete, color: Colors.red,size: 14,),
+        ],
+      )),
+    ]);
   }
 }

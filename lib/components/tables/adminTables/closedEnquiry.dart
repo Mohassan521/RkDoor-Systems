@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/ClosedEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/ClosedEnquiries.dart';
 import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
+import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
+import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +34,7 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
   String? prevValue;
   void _showDatePicker() {
     showDatePicker(
-            context: context,
+            context: context as BuildContext,
             initialDate: DateTime.now(),
             firstDate: DateTime(2000),
             lastDate: DateTime(2050))
@@ -44,8 +49,8 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<ClosedEnquiryModel>>(
-      future: apiServices.closedEnquiries(widget.dealerId!),
+    return FutureBuilder(
+      future: apiServices.getAdminClosedEnquiries(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -53,12 +58,12 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        List<ClosedEnquiryModel>? list = snapshot.data ?? [];
+        List<ClosedResponseOfEnquiries>? list = snapshot.data ?? [];
 
-        List<ClosedEnquiryModel> filteredList =
-            Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
-        List<ClosedEnquiryModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        // List<ClosedEnquiryModel> filteredList =
+        //     Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
+        // List<ClosedEnquiryModel>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(
@@ -162,9 +167,8 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(displayData, _dateTime, widget.dealerId,
-                    widget.dealerName, _showDatePicker,
-                    myGlobalBuildContext: context)),
+                source: MyData(
+                  list, context, widget.dealerId, widget.dealerName)),
           );
         });
       },
@@ -176,100 +180,210 @@ class MyData extends DataTableSource {
   final String? dealerId;
   final String? dealerName;
   NetworkApiServices apiServices = NetworkApiServices();
-  DateTime _datetime = DateTime.now();
-  //final String? prevNotesValue;
-  void Function()? _showDatePicker;
   final BuildContext myGlobalBuildContext;
   TextEditingController orderNotesController = TextEditingController();
-  final List<ClosedEnquiryModel> data;
+  final List<ClosedResponseOfEnquiries>? dealerDataList;
 
-  MyData(this.data, this._datetime, this.dealerId, this.dealerName,
-      this._showDatePicker,
-      {required this.myGlobalBuildContext});
+  MyData(this.dealerDataList, this.myGlobalBuildContext, this.dealerId, this.dealerName,
+      );
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
 
   @override
-  int get rowCount => data.length;
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
+
+    showImageDialog(BuildContext context, String imageUrl) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      );
+    }
+
+    int currentIndex = 0;
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.quotes) {
+        // TextEditingController configuratorCode = TextEditingController();
+        // configuratorCode.text = quote.enquiryConfCode ?? "";
+
+        // TextEditingController facDeliveryWeek = TextEditingController();
+
+TextEditingController configuratorCode = TextEditingController();
+        configuratorCode.text = quote.enquiryConfCode ?? "";
+
+        List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
+    String fileUploadPath= fileUpload.isNotEmpty ? fileUpload.first : '';
+    String fileuploadExtension= extension(fileUploadPath).toLowerCase();
+
+    List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
+    String enqFormFileUpload = enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
+    String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
+
+   
+
+    // List<dynamic> pdfImageUrl = quote.pDFImageURL ?? [];
+    // String pdfImageUrlFilePath =
+    //     pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
+    // String pdfImageUrlFileExtension =
+    //     extension(pdfImageUrlFilePath).toLowerCase();
+
+        if (currentIndex == index) {
+          return DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(quote.enquiryCustomerName ?? "")),
+              DataCell(Text(quote.enquiryCompanyName ?? "")),
+              
+              DataCell(Text(quote.enquiryTelNum ?? "")),
+              DataCell(Text(quote.enquiryType ?? "")),
+              DataCell(Text(quote.enquiryPriorityLevel ?? "")),
+              DataCell(Text(quote.enquiryRequirement ?? "")),
+                            DataCell(Text(dealerData.displayName)),
+              DataCell(Text(dealerData.dealerName)),
+              DataCell(Text("${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
+              DataCell(Text(quote.enquiryCustomerEmail ?? "")),
+              DataCell(Text(quote.enquirySource ?? "")),
+              DataCell(
+        quote.enquiryFileUpload!.isNotEmpty
+            ? Center(
+                child: Row(
+                  children: [
+                    // Create icons for each file
+                    for (var file in quote.enquiryFileUpload!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (enqFormExtension == '.jpg' ||
+                                  enqFormExtension == '.jpeg' ||
+                                  enqFormExtension == '.png')
+                              ? Icons.file_open
+                              : (enqFormExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Row(
+                  children: [
+                    Text(
+                      '',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              ),
+      ),
+
+              DataCell(RoundButton(onTap: (){
+
+              },
+              text: "Notes",
+              height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+              color: Colors.blue,
+              )),
+              DataCell(RoundButton(onTap: (){
+
+              },
+              text: "Create Quotation",
+              height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.5,
+              color: Colors.blue,
+              )),
+              DataCell(RoundButton(onTap: (){
+
+              },
+              text: "Close Enquiry",
+              height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.5,
+              color: Colors.blue,
+              )),
+              DataCell(RoundButton(onTap: (){
+
+              },
+              text: "Back To Enquiry",
+              height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.04,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.5,
+              color: Colors.blue,
+              )),
+              DataCell(Text(""))]);
+        }
+        currentIndex++;
+      }
+    }
+    return null;
+  }
 
   @override
   bool get isRowCountApproximate => false;
 
   @override
-  int get selectedRowCount => 0;
+  int get rowCount => totalRowCount;
 
   @override
-  DataRow getRow(int index) {
-    // String? prevValue =
-    //print(prevNotesValue);
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
-    var dealerData = Provider.of<DealerData>(myGlobalBuildContext).model;
-    final ClosedEnquiryModel result = data[index];
+  int get selectedRowCount => 0;
 
-    //Widget selectedTable = determineTable(result, dealerId!);
-
-    return DataRow.byIndex(
-      index: index,
-      cells: <DataCell>[
-        DataCell(Text(result.enquiryCusName ?? "")),
-        DataCell(Text(result.enquiryCompanyName ?? "")),
-        DataCell(Text(result.enquiryTelNum ?? "")),
-        DataCell(Text(result.enquiryType ?? "")),
-        DataCell(Text(result.enquiryPriorityLevel ?? "")),
-        DataCell(Text((result.enquiryRequirement ?? ""))),
-        DataCell(Text(result.enquiryAllocatedTo ?? '')),
-        // DataCell(
-        //     Text(result.facConfDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(dealerData.displayName ?? '')),
-        DataCell(Text(result.customerAddress ?? "")),
-        DataCell(Text(result.enquiryCusEmail ?? '')),
-        // DataCell(Text(
-        //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
-        DataCell(Text(result.enquirySource ?? '')),
-        // DataCell(Text(
-        //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
-        DataCell((result.enquiryFileUpload!.isNotEmpty)
-            ? Center(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Icon(
-                    Icons.file_download,
-                    size: 15,
-                  ),
-                ),
-              )
-            : Text("")),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Notes',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.2,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Create Quotation',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Close Enquiry',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(RoundButton(
-          onTap: () {},
-          text: 'Back To Enquiry',
-          color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-        )),
-        DataCell(Text("")),
-
-        //DataCell(Text(result.orderFinHisNoteBox ?? '')),
-        //DataCell(Text(result.customNotes ?? '')),
-      ],
-    );
+  int get totalRowCount {
+    int count = 0;
+    for (var dealerData in dealerDataList!) {
+      count += dealerData.quotes.length;
+    }
+    return count;
   }
 }

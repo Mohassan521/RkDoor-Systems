@@ -13,6 +13,7 @@ import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/allDoorOrders.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -443,8 +444,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => RkDoorCalculatorView(
-                                      dealerId: widget.dealer_id,
+                                  builder: ((context) => CalculatorWebView(
+                                      dealerId: widget.dealer_id!,
                                       dealerName: widget.dealer_name,
                                       empId: widget.empId,
                                       role: widget.role,

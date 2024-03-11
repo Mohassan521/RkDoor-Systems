@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/Provider/provider.dart';
+import 'package:price_link/models/admin%20models/administratorsModel.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -20,15 +21,15 @@ class AdministratorsTable extends StatefulWidget {
 
 class _AdministratorsTableState extends State<AdministratorsTable> {
   NetworkApiServices apiServices = NetworkApiServices();
-  List<SteelOrderModel>? list = [];
+  List<AdminModel>? list = [];
 
   @override
   Widget build(BuildContext context) {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<SteelOrderModel>>(
-      future: apiServices.allSteelOrders(context, widget.dealerId),
+    return FutureBuilder(
+      future: apiServices.getAllAdmins(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -38,10 +39,10 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
 
         list = snapshot.data!;
 
-        List<SteelOrderModel> filteredList =
-            Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        List<SteelOrderModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        // List<SteelOrderModel> filteredList =
+        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
+        // List<SteelOrderModel>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -95,7 +96,7 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  list, context, widget.dealerId, widget.dealerName)),
         );
       },
     );
@@ -104,7 +105,7 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
 
 class MyData extends DataTableSource {
   final BuildContext context;
-  final List<SteelOrderModel>? data;
+  final List<AdminModel>? data;
   final String dealerId;
   final String dealerName;
 
@@ -172,28 +173,34 @@ class MyData extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    final SteelOrderModel result = data![index];
-    TextEditingController factoryValue = TextEditingController();
-    TextEditingController factoryDeliveryWeek = TextEditingController();
-    factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
-    factoryValue.text = result.steelFacOrderNoVal ?? "";
+    final  result = data![index];
+    // TextEditingController factoryValue = TextEditingController();
+    // TextEditingController factoryDeliveryWeek = TextEditingController();
+    // factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
+    // factoryValue.text = result.steelFacOrderNoVal ?? "";
 
     //NetworkApiServices apiServices = NetworkApiServices();
     return DataRow.byIndex(index: index, cells: <DataCell>[
       //1
-      DataCell(Text("")),
+      DataCell(Text(result.iD.toString())),
       //2
-      DataCell(Text("")),
+      DataCell(Text(result.name ?? "")),
       //3
-      DataCell(Text('')),
+      DataCell(Text(result.postCode ?? "")),
       //4
-      DataCell(Text('')),
+      DataCell(Text(result.tel ?? "")),
       //5
-      DataCell(Text('')),
+      DataCell(Text(result.email ?? "")),
       //6
-      DataCell(Text("")),
+      DataCell(Text(result.registeredUser ?? "")),
       //7
-      DataCell(Text("")),
+      DataCell(Row(
+        children: [
+          Icon(Icons.edit, size: 14,),
+          Icon(Icons.copy, size: 14,),
+          Icon(Icons.delete, color: Colors.red,size: 14,),
+        ],
+      )),
     ]);
   }
 }

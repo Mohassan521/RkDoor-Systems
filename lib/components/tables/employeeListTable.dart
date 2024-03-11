@@ -141,7 +141,7 @@ class MyData extends DataTableSource {
               future: apiServices.getEmployeeStatus(result.id.toString()),
               builder: (context, snapshot) {
                 String? currentValue =
-                    snapshot.data!.isNotEmpty ? snapshot.data : "";
+                    snapshot.data ?? "";
                 return DropdownButton(
                   value: currentValue,
                   onChanged: (String? newValue) async {

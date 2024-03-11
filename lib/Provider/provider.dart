@@ -37,6 +37,16 @@ class setFollowUpOrderValue extends ChangeNotifier {
   }
 }
 
+class setDealerType extends ChangeNotifier {
+  Map<String, String> _dropdownValues = {};
+
+  String? getDropdownValue(String quoteId) {
+    return _dropdownValues.containsKey(quoteId)
+        ? _dropdownValues[quoteId]!
+        : "YES";
+  }
+}
+
 class setEmployeeStatus extends ChangeNotifier {
   final Map<String, String> _userStatusMap = {};
 

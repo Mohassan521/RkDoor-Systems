@@ -277,7 +277,7 @@ class _EditFormPageState extends State<EditFormPage> {
                       value: 'Call Back',
                       child: Center(child: Text('Call Back'))),
                   DropdownMenuItem<String>(
-                      value: 'brochure',
+                      value: 'Brochure',
                       child: Center(child: Text('brochure'))),
                   DropdownMenuItem<String>(
                       value: 'Quotation',

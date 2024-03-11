@@ -6,6 +6,8 @@ import 'package:path/path.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
+import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
@@ -27,15 +29,31 @@ class QueueAllocationTable extends StatefulWidget {
 
 class _QueueAllocationTableState extends State<QueueAllocationTable> {
   NetworkApiServices apiServices = NetworkApiServices();
-  List<SteelOrderModel>? list = [];
+  List<CompleteResponse>? list = [];
 
   @override
   Widget build(BuildContext context) {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<SteelOrderModel>>(
-      future: apiServices.allSteelOrders(context, widget.dealerId),
+    DateTime _dateTime = DateTime.now();
+  NetworkApiServices apiServices = NetworkApiServices();
+
+  void _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2050))
+        .then((value) {
+      setState(() {
+        _dateTime = value!;
+      });
+    });
+  }
+
+    return FutureBuilder(
+      future: apiServices.getAdminQuotes(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -43,12 +61,12 @@ class _QueueAllocationTableState extends State<QueueAllocationTable> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
-        List<SteelOrderModel> filteredList =
-            Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        List<SteelOrderModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+        // List<SteelOrderModel> filteredList =
+        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
+        // List<SteelOrderModel>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -167,7 +185,13 @@ class _QueueAllocationTableState extends State<QueueAllocationTable> {
                 )),
               ],
               source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
+                  list ?? [],
+                widget.dealerId,
+                dealerName: widget.dealerName!,
+                                context: context,
+                                datetime: _dateTime,
+                showDatePickerCallback: _showDatePicker,
+                )),
         );
       },
     );
@@ -175,23 +199,26 @@ class _QueueAllocationTableState extends State<QueueAllocationTable> {
 }
 
 class MyData extends DataTableSource {
-  final BuildContext context;
-  final List<SteelOrderModel>? data;
-  final String dealerId;
+  final List<CompleteResponse> dealerDataList;
+  TextEditingController notesController = TextEditingController();
+  final String? dealerId;
   final String dealerName;
+  final String? empId;
+  final DateTime datetime;
+  final BuildContext context;
+  final void Function() showDatePickerCallback;
+  //final void Function() getSavedValue;
+  MyData(
+    this.dealerDataList,
+    this.dealerId, {
+    required this.dealerName,
+    required this.datetime,
+    required this.context,
+    required this.showDatePickerCallback,
+    this.empId
+    //required this.getSavedValue
+  });
 
-  MyData(this.data, this.context, this.dealerId, this.dealerName);
-
-  @override
-  int get rowCount => data!.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0;
-
-  SteelOrderModel table = SteelOrderModel();
 
   File? _image;
   List<File> filesToUpload = [];
@@ -212,108 +239,256 @@ class MyData extends DataTableSource {
     }
   }
 
-  showImageDialog(BuildContext context, List<dynamic> imageUrl) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              insetPadding: EdgeInsets.all(9),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    children: imageUrl
-                        .map(
-                          (imageUrl) => SizedBox(
-                            height: 200.0, // Set the height as needed
-                            child: Image.network(
-                              imageUrl,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
+  @override
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
+
+  //   showImageDialog(BuildContext context, String imageUrl) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(10))),
+  //       insetPadding: EdgeInsets.all(9),
+  //       content: SizedBox(
+  //         height: 200.0, // Set the height as needed
+  //         child: Image.network(
+  //           imageUrl,
+  //           fit: BoxFit.fill,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+    var enqAllocatedTo;
+    String dealerType = "";
+    int currentIndex = 0;
+    for (var dealerData in dealerDataList) {
+      for (var quote in dealerData.quotes) {
+        
+    //     TextEditingController configuratorCode = TextEditingController();
+    //     configuratorCode.text = quote.enquiryConfCode ?? "";
+
+    //     List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
+    // String fileUploadPath= fileUpload.isNotEmpty ? fileUpload.first : '';
+    // String fileuploadExtension= extension(fileUploadPath).toLowerCase();
+
+    // List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
+    // String enqFormFileUpload = enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
+    // String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
+
+
+        if (currentIndex == index) {
+          return DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(quote.name ?? "")),
+              DataCell(Text(dealerData.displayName ?? "")),
+              DataCell(Text(quote.quotationNumber ?? "")),
+              DataCell(Text(dealerData.dealerName ?? "")),
+              DataCell(Text(quote.id ?? "")),
+              DataCell(Text(quote.telephoneNumber ?? "")),
+              DataCell(Text(quote.customerEmail ?? "")),
+              DataCell(Text(quote.deliveryPostCode ?? "")),
+              DataCell(Text(quote.date ?? "")),
+              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(quote.wholeTotal ?? "")),
+              DataCell(Text(quote.saleBonus ?? "")),
+              
+              DataCell(Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  (quote.orderDateQArray != null)
+                      ? quote.orderDateQArray!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                DateButton(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                    );
+
+                    if (pickedDate != null) {
+                      // value.setDate(result.id!, pickedDate);
+                      // apiServices.setAnticipatedDate(
+                      //     dealerId, result.id!, pickedDate);
+                    }
+                  },
+                  icon: Icons.calendar_month,
+                )
+              ],
+            )),
+              DataCell(Consumer<setFollowUpValue>(
+        builder: (context, value, child) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(context).width * 0.4,
+              decoration: BoxDecoration(
+                  color: quote.orderFUpQVal == "YES"
+                      ? Color(0Xff008000)
+                      : Color(0xffFF0000),
+                  border: Border.all(width: 1)),
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: quote.orderFUpQVal ?? "NO",
+                iconEnabledColor: quote.orderFUpQVal == "YES"
+                    ? Color(0Xff008000)
+                    : Color(0xffFF0000),
+                onChanged: (String? newValue) {
+                  // if (newValue != null) {
+                  //   apiServices.setFollowUpValue(
+                  //       dealerId!, result.id!, newValue);
+                  // } else {
+                  //   apiServices.setFollowUpValue(
+                  //       dealerId!, result.id!, result.orderFUpQVal!);
+                  // }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: '',
+                      alignment: Alignment.center,
+                      child: Text(
+                        '',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'YES',
+                      alignment: Alignment.center,
+                      child: Text(
+                        'YES',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'NO',
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
                 ],
               ),
-            ));
+            ),
+          );
+        },
+      )),
+
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Quote Analysis",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Notes",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Create Order",
+                height: MediaQuery.sizeOf(context).height * 0.045,
+                width: MediaQuery.sizeOf(context).width * 0.4,
+                color: Colors.blue,
+              )),
+              DataCell(DropdownButton<String>(
+                value: dealerType,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, newValue);
+                  } else {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setFollowUpOrderValue(
+                    //     dealerId!, result.id!, result.orderFollowup!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(value: '', child: Text('')),
+                  DropdownMenuItem<String>(value: 'TRADE', child: Text('TRADE')),
+                  DropdownMenuItem<String>(value: 'TRADE DEALER', child: Text('TRADE DEALER')),
+                  DropdownMenuItem<String>(value: 'RKDS Dealer', child: Text('RKDS Dealer')),
+                  DropdownMenuItem<String>(value: 'RKDS Premier DEALER', child: Text('RKDS Premier DEALER')),
+                  DropdownMenuItem<String>(value: 'IQ Glass', child: Text('IQ Glass')),
+                ],
+              ),),
+              DataCell(FutureBuilder<List<AllDealersModel>>(
+                future: NetworkApiServices().getAllDealers(), 
+                builder: ((context, snapshot) {
+                  return  DropdownButton<String>(
+
+                value: enqAllocatedTo,
+                underline: Container(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                onChanged: (newValue) {
+                  enqAllocatedTo = newValue ?? "";
+                  
+                },
+                items: snapshot.data != null ? snapshot.data!.map((e) {
+                  print("name present in API: ${e.name}");
+                  return DropdownMenuItem(
+                    value: e.name ?? "",
+                    child: Center(child: Text(e.name ?? "")));
+                }).toList() : [],
+              );
+
+                
+              })),
+),
+              DataCell(Row(
+        children: [
+          Icon(Icons.edit, size: 14,),
+          Icon(Icons.copy, size: 14,),
+          Icon(Icons.delete, color: Colors.red,size: 14,),
+        ],
+      ))
+              
+            ],
+          );
+        }
+        currentIndex++;
+      }
+    }
+    return null;
   }
 
   @override
-  DataRow getRow(int index) {
-    final SteelOrderModel result = data![index];
-    TextEditingController factoryValue = TextEditingController();
-    TextEditingController factoryDeliveryWeek = TextEditingController();
-    factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
-    factoryValue.text = result.steelFacOrderNoVal ?? "";
+  bool get isRowCountApproximate => false;
 
-    List<dynamic> steelOrderFile = result.steelOrderConfFile ?? [];
-    String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.first : '';
-    String fileExtension = extension(filePath).toLowerCase();
+  @override
+  int get rowCount => totalRowCount;
 
-    List<dynamic> invoices = result.steelInvoices ?? [];
-    String invoicesFilePath = invoices.isNotEmpty ? invoices.first : '';
-    String invoiceFileExtension = extension(invoicesFilePath).toLowerCase();
+  @override
+  int get selectedRowCount => 0;
 
-    List<dynamic> delNotes = result.steelDelNotes ?? [];
-    String delNotesFilePath = delNotes.isNotEmpty ? delNotes.first : '';
-    String delNotesFileExtension = extension(delNotesFilePath).toLowerCase();
-
-    List<dynamic> pdfUrl = result.manualPDFImageURL ?? [];
-    String pdfUrlFilePath = pdfUrl.isNotEmpty ? pdfUrl.first : '';
-    String pdfUrlFileExtension = extension(pdfUrlFilePath).toLowerCase();
-
-    List<dynamic> pdfImageUrl = result.pDFImageURL ?? [];
-    String pdfImageUrlFilePath =
-        pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
-    String pdfImageUrlFileExtension =
-        extension(pdfImageUrlFilePath).toLowerCase();
-
-    TextEditingController notesController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
-    NetworkApiServices apiServices = NetworkApiServices();
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      //1
-      DataCell(Text("")),
-      //2
-      DataCell(Text("")),
-      //3
-      DataCell(Text('')),
-      //4
-      DataCell(Text('')),
-      //5
-      DataCell(Text('')),
-      //6
-      DataCell(Text("")),
-      //7
-      DataCell(Text("")),
-      //8
-      DataCell(Text("")),
-      //9
-      DataCell(Text("")),
-      //10
-      DataCell(Text("")),
-      //11
-      DataCell(Text('')),
-      //12
-      DataCell(Text('')),
-      //13
-      DataCell(Text('')),
-      //14
-      DataCell(Text("")),
-      //15
-      DataCell(Text("")),
-      //16
-      DataCell(Text("")),
-      //17
-      DataCell(Text('')),
-      //18
-      DataCell(Text('')),
-      //19
-      DataCell(Text('')),
-    ]);
+  int get totalRowCount {
+    int count = 0;
+    for (var dealerData in dealerDataList) {
+      count += dealerData.quotes.length;
+    }
+    return count;
   }
 }

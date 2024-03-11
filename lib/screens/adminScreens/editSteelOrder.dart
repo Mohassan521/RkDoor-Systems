@@ -6,22 +6,25 @@ import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
+import 'package:price_link/models/admin%20models/steelOrderModel.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/models/steelOrderModel.dart';
+import 'package:price_link/screens/steel%20Orders/completedSteelOrders.dart';
 import 'package:price_link/services/services.dart';
 
-class SteelOrderFormForAdmin extends StatefulWidget {
-  final String dealerId;
+class EditSteelOrderForAdmin extends StatefulWidget {
+  final int dealerId;
   final String dealerName;
   final String? role;
-  const SteelOrderFormForAdmin(
-      {super.key, required this.dealerId, required this.dealerName, this.role});
+  final AdminSteelOrder response;
+  const EditSteelOrderForAdmin(
+      {super.key, required this.dealerId, required this.dealerName, this.role, required this.response});
 
   @override
-  State<SteelOrderFormForAdmin> createState() => _SteelOrderFormForAdminState();
+  State<EditSteelOrderForAdmin> createState() => _EditSteelOrderForAdminState();
 }
 
-class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
+class _EditSteelOrderForAdminState extends State<EditSteelOrderForAdmin> {
   File? _image;
   final _picker = ImagePicker();
   List<File> filesToUpload = [];
@@ -68,12 +71,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
   Widget build(BuildContext context) {
     //SteelOrderModel model = SteelOrderModel();
     netOrderValue.text = "0.0";
+    productType = widget.response.productType ?? "";
+    cname.text = widget.response.steelCustomerName ?? "";
+    qnum.text = widget.response.steelQNumber ?? "";
+    dealer.text = widget.dealerName ;
+    salesperson.text = widget.response.steelSalePerson ?? "";
+    supply = widget.response.steelSupplyType ?? "";
+    address.text = widget.response.customerAddress ?? "";
+    address2.text = widget.response.customerAddress2 ?? "";
+    address3.text = widget.response.customerAddress3 ?? "";
+    postcode.text = widget.response.deliveryPostCode ?? "";
+    color = widget.response.steelColor ?? "";
+    frame.text = widget.response.steelFrameSize ?? "";
+    cusEmail.text = widget.response.steelCustomerEmail ?? "";
+    telephone.text = widget.response.steelCustomerTel ?? "";
+    totalOrderValue.text = widget.response.steelTotalOrderValue ?? "";
+    discount = widget.response.steelDiscount ?? "";
+    deliveryCost.text = widget.response.steelDeliveryCost ?? "";
+    totalWeight.text = widget.response.steelWeight ?? "";
+    notes.text = widget.response.notes ?? "";
     return Scaffold(
-      drawer: DrawerPage(
-        dealer_id: widget.dealerId,
-        dealerName: widget.dealerName,
-        role: widget.role,
-      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
@@ -81,6 +98,11 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
           'Steel Order Form',
           style: TextStyle(color: Colors.white),
         ),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back)),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -110,28 +132,28 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   DropdownMenuItem<String>(
                       value: '', child: Center(child: Text(''))),
                   DropdownMenuItem<String>(
-                      value: 'Standard Hinged',
+                      value: 'STANDARD HINGED',
                       child: Center(child: Text('Standard Hinged'))),
                   DropdownMenuItem<String>(
-                      value: 'Sound Reduction',
+                      value: 'SOUND REDUCTION',
                       child: Center(child: Text('Sound Reduction'))),
                   DropdownMenuItem<String>(
-                      value: 'FD30 Hinged',
+                      value: 'FD30 HINGED',
                       child: Center(child: Text('FD30 Hinged'))),
                   DropdownMenuItem<String>(
-                      value: 'Sliding', child: Center(child: Text('Sliding'))),
+                      value: 'SLIDING', child: Center(child: Text('Sliding'))),
                   DropdownMenuItem<String>(
                       value: 'BI-FOLD', child: Center(child: Text('BI-FOLD'))),
                   DropdownMenuItem<String>(
-                      value: 'Fixed Window',
+                      value: 'FIXED WINDOW',
                       child: Center(child: Text('Fixed Window'))),
                   DropdownMenuItem<String>(
-                      value: 'Pocket Door Panel',
+                      value: 'POCKED DOOR PANEL',
                       child: Center(child: Text('Pocket Door Panel'))),
                   DropdownMenuItem<String>(
-                      value: 'Various', child: Center(child: Text('Various'))),
+                      value: 'VARIOUS', child: Center(child: Text('Various'))),
                   DropdownMenuItem<String>(
-                      value: 'External Doors',
+                      value: 'EXTERNAL DOORS',
                       child: Center(child: Text('External Doors'))),
                 ],
               ),
@@ -163,41 +185,6 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
                     border: OutlineInputBorder()),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              const Text(
-                'User',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              FutureBuilder<List<AllDealersModel>>(
-                future: NetworkApiServices().getAllDealers(), 
-                builder: ((context, snapshot) {
-                  return  DropdownButton<String>(
-                hint: Text('Select value'),
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: user,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (newValue) {
-                  user = newValue ?? "";
-                  setState(() {
-                    
-                  });
-                },
-                items: snapshot.data != null ? snapshot.data!.map((e) {
-                  print("name present in API: ${e.name}");
-                  return DropdownMenuItem(
-                    value: e.name ?? "",
-                    child: Center(child: Text(e.name ?? "")));
-                }).toList() : [],
-              );
-
-                
-              })),
               SizedBox(
                 height: 15,
               ),
@@ -337,29 +324,29 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   DropdownMenuItem<String>(
                       value: '', child: Center(child: Text(''))),
                   DropdownMenuItem<String>(
-                      value: 'Supply Only',
+                      value: 'SUPPLY ONLY',
                       child: Center(child: Text('Supply Only'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation RKDS',
+                      value: 'INSTALLATION RKDS',
                       child: Center(child: Text('Installation RKDS'))),
                   DropdownMenuItem<String>(
-                      value: 'Survey Only',
+                      value: 'SURVEY ONLY',
                       child: Center(child: Text('Survey Only'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation - CB',
+                      value: 'INSTALLATION - CB',
                       child: Center(child: Text('Installation - CB'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation Direct - CB',
+                      value: 'INSTALLATION DIRECT - CB',
                       child: Center(child: Text('Installation Direct - CB'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation - PB',
+                      value: 'INSTALLATION - PB',
                       child: Center(child: Text('Installation - PB'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation Installation - PB',
+                      value: 'INSTALLATION INSTALLATION - PB',
                       child: Center(
                           child: Text('Installation Installation - PB'))),
                   DropdownMenuItem<String>(
-                      value: 'Installation - Other',
+                      value: 'INSTALLATION - Other',
                       child: Center(child: Text('Installation - Other'))),
                 ],
               ),
@@ -636,28 +623,28 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
-              const Text('File Upload',
-                  style: TextStyle(color: Color(0xff941420))),
-              Row(
-                children: [
-                  RoundButton(
-                    onTap: () {
-                      getImage();
-                    },
-                    text: 'Choose File',
-                    color: Color(0xff941420),
-                    width: MediaQuery.sizeOf(context).width * 0.25,
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.70),
-                    child: Text(
-                      _image?.path ?? "",
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ],
-              ),
+              // const Text('File Upload',
+              //     style: TextStyle(color: Color(0xff941420))),
+              // Row(
+              //   children: [
+              //     RoundButton(
+              //       onTap: () {
+              //         getImage();
+              //       },
+              //       text: 'Choose File',
+              //       color: Color(0xff941420),
+              //       width: MediaQuery.sizeOf(context).width * 0.25,
+              //     ),
+              //     ConstrainedBox(
+              //       constraints: BoxConstraints(
+              //           maxWidth: MediaQuery.sizeOf(context).width * 0.70),
+              //       child: Text(
+              //         _image?.path ?? "",
+              //         textAlign: TextAlign.end,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 15,
               ),
@@ -678,7 +665,8 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               ),
               RoundButton(
                 onTap: () {
-                  NetworkApiServices().createSteelOrderForAdmin(widget.dealerId, productType, cname.text, qnum.text, user, salesperson.text, supply, address.text, address2.text, address3.text, postcode.text, color, frame.text, cusEmail.text, telephone.text, totalOrderValue.text, discount, deliveryCost.text, totalWeight.text, netOrderValue.text, filesToUpload, notes.text);
+                  // NetworkApiServices().createSteelOrderForAdmin(widget.dealerId, productType, cname.text, qnum.text, user, salesperson.text, supply, address.text, address2.text, address3.text, postcode.text, color, frame.text, cusEmail.text, telephone.text, totalOrderValue.text, discount, deliveryCost.text, totalWeight.text, netOrderValue.text, filesToUpload, notes.text);
+                  NetworkApiServices().updateSteelOrderOfAdmin(widget.response.id!, productType, qnum.text, salesperson.text, widget.response.steelDealerEmail ?? "", widget.response.steelDealerTelNo ?? "", postcode.text, supply, cname.text, color, address.text, address2.text, address3.text, widget.response.saleBonus ?? "", widget.dealerId, cusEmail.text, telephone.text, totalOrderValue.text, discount, totalWeight.text, deliveryCost.text, widget.response.steelInstCost ?? "", netOrderValue.text, frame.text, widget.response.steelSupplier ?? "", notes.text);
                 },
                 text: 'Submit',
                 width: double.infinity,

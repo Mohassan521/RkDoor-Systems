@@ -9,6 +9,7 @@ import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/pdfViewer.dart';
+import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
 import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
 import 'package:price_link/services/services.dart';
@@ -397,6 +398,17 @@ class MyData extends DataTableSource {
     String facConfDocsFilepath = facConfDocuments.isNotEmpty ? facConfDocuments.first : '';
     String facConfExtension = extension(facConfDocsFilepath).toLowerCase();
 
+    List<AdminPanelOrders> getFilteredQuotes() {
+    List<AdminPanelOrders> filteredQuotes = [];
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.orders) {
+        if (quote.orderStatusVal == "Revised Confirmation Issued") {
+          filteredQuotes.add(quote);
+        }
+      }
+    }
+    return filteredQuotes;
+  }
     
 
     // List<dynamic> pdfImageUrl = result.pDFImageURL ?? [];
@@ -406,6 +418,13 @@ class MyData extends DataTableSource {
     //     extension(pdfImageUrlFilePath).toLowerCase();
 
         if (currentIndex == index) {
+          var filteredOrders = getFilteredQuotes();
+
+          var quote = filteredOrders[index];
+          String orderStatus = quote.orderStatusVal ?? "";
+          String paymentStatus = quote.orderPaymentStatusVal ?? "";
+          TextEditingController notesController = TextEditingController();
+          final _formKey = GlobalKey<FormState>();
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -455,11 +474,10 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: confcode,
-            onChanged: (value) {
-              // Timer(Duration(seconds: 5), () {
-              //   apiServices.factoryDeliveryWeekSteelOrder(
-              //       dealerId, value, result.id!);
-              // });
+            onEditingComplete: () {
+              String value = confcode.text;
+              apiServices.setOrderNum(
+                    quote.id!, dealerData.userId, value);
             },
           ))),
               
@@ -468,6 +486,7 @@ class MyData extends DataTableSource {
               //7
               DataCell(Builder(builder: (context) {
           return Container(
+            alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: quote.orderStatusVal == "Order Received"
                       ? Color(0xff9ad9ea)
@@ -497,17 +516,114 @@ class MyData extends DataTableSource {
                                                           : Color(0xff7092bf),
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.40,
+              width: MediaQuery.sizeOf(context).width * 0.60,
               child: Center(
-                  child: Text(
-                    
-                quote.orderStatusVal!,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black),
-              )));
+                child: DropdownButton<String>(
+                  alignment: Alignment.center,
+                  iconEnabledColor: quote.orderStatusVal == "Order Received"
+                      ? Color(0xff9ad9ea)
+                      : quote.orderStatusVal == "Order Placed"
+                          ? Color(0xffffc90d)
+                          : quote.orderStatusVal == "Awaiting Balance Payment"
+                              ? Colors.yellow
+                              : quote.orderStatusVal == "Delayed"
+                                  ? Colors.red
+                                  : quote.orderStatusVal == "In Production"
+                                      ? Color(0xffb5351d)
+                                      : quote.orderStatusVal ==
+                                              "Ready For Shipping"
+                                          ? Color(0xff0080001)
+                                          : quote.orderStatusVal ==
+                                                  "Revised Confirmation Issued"
+                                              ? Color(0xffa747a2)
+                                              : quote.orderStatusVal ==
+                                                      "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6)
+                                                  : quote.orderStatusVal ==
+                                                          "In Transit To UK"
+                                                      ? Color(0xfffeaec9)
+                                                      : quote.orderStatusVal ==
+                                                              "In RKDS Warehouse"
+                                                          ? Color(0xff9ad9ea)
+                                                          : Color(0xff7092bf),
+                  isExpanded: true,
+                  value:
+                      orderStatus,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    //newValue = result.orderFollowup;
+                    if (newValue != null) {
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(newValue: newValue, quoteId: result.id!);
+                      apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                      
+                    } else {
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(
+                      //         newValue: result.orderFollowup, quoteId: result.id!);
+                      apiServices.setOrderStatus(quote.id!, dealerData.userId, orderStatus);
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Received', child: Text('Order Received')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Placed', child: Text('Order Placed')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Survey / Dimensions', child: Text('Awaiting Survey / Dimensions')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Deposit', child: Text('Awaiting Deposit')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Deposit Received', child: Text('Deposit Received')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Preliminary Confirmation Issued', child: Text('Preliminary Confirmation Issued')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Revised Confirmation Issued', child: Text('Revised Confirmation Issued')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Final Confirmation Issued', child: Text('Final Confirmation Issued')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Production', child: Text('In Production')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Ready For Shipping', child: Text('Ready For Shipping')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Transit To UK', child: Text('In Transit To UK')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In RKDS Warehouse', child: Text('In RKDS Warehouse')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Balance Payment', child: Text('Awaiting Balance Payment')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Out For Delivery', child: Text('Out For Delivery')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delivered', child: Text('Delivered')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delayed', child: Text('Delayed')),
+                  ],
+                ),
+              )
+          
+              );
         })),
 
-              //8
+              //9
               DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -531,12 +647,80 @@ class MyData extends DataTableSource {
                                                   ? Color(0xff0d714b) : Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
-              child: Center(
-                  child: Text(
-                quote.orderPaymentStatusVal!,
-                style: TextStyle(color: Colors.black),
-              )));
+              width: MediaQuery.sizeOf(context).width * 0.60,
+              child: DropdownButton<String>(
+                    alignment: Alignment.center,
+                    iconEnabledColor: quote.orderPaymentStatusVal == "Awaiting Deposit"
+                      ? Colors.yellow
+                      : quote.orderPaymentStatusVal == "Deposit Received"
+                          ? Color(0xffffd5cd)
+                          : quote.orderPaymentStatusVal == "Awaiting Survey Fee"
+                              ? Color(0xffbde2fd)
+                              : quote.orderPaymentStatusVal == "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : quote.orderPaymentStatusVal == "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : quote.orderPaymentStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : quote.orderPaymentStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : quote.orderPaymentStatusVal == "All Invoices Paid"
+                                                  ? Color(0xff0d714b) : Colors.yellow,
+                    isExpanded: true,
+                    value:
+                        paymentStatus,
+                    underline: Container(
+                      height: 2,
+                      color: Colors.white,
+                    ),
+                    onChanged: (String? newValue) {
+                      //newValue = result.orderFollowup;
+                      if (newValue != null) {
+                        // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                        //     .changeValue(newValue: newValue, quoteId: result.id!);
+                        apiServices.setPaymentStatus(quote.id!, dealerData.userId, newValue);
+                      } else {
+                        // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                        //     .changeValue(
+                        //         newValue: result.orderFollowup, quoteId: result.id!);
+                        apiServices.setPaymentStatus(quote.id!, dealerData.userId, paymentStatus);
+                      }
+                    },
+                    items: [
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: '', child: Text('')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Deposit', child: Text('Awaiting Deposit')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Deposit Received', child: Text('Deposit Received')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Survey Fee', child: Text('Awaiting Survey Fee')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Survey Fee Received', child: Text('Survey Fee Received')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Balance', child: Text('Awaiting Balance')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Balance Paid', child: Text('Balance Paid')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Install Payment', child: Text('Awaiting Install Payment')),
+                      DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'All Invoices Paid', child: Text('All Invoices Paid')),
+              
+                    ],
+                  ),
+
+              );
         })),
               //9
               DataCell(
@@ -546,7 +730,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.OrderDocumentUpload(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -598,7 +784,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.OrderDocumentUpload(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -619,7 +807,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.manualQuickDocUpload(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -671,7 +861,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.manualQuickDocUpload(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -690,8 +882,17 @@ class MyData extends DataTableSource {
         children: [
           
           quote.anticipatedDateVal!.isNotEmpty ? Text(quote.anticipatedDateVal!) : Text('mm/dd/yyyy'),
-          DateButton(onTap: (){
+          DateButton(onTap: () async {
+            DateTime? pickedDate = await showDatePicker(
+                      context: myGlobalBuildContext,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                    );
 
+                    if (pickedDate != null) {
+                      apiServices.setAnticipatedDateForAdmin(dealerData.userId, quote.id!, pickedDate);
+                    }
           },
           icon: Icons.date_range,
           ),
@@ -705,7 +906,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value){
+                          apiServices.setInvoiceDocumentForAdmin(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -757,7 +960,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value){
+                          apiServices.setInvoiceDocumentForAdmin(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -789,7 +994,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setDeliveryDocForAdmin(dealerData.userId, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -841,7 +1048,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setDeliveryDocForAdmin(dealerData.userId, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -880,6 +1089,8 @@ class MyData extends DataTableSource {
             style: TextStyle(fontSize: 13),
             controller: facDeliveryWeek,
             onChanged: (value) {
+              String value = facDeliveryWeek.text;
+              apiServices.setFacDeliveryWeekValue(quote.id!, dealerData.userId, value);
               // Timer(Duration(seconds: 5), () {
               //   apiServices.factoryDeliveryWeekSteelOrder(
               //       dealerId, value, result.id!);
@@ -899,42 +1110,35 @@ class MyData extends DataTableSource {
           //30
           DataCell(Text(quote.wholeTotal ?? "")),
           //31
-          DataCell(Consumer<FollowUpOrderDate>(
-          builder: (context, value, child) {
-            return Row(
+          DataCell(Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   (quote.orderDate != null)
                       ? quote.orderDate!
-                      : value.getDate(quote.id!),
+                      : "mm/dd/yyyy",
                   style: TextStyle(fontSize: 12),
                 ),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                      context: context,
+                      context: myGlobalBuildContext,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
                     );
 
                     if (pickedDate != null) {
-                      // value.setDate(result.id!, pickedDate);
-                      // apiServices.setFollowUpOrderDate(
-                      //     dealerId!, result.id!, pickedDate);
+                      apiServices.setOrderDateForAdmin(dealerData.userId, quote.id!, pickedDate);
                     }
                   },
                   icon: Icons.calendar_month,
                 )
               ],
-            );
-          },
-        )),
-        //32
-        DataCell(Consumer<setFollowUpOrderValue>(
-          builder: (context, value, child) {
-            return Center(
+            )
+),
+        //33
+        DataCell(Center(
               child: DropdownButton<String>(
                 value:
                     (quote.orderFollowup == "") ? "NO" : quote.orderFollowup!,
@@ -945,16 +1149,10 @@ class MyData extends DataTableSource {
                 onChanged: (String? newValue) {
                   //newValue = result.orderFollowup;
                   if (newValue != null) {
-                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                    //     .changeValue(newValue: newValue, quoteId: result.id!);
-                    // apiServices.setFollowUpOrderValue(
-                    //     dealerId!, result.id!, newValue);
+                    apiServices.setFollowUpForAdmin(dealerData.userId, quote.id!, newValue);
                   } else {
-                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                    //     .changeValue(
-                    //         newValue: result.orderFollowup, quoteId: result.id!);
-                    // apiServices.setFollowUpOrderValue(
-                    //     dealerId!, result.id!, result.orderFollowup!);
+                    String value = quote.orderFollowup ?? "";
+                    apiServices.setFollowUpForAdmin(dealerData.userId, quote.id!, value);
                   }
                 },
                 items: [
@@ -962,9 +1160,8 @@ class MyData extends DataTableSource {
                   DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
                 ],
               ),
-            );
-          },
-        )),
+            )
+),
         //33
         DataCell(Text(quote.id ?? "")),
         //34
@@ -983,7 +1180,79 @@ class MyData extends DataTableSource {
           ))),
           
       //35
-      DataCell(RoundButton(onTap: (){
+      DataCell(RoundButton(onTap: () async {
+        notesController.text = quote.notes ?? "";
+          await showDialog(
+              context: myGlobalBuildContext,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                    child: Text('Enter Notes',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: notesController,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      apiServices.setNotesValueForAdmin(quote.id!, dealerData.userId, notesController.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  ));
 
       },
       text: "Notes",
@@ -1005,7 +1274,7 @@ class MyData extends DataTableSource {
       )),
       //38
       DataCell(RoundButton(onTap: (){
-
+        apiServices.backToQuote(dealerData.userId.toString(), quote.id!);
       },
       text: "Back To Quote",
       color: Colors.blue,
@@ -1021,7 +1290,7 @@ class MyData extends DataTableSource {
       DataCell(Text("${dealerData.dealerName}")),
       //42
       DataCell(RoundButton(onTap: (){
-
+        apiServices.CloseOrderFromAdmin(dealerData.userId, quote.id!);
       },
       text: "Order Complete - Archive File",
       color: Colors.blue,
@@ -1057,18 +1326,31 @@ class MyData extends DataTableSource {
 //43
               DataCell(Row(
                 children: [
-                  Icon(
-                    Icons.edit,
-                    size: 14,
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => RkDoorCalculatorView(
+                        dealerId: dealerId!,
+                        url: "https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_order_id=${quote.id}&mobile_token=true")));
+ 
+                    },
+                    child: Icon(
+                      Icons.edit,
+                      size: 14,
+                    ),
                   ),
                   Icon(
                     Icons.copy,
                     size: 14,
                   ),
-                  Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                    size: 14,
+                  InkWell(
+                    onTap: () {
+                      apiServices.DeleteOrderFromAdmin(dealerData.userId, quote.id!);
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 14,
+                    ),
                   ),
                 ],
               ))
@@ -1095,7 +1377,11 @@ class MyData extends DataTableSource {
   int get totalRowCount {
     int count = 0;
     for (var dealerData in dealerDataList!) {
-      count += dealerData.orders.length;
+      for (var quote in dealerData.orders) {
+        if (quote.orderStatusVal == 'Revised Confirmation Issued') {
+          count++;
+        }
+      }
     }
     return count;
   }

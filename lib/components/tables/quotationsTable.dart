@@ -1,8 +1,5 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
@@ -408,6 +405,7 @@ class MyData extends DataTableSource {
                   myGlobalBuildContext,
                   MaterialPageRoute(
                       builder: (context) => RkDoorCalculatorView(
+                        dealerId: dealerId!,
                           url:
                               'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerId}&cal_id=${result.id}&mobile_token=true')));
             },

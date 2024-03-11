@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class RkDoorCalculatorView extends StatefulWidget {
+class CalculatorWebView extends StatefulWidget {
   final String url;
   final String dealerId;
   final String? role;
   final String? dealerName;
   final String? empId;
-  const RkDoorCalculatorView(
+  const CalculatorWebView(
       {super.key,
       required this.url,
       required this.dealerId,
@@ -17,10 +17,10 @@ class RkDoorCalculatorView extends StatefulWidget {
       this.empId});
 
   @override
-  State<RkDoorCalculatorView> createState() => _RkDoorCalculatorViewState();
+  State<CalculatorWebView> createState() => _CalculatorWebViewState();
 }
 
-class _RkDoorCalculatorViewState extends State<RkDoorCalculatorView> {
+class _CalculatorWebViewState extends State<CalculatorWebView> {
   late final WebViewController controller;
   bool loading = false;
 
@@ -54,16 +54,17 @@ class _RkDoorCalculatorViewState extends State<RkDoorCalculatorView> {
   Widget build(BuildContext context) {
     print(widget.url);
     return Scaffold(
-      
+      drawer: DrawerPage(
+        dealer_id: widget.dealerId,
+        dealerName: widget.dealerName,
+        role: widget.role,
+        empId: widget.empId,
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 0,
         backgroundColor: Color(0xff941420),
-        leading: InkWell(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Icon(Icons.arrow_back)),
+
       ),
       body: (loading == true)
           ? const Center(child: CircularProgressIndicator())

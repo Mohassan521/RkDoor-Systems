@@ -67,6 +67,7 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => RkDoorCalculatorView(
+                                dealerId: widget.dealerId!,
                                   url:
                                       'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
                     },

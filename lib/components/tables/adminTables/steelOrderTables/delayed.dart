@@ -8,6 +8,7 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/steelOrderModel.dart';
 import 'package:price_link/models/steelOrderModel.dart';
+import 'package:price_link/screens/adminScreens/editSteelOrder.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
 import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
@@ -28,12 +29,26 @@ class AdminSteelDelayed extends StatefulWidget {
 
 class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
   NetworkApiServices apiServices = NetworkApiServices();
-  List<AdminSteelOrder>? list = [];
+  List<CompletedSteelOrdersResponse>? list = [];
 
   @override
   Widget build(BuildContext context) {
     print(widget.dealerId);
     print(widget.dealerName);
+
+        DateTime _dateTime = DateTime.now();
+  void _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2050))
+        .then((value) {
+      setState(() {
+        _dateTime = value!;
+      });
+    });
+  }
 
     return FutureBuilder(
       future: apiServices.getSteelOrdersForAdmin(),
@@ -46,7 +61,7 @@ class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
 
         list = snapshot.data!;
 
-        List<AdminSteelOrder> filteredList = list!.where((element) => element.steelOrderStatusVal == "Delayed").toList();
+        // List<AdminSteelOrder> filteredList = list!.where((element) => element.steelOrderStatusVal == "Delayed").toList();
 
         // List<SteelOrderModel> filteredList =
         //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
@@ -60,11 +75,11 @@ class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
-              rowsPerPage: (filteredList.length >= 5 && filteredList.isNotEmpty)
+              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
                   ? 5
-                  : (filteredList.isEmpty)
+                  : (list!.isEmpty)
                       ? 1
-                      : filteredList.length,
+                      : list!.length,
               headingRowColor: MaterialStateProperty.resolveWith(
                   (states) => Color(0xff941420)),
               columns: const <DataColumn>[
@@ -275,8 +290,9 @@ class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
                   style: TextStyle(color: Colors.white),
                 )),
               ],
-              source: MyData(
-                  filteredList, context, widget.dealerId, widget.dealerName)),
+              source: MyData(list!, _dateTime, widget.dealerId,
+                  widget.dealerName, _showDatePicker,
+                  myGlobalBuildContext: context)),
         );
       },
     );
@@ -284,23 +300,19 @@ class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
 }
 
 class MyData extends DataTableSource {
-  final BuildContext context;
-  final List<AdminSteelOrder>? data;
-  final String dealerId;
-  final String dealerName;
+  final String? dealerId;
+  final String? dealerName;
+  NetworkApiServices apiServices = NetworkApiServices();
+  DateTime _datetime = DateTime.now();
+  //final String? prevNotesValue;
+  void Function()? _showDatePicker;
+  final BuildContext myGlobalBuildContext;
+  TextEditingController orderNotesController = TextEditingController();
+  final List<CompletedSteelOrdersResponse>? dealerDataList;
 
-  MyData(this.data, this.context, this.dealerId, this.dealerName);
-
-  @override
-  int get rowCount => data!.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0;
-
-  SteelOrderModel table = SteelOrderModel();
+  MyData(this.dealerDataList, this._datetime, this.dealerId, this.dealerName,
+      this._showDatePicker,
+      {required this.myGlobalBuildContext});
 
   File? _image;
   List<File> filesToUpload = [];
@@ -321,85 +333,128 @@ class MyData extends DataTableSource {
     }
   }
 
-  showImageDialog(BuildContext context, String imageUrl) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        insetPadding: EdgeInsets.all(9),
-        content: SizedBox(
-          height: 200.0, // Set the height as needed
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.fill,
+  @override
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
+
+    showImageDialog(BuildContext context, String imageUrl) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-      ),
-    );
-  }
-  
-  @override
-  DataRow getRow(int index) {
-    final result = data![index];
-    // TextEditingController factoryValue = TextEditingController();
-    // TextEditingController factoryDeliveryWeek = TextEditingController();
-    // factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
-    // factoryValue.text = result.steelFacOrderNoVal ?? "";
+      );
+    }
 
-    List<dynamic> steelOrderFile = result.steelOrderConfFile ?? [];
+    TextEditingController confcode = TextEditingController();
+    TextEditingController facDeliveryWeek = TextEditingController();
+    TextEditingController ankaValue = TextEditingController();
+
+    int currentIndex = 0;
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.steelOrders!) {
+        // TextEditingController configuratorCode = TextEditingController();
+        // configuratorCode.text = quote.enquiryConfCode ?? "";
+
+        // confcode.text = quote.orderNoVal ?? "";
+        // facDeliveryWeek.text = quote.facDeliveryWeeksVal ?? "";
+        // ankaValue.text = quote.ankaItems ?? "";
+
+          List<dynamic> steelOrderFile = quote.steelOrderConfFile ?? [];
     String filePath = steelOrderFile.isNotEmpty ? steelOrderFile.first : '';
     String fileExtension = extension(filePath).toLowerCase();
 
-    List<dynamic> invoices = result.steelInvoices ?? [];
+    List<dynamic> invoices = quote.steelInvoices ?? [];
     String invoicesFilePath = invoices.isNotEmpty ? invoices.first : '';
     String invoiceFileExtension = extension(invoicesFilePath).toLowerCase();
 
-    List<dynamic> delNotes = result.steelDelNotes ?? [];
+    List<dynamic> delNotes = quote.steelDelNotes ?? [];
     String delNotesFilePath = delNotes.isNotEmpty ? delNotes.first : '';
     String delNotesFileExtension = extension(delNotesFilePath).toLowerCase();
 
-    List<dynamic> pdfUrl = result.manualPDFImageURL ?? [];
+    List<dynamic> pdfUrl = quote.manualPDFImageURL ?? [];
     String pdfUrlFilePath = pdfUrl.isNotEmpty ? pdfUrl.first : '';
     String pdfUrlFileExtension = extension(pdfUrlFilePath).toLowerCase();
 
-    List<dynamic> pdfImageUrl = result.pdfImageURL ?? [];
+    List<dynamic> pdfImageUrl = quote.pdfImageURL ?? [];
     String pdfImageUrlFilePath =
         pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
     String pdfImageUrlFileExtension =
         extension(pdfImageUrlFilePath).toLowerCase();
 
-    // TextEditingController notesController = TextEditingController();
-    // final _formKey = GlobalKey<FormState>();
-    NetworkApiServices apiServices = NetworkApiServices();
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      //1
-      DataCell(Text(result.steelCustomerName ?? "")),
+    List<AdminSteelOrder> getFilteredQuotes() {
+    List<AdminSteelOrder> filteredQuotes = [];
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.steelOrders!) {
+        if (quote.steelOrderStatusVal == "Delayed") {
+          filteredQuotes.add(quote);
+        }
+      }
+    }
+    return filteredQuotes;
+  }
+   
+
+    // List<dynamic> pdfImageUrl = quote.pDFImageURL ?? [];
+    // String pdfImageUrlFilePath =
+    //     pdfImageUrl.isNotEmpty ? pdfImageUrl.first : '';
+    // String pdfImageUrlFileExtension =
+    //     extension(pdfImageUrlFilePath).toLowerCase();
+
+        if (currentIndex == index) {
+          var filteredOrders = getFilteredQuotes();
+
+          var quote = filteredOrders[index];
+          TextEditingController facOrderNo = TextEditingController();
+    TextEditingController facDeliveryWeek = TextEditingController();
+            facDeliveryWeek.text = quote.steelFacWeekVal ?? "";
+        // ankaValue.text = quote.ankaItems ?? "";
+
+        String orderStatus = quote.steelOrderStatusVal ?? "";
+        String paymentStatus = quote.steelOrderPaymentStatusVal ?? "";
+                  facOrderNo.text = quote.steelFacOrderNoVal ?? "";
+          TextEditingController notesController = TextEditingController();
+          notesController.text = quote.notes ?? "";
+          final _formKey = GlobalKey<FormState>();
+          
+                    return DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(quote.steelCustomerName ?? "")),
       //2
       DataCell(
         Container(
           padding: EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-            color: result.steelOrderStatusVal == "Deposit Received" ||
-                    result.steelOrderStatusVal ==
+            color: quote.steelOrderStatusVal == "Deposit Received" ||
+                    quote.steelOrderStatusVal ==
                         "Preliminary Confirmation Issued" ||
-                    result.steelOrderStatusVal == "Awaiting Deposit" ||
-                    result.steelOrderStatusVal ==
+                    quote.steelOrderStatusVal == "Awaiting Deposit" ||
+                    quote.steelOrderStatusVal ==
                         "Revised Confirmation Issued" ||
-                    result.steelOrderStatusVal == "Awaiting Balance Payment" ||
-                    result.steelOrderStatusVal == "Awaiting Survey / Dimensions"
+                    quote.steelOrderStatusVal == "Awaiting Balance Payment" ||
+                    quote.steelOrderStatusVal == "Awaiting Survey / Dimensions"
                 ? Colors.red
                 : Color(0xffb5e51d),
           ),
           child: Text(
-            (result.steelOrderStatusVal == "Deposit Received" ||
-                    result.steelOrderStatusVal ==
+            (quote.steelOrderStatusVal == "Deposit Received" ||
+                    quote.steelOrderStatusVal ==
                         "Preliminary Confirmation Issued" ||
-                    result.steelOrderStatusVal == "Awaiting Deposit" ||
-                    result.steelOrderStatusVal ==
+                    quote.steelOrderStatusVal == "Awaiting Deposit" ||
+                    quote.steelOrderStatusVal ==
                         "Revised Confirmation Issued" ||
-                    result.steelOrderStatusVal == "Awaiting Balance Payment" ||
-                    result.steelOrderStatusVal ==
+                    quote.steelOrderStatusVal == "Awaiting Balance Payment" ||
+                    quote.steelOrderStatusVal ==
                         "Awaiting Survey / Dimensions")
                 ? 'Action Required'
                 : "No Action Required",
@@ -407,72 +462,278 @@ class MyData extends DataTableSource {
         ),
       ),
       //3
-      DataCell(Text('')),
+      DataCell(Text(dealerData.displayName ?? "")),
       //4
-      DataCell(Text(result.steelQNumber ?? "")),
+      DataCell(Text(quote.steelQNumber ?? "")),
       //5
-      DataCell(Text('')),
+      DataCell(Text(dealerData.dealerName ?? "")),
       //6
-      DataCell(Text(result.steelFacOrderNoVal ?? "")),
+      DataCell(Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 13),
+            controller: facOrderNo,
+            onEditingComplete: () {
+              String value = facOrderNo.text;
+              apiServices.setFactoryOrderNoForAdmin(dealerData.userId!, quote.id!, value);
+            },
+          ))),
       //7
-      DataCell(Text(result.steelOrderStatusVal ?? "")),
+      DataCell(Text(quote.steelOrderStatusVal ?? "")),
       //8
       DataCell(Builder(builder: (context) {
           return Container(
+            alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: result.steelOrderStatusVal == "Awaiting Deposit" || result.steelOrderStatusVal == "Awaiting Balance Payment"
+                  color: quote.steelOrderStatusVal == "Awaiting Deposit" || quote.steelOrderStatusVal == "Awaiting Balance Payment"
                       ? Colors.yellow
-                      : result.steelOrderStatusVal == "Delayed" || result.steelOrderStatusVal == "Preliminary Confirmation Issued"
+                      : quote.steelOrderStatusVal == "Delayed" || quote.steelOrderStatusVal == "Preliminary Confirmation Issued"
                           ? Colors.red
-                          : result.steelOrderStatusVal == "In Production" || result.steelOrderStatusVal == "Delivered"
+                          : quote.steelOrderStatusVal == "In Production" || quote.steelOrderStatusVal == "Delivered"
                               ? Color(0xffb5e51d)
-                              : result.steelOrderStatusVal == "Ready For Shipping"
+                              : quote.steelOrderStatusVal == "Ready For Shipping"
                                   ? Color(0xff008001)
-                                  : result.steelOrderStatusVal == "Order Received"
+                                  : quote.steelOrderStatusVal == "Order Received"
                                       ? Color(0xff9ad9ea)
-                                      : result.steelOrderStatusVal ==
+                                      : quote.steelOrderStatusVal ==
                                               "Order Placed"
                                           ? Color(0xffffc90d)
-                                          : result.steelOrderStatusVal ==
+                                          : quote.steelOrderStatusVal ==
                                                   "Revised Confirmation Issued"
                                               ? Color(0xffa747a2)
-                                              : result.steelOrderStatusVal == "Final Confirmation Issued"
-                                                  ? Color(0xffc7bfe6) : result.steelOrderStatusVal == "In Transit To UK" ? Color(0xfffeaec9) : result.steelOrderStatusVal == "In RKDS Warehouse" ?  Color(0xff9ad9ea)
-                                                  : result.steelOrderStatusVal == "Out For Delivery" || result.steelOrderStatusVal == "Awaiting Survey / Dimensions" ? Color(0xff7092bf) : Colors.white,
+                                              : quote.steelOrderStatusVal == "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6) : quote.steelOrderStatusVal == "In Transit To UK" ? Color(0xfffeaec9) : quote.steelOrderStatusVal == "In RKDS Warehouse" ?  Color(0xff9ad9ea)
+                                                  : quote.steelOrderStatusVal == "Out For Delivery" || quote.steelOrderStatusVal == "Awaiting Survey / Dimensions" ? Color(0xff7092bf) : Colors.white,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.6,
               child: Center(
-                  child: Text(
-                result.steelOrderStatusVal ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black),
-              )));
+                child: DropdownButton<String>(
+                  alignment: Alignment.center,
+                  iconEnabledColor: quote.steelOrderStatusVal == "Awaiting Deposit" || quote.steelOrderStatusVal == "Awaiting Balance Payment"
+                      ? Colors.yellow
+                      : quote.steelOrderStatusVal == "Delayed" || quote.steelOrderStatusVal == "Preliminary Confirmation Issued"
+                          ? Colors.red
+                          : quote.steelOrderStatusVal == "In Production" || quote.steelOrderStatusVal == "Delivered"
+                              ? Color(0xffb5e51d)
+                              : quote.steelOrderStatusVal == "Ready For Shipping"
+                                  ? Color(0xff008001)
+                                  : quote.steelOrderStatusVal == "Order Received"
+                                      ? Color(0xff9ad9ea)
+                                      : quote.steelOrderStatusVal ==
+                                              "Order Placed"
+                                          ? Color(0xffffc90d)
+                                          : quote.steelOrderStatusVal ==
+                                                  "Revised Confirmation Issued"
+                                              ? Color(0xffa747a2)
+                                              : quote.steelOrderStatusVal == "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6) : quote.steelOrderStatusVal == "In Transit To UK" ? Color(0xfffeaec9) : quote.steelOrderStatusVal == "In RKDS Warehouse" ?  Color(0xff9ad9ea)
+                                                  : quote.steelOrderStatusVal == "Out For Delivery" || quote.steelOrderStatusVal == "Awaiting Survey / Dimensions" ? Color(0xff7092bf) : Colors.white,
+                  isExpanded: true,
+                  value:
+                      orderStatus,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    //newValue = result.orderFollowup;
+                    if (newValue != null) {
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(newValue: newValue, quoteId: result.id!);
+                      //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                      apiServices.setSteelOrderStatusForAdmin(dealerData.userId!, quote.id!, newValue);
+                      
+                    } else {
+                      String value = quote.steelOrderStatusVal ?? "";
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(
+                      //         newValue: result.orderFollowup, quoteId: result.id!);
+                      apiServices.setSteelOrderStatusForAdmin(dealerData.userId!, quote.id!, value);
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Received', child: Text('Order Received', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Placed', child: Text('Order Placed', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Survey / Dimensions', child: Text('Awaiting Survey / Dimensions', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Deposit', child: Text('Awaiting Deposit', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Preliminary Confirmation Issued', child: Text('Preliminary Confirmation Issued', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Revised Confirmation Issued', child: Text('Revised Confirmation Issued', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Final Confirmation Issued', child: Text('Final Confirmation Issued', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Production', child: Text('In Production', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Ready For Shipping', child: Text('Ready For Shipping', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Transit To UK', child: Text('In Transit To UK', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In RKDS Warehouse', child: Text('In RKDS Warehouse', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Balance Payment', child: Text('Awaiting Balance Payment', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Out For Delivery', child: Text('Out For Delivery', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delivered', child: Text('Delivered', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delayed', child: Text('Delayed', textAlign: TextAlign.center,)),
+                  ],
+                ),
+              )
+
+              );
         })),
       //9
-      DataCell(Text(result.steelOrderPaymentStatusVal ?? "")),
+      DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: quote.steelOrderPaymentStatusVal == "Awaiting Deposit" 
+                      ? Colors.yellow
+                      : quote.steelOrderStatusVal == "Deposit Received" 
+                          ? Color(0xffffd5cd)
+                          : quote.steelOrderStatusVal == "Awaiting Survey Fee" 
+                              ? Color(0xffbde2fd)
+                              : quote.steelOrderStatusVal == "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : quote.steelOrderStatusVal == "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : quote.steelOrderStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : quote.steelOrderStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : quote.steelOrderStatusVal == "All Invoices Paid"
+                                                  ? Color(0xff0d714b) : Colors.yellow,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.6,
+              child: Center(
+                child: DropdownButton<String>(
+                  alignment: Alignment.center,
+                  iconEnabledColor: quote.steelOrderPaymentStatusVal == "Awaiting Deposit" 
+                      ? Colors.yellow
+                      : quote.steelOrderStatusVal == "Deposit Received" 
+                          ? Color(0xffffd5cd)
+                          : quote.steelOrderStatusVal == "Awaiting Survey Fee" 
+                              ? Color(0xffbde2fd)
+                              : quote.steelOrderStatusVal == "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : quote.steelOrderStatusVal == "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : quote.steelOrderStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : quote.steelOrderStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : quote.steelOrderStatusVal == "All Invoices Paid"
+                                                  ? Color(0xff0d714b) : Colors.yellow,                  
+                  isExpanded: true,
+                  value:
+                      paymentStatus,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    //newValue = result.orderFollowup;
+                    if (newValue != null) {
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(newValue: newValue, quoteId: result.id!);
+                      //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                      apiServices.setSteelPaymentStatus(dealerData.userId!, quote.id!, newValue);
+                      
+                    } else {
+                      String value = quote.steelOrderPaymentStatusVal ?? "";
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(
+                      //         newValue: result.orderFollowup, quoteId: result.id!);
+                      //apiServices.setOrderStatus(quote.id!, dealerData.userId, orderStatus);
+                      apiServices.setSteelPaymentStatus(dealerData.userId!, quote.id!, value);
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: '', child: Text('')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Deposit', child: Text('Awaiting Deposit')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Deposit Received', child: Text('Deposit Received')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Survey Fee', child: Text('Awaiting Survey Fee')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Survey Fee Received', child: Text('Survey Fee Received')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Balance', child: Text('Awaiting Balance')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Balance Paid', child: Text('Balance Paid')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Install Payment', child: Text('Awaiting Install Payment')),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'All Invoices Paid', child: Text('All Invoices Paid')),
+                  ],
+                ),
+              )
+
+              );
+        })),
+
       //10
       DataCell(
-        result.steelOrderConfFile!.isNotEmpty
+        quote.steelOrderConfFile!.isNotEmpty
             ? Center(
                 child: Row(
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setSteelOrderConfFile(quote.id!, dealerData.userId!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
                     SizedBox(width: 20),
                     // Create icons for each file
-                    for (var file in result.steelOrderConfFile!)
+                    for (var file in quote.steelOrderConfFile!)
                       InkWell(
                         onTap: () {
                           String fileExtension = extension(file).toLowerCase();
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              context,
+                              myGlobalBuildContext,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -481,7 +742,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(context, file);
+                            showImageDialog(myGlobalBuildContext, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -511,7 +772,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setSteelOrderConfFile(quote.id!, dealerData.userId!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -526,67 +789,58 @@ class MyData extends DataTableSource {
       ),
 
       //11
-      DataCell(Consumer<AnticipatedDeliveryDateSteelOrder>(
-        builder: (context, value, child) {
-          return Container(
-            height: MediaQuery.sizeOf(context).height * 0.045,
-            decoration: BoxDecoration(
-                color: Colors.yellow,
-                border: Border.all(width: 1, color: Colors.transparent)),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  (result.steelAnticipatedDate != null)
-                      ? result.steelAnticipatedDate!
-                      : value.getDate(result.id!),
-                  style: TextStyle(fontSize: 12),
-                ),
-                DateButton(
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2050),
-                    );
-
-                    if (pickedDate != null) {
-                      // value.setDate(result.id!, pickedDate);
-                      // apiServices.setAnticipatedDate(
-                      //     dealerId, result.id!, pickedDate);
-                    }
-                  },
-                  icon: Icons.calendar_month,
-                )
-              ],
-            ),
-          );
-        },
-      )),
+      DataCell(Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                (quote.steelAnticipatedDate != null)
+                    ? quote.steelAnticipatedDate!
+                    : "mm/dd/yyyy",
+                style: TextStyle(fontSize: 12),
+              ),
+              DateButton(
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: myGlobalBuildContext,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2050),
+                  );
+          
+                  if (pickedDate != null) {
+                    apiServices.setSteelOrderAnticipatedDate(dealerData.userId!, quote.id!, pickedDate);
+                  }
+                },
+                icon: Icons.calendar_month,
+              )
+            ],
+          )
+ ),
 
       //12
       DataCell(
-        result.steelInvoices!.isNotEmpty
+        quote.steelInvoices!.isNotEmpty
             ? Center(
                 child: Row(
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();;
+                        getImage().then((value) {
+                          apiServices.setSteelInvoicesForAdmin(dealerData.userId!, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
                     SizedBox(width: 20),
                     // Create icons for each file
-                    for (var file in result.steelInvoices!)
+                    for (var file in quote.steelInvoices!)
                       InkWell(
                         onTap: () {
                           String fileExtension = extension(file).toLowerCase();
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              context,
+                              myGlobalBuildContext,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -595,7 +849,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(context, file);
+                            showImageDialog(myGlobalBuildContext, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -626,9 +880,7 @@ class MyData extends DataTableSource {
                     IconButton(
                       onPressed: () {
                         getImage().then((value) {
-                          apiServices.setInvoicesSteelOrder(
-                              result.id!, dealerId, value);
-                          print('Value in steel order file: $value');
+                          apiServices.setSteelInvoicesForAdmin(dealerData.userId!, quote.id!, value);
                         });
                       },
                       icon: Icon(Icons.add_circle_outline),
@@ -644,38 +896,40 @@ class MyData extends DataTableSource {
       ),
 
       //13
-      DataCell(Text(result.steelBalDueBeforeDelivery ?? "")),
+      DataCell(Text(quote.steelBalDueBeforeDelivery ?? "")),
       //14
       DataCell(RoundButton(onTap: (){
 
       },
       text: "Financial History",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(context).height * 0.045,
-      width: MediaQuery.sizeOf(context).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
       )),
       //15
       DataCell(
-        result.steelDelNotes!.isNotEmpty
+        quote.steelDelNotes!.isNotEmpty
             ? Center(
                 child: Row(
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setSteelDeliveryNotes(dealerData.userId!, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
                     SizedBox(width: 20),
                     // Create icons for each file
-                    for (var file in result.steelDelNotes!)
+                    for (var file in quote.steelDelNotes!)
                       InkWell(
                         onTap: () {
                           String fileExtension = extension(file).toLowerCase();
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              context,
+                              myGlobalBuildContext,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -684,7 +938,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(context, file);
+                            showImageDialog(myGlobalBuildContext, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -715,9 +969,7 @@ class MyData extends DataTableSource {
                     IconButton(
                       onPressed: () {
                         getImage().then((value) {
-                          apiServices.setInvoicesSteelOrder(
-                              result.id!, dealerId, value);
-                          print('Value in steel order file: $value');
+                          apiServices.setSteelDeliveryNotes(dealerData.userId!, quote.id!, value);
                         });
                       },
                       icon: Icon(Icons.add_circle_outline),
@@ -733,20 +985,20 @@ class MyData extends DataTableSource {
       ),
 
       //16
-      DataCell(Text(result.steelSupplyType ?? "")),
+      DataCell(Text(quote.steelSupplyType ?? "")),
       //17
-      DataCell(Text(result.steelFrameSize ?? "")),
+      DataCell(Text(quote.steelFrameSize ?? "")),
       //18
       DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.steelColor == "RAL 9003 MS" || result.steelColor == "RAL 7021 MS" || result.steelColor == "RAL 7039 MS" || result.steelColor == "RAL 7022 MS" || result.steelColor == "DB703 MS" || result.steelColor == "CUSTOM COLOUR" ? Colors.orange : Colors.transparent,
+                  color: quote.steelColor == "RAL 9003 MS" || quote.steelColor == "RAL 7021 MS" || quote.steelColor == "RAL 7039 MS" || quote.steelColor == "RAL 7022 MS" || quote.steelColor == "DB703 MS" || quote.steelColor == "CUSTOM COLOUR" ? Colors.orange : Colors.transparent,
                                     borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
-                result.steelColor ?? "",
+                quote.steelColor ?? "",
                 style: TextStyle(color: Colors.black),
               )));
         })),
@@ -757,8 +1009,10 @@ class MyData extends DataTableSource {
           child: TextFormField(
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 10),
-            //controller: factoryDeliveryWeek,
-            onChanged: (value) {
+            controller: facDeliveryWeek,
+            onEditingComplete: () {
+              String value = facDeliveryWeek.text;
+              apiServices.setSteelFactoryDeliveryWeek(dealerData.userId!, quote.id!, value);
               // Timer(Duration(seconds: 5), () {
               //   apiServices.factoryDeliveryWeekSteelOrder(
               //       dealerId, value, result.id!);
@@ -766,39 +1020,41 @@ class MyData extends DataTableSource {
             },
           ))),
       //20
-      DataCell(Text(result.deliveryPostCode ?? "")),
+      DataCell(Text(quote.deliveryPostCode ?? "")),
       //21
-      DataCell(Text(result.steelWeight ?? "")),
+      DataCell(Text(quote.steelWeight ?? "")),
       //22
-      DataCell(Text(result.steelCustomerTel ?? "")),
+      DataCell(Text(quote.steelCustomerTel ?? "")),
       //23
-      DataCell(Text(result.steelDealerEmail ?? "")),
+      DataCell(Text(quote.steelDealerEmail ?? "")),
       //24
-      DataCell(Text(result.steelTotalOrderValue ?? "")),
+      DataCell(Text(quote.steelTotalOrderValue ?? "")),
       //25
-      DataCell(Text(result.steelDeliveryCost ?? "")),
+      DataCell(Text(quote.steelDeliveryCost ?? "")),
       //26
       DataCell(
-        result.manualPDFImageURL!.isNotEmpty
+        quote.manualPDFImageURL!.isNotEmpty
             ? Center(
                 child: Row(
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setFileUploadForAdmin(dealerData.userId!, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
                     SizedBox(width: 20),
                     // Create icons for each file
-                    for (var file in result.manualPDFImageURL!)
+                    for (var file in quote.manualPDFImageURL!)
                       InkWell(
                         onTap: () {
                           String fileExtension = extension(file).toLowerCase();
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              context,
+                              myGlobalBuildContext,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -807,7 +1063,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(context, file);
+                            showImageDialog(myGlobalBuildContext, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -837,7 +1093,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          apiServices.setFileUploadForAdmin(dealerData.userId!, quote.id!, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -852,26 +1110,26 @@ class MyData extends DataTableSource {
       ),
 
       //27
-      DataCell(result.pdfImageURL!.isNotEmpty || result.pdfImageURL != null
+      DataCell(quote.pdfImageURL!.isNotEmpty || quote.pdfImageURL != null
           ? InkWell(
               onTap: () {
                 pdfImageUrlFileExtension == ".pdf"
                     ? Navigator.push(
-                        context,
+                        myGlobalBuildContext,
                         MaterialPageRoute(
                             builder: (context) => PDFViewer(
-                                url: result.pdfImageURL!.isNotEmpty || result.pdfImageURL != null
-                                    ? result.pdfImageURL![0]
+                                url: quote.pdfImageURL!.isNotEmpty || quote.pdfImageURL != null
+                                    ? quote.pdfImageURL![0]
                                     : [])))
                     : pdfImageUrlFileExtension == ".jpg" ||
                             pdfImageUrlFileExtension == ".jpeg" ||
                             pdfImageUrlFileExtension == ".png"
-                        ? showImageDialog(context, result.pdfImageURL![0]) // showImageDialog(context, pdfImageUrl)
+                        ? showImageDialog(myGlobalBuildContext, quote.pdfImageURL![0]) // showImageDialog(context, pdfImageUrl)
                         : Utils().showToast(
                             'File Format not supported ${pdfImageUrlFileExtension}',
                             Color(0xff941420),
                             Colors.white);
-                // print(result.steelInvoices![0]);
+                // print(quote.steelInvoices![0]);
               },
               child: Center(
                 child: Icon(
@@ -890,51 +1148,128 @@ class MyData extends DataTableSource {
           : Text("No file uploaded")),
 
       //28
-      DataCell(Text(result.date ?? "")),
+      DataCell(Text(quote.date ?? "")),
       //29
-      DataCell(Text(result.time ?? "")),
+      DataCell(Text(quote.time ?? "")),
       //30
-      DataCell(RoundButton(onTap: (){
+      DataCell(RoundButton(onTap: () async {
+        notesController.text = quote.notes ?? "";
+          await showDialog(
+              context: myGlobalBuildContext,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                    child: Text('Enter Notes',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: notesController,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      apiServices.setSteelOrderNotes(dealerData.userId!, quote.id!, notesController.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  ));
 
       },
       text: "Notes",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(context).height * 0.045,
-      width: MediaQuery.sizeOf(context).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
       )),
       //31
-      DataCell(Text(result.steelOrderNetVal ?? "")),
+      DataCell(Text(quote.steelOrderNetVal ?? "")),
       //32
-      DataCell(Text(result.steelDiscount ?? "")),
+      DataCell(Text(quote.steelDiscount ?? "")),
       //33
-      DataCell(Text(result.saleBonus ?? "")),
+      DataCell(Text(quote.saleBonus ?? "")),
       //34
       DataCell(Text("")),
       //35
-      DataCell(Text(result.steelOrderSaleBonus.toString())),
+      DataCell(Text(quote.steelOrderSaleBonus.toString())),
       //36
-      DataCell(Text(result.steelOrderAdminStaffBonus.toString())),
+      DataCell(Text(quote.steelOrderAdminStaffBonus.toString())),
       //37
-      DataCell(Text(result.steelSupplier ?? "")),
+      DataCell(Text(quote.steelSupplier ?? "")),
       //38
-      DataCell(Text(result.steelSupplier ?? "")),
+      DataCell(Text(quote.steelSupplier ?? "")),
       //39
-      DataCell(Text("${result.date} ${result.steelOrderStatusVal}")),
+      DataCell(Text("${quote.date} ${quote.steelOrderStatusVal}")),
       //40
       DataCell(RoundButton(onTap: (){
-
+        apiServices.completeSteelOrderForAdmin(dealerData.userId!, quote.id!);
       },
       text: "Order Complete - Archive File",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(context).height * 0.045,
-      width: MediaQuery.sizeOf(context).width * 0.55,
+      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
       )),
     
       DataCell(Row(
         children: [
-          Icon(
-            Icons.edit,
-            size: 14,
+          InkWell(
+            onTap: () {
+              Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => EditSteelOrderForAdmin(dealerId: dealerData.userId!, dealerName: dealerData.dealerName ?? "", response: quote)));
+            },
+            child: Icon(
+              Icons.edit,
+              size: 14,
+            ),
           ),
           Icon(
             Icons.content_copy_rounded,
@@ -948,6 +1283,34 @@ class MyData extends DataTableSource {
           ),
         ],
       ))
-    ]);
+
+            ],
+          );
+        }
+        currentIndex++;
+      }
+    }
+    return null;
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => totalRowCount;
+
+  @override
+  int get selectedRowCount => 0;
+
+  int get totalRowCount {
+    int count = 0;
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.steelOrders!) {
+        if (quote.steelOrderStatusVal == 'Delayed') {
+          count++;
+        }
+      }
+    }
+    return count;
   }
 }

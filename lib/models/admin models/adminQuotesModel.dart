@@ -95,7 +95,7 @@ class AdminQuotesModel {
       quoteDescription: json['quote_desc'] ?? "",
       telephoneNumber: json['telephone_number'] ?? "",
       customerEmail: json['customer_email'] ?? "",
-      saleBonus: json['sale_bonus'] ?? "",
+      saleBonus: json['sale_bonus'].toString() ,
       wholeTotal: json['whole_total'] ?? "",
       thresholdType: json['threshold_type'] ?? "",
       marineGradeVal: json['marine_grade_val'] ?? "",

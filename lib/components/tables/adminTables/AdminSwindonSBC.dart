@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:file_picker/file_picker.dart';
@@ -234,7 +235,7 @@ class _AdminSwindonSBCTableState extends State<AdminSwindonSBCTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(list, context)),
+                source: MyData(list, context, dealerId: widget.dealerId!)),
           );
         });
       },
@@ -243,10 +244,11 @@ class _AdminSwindonSBCTableState extends State<AdminSwindonSBCTable> {
 }
 
 class MyData extends DataTableSource {
+  final String dealerId;
   final List<CompleteResponseOfEnquiries> dealerDataList;
   final BuildContext context;
 
-  MyData(this.dealerDataList, this.context);
+  MyData(this.dealerDataList, this.context, {required this.dealerId});
 
 
   File? _image;
@@ -305,9 +307,22 @@ class MyData extends DataTableSource {
     String enqFormFileUpload = enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
     String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
 
+    List<AdminEnquiryModel> getFilteredQuotes() {
+    List<AdminEnquiryModel> filteredQuotes = [];
+    for (var dealerData in dealerDataList!) {
+      for (var quote in dealerData.quotes) {
+        if (quote.enquirySource == "Swindon SBC") {
+          filteredQuotes.add(quote);
+        }
+      }
+    }
+    return filteredQuotes;
+  }
 
+        if (currentIndex == index) {
+          var filteredOrders = getFilteredQuotes();
 
-        if (currentIndex == index && quote.enquirySource == "Swindon SBC" ) {
+          var quote = filteredOrders[index];
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -353,11 +368,10 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: configuratorCode,
-            onChanged: (value) {
-              // Timer(Duration(seconds: 5), () {
-              //   apiServices.factoryDeliveryWeekSteelOrder(
-              //       dealerId, value, result.id!);
-              // });
+            onEditingComplete: () {
+              String value = configuratorCode.text;
+              NetworkApiServices().setEnquiryConfigCode(
+                    quote.id!, value, dealerData.userId);
             },
           ))),
                 DataCell(
@@ -367,7 +381,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          NetworkApiServices().setEnquiryOrderConfFile(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -419,7 +435,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          NetworkApiServices().setEnquiryOrderConfFile(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -495,6 +513,7 @@ class MyData extends DataTableSource {
               DataCell(Text(quote.date ?? "")),
               DataCell(Text(quote.time ?? "")),
               DataCell(RoundButton(onTap: (){
+                NetworkApiServices().hotLeadsOrder(dealerId, quote.enquiryType, dealerData.dealerName, quote.enquiryEntered, quote.enquiryEntered, quote.enquiryCustomerName, quote.enquiryCompanyName, quote.enquirySupplyType, quote.customerAddress, quote.customerAddress2, quote.customerAddress3, quote.customerAddress4, quote.deliveryPostCodeC13, quote.enquiryCustomerEmail, quote.enquiryTelNum, quote.enquiryPriorityLevel, quote.enquiryNotes, quote.enquirySource, quote.enquiryAllocatedTo);
 
               },
               text: "Hot Leads",
@@ -504,7 +523,7 @@ class MyData extends DataTableSource {
               )),
               DataCell(Text(quote.enquiryEntered ?? "")),
               DataCell(RoundButton(onTap: (){
-
+                NetworkApiServices().closeEnquiry(dealerId, quote.id!);
               },
               text: "Close Enquiry",
               height: MediaQuery.sizeOf(context).height * 0.04,

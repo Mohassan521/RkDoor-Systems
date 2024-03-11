@@ -256,12 +256,12 @@ class AdminCompletedOrdersModel {
 }
 
 class CompleteResponseForCompletedOrders {
-  List<AdminCompletedOrdersModel> quotes;
+  List<AdminCompletedOrdersModel> completedorders;
   String displayName;
   String dealerName;
   
   CompleteResponseForCompletedOrders({
-    required this.quotes,
+    required this.completedorders,
     required this.displayName,
     required this.dealerName,
   });
@@ -271,7 +271,7 @@ class CompleteResponseForCompletedOrders {
     List<AdminCompletedOrdersModel> quotes = quotesList.map((quote) => AdminCompletedOrdersModel.fromJson(quote)).toList();
 
     return CompleteResponseForCompletedOrders(
-      quotes: quotes,
+      completedorders: quotes,
       displayName: json['display_name'] ?? '',
       dealerName: json['dealerName'] ?? '',
     );

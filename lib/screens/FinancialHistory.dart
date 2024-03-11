@@ -210,7 +210,9 @@ class _FinancialHistoryState extends State<FinancialHistory> {
                 height: 5,
               ),
               RoundButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 text: 'Close',
                 color: Colors.red,
               ),

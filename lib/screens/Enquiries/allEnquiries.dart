@@ -23,7 +23,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
     await apiServices.getAllEnquiries(widget.dealerId!);
-
+    await apiServices.getAdminPanelEnquiries();
     // Update the UI with the new data
     setState(() {});
 

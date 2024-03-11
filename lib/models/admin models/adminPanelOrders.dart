@@ -283,11 +283,13 @@ class OrdersCompleteResponse {
   List<AdminPanelOrders> orders;
   final String? displayName;
   final String? dealerName;
+  final int userId;
 
   OrdersCompleteResponse({
      required this.orders,
      this.displayName,
      this.dealerName,
+     required this.userId
   });
 
   factory OrdersCompleteResponse.fromJson(Map<String, dynamic> json) {
@@ -298,6 +300,7 @@ class OrdersCompleteResponse {
       orders: quotes,
       displayName: json['display_name'],
       dealerName: json['dealerName'],
+      userId: json['user_id']
     );
   }
 }

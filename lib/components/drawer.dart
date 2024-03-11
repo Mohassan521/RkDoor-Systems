@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
-import 'package:price_link/components/tables/employeeTables/completedSteelOrdersForEmp.dart';
+import 'package:price_link/components/round_button.dart';
 import 'package:price_link/components/tables/employeeTables/settings.dart';
-import 'package:price_link/components/tables/steelInProductionTable.dart';
-import 'package:price_link/models/loginDataModel.dart';
 import 'package:price_link/screens/Downloads/BIMFiles.dart';
 import 'package:price_link/screens/Downloads/CADDetails.dart';
 import 'package:price_link/screens/Downloads/Instructions.dart';
@@ -45,6 +42,7 @@ import 'package:price_link/screens/adminScreens/newEnquiryForm.dart';
 import 'package:price_link/screens/adminScreens/orderAllocation.dart';
 import 'package:price_link/screens/adminScreens/queuesAllocation.dart';
 import 'package:price_link/screens/adminScreens/steelOrderForm.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/closedEnquiries.dart';
 import 'package:price_link/screens/completedOrders.dart';
 import 'package:price_link/screens/createEmployee.dart';
@@ -72,6 +70,7 @@ import 'package:price_link/screens/steel%20Orders/steelPreliminaryConfirmation.d
 import 'package:price_link/screens/steel%20Orders/steelReadyForShipping.dart';
 import 'package:price_link/screens/steel%20Orders/steelRevisedConfirmation.dart';
 import 'package:price_link/screens/updates.dart';
+import 'package:price_link/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerPage extends StatefulWidget {
@@ -89,13 +88,35 @@ class DrawerPage extends StatefulWidget {
 class _DrawerPageState extends State<DrawerPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('dealer ID in drawer ${widget.dealer_id}');
+    final _formKey = GlobalKey<FormState>();
+    final _formKey2 = GlobalKey<FormState>();
+    final _formKey3 = GlobalKey<FormState>();
+    final _formKey4 = GlobalKey<FormState>();
+    final _formKey5 = GlobalKey<FormState>();
+    final _formKey6 = GlobalKey<FormState>();
+    final _formKey7 = GlobalKey<FormState>();
+    final _formKey8 = GlobalKey<FormState>();
+    final _formKey9 = GlobalKey<FormState>();
+    final _formKey10 = GlobalKey<FormState>();
+
+    TextEditingController subFolder = TextEditingController();
+    TextEditingController subFolder2 = TextEditingController();
+    TextEditingController subFolder3 = TextEditingController();
+    TextEditingController subFolder4 = TextEditingController();
+    TextEditingController subFolder5 = TextEditingController();
+    TextEditingController subFolder6 = TextEditingController();
+    TextEditingController subFolder7 = TextEditingController();
+    TextEditingController subFolder8 = TextEditingController();
+    TextEditingController subFolder9 = TextEditingController();
+    TextEditingController subFolder10 = TextEditingController();
+
+    String updatesValue;
 
     return SafeArea(
       child: Drawer(
@@ -555,7 +576,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                         dealerName: widget.dealerName!,
                                         role: widget.role,
                                       )
-                                    : SteelOrderForm(
+                                    :  SteelOrderForm(
                                         dealerId: widget.dealer_id!,
                                         dealerName: widget.dealerName!,
                                         role: widget.role,
@@ -853,13 +874,102 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: const Text('CAD Details',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder1Downloads(),
+                          builder: (context, snapshot) {
+                            //print(snapshot.data);
+                            updatesValue = snapshot.data ?? "";
+                            return Text(updatesValue,
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.white,
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder1Downloads().then((value)async {
+                                subFolder.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder1(subFolder.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
                             )),
                       ),
                       ListTile(
@@ -874,29 +984,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('PDF details',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder2Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BIMFiles(
-                                        dealerId: widget.dealer_id!,
-                                        dealerName: widget.dealerName!,
-                                        role: widget.role,
-                                        empId: widget.empId,
-                                      )));
-                        },
-                        title: Text('BIM Files',
-                            style: TextStyle(color: Colors.white)),
-                        trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder2Downloads().then((value)async {
+                                subFolder2.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey2,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder2,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey2.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder2(subFolder2.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -910,11 +1089,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Care & Maintenance',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder3Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder3Downloads().then((value)async {
+                                subFolder3.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey3,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder3,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey3.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder3(subFolder3.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -928,11 +1194,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Instructions',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder4Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder4Downloads().then((value)async {
+                                subFolder4.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey4,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder4,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey4.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder4(subFolder4.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -946,11 +1299,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Data Sheets',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder5Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder5Downloads().then((value)async {
+                                subFolder5.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey5,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder5,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey5.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder5(subFolder5.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -964,11 +1404,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Testing',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder6Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder6Downloads().then((value)async {
+                                subFolder6.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey6,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder6,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey6.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder6(subFolder6.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -982,11 +1509,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Technical & Wiring',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder7Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder7Downloads().then((value)async {
+                                subFolder7.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey7,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder7,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey7.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder7(subFolder7.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -1000,11 +1614,203 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Marketing Material',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder8Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder8Downloads().then((value)async {
+                                subFolder8.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey8,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder8,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey8.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder8(subFolder8.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BIMFiles(
+                                        dealerId: widget.dealer_id!,
+                                        dealerName: widget.dealerName!,
+                                        role: widget.role,
+                                        empId: widget.empId,
+                                      )));
+                        },
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder9Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
+                        trailing: IconButton(
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder9Downloads().then((value)async {
+                                subFolder9.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey9,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder9,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey9.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder9(subFolder9.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                       ListTile(
                         onTap: () {
@@ -1018,11 +1824,98 @@ class _DrawerPageState extends State<DrawerPage> {
                                         empId: widget.empId,
                                       )));
                         },
-                        title: Text('Marketing Images',
-                            style: TextStyle(color: Colors.white)),
+                        title: FutureBuilder(
+                          future: NetworkApiServices().getSubFolder10Downloads(),
+                          builder: (context, snapshot) {
+                            return Text(snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white));
+                          },
+                          
+                        ),
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.edit, color: Colors.white)),
+                            onPressed: () {
+                              NetworkApiServices().getSubFolder10Downloads().then((value)async {
+                                subFolder10.text = value;
+                                await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    insetPadding: EdgeInsets.all(9),
+                    content: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            right: -40,
+                            top: -40,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xff941420),
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                        Form(
+                            key: _formKey10,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+
+                                Center(
+                                    child: Text('Edit subfolder',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(0xff941420),
+                                            fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextFormField(
+                                    maxLines: 6,
+                                    // initialValue: result.notes,
+                                    controller: subFolder10,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff941420))),
+                                        hintText: 'Notes'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                RoundButton(
+                                  text: 'Save',
+                                  onTap: () async {
+                                    if (_formKey10.currentState!.validate()) {
+                                      NetworkApiServices().updateSubFolder10(subFolder10.text);
+                                    }
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop('dialog');
+                                  },
+                                  color: Color(0xff941420),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  )
+                  );
+
+                              });
+
+                            },
+                            icon: Visibility(
+                              visible: widget.role == "admin" ? true : false,
+                              child: Icon(Icons.edit, color: Colors.white))),
                       ),
                     ],
                   ),
@@ -1031,8 +1924,8 @@ class _DrawerPageState extends State<DrawerPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RkDoorCalculatorView(
-                                    dealerId: widget.dealer_id,
+                              builder: (context) => CalculatorWebView(
+                                    dealerId: widget.dealer_id!,
                                     dealerName: widget.dealerName,
                                     role: widget.role,
                                     empId: widget.empId,

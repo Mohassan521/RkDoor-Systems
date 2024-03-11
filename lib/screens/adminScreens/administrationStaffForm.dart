@@ -170,20 +170,7 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                       text: 'Register',
                       onTap: () {
                         if (password.text == cpassword.text) {
-                          // NetworkApiServices().createEmployees(
-                          //     widget.dealerId,
-                          //     fname.text,
-                          //     lname.text,
-                          //     markup.text,
-                          //     discount.text,
-                          //     postCode.text,
-                          //     telephone.text,
-                          //     email.text,
-                          //     password.text,
-                          //     type,
-                          //     address1.text,
-                          //     address2.text,
-                          //     address3.text);
+                          NetworkApiServices().createAdministrator(fname.text, lname.text, postCode.text, telephone.text, email.text, password.text);
                         }
                       },
                       color: Color(0xff941420),

@@ -1,4 +1,4 @@
-class AdminSteelOrder {
+class AdminCompletedSteelOrder {
   final String? id;
   final String? productType;
   final String? steelQNumber;
@@ -48,7 +48,7 @@ class AdminSteelOrder {
   final String? steelBalPayDate;
   final String? steelBalDueBeforeDelivery;
 
-  AdminSteelOrder({
+  AdminCompletedSteelOrder({
      this.id,
      this.productType,
      this.steelQNumber,
@@ -99,8 +99,8 @@ class AdminSteelOrder {
      this.steelBalDueBeforeDelivery,
   });
 
-  factory AdminSteelOrder.fromJson(Map<String, dynamic> json) {
-    return AdminSteelOrder(
+  factory AdminCompletedSteelOrder.fromJson(Map<String, dynamic> json) {
+    return AdminCompletedSteelOrder(
       id: json['id'] ?? '',
       productType: json['product_type'] ?? '',
       steelQNumber: json['steel_q_number'] ?? '',
@@ -153,28 +153,25 @@ class AdminSteelOrder {
   }
 }
 
-class CompletedSteelOrdersResponse {
-  List<AdminSteelOrder>? steelOrders;
+class ClosedSteelOrders {
+  List<AdminCompletedSteelOrder>? completesteelOrders;
   final String? dealerName;
   final String? displayName;
-  final int? userId;
 
-  CompletedSteelOrdersResponse({
-    this.steelOrders,
+  ClosedSteelOrders({
+    this.completesteelOrders,
      this.displayName,
      this.dealerName,
-     this.userId
   });
 
-  factory CompletedSteelOrdersResponse.fromJson(Map<String, dynamic> json) {
+  factory ClosedSteelOrders.fromJson(Map<String, dynamic> json) {
     List<dynamic> quoteList = json['quotes'];
-    List<AdminSteelOrder> quotes = quoteList.map((quoteJson) => AdminSteelOrder.fromJson(quoteJson)).toList();
+    List<AdminCompletedSteelOrder> quotes = quoteList.map((quoteJson) => AdminCompletedSteelOrder.fromJson(quoteJson)).toList();
 
-    return CompletedSteelOrdersResponse(
-      steelOrders: quotes,
+    return ClosedSteelOrders(
+      completesteelOrders: quotes,
       displayName: json['display_name'],
       dealerName: json['dealerName'],
-      userId: json['user_id']
     );
   }
 }

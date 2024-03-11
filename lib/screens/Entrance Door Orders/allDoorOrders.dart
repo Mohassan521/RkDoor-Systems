@@ -28,9 +28,9 @@ class AllDoorOrders extends StatefulWidget {
 class _AllDoorOrdersState extends State<AllDoorOrders> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<OrdersModel>? newData =
+    
         await apiServices.getOrdersList(widget.dealerId!,"");
-
+        await apiServices.getAdminOrders();
     // Update the UI with the new data
     setState(() {});
 
