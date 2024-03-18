@@ -136,11 +136,13 @@ class CompleteResponse {
   final List<AdminQuotesModel> quotes;
   final String? displayName;
   final String? dealerName;
+  final int? userId;
 
   CompleteResponse({
      required this.quotes,
      this.displayName,
      this.dealerName,
+     this.userId
   });
 
   factory CompleteResponse.fromJson(Map<String, dynamic> json) {
@@ -151,6 +153,7 @@ class CompleteResponse {
       quotes: quotes,
       displayName: json['display_name'],
       dealerName: json['dealerName'],
+      userId: json['user_id']
     );
   }
 }

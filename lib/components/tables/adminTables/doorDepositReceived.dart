@@ -475,7 +475,7 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: confcode,
-            onEditingComplete: () {
+            onChanged: (value) {
               String value = confcode.text;
               apiServices.setOrderNum(
                     quote.id!, dealerData.userId, value);

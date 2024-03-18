@@ -63,9 +63,17 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    Provider.of<CompletedOrdersSearchData>(context,
+                    if(widget.role == "dealer" || widget.role == "employee"){
+                      Provider.of<CompletedOrdersSearchData>(context,
                             listen: false)
                         .getAllData(widget.dealerId, value);
+                    }
+                    else if(widget.role == "admin"){
+                      Provider.of<CompletedOrdersSearchData>(context,
+                            listen: false)
+                        .getAllDataForAdmin(widget.dealerId, value);
+                    }
+                    
                   },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),

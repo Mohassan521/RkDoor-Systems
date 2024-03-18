@@ -99,8 +99,14 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
                   },
                   child: TextFormField(
                     onChanged: (value) {
-                      Provider.of<QuotationsSearchedData>(context, listen: false)
+                      if(widget.role == "dealer" || widget.role == "employee"){
+                        Provider.of<QuotationsSearchedData>(context, listen: false)
                           .getAllData(widget.dealerId!, value);
+                      }
+                      else if(widget.role == "admin"){
+                        Provider.of<QuotationsSearchedDataForAdmin>(context, listen: false)
+                          .getAllData(widget.dealerId!, value);
+                      }
                   
                     },
                     decoration: InputDecoration(

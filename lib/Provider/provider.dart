@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/EmployeeList.dart';
+import 'package:price_link/models/admin%20models/CompletedSteelOrders.dart';
+import 'package:price_link/models/admin%20models/adminCompletedOrders.dart';
+import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
+import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
+import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
+import 'package:price_link/models/admin%20models/administratorsModel.dart';
+import 'package:price_link/models/admin%20models/dealersList.dart';
 import 'package:price_link/models/completedOrders.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/models/enquiriesModel.dart';
@@ -95,13 +102,6 @@ class FollowUpOrderDate extends ChangeNotifier {
   }
 }
 
-class AnticipatedDeliveryDateSteelOrder extends ChangeNotifier {
-  Map<String, String> _dateMap = {};
-
-  String getDate(String quoteId) {
-    return _dateMap.containsKey(quoteId) ? _dateMap[quoteId]! : "mm/dd/yyyy";
-  }
-}
 
 class FollowUpDate extends ChangeNotifier {
   Map<String, String> _dateMap = {};
@@ -276,6 +276,142 @@ class HandlingStates extends ChangeNotifier {
   }
 }
 
+class AllAdministratorsSearchedData extends ChangeNotifier {
+  List<AdminModel> dataModel = [];
+  List<AdminModel> filteredDataModel = [];
+
+  Future<void> getAllData(String dealerId, String query) async {
+    if (dataModel.isEmpty) {
+      dataModel = await NetworkApiServices().getAllAdmins();
+    }
+
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
+
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final id = quotations.name!.toString().toLowerCase();
+      final name = quotations.name!.toLowerCase();
+      final postcode = quotations.postCode!.toLowerCase();
+      final telephone = quotations.tel != null ? quotations.tel!.toLowerCase() : "";
+      final email = quotations.email!.toLowerCase();
+
+
+      // Check if any field contains the search query
+      return id.contains(lowercaseQuery) ||
+          name.contains(lowercaseQuery) ||
+          postcode.contains(lowercaseQuery) ||
+          telephone.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery);
+    }).toList();
+
+    notifyListeners();
+  }
+}
+
+
+class AllEnquiriesSearchedDataForAdmin extends ChangeNotifier {
+  List<CompleteResponseOfEnquiries> dataModel = [];
+  List<CompleteResponseOfEnquiries> filteredDataModel = [];
+
+  Future<void> getAllData(String dealerId, String query) async {
+  if (dataModel.isEmpty) {
+    dataModel = await NetworkApiServices().getAdminPanelEnquiries();
+  }
+
+  filteredDataModel = dataModel.where((quotations) {
+    // Search in displayName and dealerName
+
+    bool matchesDealerName = quotations.dealerName.toLowerCase().contains(query.toLowerCase());
+    bool matchesDisplayName = quotations.displayName.toLowerCase().contains(query.toLowerCase());
+    
+    
+    if (matchesDealerName || matchesDisplayName) {
+      return true; // If either display name or dealer name matches, include the record
+    }
+    
+    // Search within each quote object
+    return quotations.quotes.any((quote) {
+      // Search by various attributes of the quote object
+      bool matchesName = (quote.enquirySupplyType?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool matchesPaymentStatus = (quote.enquiryCustomerName?.toLowerCase().contains(query.toLowerCase()) ?? false || quote.enquiryCustomerName?.toLowerCase() == query.toLowerCase());
+      bool matchesOrderStatus = (quote.enquiryAllocatedTo?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool matchesEmail = (quote.enquiryRequirement?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool matchedFacNum = (quote.enquiryType?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+      // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
+      // print("Query: $query");
+      // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
+      
+      return matchesDealerName || matchesDisplayName || matchesName ||  matchesPaymentStatus || matchesOrderStatus ||  matchesEmail || matchedFacNum;
+    });
+  }).toList();
+
+  notifyListeners();
+}
+
+//   Future<void> getAllData(String dealerId, String query) async {
+//   dataModel = await NetworkApiServices().getAdminPanelEnquiries();
+
+//   filteredDataModel = dataModel.where((quotations) =>
+//     quotations.dealerName.toLowerCase().contains(query.toLowerCase()) || // Search dealer name
+//     quotations.quotes.any((quote) => // Search within each quote objectaaa
+//         (quote.enquirySupplyType?.toLowerCase().contains(query.toLowerCase()) ?? false) || // Existing check
+//         (quote.id?.toString().toLowerCase().contains(query.toLowerCase()) ?? false) || // Search by ID
+//         (quote.enquiryCustomerName?.toLowerCase().contains(query.toLowerCase()) ?? false) || // Search by customer name
+//         // Add more search conditions for other properties here (with null checks):
+//         (quote.enquiryAllocatedTo?.toLowerCase().contains(query.toLowerCase()) ?? false) || 
+//         (quote.enquiryRequirement?.toLowerCase().contains(query.toLowerCase()) ?? false)
+//     )
+// ).toList();
+
+// notifyListeners();
+
+// }
+
+}
+
+class CompleteSteelOrderSearchData extends ChangeNotifier {
+  List<ClosedSteelOrders> dataModel = [];
+  List<ClosedSteelOrders> filteredDataModel = [];
+
+  Future<void> getAllData(String dealerId, String query) async {
+  if (dataModel.isEmpty) {
+    dataModel = await NetworkApiServices().getAllCompletedSteelOrders();
+  }
+
+  filteredDataModel = dataModel.where((quotations) {
+    // Search in displayName and dealerName
+
+    bool matchesDealerName = quotations.dealerName!.toLowerCase().contains(query.toLowerCase());
+    bool matchesDisplayName = quotations.displayName!.toLowerCase().contains(query.toLowerCase());
+    
+    
+    if (matchesDealerName || matchesDisplayName) {
+      return true; // If either display name or dealer name matches, include the record
+    }
+    
+    // Search within each quote object
+    return quotations.completesteelOrders!.any((quote) {
+      // Search by various attributes of the quote object
+      bool cname = (quote.steelCustomerName?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool facOrderNoValue = (quote.steelFacOrderNoVal?.toLowerCase().contains(query.toLowerCase()) ?? false || quote.steelFacOrderNoVal?.toLowerCase() == query.toLowerCase());
+      bool supplyType = (quote.steelSupplyType?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool postcode = (quote.deliveryPostCode?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      bool dealer_email = (quote.steelDealerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+      // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
+      // print("Query: $query");
+      // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
+      
+      return matchesDealerName || matchesDisplayName || cname ||  facOrderNoValue || supplyType ||  postcode || dealer_email;
+    });
+  }).toList();
+
+  notifyListeners();
+}
+}
+
 class AllEnquiriesSearchedData extends ChangeNotifier {
   List<EnquiriesModel> dataModel = [];
   List<EnquiriesModel> filteredDataModel = [];
@@ -319,29 +455,29 @@ class EmployeeListSearchedData extends ChangeNotifier {
 
   Future<void> getAllData(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getEmployeeList(dealerId);
-  }
+      dataModel = await NetworkApiServices().getEmployeeList(dealerId);
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final id = quotations.id.toString().toLowerCase();
-    final name = quotations.display_name!.toLowerCase();
-    final email = quotations.user_email!.toLowerCase();
-    final postcode = quotations.postCode!.toLowerCase();
-    final tel = quotations.telephone!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final id = quotations.id.toString().toLowerCase();
+      final name = quotations.display_name!.toLowerCase();
+      final email = quotations.user_email!.toLowerCase();
+      final postcode = quotations.postCode!.toLowerCase();
+      final tel = quotations.telephone!.toLowerCase();
 
-    // Check if any field contains the search query
-    return id.contains(lowercaseQuery) ||
-        name.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        postcode.contains(lowercaseQuery) ||
-        tel.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return id.contains(lowercaseQuery) ||
+          name.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          postcode.contains(lowercaseQuery) ||
+          tel.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 }
 
@@ -382,6 +518,38 @@ class CompletedOrdersSearchData extends ChangeNotifier {
   List<CompletedOrders> dataModel = [];
   List<CompletedOrders> filteredDataModel = [];
 
+  List<CompleteResponseForCompletedOrders> dataModel2 = [];
+  List<CompleteResponseForCompletedOrders> filteredDataModel2 = [];
+  
+  Future<void> getAllDataForAdmin (String dealerId, String query) async {
+    if (dataModel.isEmpty) {
+    dataModel2 = await NetworkApiServices().getCompletedOrdersForAdmin();
+  }
+
+  filteredDataModel2 = dataModel2.where((quotations) {
+    // Search in displayName and dealerName
+
+    bool matchesDealerName = quotations.dealerName.toLowerCase().contains(query.toLowerCase());
+    bool matchesDisplayName = quotations.displayName.toLowerCase().contains(query.toLowerCase());
+    
+    
+    if (matchesDealerName || matchesDisplayName) {
+      return true; // If either display name or dealer name matches, include the record
+    }
+    
+    // Search within each quote object
+    return quotations.completedorders.any((quote) {
+      // Search by various attributes of the quote object
+        return (quote.id?.contains(query.toLowerCase()) ?? false || quote.id == query.toLowerCase()) || (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+        || (quote.orderNoVal?.toLowerCase().contains(query.toLowerCase()) ?? false) || (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false)
+        || (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false) || (quote.deliveryPostCode?.toLowerCase().contains(query.toLowerCase()) ?? false)
+        ;
+    });
+  }).toList();
+
+  notifyListeners();
+  }
+
   Future<void> getAllData(String dealerId, String query) async {
     dataModel = await NetworkApiServices().getCompletedOrders(dealerId);
 
@@ -402,6 +570,171 @@ class CompletedOrdersSearchData extends ChangeNotifier {
 
     notifyListeners();
   }
+} // Import your AdminQuotesModel and CompleteResponse classes
+
+class QuotationsSearchedDataForAdmin extends ChangeNotifier {
+  List<CompleteResponse> _dataModel = [];
+  List<CompleteResponse> _filteredDataModel = [];
+
+  List<CompleteResponse> get filteredDataModel => _filteredDataModel;
+
+  Future<void> getAllData(String dealerId, String query) async {
+    if (_dataModel.isEmpty) {
+      _dataModel = await NetworkApiServices().getAdminQuotes();
+    }
+
+    _filteredDataModel = _dataModel.where((quotations) =>
+    quotations.displayName!.toLowerCase().contains(query.toLowerCase()) || quotations.dealerName!.toLowerCase().contains(query.toLowerCase()) || // Search dealer name
+    quotations.quotes.any((quote) => // Search within each quote objectaaa
+        (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false) || // Existing check
+        (quote.id?.toString().toLowerCase().contains(query.toLowerCase()) ?? false) || // Search by ID
+        (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
+        (quote.quotationNumber?.toLowerCase().contains(query.toLowerCase()) ?? false)
+    )
+).toList();
+
+    // _filteredDataModel = _dataModel.where((response) {
+    //   final lowercaseQuery = query.toLowerCase();
+    //   final quotes = response.quotes;
+    //   String cname = "";
+    //   String quotationNumber = "";
+    //   String quoteId = "";
+    //   String tel = "";
+    //   String email = "";
+    //   String postcode = "";
+
+    //   for (var quote in quotes) {
+    //     cname = quote.name?.toLowerCase() ?? "";
+    //     quotationNumber = quote.quotationNumber ?? "";
+    //     quoteId = quote.id?.toLowerCase() ?? "";
+    //     tel = quote.telephoneNumber?.toLowerCase() ?? "";
+    //     email = quote.customerEmail?.toLowerCase() ?? "";
+    //     postcode = quote.deliveryPostCode?.toLowerCase() ?? "";
+    //   }
+    //   final name = response.displayName?.toLowerCase() ?? '';
+    //   final dealerName = response.dealerName?.toLowerCase() ?? '';
+    //   //print(name);
+    //   if (name.contains(lowercaseQuery) ||
+    //       dealerName.contains(lowercaseQuery) ||
+    //       cname.contains(lowercaseQuery) ||
+    //       quotationNumber.contains(lowercaseQuery) ||
+    //       quoteId.contains(lowercaseQuery) ||
+    //       tel.contains(lowercaseQuery) ||
+    //       email.contains(lowercaseQuery) ||
+    //       postcode.contains(lowercaseQuery)) {
+    //     return true;
+    //   }
+    //   return false;
+    //   //return name.contains(lowercaseQuery) || dealerName.contains(lowercaseQuery) || cname.contains(lowercaseQuery) || quotationNumber.contains(lowercaseQuery);
+    // }).toList();
+
+    notifyListeners();
+  }
+}
+
+class AllDoorOrdersForAdmin extends ChangeNotifier {
+  List<OrdersCompleteResponse> _dataModel = [];
+  List<OrdersCompleteResponse> _filteredDataModel = [];
+
+  List<OrdersCompleteResponse> get filteredDataModel => _filteredDataModel;
+
+//   Future<void> getAllData(String dealerId, String query) async {
+//   if (_dataModel.isEmpty) {
+//     _dataModel = await NetworkApiServices().getAdminOrders();
+//   }
+
+//   _filteredDataModel = _dataModel.where((quotations) {
+//     // Search in displayName and dealerName
+//     bool matchesDisplayName = quotations.displayName!.toLowerCase().contains(query.toLowerCase());
+//     bool matchesDealerName = quotations.dealerName!.toLowerCase().contains(query.toLowerCase());
+    
+//     if (matchesDisplayName || matchesDealerName) {
+//       return true; // If either display name or dealer name matches, include the record
+//     }
+    
+//     // Iterate over each quote object in the quotes array and perform the search operation
+//     bool quoteMatches = false;
+//     for (var quote in quotations.orders) {
+//       bool matchesQuoteName = (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
+//       bool matchesQuoteId = (quote.id?.toLowerCase() == query.toLowerCase());
+//       bool matchesQuotePaymentStatus = (quote.orderPaymentStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+//       bool matchesQuoteOrderStatus = (quote.orderStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+//       bool matchesQuoteTelephone = (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false);
+//       bool matchesQuoteEmail = (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+//       if (matchesQuoteName || matchesQuoteId || matchesQuotePaymentStatus || matchesQuoteOrderStatus || matchesQuoteTelephone || matchesQuoteEmail) {
+//         quoteMatches = true;
+//         break; // If any match is found, break the loop
+//       }
+//     }
+    
+//     return quoteMatches;
+//   }).toList();
+
+//   notifyListeners();
+// }
+
+
+  Future<void> getAllData(String dealerId, String query) async {
+  if (_dataModel.isEmpty) {
+    _dataModel = await NetworkApiServices().getAdminOrders();
+  }
+
+  _filteredDataModel = _dataModel.where((quotations) {
+    // Search in displayName and dealerName
+    bool matchesDisplayName = quotations.displayName!.toLowerCase().contains(query.toLowerCase());
+    bool matchesDealerName = quotations.dealerName!.toLowerCase().contains(query.toLowerCase());
+    
+    if (matchesDisplayName || matchesDealerName) {
+      return true; // If either display name or dealer name matches, include the record
+    }
+
+
+    return quotations.orders.any((quote) {
+      // Search only for exact match of orderStatusVal
+        bool matchesName = (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
+        bool matchesId = (quote.id?.toString().toLowerCase() == query.toLowerCase());
+        bool matchesPaymentStatus = (quote.orderPaymentStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+        bool matchesTelephone = (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false);
+        bool matchesEmail = (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
+        bool matchedFacNum = (quote.orderNoVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+
+        bool matchesOrderStatus = quote.orderStatusVal?.toLowerCase() == query.toLowerCase();
+
+      // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
+      // print("Query: $query");
+      // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
+      
+      return matchesName || matchesId || matchesPaymentStatus || matchesOrderStatus || matchesTelephone || matchesEmail || matchedFacNum;
+    });
+    
+    // Search within each quote object
+    // return quotations.orders.any((quote) {
+    //   // Search by various attributes of the quote object
+    //   bool matchesName = (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
+    //   bool matchesId = (quote.id?.toString().toLowerCase() == query.toLowerCase());
+    //   bool matchesPaymentStatus = (quote.orderPaymentStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+    //   bool matchesTelephone = (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false);
+    //   bool matchesEmail = (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
+    //   bool matchedFacNum = (quote.orderNoVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
+      
+
+    //   bool matchesOrderStatus = quote.orderStatusVal?.toLowerCase() == query.toLowerCase();
+
+    //   // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
+    //   // print("Query: $query");
+    //   // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
+      
+    //   return matchesName || matchesId || matchesPaymentStatus || matchesOrderStatus || matchesTelephone || matchesEmail || matchedFacNum;
+    // });
+  }).toList();
+
+  notifyListeners();
+}
+
 }
 
 class QuotationsSearchedData extends ChangeNotifier {
@@ -410,29 +743,29 @@ class QuotationsSearchedData extends ChangeNotifier {
 
   Future<void> getAllData(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getQuotationsList(dealerId);
-  }
+      dataModel = await NetworkApiServices().getQuotationsList(dealerId);
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final customerEmail = quotations.customerEmail!.toLowerCase();
-    final deliveryPostCode = quotations.dileveryPostCodeC13!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final customerEmail = quotations.customerEmail!.toLowerCase();
+      final deliveryPostCode = quotations.dileveryPostCodeC13!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        customerEmail.contains(lowercaseQuery) ||
-        deliveryPostCode.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          customerEmail.contains(lowercaseQuery) ||
+          deliveryPostCode.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 }
 
@@ -442,169 +775,167 @@ class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
   List<OrdersModel> receivedDataModel = [];
   List<OrdersModel> placedDataModel = [];
   List<OrdersModel> awaitingDataModel = [];
-  
 
   Future<void> getAllData(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
-  
+    notifyListeners();
   }
 
   Future<void> doorOrderReceived(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  receivedDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    receivedDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> doorOrderPlaced(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  placedDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    placedDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> awaitingDeposit(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  awaitingDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    awaitingDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> awaitingSurvey(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> depositReceived(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> PCIssued(String dealerId, String query) async {
@@ -624,272 +955,272 @@ class AllEntranceDoorOrderSearchedData extends ChangeNotifier {
 
   Future<void> RCIssued(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> readyForShipping(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> inProduction(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> transitToUK(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> inRKDSWarehouse(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> ABPayment(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> outForDelivery(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> delivered(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> delayed(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 
   Future<void> onHold(String dealerId, String query) async {
     if (dataModel.isEmpty) {
-    dataModel = await NetworkApiServices().getOrdersList(dealerId,"");
-  }
+      dataModel = await NetworkApiServices().getOrdersList(dealerId, "");
+    }
 
-  // Use a case-insensitive search query
-  final lowercaseQuery = query.toLowerCase();
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
 
-  // Perform filtering
-  filteredDataModel = dataModel.where((quotations) {
-    final name = quotations.name!.toLowerCase();
-    final quotationNumber = quotations.quotationNumber!.toLowerCase();
-    final orderstatus = quotations.orderStatusVal!.toLowerCase();
-    final email = quotations.customerEmail!.toLowerCase();
-    final id = quotations.id!.toLowerCase();
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final name = quotations.name!.toLowerCase();
+      final quotationNumber = quotations.quotationNumber!.toLowerCase();
+      final orderstatus = quotations.orderStatusVal!.toLowerCase();
+      final email = quotations.customerEmail!.toLowerCase();
+      final id = quotations.id!.toLowerCase();
 
-    // Check if any field contains the search query
-    return name.contains(lowercaseQuery) ||
-        quotationNumber.contains(lowercaseQuery) ||
-        orderstatus.contains(lowercaseQuery) ||
-        email.contains(lowercaseQuery) ||
-        id.contains(lowercaseQuery);
-  }).toList();
+      // Check if any field contains the search query
+      return name.contains(lowercaseQuery) ||
+          quotationNumber.contains(lowercaseQuery) ||
+          orderstatus.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) ||
+          id.contains(lowercaseQuery);
+    }).toList();
 
-  notifyListeners();
+    notifyListeners();
   }
 }
 
@@ -1130,4 +1461,42 @@ class AllSteelOrdersData extends ChangeNotifier {
 
     notifyListeners();
   }
+}
+
+class allDealersList extends ChangeNotifier{
+
+    List<DealersList> dataModel = [];
+    List<DealersList> filteredDataModel = [];
+
+  Future<void> getAllData(String dealerId, String query) async {
+    
+    if (dataModel.isEmpty) {
+      dataModel = await NetworkApiServices().getDealersListForAdmin();
+    }
+
+    // Use a case-insensitive search query
+    final lowercaseQuery = query.toLowerCase();
+
+    // Perform filtering
+    filteredDataModel = dataModel.where((quotations) {
+      final id = quotations.iD!.toString().toLowerCase();
+      final name = quotations.name!.toLowerCase();
+      final postcode = quotations.postCodeRegister!.toLowerCase();
+      final telephone = quotations.telephone != null ? quotations.telephone!.toLowerCase() : "";
+      final email = quotations.email!.toLowerCase();
+      final companyDetails = quotations.dealerName!.toLowerCase();
+
+      // Check if any field contains the search query
+      return id.contains(lowercaseQuery) ||
+          name.contains(lowercaseQuery) ||
+          postcode.contains(lowercaseQuery) ||
+          telephone.contains(lowercaseQuery) ||
+          email.contains(lowercaseQuery) || 
+          companyDetails.contains(lowercaseQuery)
+          ;
+    }).toList();
+
+    notifyListeners();
+  }
+
 }

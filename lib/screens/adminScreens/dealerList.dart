@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/tables/adminTables/closedEnquiry.dart';
 import 'package:price_link/components/tables/adminTables/dealerListTable.dart';
-import 'package:price_link/components/tables/closedEnquiryTable.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +61,7 @@ class _DealerListState extends State<DealerList> {
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    Provider.of<ClosedEnquiriesSearchedData>(context,
+                    Provider.of<allDealersList>(context,
                             listen: false)
                         .getAllData(widget.dealerId, value);
                   },

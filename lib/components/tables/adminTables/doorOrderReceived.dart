@@ -3,18 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class AdminDoorOrdersReceived extends StatefulWidget {
   final String dealerId;
@@ -473,8 +468,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: confcode,
-            onEditingComplete: () {
-              String value = confcode.text;
+            onChanged: (value) {
+              value = confcode.text;
               apiServices.setOrderNum(
                     quote.id!, dealerData.userId, value);
             },
@@ -1088,7 +1083,7 @@ class MyData extends DataTableSource {
             style: TextStyle(fontSize: 13),
             controller: facDeliveryWeek,
             onChanged: (value) {
-              String value = facDeliveryWeek.text;
+              value = facDeliveryWeek.text;
               apiServices.setFacDeliveryWeekValue(quote.id!, dealerData.userId, value);
               // Timer(Duration(seconds: 5), () {
               //   apiServices.factoryDeliveryWeekSteelOrder(

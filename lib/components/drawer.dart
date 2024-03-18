@@ -258,7 +258,7 @@ class _DrawerPageState extends State<DrawerPage> {
                           MaterialPageRoute(
                               builder: (context) => HotLeads(
                                     dealerId: widget.dealer_id!,
-                                    dealerName: widget.dealerName!,
+                                    dealerName: widget.dealerName ?? "",
                                     empId: widget.empId,
                                     role: widget.role,
                                   )));

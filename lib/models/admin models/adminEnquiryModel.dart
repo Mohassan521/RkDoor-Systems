@@ -57,6 +57,8 @@ class AdminEnquiryModel {
   final String? chooseOpt4;
   final String? chooseOpt5;
   final String? chooseOpt6;
+  final String? dateOfClosure;
+  final String? dateOfIssue;
 
   AdminEnquiryModel({
      this.id,
@@ -117,6 +119,8 @@ class AdminEnquiryModel {
      this.chooseOpt4,
      this.chooseOpt5,
      this.chooseOpt6,
+     this.dateOfClosure,
+     this.dateOfIssue
   });
 
   factory AdminEnquiryModel.fromJson(Map<String, dynamic> json) {
@@ -179,6 +183,8 @@ class AdminEnquiryModel {
       chooseOpt4: json['choose_opt_4'] ?? "",
       chooseOpt5: json['choose_opt_5'] ?? "",
       chooseOpt6: json['choose_opt_6'] ?? "",
+      dateOfClosure: json['enq_date_of_closure'] ?? "",
+      dateOfIssue: json['enq_date_of_issue'] ?? ""
     );
   }
 }

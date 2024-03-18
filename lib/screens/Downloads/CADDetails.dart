@@ -428,9 +428,7 @@ class _CADDetailsState extends State<CADDetails> {
                                                                               children: [
                                                                                 IconButton(
                                                                                   onPressed: () {
-                                                                                    getImage().then((value) {
-                                                                                      apiServices.addSubFolders(cadDetails.name, numberController.text, descController.text, filesToUpload);
-                                                                                    });
+                                                                                    getImage();
                                                                                   },
                                                                                   icon: Icon(Icons.add_circle_outline),
                                                                                 ),

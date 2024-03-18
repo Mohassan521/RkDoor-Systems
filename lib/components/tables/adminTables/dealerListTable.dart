@@ -54,6 +54,11 @@ class _DealerListTableState extends State<DealerListTable> {
 
         List<DealersList>? list = snapshot.data ?? [];
 
+        List<DealersList> filteredList =
+            Provider.of<allDealersList>(context).filteredDataModel;
+        List<DealersList>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
         // List<ClosedEnquiryModel> filteredList =
         //     Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
         // List<ClosedEnquiryModel>? displayData =
@@ -167,7 +172,7 @@ class _DealerListTableState extends State<DealerListTable> {
                   )),
                 ],
                 source: MyData(
-                  list, context, widget.dealerId ?? "", widget.dealerName ?? "")),
+                  displayData, context, widget.dealerId ?? "", widget.dealerName ?? "")),
           );
         });
       },
@@ -450,11 +455,14 @@ DataCell(Container(
               ),
             )
 ), 
-DataCell(result.userMarketingRecord!.isNotEmpty ? Text('Marketing Record Available') : Text('No Record of Marketing Images')),
+DataCell(result.userMarketingRecord != null && result.userMarketingRecord!.isNotEmpty ? Text('Marketing Record Available') : Text('No Record of Marketing Images')),
       //7
       DataCell(Row(
         children: [
           Icon(Icons.edit, size: 14,),
+          SizedBox(
+            width: 15,
+          ),
           Icon(Icons.delete, color: Colors.red,size: 14,),
         ],
       )),

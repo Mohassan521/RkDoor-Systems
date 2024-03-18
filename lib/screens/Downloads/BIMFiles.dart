@@ -1,11 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/BIMDetailsModel.dart';
-import 'package:price_link/models/CadDetailsModel.dart';
-import 'package:price_link/models/PDFDetailsModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 
@@ -28,6 +28,29 @@ class BIMFiles extends StatefulWidget {
 class _BIMFilesState extends State<BIMFiles> {
   NetworkApiServices apiServices = NetworkApiServices();
   List<TextEditingController> controllers = [];
+  TextEditingController category = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +67,88 @@ class _BIMFilesState extends State<BIMFiles> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: widget.role == "admin"
+                ? InkWell(
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                insetPadding: EdgeInsets.all(9),
+                                content: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                        right: -40,
+                                        top: -40,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const CircleAvatar(
+                                            backgroundColor: Color(0xff941420),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )),
+                                    Form(
+                                        child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Center(
+                                            child: Text('Add Category',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xff941420),
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: TextFormField(
+                                            maxLines: 1,
+                                            controller: category,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Color(
+                                                            0xff941420)))),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        RoundButton(
+                                          text: 'Save',
+                                          onTap: () async {
+                                            apiServices.addInsideFolder9(
+                                                category.text);
+
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          color: Color(0xff941420),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              ));
+                    },
+                    child: Icon(Icons.add))
+                : Text(""),
+          )
+        ],
       ),
       body: Center(
         child: Padding(
@@ -89,169 +194,298 @@ class _BIMFilesState extends State<BIMFiles> {
                               SizedBox(
                                 height: 20,
                               ),
-                              widget.role == "admin" ? Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                                                      bimdetails[index].name,
-                                                                      style: TextStyle(
-                                      color: Color(0xff941420),
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w500),
-                                                                    ),
-                                    ),
-                                    Row(
-                                      
-                                      children: [
-                                        InkWell(
-                                                            onTap: () async {
-                                                              TextEditingController value = controllers[index];
-                                                              await showDialog(
-                                                                  context: context,
-                                                                  builder:
-                                                                      (context) =>
-                                                                          AlertDialog(
-                                                                            shape: RoundedRectangleBorder(
-                                                                                borderRadius:
-                                                                                    BorderRadius.all(
-                                                                                        Radius.circular(10))),
-                                                                            insetPadding:
-                                                                                EdgeInsets
-                                                                                    .all(
-                                                                                        9),
-                                                                            content:
-                                                                                Stack(
-                                                                              clipBehavior:
-                                                                                  Clip.none,
-                                                                              children: [
-                                                                                Positioned(
-                                                                                    right:
-                                                                                        -40,
-                                                                                    top:
-                                                                                        -40,
-                                                                                    child:
-                                                                                        InkResponse(
-                                                                                      onTap:
-                                                                                          () {
-                                                                                        Navigator.of(context).pop();
-                                                                                      },
-                                                                                      child:
-                                                                                          const CircleAvatar(
-                                                                                        backgroundColor: Color(0xff941420),
-                                                                                        child: Icon(
-                                                                                          Icons.close,
-                                                                                          color: Colors.white,
-                                                                                        ),
-                                                                                      ),
-                                                                                    )),
-                                                                                Form(
-                                                                                    child:
-                                                                                        Column(
-                                                                                  mainAxisSize:
-                                                                                      MainAxisSize.min,
-                                                                                  children: [
-                                                                                    Center(
-                                                                                        child: Text('Update', style: TextStyle(fontSize: 20, color: Color(0xff941420), fontWeight: FontWeight.w600))),
-                                                                                    SizedBox(
-                                                                                      height:
-                                                                                          15,
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding:
-                                                                                          const EdgeInsets.all(8),
-                                                                                      child:
-                                                                                          TextFormField(
-                                                                                        maxLines: 1,
-                                                                                        controller: value,
-                                                                                        decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height:
-                                                                                          10,
-                                                                                    ),
-                                                                                    RoundButton(
-                                                                                      text:
-                                                                                          'Save',
-                                                                                      onTap:
-                                                                                          () async {
-                                                    
-                                                                                              apiServices.updateDirectoryName9(cadDetails.id, value.text);
-                                                                                            
-                                                                                        Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                                                      },
-                                                                                      color:
-                                                                                          Color(0xff941420),
-                                                                                    )
-                                                                                  ],
-                                                                                ))
-                                                                              ],
+                              widget.role == "admin"
+                                  ? Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              bimdetails[index].name,
+                                              style: TextStyle(
+                                                  color: Color(0xff941420),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                  onTap: () async {
+                                                    TextEditingController
+                                                        value =
+                                                        controllers[index];
+                                                    await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (context) =>
+                                                                AlertDialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(10))),
+                                                                  insetPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              9),
+                                                                  content:
+                                                                      Stack(
+                                                                    clipBehavior:
+                                                                        Clip.none,
+                                                                    children: [
+                                                                      Positioned(
+                                                                          right:
+                                                                              -40,
+                                                                          top:
+                                                                              -40,
+                                                                          child:
+                                                                              InkResponse(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
+                                                                            },
+                                                                            child:
+                                                                                const CircleAvatar(
+                                                                              backgroundColor: Color(0xff941420),
+                                                                              child: Icon(
+                                                                                Icons.close,
+                                                                                color: Colors.white,
+                                                                              ),
                                                                             ),
-                                                                          ));
-                                                            },
-                                                            child: Icon(
-                                                              Icons.edit,
-                                                              size: 14,
-                                                            )),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return AlertDialog(
-                                                          title: Icon(Icons.warning),
-                                                          content:
-                                                              Text('Are u sure you want to delete this quotation'),
-                                                          actions: [
-                                                            Center(
-                                                              child: Column(
-                                                                children: [
-                                    RoundButton(
-                                      text: 'Delete',
-                                      onTap: () {
-                                        apiServices.deleteWholeDirectory9(cadDetails.id);
-                                        Navigator.pop(context);
-                                      },
-                                      color: Colors.red,
+                                                                          )),
+                                                                      Form(
+                                                                          child:
+                                                                              Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: [
+                                                                          Center(
+                                                                              child: Text('Update', style: TextStyle(fontSize: 20, color: Color(0xff941420), fontWeight: FontWeight.w600))),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                15,
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              maxLines: 1,
+                                                                              controller: value,
+                                                                              decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          ),
+                                                                          RoundButton(
+                                                                            text:
+                                                                                'Save',
+                                                                            onTap:
+                                                                                () async {
+                                                                              apiServices.updateDirectoryName9(cadDetails.id, value.text);
+
+                                                                              Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                            },
+                                                                            color:
+                                                                                Color(0xff941420),
+                                                                          )
+                                                                        ],
+                                                                      ))
+                                                                    ],
+                                                                  ),
+                                                                ));
+                                                  },
+                                                  child: Icon(
+                                                    Icons.edit,
+                                                    size: 14,
+                                                  )),
+                                              InkWell(
+                                                  onTap: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: Icon(
+                                                                Icons.warning),
+                                                            content: Text(
+                                                                'Are u sure you want to delete this quotation'),
+                                                            actions: [
+                                                              Center(
+                                                                child: Column(
+                                                                  children: [
+                                                                    RoundButton(
+                                                                      text:
+                                                                          'Delete',
+                                                                      onTap:
+                                                                          () {
+                                                                        apiServices
+                                                                            .deleteWholeDirectory9(cadDetails.id);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      color: Colors
+                                                                          .red,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          15,
+                                                                    ),
+                                                                    RoundButton(
+                                                                      text:
+                                                                          'Cancel',
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      color: Colors
+                                                                          .blue,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
+                                                        });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                    size: 14,
+                                                  )),
+                                              InkWell(
+                                                  onTap: () async {
+                                                    await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (context) =>
+                                                                AlertDialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(10))),
+                                                                  insetPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              9),
+                                                                  content:
+                                                                      Stack(
+                                                                    clipBehavior:
+                                                                        Clip.none,
+                                                                    children: [
+                                                                      Positioned(
+                                                                          right:
+                                                                              -40,
+                                                                          top:
+                                                                              -40,
+                                                                          child:
+                                                                              InkResponse(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
+                                                                            },
+                                                                            child:
+                                                                                const CircleAvatar(
+                                                                              backgroundColor: Color(0xff941420),
+                                                                              child: Icon(
+                                                                                Icons.close,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                            ),
+                                                                          )),
+                                                                      Form(
+                                                                          child:
+                                                                              Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: [
+                                                                          Center(
+                                                                              child: Text('Add New', style: TextStyle(fontSize: 20, color: Color(0xff941420), fontWeight: FontWeight.w600))),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                15,
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              maxLines: 1,
+                                                                              controller: numberController,
+                                                                              decoration: InputDecoration(hintText: 'File Number', border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              maxLines: 1,
+                                                                              controller: descController,
+                                                                              decoration: InputDecoration(hintText: 'File Description', border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
+                                                                            ),
+                                                                          ),
+                                                                          Row(
+                                                                            children: [
+                                                                              IconButton(
+                                                                                onPressed: () {
+                                                                                  getImage();
+                                                                                },
+                                                                                icon: Icon(Icons.add_circle_outline),
+                                                                              ),
+                                                                              SizedBox(width: 20),
+                                                                              Text(
+                                                                                'Add Files',
+                                                                                style: TextStyle(color: Colors.grey),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          ),
+                                                                          RoundButton(
+                                                                            text:
+                                                                                'Save',
+                                                                            onTap:
+                                                                                () async {
+                                                                              //apiServices.updateDirectoryName(cadDetails.id, value.text);
+                                                                              apiServices.addSubFolders9(cadDetails.name, numberController.text, descController.text, filesToUpload);
+
+                                                                              Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                            },
+                                                                            color:
+                                                                                Color(0xff941420),
+                                                                          )
+                                                                        ],
+                                                                      ))
+                                                                    ],
+                                                                  ),
+                                                                ));
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Colors.black,
+                                                    size: 14,
+                                                  ))
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(
+                                      bimdetails[index].name,
+                                      style: TextStyle(
+                                          color: Color(0xff941420),
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    RoundButton(
-                                      text: 'Cancel',
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      color: Colors.blue,
-                                    ),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        );
-                                                      });
-                                    
-                                                            },
-                                                            child: Icon(
-                                                              Icons.delete,
-                                                              color: Colors.red,
-                                                              size: 14,
-                                                            ))
-                                    
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ) : Text(
-                                bimdetails[index].name,
-                                style: TextStyle(
-                                    color: Color(0xff941420),
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w500),
-                              ),
                               SizedBox(
                                 height: 20,
                               ),

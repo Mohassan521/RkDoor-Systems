@@ -120,7 +120,7 @@ class _UpdatesState extends State<Updates> {
                   ));
 
               },
-              child: Text("Add Update", style: TextStyle(color: Colors.white),)),
+              child: Icon(Icons.add, color: Colors.white,)),
           )),
         ]
       ),
@@ -170,12 +170,13 @@ class _UpdatesState extends State<Updates> {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 15),
+                                      vertical: 15, horizontal: 8),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(

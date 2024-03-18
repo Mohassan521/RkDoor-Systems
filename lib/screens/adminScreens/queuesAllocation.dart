@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/ankaTable.dart';
 import 'package:price_link/components/tables/adminTables/queueAllocationTable.dart';
+import 'package:provider/provider.dart';
 
 class QueuesAllocation extends StatefulWidget {
   final String? dealerId;
@@ -39,7 +41,10 @@ class _QueuesAllocationState extends State<QueuesAllocation> {
           Container(
               padding: EdgeInsets.only(left: 20.0, right: 20),
               child: TextFormField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  Provider.of<QuotationsSearchedDataForAdmin>(context, listen: false)
+                          .getAllData(widget.dealerId!, value);
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
                   prefixIcon: IconButton(

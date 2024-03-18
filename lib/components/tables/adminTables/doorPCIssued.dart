@@ -59,7 +59,7 @@ class _AdminDoorPCIssuedState extends State<AdminDoorPCIssued> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
         // List<AdminPanelOrders> filteredList = list!.where((result) => result.orderStatusVal == "Preliminary Confirmation Issued").toList();
 
@@ -476,8 +476,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: confcode,
-            onEditingComplete: () {
-              String value = confcode.text;
+            onChanged: (value) {
+              value = confcode.text;
               apiServices.setOrderNum(
                     quote.id!, dealerData.userId, value);
             },

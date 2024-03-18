@@ -13,6 +13,7 @@ import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
 import 'package:price_link/models/enquiriesModel.dart';
 import 'package:price_link/screens/Enquiries/editEnquiry.dart';
 import 'package:price_link/screens/Enquiries/enquiryDetails.dart';
+import 'package:price_link/screens/adminScreens/enquiryEdit.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
@@ -368,8 +369,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: configuratorCode,
-            onEditingComplete: () {
-              String value = configuratorCode.text;
+            onChanged: (value) {
+              value = configuratorCode.text;
               NetworkApiServices().setEnquiryConfigCode(
                     quote.id!, value, dealerData.userId);
             },
@@ -533,13 +534,13 @@ class MyData extends DataTableSource {
                DataCell(Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(
-                //   (quote.orderDateQArray != null)
-                //       ? quote.orderDateQArray!
-                //       : "mm/dd/yyyy",
-                //   style: TextStyle(fontSize: 12),
-                // ),
-                Text(""),
+                Text(
+                  (quote.dateOfClosure != null)
+                      ? quote.dateOfClosure!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                //Text(""),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -563,13 +564,13 @@ class MyData extends DataTableSource {
                DataCell(Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(
-                //   (quote.orderDateQArray != null)
-                //       ? quote.orderDateQArray!
-                //       : "mm/dd/yyyy",
-                //   style: TextStyle(fontSize: 12),
-                // ),
-                Text(""),
+                Text(
+                  (quote.dateOfIssue != null)
+                      ? quote.dateOfIssue!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                //Text(""),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -592,9 +593,54 @@ class MyData extends DataTableSource {
 ),
               DataCell(Row(
         children: [
-          Icon(Icons.edit, size: 14,),
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AdminEnquiryEditForm(dealerId: dealerData.userId.toString(), dealerName: dealerData.dealerName, enquiries: quote)));
+
+            },
+            child: Icon(Icons.edit, size: 14,)),
           Icon(Icons.copy, size: 14,),
-          Icon(Icons.delete, color: Colors.red,size: 14,),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Icon(Icons.warning),
+                      content:
+                          Text('Are u sure you want to delete this enquiry'),
+                      actions: [
+                        Center(
+                          child: Column(
+                            children: [
+                              RoundButton(
+                                text: 'Delete',
+                                onTap: () {
+                                  NetworkApiServices()
+                                        .deleteEnquiry(dealerData.userId.toString(), quote.id!);
+                                    Navigator.pop(context);
+                                },
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              RoundButton(
+                                text: 'Cancel',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  });
+
+            },
+            child: Icon(Icons.delete, color: Colors.red,size: 14,)),
         ],
       ))
               

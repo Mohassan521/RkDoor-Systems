@@ -8,17 +8,12 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/admin%20models/adminHotleads.dart';
-import 'package:price_link/models/hotLeadsModel.dart';
-import 'package:price_link/models/loginDataModel.dart';
-import 'package:price_link/models/ordersListModel.dart';
-import 'package:price_link/screens/Enquiries/hotLeadsEdit.dart';
-import 'package:price_link/screens/FinancialHistory.dart';
+import 'package:price_link/screens/adminScreens/enquiryRecord.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/pdfViewer.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminHotLeads extends StatefulWidget {
   final String? dealerId;
@@ -509,14 +504,20 @@ class MyData extends DataTableSource {
               ),
 
               DataCell(RoundButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EnquiryRecordForAdmin(
+                    enquiries: quote,
+                  )));
+                },
                 text: "Enquiry Record",
                 height: MediaQuery.sizeOf(context).height * 0.045,
                 width: MediaQuery.sizeOf(context).width * 0.4,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CalculatorWebView(url: 'https://www.pricelink.net/rk-door-calulator-by-admin/?user_id=${dealerData.userId}&method=enquiryorder&cus_name=${quote.enquiryCusName}&add1=${quote.customerAddress}&add2=${quote.customerAddress2}&add3=${quote.customerAddress3}&add4=${quote.customerAddress4}&quote_id=${quote.id}&postcode=${quote.dileveryPostCodeC13}&supplyType=${quote.enquirySupplyType}&telno=${quote.enquiryTelNum}&email=${quote.enquiryCusEmail}&allocatedto=${quote.enquiryAllocatedTo}&mobile_token=true',dealerId: dealerId!,)));
+                },
                 text: "Create Quotation",
                 height: MediaQuery.sizeOf(context).height * 0.045,
                 width: MediaQuery.sizeOf(context).width * 0.4,
@@ -524,7 +525,9 @@ class MyData extends DataTableSource {
               )),
               DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
               DataCell(RoundButton(
-                onTap: () {},
+                onTap: () {
+                  NetworkApiServices().closeEnquiry(dealerData.userId.toString(), quote.id!);
+                },
                 text: "Close Enquiry",
                 height: MediaQuery.sizeOf(context).height * 0.045,
                 width: MediaQuery.sizeOf(context).width * 0.4,
@@ -543,10 +546,51 @@ class MyData extends DataTableSource {
                     Icons.copy,
                     size: 14,
                   ),
-                  Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                    size: 14,
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Icon(Icons.warning),
+                      content:
+                          Text('Are u sure you want to delete this enquiry'),
+                      actions: [
+                        Center(
+                          child: Column(
+                            children: [
+                              RoundButton(
+                                text: 'Delete',
+                                onTap: () {
+                                  NetworkApiServices()
+                                        .deleteEnquiry(dealerData.userId.toString(), quote.id!);
+                                    Navigator.pop(context);
+                                },
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              RoundButton(
+                                text: 'Cancel',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  });
+
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 14,
+                    ),
                   ),
                 ],
               ))

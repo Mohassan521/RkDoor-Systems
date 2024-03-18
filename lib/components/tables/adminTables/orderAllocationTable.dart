@@ -8,11 +8,10 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
-import 'package:price_link/models/steelOrderModel.dart';
+import 'package:price_link/screens/adminScreens/financialHistory.dart';
+import 'package:price_link/screens/adminScreens/quoteAnalysis.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +29,7 @@ class OrdersAllocationTable extends StatefulWidget {
 
 class _OrdersAllocationTableState extends State<OrdersAllocationTable> {
   NetworkApiServices apiServices = NetworkApiServices();
+
   List<OrdersCompleteResponse>? list = [];
 
   @override
@@ -59,14 +59,21 @@ class _OrdersAllocationTableState extends State<OrdersAllocationTable> {
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: Text('Data is being loaded...'));
         }
-
-        list = snapshot.data!;
-
+    
+        list = snapshot.data ?? [];
+    
+        List<OrdersCompleteResponse> filteredList =
+            Provider.of<AllDoorOrdersForAdmin>(context)
+                .filteredDataModel;
+        List<OrdersCompleteResponse>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+    
+    
         // List<SteelOrderModel> filteredList =
         //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
         // List<SteelOrderModel>? displayData =
         //     filteredList.isNotEmpty ? filteredList : list;
-
+    
         return ClipRRect(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(23),
@@ -283,7 +290,7 @@ class _OrdersAllocationTableState extends State<OrdersAllocationTable> {
                   style: TextStyle(color: Colors.white),
                 )),
               ],
-              source: MyData(list!, _dateTime, widget.dealerId,
+              source: MyData(displayData ?? list, _dateTime, widget.dealerId,
                   widget.dealerName, _showDatePicker,
                   myGlobalBuildContext: context)),
         );
@@ -714,7 +721,12 @@ class MyData extends DataTableSource {
               DataCell(Text(quote.balDueBeforeDelivery ?? "")),
               //15
               DataCell(RoundButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => FinancialHistoryForAdminOrders(
+                  dealerName: dealerData.dealerName,
+                  dealerId: dealerData.userId.toString(),
+                  ordersModel: quote,)));
+                },
                 text: "Financial History",
                 color: Colors.blue,
                 height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
@@ -1007,7 +1019,12 @@ class MyData extends DataTableSource {
               ))),
               //39
               DataCell(RoundButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
+            dealerId: dealerData.userId.toString(),
+            quoteId: quote.id,
+          )));
+                },
                 text: "Quote Analysis",
                 color: Colors.blue,
                 height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
@@ -1087,7 +1104,45 @@ class MyData extends DataTableSource {
                   ),
                   InkWell(
                     onTap: () {
-                      apiServices.DeleteOrderFromAdmin(dealerData.userId, quote.id!);
+
+                      showDialog(
+                  context: myGlobalBuildContext,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Icon(Icons.warning),
+                      content:
+                          Text('Are u sure you want to delete this quotation'),
+                      actions: [
+                        Center(
+                          child: Column(
+                            children: [
+                              RoundButton(
+                                text: 'Delete',
+                                onTap: () {
+                                  apiServices.DeleteOrderFromAdmin(dealerData.userId, quote.id!);
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              RoundButton(
+                                text: 'Cancel',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  });
+
+
+                      
                     },
                     child: Icon(
                       Icons.delete,

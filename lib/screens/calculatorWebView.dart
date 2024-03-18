@@ -54,12 +54,6 @@ class _CalculatorWebViewState extends State<CalculatorWebView> {
   Widget build(BuildContext context) {
     print(widget.url);
     return Scaffold(
-      drawer: DrawerPage(
-        dealer_id: widget.dealerId,
-        dealerName: widget.dealerName,
-        role: widget.role,
-        empId: widget.empId,
-      ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 0,

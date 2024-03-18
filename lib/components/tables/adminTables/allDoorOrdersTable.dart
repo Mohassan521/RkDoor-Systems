@@ -9,6 +9,9 @@ import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/steelOrderModel.dart';
+import 'package:price_link/screens/adminScreens/financialHistory.dart';
+import 'package:price_link/screens/adminScreens/quoteAnalysis.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
@@ -62,10 +65,11 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
 
         list = snapshot.data ?? [];
 
-        // List<SteelOrderModel> filteredList =
-        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        // List<SteelOrderModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
+        List<OrdersCompleteResponse> filteredList =
+            Provider.of<AllDoorOrdersForAdmin>(context)
+                .filteredDataModel;
+        List<OrdersCompleteResponse>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -323,7 +327,7 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
                   style: TextStyle(color: Colors.white),
                 )),
               ],
-              source: MyData(list!, _dateTime, widget.dealerId,
+              source: MyData(displayData, _dateTime, widget.dealerId,
                   widget.dealerName, _showDatePicker,
                   myGlobalBuildContext: context))
         );
@@ -444,7 +448,7 @@ class MyData extends DataTableSource {
               //2
               DataCell(
         Container(
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             color: quote.orderStatusVal == "Deposit Received" ||
                     quote.orderStatusVal ==
@@ -485,8 +489,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: confcode,
-            onEditingComplete: () {
-              String value = confcode.text;
+            onChanged: (value) {
+              value = confcode.text;
               apiServices.setOrderNum(
                     quote.id!, dealerData.userId, value);
             },
@@ -991,7 +995,10 @@ class MyData extends DataTableSource {
               DataCell(Text(quote.balDueBeforeDelivery ?? "")),
               //15
               DataCell(RoundButton(onTap: (){
-
+                Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => FinancialHistoryForAdminOrders(
+                  dealerName: dealerData.dealerName,
+                  dealerId: dealerData.userId.toString(),
+                  ordersModel: quote,)));
               },
               text: "Financial History",
               color: Colors.blue,
@@ -1099,8 +1106,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: facDeliveryWeek,
-            onEditingComplete: () {
-              String value = facDeliveryWeek.text;
+            onChanged: (value) {
+              value = facDeliveryWeek.text;
               apiServices.setFacDeliveryWeekValue(quote.id!, dealerData.userId, value);
               // Timer(Duration(seconds: 5), () {
               //   apiServices.factoryDeliveryWeekSteelOrder(
@@ -1353,7 +1360,10 @@ class MyData extends DataTableSource {
     DataCell(Text(dealerData.dealerName ?? "")),
     //39
     DataCell(RoundButton(onTap: (){
-
+        Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
+            dealerId: dealerData.userId.toString(),
+            quoteId: quote.id,
+          )));
       },
       text: "Quote Analysis",
       color: Colors.blue,
@@ -1403,7 +1413,7 @@ class MyData extends DataTableSource {
                 children: [
                   InkWell(
                     onTap: (){
-                      Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => RkDoorCalculatorView(
+                      Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => CalculatorWebView(
                         dealerId: dealerId!,
                         url: "https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_order_id=${quote.id}&mobile_token=true")));
                     },

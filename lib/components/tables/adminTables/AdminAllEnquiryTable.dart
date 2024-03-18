@@ -13,6 +13,7 @@ import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
 import 'package:price_link/models/enquiriesModel.dart';
 import 'package:price_link/screens/Enquiries/editEnquiry.dart';
 import 'package:price_link/screens/Enquiries/enquiryDetails.dart';
+import 'package:price_link/screens/adminScreens/enquiryEdit.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
@@ -75,10 +76,12 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
 
         List<CompleteResponseOfEnquiries> dealerDataList = snapshot.data ?? [];
 
-        // List<EnquiriesModel> filteredList =
-        //     Provider.of<AllEnquiriesSearchedData>(context).filteredDataModel;
-        // List<EnquiriesModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
+        List<CompleteResponseOfEnquiries> filteredList =
+            Provider.of<AllEnquiriesSearchedDataForAdmin>(context).filteredDataModel;
+        List<CompleteResponseOfEnquiries> displayData =
+            filteredList.isNotEmpty ? filteredList : dealerDataList;
+        
+
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return ClipRRect(
@@ -228,7 +231,7 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(dealerDataList, context, dealerId: widget.dealerId!)),
+                source: MyData(displayData, context, dealerId: widget.dealerId!)),
           );
         });
       },
@@ -296,7 +299,7 @@ class MyData extends DataTableSource {
     String fileUploadPath= fileUpload.isNotEmpty ? fileUpload.first : '';
     String fileuploadExtension= extension(fileUploadPath).toLowerCase();
 
-    List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
+    List<dynamic> enquiryFormFileUpload = quote.enquiryFileUpload ?? [];
     String enqFormFileUpload = enquiryFormFileUpload.isNotEmpty ? enquiryFormFileUpload.first : '';
     String enqFormExtension= extension(enqFormFileUpload).toLowerCase();
 
@@ -347,8 +350,8 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: configuratorCode,
-            onEditingComplete: () {
-              String value = configuratorCode.text;
+            onChanged: (value) {
+              value = configuratorCode.text;
               NetworkApiServices().setEnquiryConfigCode(
                     quote.id!, value, dealerData.userId);
             },
@@ -511,13 +514,13 @@ class MyData extends DataTableSource {
                DataCell(Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(
-                //   (quote.orderDateQArray != null)
-                //       ? quote.orderDateQArray!
-                //       : "mm/dd/yyyy",
-                //   style: TextStyle(fontSize: 12),
-                // ),
-                Text(""),
+                Text(
+                  (quote.dateOfClosure != null)
+                      ? quote.dateOfClosure!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                //Text(""),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -541,13 +544,13 @@ class MyData extends DataTableSource {
                DataCell(Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Text(
-                //   (quote.orderDateQArray != null)
-                //       ? quote.orderDateQArray!
-                //       : "mm/dd/yyyy",
-                //   style: TextStyle(fontSize: 12),
-                // ),
-                Text(""),
+                Text(
+                  (quote.dateOfIssue != null)
+                      ? quote.dateOfIssue!
+                      : "mm/dd/yyyy",
+                  style: TextStyle(fontSize: 12),
+                ),
+                //Text(""),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -570,9 +573,53 @@ class MyData extends DataTableSource {
 ),
               DataCell(Row(
         children: [
-          Icon(Icons.edit, size: 14,),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AdminEnquiryEditForm(dealerId: dealerData.userId.toString(), dealerName: dealerData.dealerName, enquiries: quote)));
+            },
+            child: Icon(Icons.edit, size: 14,)),
           Icon(Icons.copy, size: 14,),
-          Icon(Icons.delete, color: Colors.red,size: 14,),
+          InkWell(
+            onTap: (){
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Icon(Icons.warning),
+                      content:
+                          Text('Are u sure you want to delete this enquiry'),
+                      actions: [
+                        Center(
+                          child: Column(
+                            children: [
+                              RoundButton(
+                                text: 'Delete',
+                                onTap: () {
+                                  NetworkApiServices()
+                                        .deleteEnquiry(dealerData.userId.toString(), quote.id!);
+                                    Navigator.pop(context);
+                                },
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              RoundButton(
+                                text: 'Cancel',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  });
+
+            },
+            child: Icon(Icons.delete, color: Colors.red,size: 14,)),
         ],
       ))
               

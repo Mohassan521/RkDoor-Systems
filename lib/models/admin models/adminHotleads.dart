@@ -96,11 +96,13 @@ class CompleteResponseOfHotLeads{
   List<AdminHotLeadsModel> hotleads;
   final String displayName;
   final String dealerName;
+  final int userId;
 
   CompleteResponseOfHotLeads({
     required this.hotleads,
     required this.displayName,
     required this.dealerName,
+    required this.userId
   });
 
   factory CompleteResponseOfHotLeads.fromJson(Map<String, dynamic> json) {
@@ -111,6 +113,7 @@ class CompleteResponseOfHotLeads{
       hotleads: quotes,
       displayName: json['display_name'],
       dealerName: json['dealerName'],
+      userId: json['user_id']
     );
   }
 }

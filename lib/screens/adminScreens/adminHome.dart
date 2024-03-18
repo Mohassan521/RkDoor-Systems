@@ -104,7 +104,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -130,7 +130,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     children: [
                       Text(
@@ -146,17 +146,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorOrders(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -172,17 +172,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorOrdersReceived(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -196,17 +196,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorAwaitingDeposit(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -222,17 +222,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorDepositReceived(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -248,17 +248,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorAwaitingSurvey(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -274,17 +274,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorOrderPlaced(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -304,17 +304,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorPCIssued(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -337,10 +337,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -356,17 +356,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorInProduction(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -382,17 +382,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorDelayed(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -408,17 +408,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorReadyForShipping(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -434,17 +434,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorTransitToUK(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -460,17 +460,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorInRKDS(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -486,17 +486,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorAwaitingPayment(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -512,17 +512,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorOutForDelivery(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -538,17 +538,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorDelivered(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -564,7 +564,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: AdminDoorOnHold(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",

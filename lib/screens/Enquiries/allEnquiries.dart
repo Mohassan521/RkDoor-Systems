@@ -60,9 +60,17 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                   padding: EdgeInsets.only(left: 20.0, right: 20),
                   child: TextFormField(
                     onChanged: (value) {
+                      if(widget.role == "dealer" || widget.role=="employee"){
                       Provider.of<AllEnquiriesSearchedData>(context,
                               listen: false)
                           .getAllData(widget.dealerId!, value);
+                      }
+                      else if(widget.role == "admin"){
+                          Provider.of<AllEnquiriesSearchedDataForAdmin>(context,
+                              listen: false)
+                          .getAllData(widget.dealerId!, value);
+                      }
+
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5),

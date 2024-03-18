@@ -74,6 +74,11 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
 
         List<CompleteResponseOfEnquiries>? list = snapshot.data!;
 
+        List<CompleteResponseOfEnquiries> filteredList =
+            Provider.of<AllEnquiriesSearchedDataForAdmin>(context).filteredDataModel;
+        List<CompleteResponseOfEnquiries> displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
         // List<EnquiriesModel> filteredList =
         //     Provider.of<AllEnquiriesSearchedData>(context).filteredDataModel;
         // List<EnquiriesModel>? displayData =
@@ -187,22 +192,7 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
                   )),
                   DataColumn(
                       label: Text(
-                    'Enquiry Record',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Create Quotation',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
                     'Quotation Number',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Close Enquiry',
                     style: TextStyle(color: Colors.white),
                   )),
                   DataColumn(
@@ -217,11 +207,6 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
                   )),
                   DataColumn(
                       label: Text(
-                    'Hot Leads',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
                     'Allocation',
                     style: TextStyle(color: Colors.white),
                   )),
@@ -231,7 +216,7 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
                     style: TextStyle(color: Colors.white),
                   )),
                 ],
-                source: MyData(list, context)),
+                source: MyData(displayData, context,widget.dealerId)),
           );
         });
       },
@@ -240,10 +225,11 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
 }
 
 class MyData extends DataTableSource {
+  final dealerId;
   final List<CompleteResponseOfEnquiries> dealerDataList;
   final BuildContext context;
 
-  MyData(this.dealerDataList, this.context);
+  MyData(this.dealerDataList, this.context, this.dealerId);
 
 
   File? _image;
@@ -342,7 +328,10 @@ class MyData extends DataTableSource {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13),
             controller: configuratorCode,
-            onChanged: (value) {
+            onEditingComplete: () {
+              String value = configuratorCode.text;
+              NetworkApiServices().setEnquiryConfigCode(
+                    quote.id!, value, dealerData.userId);
               // Timer(Duration(seconds: 5), () {
               //   apiServices.factoryDeliveryWeekSteelOrder(
               //       dealerId, value, result.id!);
@@ -356,7 +345,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          NetworkApiServices().setEnquiryOrderConfFile(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -408,7 +399,9 @@ class MyData extends DataTableSource {
                   children: [
                     IconButton(
                       onPressed: () {
-                        getImage();
+                        getImage().then((value) {
+                          NetworkApiServices().setEnquiryOrderConfFile(quote.id!, dealerData.userId, value);
+                        });
                       },
                       icon: Icon(Icons.add_circle_outline),
                     ),
@@ -480,41 +473,12 @@ class MyData extends DataTableSource {
               ),
       ),
 
-              DataCell(RoundButton(onTap: (){
 
-              },
-              text: "Enquiry Record",
-              color: Colors.blue,
-              height: MediaQuery.sizeOf(context).height * 0.04,
-              width: MediaQuery.sizeOf(context).width * 0.4,
-              )),
-              DataCell(RoundButton(onTap: (){
-
-              },
-              text: "Create Quotation",
-              color: Colors.blue,
-              height: MediaQuery.sizeOf(context).height * 0.04,
-              width: MediaQuery.sizeOf(context).width * 0.4,
-              )),
               DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
-              DataCell(RoundButton(onTap: (){
-
-              },
-              text: "Close Enquiry",
-              color: Colors.blue,
-              height: MediaQuery.sizeOf(context).height * 0.04,
-              width: MediaQuery.sizeOf(context).width * 0.4,
-              )),
+              
               DataCell(Text(quote.date ?? "")),
               DataCell(Text(quote.time ?? "")),
-              DataCell(RoundButton(onTap: (){
-
-              },
-              text: "Hot Leads",
-              height: MediaQuery.sizeOf(context).height * 0.04,
-              width: MediaQuery.sizeOf(context).width * 0.4,
-              color: Colors.blue,
-              )),
+              
               DataCell(
                 FutureBuilder<List<AllDealersModel>>(
                     future: NetworkApiServices().getAllDealers(),

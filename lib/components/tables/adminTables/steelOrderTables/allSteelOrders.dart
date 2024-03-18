@@ -531,6 +531,12 @@ class MyData extends DataTableSource {
                   items: [
                     DropdownMenuItem<String>(
                       alignment: Alignment.center,
+                      value: '', child: Text('', textAlign: TextAlign.center,)),
+                      DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Deposit Received', child: Text('Deposit Received', textAlign: TextAlign.center,)),
+                    DropdownMenuItem<String>(
+                      alignment: Alignment.center,
                       value: 'Order Received', child: Text('Order Received', textAlign: TextAlign.center,)),
                     DropdownMenuItem<String>(
                       alignment: Alignment.center,

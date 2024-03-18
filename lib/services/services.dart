@@ -1117,6 +1117,58 @@ class NetworkApiServices {
     }
   }
 
+  Future<void> editEnquiriesForAdmin(
+      String id,
+      String dealerId,
+      String type,
+      String dealer,
+      String entered,
+      String requirement,
+      String cusName,
+      String company,
+      String supplyType,
+      String address,
+      String address2,
+      String address3,
+      String address4,
+      String postCode,
+      String email,
+      String telephone,
+      String priority,
+      String notes,
+      String source) async {
+    var apiUrl = "https://pricelink.net/wp-json/mobile_api/v1/edit_enquries";
+
+    var response = await http.post(Uri.parse(apiUrl), body: {
+      "id": id,
+      "user_id": dealerId,
+      "enquiry_type": type,
+      "enquiry_dealer": dealer,
+      "enquiry_entered": entered,
+      "enquiry_requirement": requirement,
+      "enquiry_cus_name": cusName,
+      "enquiry_company_name": company,
+      "enquiry_supply_type": supplyType,
+      "customer_address": address,
+      "customer_address_2": address2,
+      "customer_address_3": address3,
+      "customer_address_4": address4,
+      "dilevery_post_code_c13": postCode,
+      "enquiry_cus_email": email,
+      "enquiry_tel_num": telephone,
+      "enquiry_priorityLevel": priority,
+      "enquiry_notes": notes,
+      "enquiry_source": source,
+    });
+
+    if (response.statusCode == 200) {
+      Utils().showToast('Changes Saved', Color(0xff941420), Colors.white);
+    } else {
+      print('Something went wong');
+    }
+  }
+
+
   Future<void> editEnquiries(
       String id,
       String dealerId,
@@ -3398,5 +3450,456 @@ class NetworkApiServices {
     else{
       print('Something went wrong');
     }
+  }
+
+  Future<void> addInsideFolder2 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder2"),
+    body: {
+      "sub_folder_name2" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder3 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder3"),
+    body: {
+      "sub_folder_name3" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder4 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder4"),
+    body: {
+      "sub_folder_name4" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder5 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder5"),
+    body: {
+      "sub_folder_name5" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder6 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder6"),
+    body: {
+      "sub_folder_name6" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder7 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder7"),
+    body: {
+      "sub_folder_name7" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder8 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder8"),
+    body: {
+      "sub_folder_name8" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder9 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder9"),
+    body: {
+      "sub_folder_name9" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+  Future<void> addInsideFolder10 (String folderName) async {
+    var response = await http.post(Uri.parse("https://www.pricelink.net/wp-json/mobile_api/v1/admin_set_downloads_main_folder10"),
+    body: {
+      "sub_folder_name10" : folderName,
+    }
+    );
+
+    if(response.statusCode == 200){
+      Utils().showToast('Category Added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('Something went wrong');
+    }
+  }
+
+
+  Future<void> addSubFolders2(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload2"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents2[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name2'] = name;
+    request.fields['file_number2'] = number;
+    request.fields['file_description2'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+    Future<void> addSubFolders3(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload3"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents2[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name3'] = name;
+    request.fields['file_number3'] = number;
+    request.fields['file_description3'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders4(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload4"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents4[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name4'] = name;
+    request.fields['file_number4'] = number;
+    request.fields['file_description4'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders5(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload5"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents5[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name5'] = name;
+    request.fields['file_number5'] = number;
+    request.fields['file_description5'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders6(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload6"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents6[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name6'] = name;
+    request.fields['file_number6'] = number;
+    request.fields['file_description6'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders7(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload7"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents7[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name7'] = name;
+    request.fields['file_number7'] = number;
+    request.fields['file_description7'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders8(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload8"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents8[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name8'] = name;
+    request.fields['file_number8'] = number;
+    request.fields['file_description8'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders9(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload9"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents9[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name9'] = name;
+    request.fields['file_number9'] = number;
+    request.fields['file_description9'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+Future<void> addSubFolders10(String name, number, description, List<File> fileToUpload) async {
+    var request = await http.MultipartRequest("POST", Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_subFolder_doc_upload10"));
+
+    List<http.MultipartFile> newList = [];
+
+    for(int i=0; i < fileToUpload.length; i++){
+      File docFile = fileToUpload[i];
+      var stream = new http.ByteStream(docFile.openRead());
+      var length = await docFile.length();
+      var multipartFile = http.MultipartFile("subfolders_documents10[$i]", stream, length, filename: docFile.path.split("/").last);
+      newList.add(multipartFile);
+    }
+
+    request.files.addAll(newList);
+
+    request.fields['folders_name10'] = name;
+    request.fields['file_number10'] = number;
+    request.fields['file_description10'] = description;
+
+    var response = await request.send();
+
+    if(response.statusCode == 200){
+      Utils().showToast('Subfolder added', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrong');
+    }
+}
+
+  Future<void> setFollowUpDateForAdmin(String qid, int userId, DateTime date) async {
+    var request = await http.post(Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_quote_followupDate"),
+      body: {
+        "q_id" : qid,
+        "user_id" : userId.toString(),
+        "order_date_q_array" : DateFormat('yyyy-MM-dd').format(date)
+      }
+    );
+
+    if(request.statusCode == 200){
+      Utils().showToast('Date updated', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrng');
+    }
+
+  }
+
+  Future<void> setFollowUpValueForAdmin(String qid, int userId, String value) async {
+    var request = await http.post(Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_quote_f_up_q_val"),
+      body: {
+        "q_id" : qid,
+        "user_id" : userId.toString(),
+        "order_f_up_q_val" : value
+      }
+    );
+
+    if(request.statusCode == 200){
+      Utils().showToast('Value updated', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrng');
+    }
+
+  }
+
+  Future<void> setNotesForAdmin(String qid, int userId, String notes) async {
+    var request = await http.post(Uri.parse("https://pricelink.net/wp-json/mobile_api/v1/admin_set_quote_f_up_q_val"),
+      body: {
+        "q_id" : qid,
+        "user_id" : userId.toString(),
+        "q_val" : notes
+      }
+    );
+
+    if(request.statusCode == 200){
+      Utils().showToast('Notes updated', Color(0xff941420), Colors.white);
+    }
+    else{
+      print('something went wrng');
+    }
+
   }
 }

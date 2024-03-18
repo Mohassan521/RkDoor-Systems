@@ -39,6 +39,11 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
 
         list = snapshot.data!;
 
+        List<AdminModel> filteredList =
+            Provider.of<AllAdministratorsSearchedData>(context).filteredDataModel;
+        List<AdminModel>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
         // List<SteelOrderModel> filteredList =
         //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
         // List<SteelOrderModel>? displayData =
@@ -96,7 +101,7 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
                 )),
               ],
               source: MyData(
-                  list, context, widget.dealerId, widget.dealerName)),
+                  displayData, context, widget.dealerId, widget.dealerName)),
         );
       },
     );
@@ -196,8 +201,6 @@ class MyData extends DataTableSource {
       //7
       DataCell(Row(
         children: [
-          Icon(Icons.edit, size: 14,),
-          Icon(Icons.copy, size: 14,),
           Icon(Icons.delete, color: Colors.red,size: 14,),
         ],
       )),

@@ -48,6 +48,11 @@ class _AdminCompletedSteelOrdersState extends State<AdminCompletedSteelOrders> {
 
         list = snapshot.data!;
 
+        List<ClosedSteelOrders> filteredList =
+            Provider.of<CompleteSteelOrderSearchData>(context).filteredDataModel;
+        List<ClosedSteelOrders>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
         // List<SteelOrderModel> filteredList =
         //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
         // List<SteelOrderModel>? displayData =
@@ -230,7 +235,7 @@ class _AdminCompletedSteelOrdersState extends State<AdminCompletedSteelOrders> {
                 )),
               ],
               source: MyData(
-                  list, context, widget.dealerId, widget.dealerName)),
+                  displayData, context, widget.dealerId, widget.dealerName)),
         );
       },
     );
@@ -489,10 +494,8 @@ class MyData extends DataTableSource {
       ),
 
       //11
-      DataCell(Consumer<AnticipatedDeliveryDateSteelOrder>(
-        builder: (context, value, child) {
-          return Container(
-            height: MediaQuery.sizeOf(context).height * 0.045,
+      DataCell(Container(
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
             decoration: BoxDecoration(
                 color: Colors.yellow,
                 border: Border.all(width: 1, color: Colors.transparent)),
@@ -502,13 +505,13 @@ class MyData extends DataTableSource {
                 Text(
                   (quote.steelAnticipatedDate != null)
                       ? quote.steelAnticipatedDate!
-                      : value.getDate(quote.id!),
+                      : "mm/dd/yyyy",
                   style: TextStyle(fontSize: 12),
                 ),
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                      context: context,
+                      context: myGlobalBuildContext,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
@@ -524,9 +527,8 @@ class MyData extends DataTableSource {
                 )
               ],
             ),
-          );
-        },
-      )),
+          )
+),
 
       //12
       DataCell(

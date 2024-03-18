@@ -63,6 +63,13 @@ class _CompletedSteelOrdersState extends State<CompletedSteelOrders> {
             Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
+                  onChanged: (value) {
+                    if(widget.role == "admin"){
+                      Provider.of<CompleteSteelOrderSearchData>(context,
+                            listen: false)
+                        .getAllData(widget.dealerId, value);
+                    }
+                  },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
                     prefixIcon: IconButton(

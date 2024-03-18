@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/BIMDetailsModel.dart';
@@ -31,6 +34,31 @@ class Testing extends StatefulWidget {
 class _TestingState extends State<Testing> {
   NetworkApiServices apiServices = NetworkApiServices();
   List<TextEditingController> controllers = [];
+
+  TextEditingController category = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +75,89 @@ class _TestingState extends State<Testing> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: widget.role == "admin"
+                ? InkWell(
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                insetPadding: EdgeInsets.all(9),
+                                content: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                        right: -40,
+                                        top: -40,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const CircleAvatar(
+                                            backgroundColor: Color(0xff941420),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )),
+                                    Form(
+                                        child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Center(
+                                            child: Text('Add Category',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xff941420),
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: TextFormField(
+                                            maxLines: 1,
+                                            controller: category,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Color(
+                                                            0xff941420)))),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        RoundButton(
+                                          text: 'Save',
+                                          onTap: () async {
+                                            apiServices.addInsideFolder6(
+                                                category.text);
+
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          color: Color(0xff941420),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              ));
+                    },
+                    child: Icon(Icons.add))
+                : Text(""),
+          )
+        ],
+
       ),
       body: Center(
         child: Padding(
@@ -239,7 +350,123 @@ class _TestingState extends State<Testing> {
                                                                 Icons.delete,
                                                                 color: Colors.red,
                                                                 size: 14,
-                                                              ))
+                                                              )),
+                                                              InkWell(
+                                                  onTap: () async {
+                                                    await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (context) =>
+                                                                AlertDialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(10))),
+                                                                  insetPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              9),
+                                                                  content:
+                                                                      Stack(
+                                                                    clipBehavior:
+                                                                        Clip.none,
+                                                                    children: [
+                                                                      Positioned(
+                                                                          right:
+                                                                              -40,
+                                                                          top:
+                                                                              -40,
+                                                                          child:
+                                                                              InkResponse(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
+                                                                            },
+                                                                            child:
+                                                                                const CircleAvatar(
+                                                                              backgroundColor: Color(0xff941420),
+                                                                              child: Icon(
+                                                                                Icons.close,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                            ),
+                                                                          )),
+                                                                      Form(
+                                                                          child:
+                                                                              Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: [
+                                                                          Center(
+                                                                              child: Text('Add New', style: TextStyle(fontSize: 20, color: Color(0xff941420), fontWeight: FontWeight.w600))),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                15,
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              maxLines: 1,
+                                                                              controller: numberController,
+                                                                              decoration: InputDecoration(hintText: 'File Number', border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8),
+                                                                            child:
+                                                                                TextFormField(
+                                                                              maxLines: 1,
+                                                                              controller: descController,
+                                                                              decoration: InputDecoration(hintText: 'File Description', border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),
+                                                                            ),
+                                                                          ),
+                                                                          Row(
+                                                                            children: [
+                                                                              IconButton(
+                                                                                onPressed: () {
+                                                                                  getImage();
+                                                                                },
+                                                                                icon: Icon(Icons.add_circle_outline),
+                                                                              ),
+                                                                              SizedBox(width: 20),
+                                                                              Text(
+                                                                                'Add Files',
+                                                                                style: TextStyle(color: Colors.grey),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          ),
+                                                                          RoundButton(
+                                                                            text:
+                                                                                'Save',
+                                                                            onTap:
+                                                                                () async {
+                                                                              //apiServices.updateDirectoryName(cadDetails.id, value.text);
+                                                                              apiServices.addSubFolders6(dataSheets.name, numberController.text, descController.text, filesToUpload);
+
+                                                                              Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                            },
+                                                                            color:
+                                                                                Color(0xff941420),
+                                                                          )
+                                                                        ],
+                                                                      ))
+                                                                    ],
+                                                                  ),
+                                                                ));
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Colors.black,
+                                                    size: 14,
+                                                  ))
+
                                 
                                   ],
                                 )

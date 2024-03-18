@@ -537,9 +537,7 @@ class MyData extends DataTableSource {
       //         ),
       // ),
       //10
-      DataCell(Consumer<AnticipatedDeliveryDateSteelOrder>(
-        builder: (context, value, child) {
-          return Container(
+      DataCell(Container(
             height: MediaQuery.sizeOf(context).height * 0.045,
             decoration: BoxDecoration(
                 color: Colors.yellow,
@@ -550,7 +548,7 @@ class MyData extends DataTableSource {
                 Text(
                   (result.steelAnticipatedDate != null)
                       ? result.steelAnticipatedDate!
-                      : value.getDate(result.id!),
+                      : "mm/dd/yyyy",
                   style: TextStyle(fontSize: 12),
                 ),
                 DateButton(
@@ -572,9 +570,7 @@ class MyData extends DataTableSource {
                 )
               ],
             ),
-          );
-        },
-      )),
+          )),
       //11
 
       DataCell(

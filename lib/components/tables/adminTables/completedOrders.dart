@@ -60,6 +60,13 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
         }
 
         List<CompleteResponseForCompletedOrders>? list = snapshot.data ?? [];
+
+        List<CompleteResponseForCompletedOrders> filteredList =
+            Provider.of<CompletedOrdersSearchData>(context).filteredDataModel2;
+        List<CompleteResponseForCompletedOrders>? displayData =
+            filteredList.isNotEmpty ? filteredList : list;
+
+
         print("completed orders: ${list.length}");
 
         print("completed orders list: $list");
@@ -194,7 +201,7 @@ class _AdminCompletedOrdersTableState extends State<AdminCompletedOrdersTable> {
                   style: TextStyle(color: Colors.white),
                 )),
               ],
-              source: MyData(list, _dateTime, widget.dealerId,
+              source: MyData(displayData, _dateTime, widget.dealerId,
                   widget.dealerName, _showDatePicker,
                   myGlobalBuildContext: context)),
         );
