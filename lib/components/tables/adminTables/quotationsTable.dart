@@ -69,11 +69,7 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
-              rowsPerPage: (list.length > 5 && list.isNotEmpty)
-                  ? 5
-                  : list.isEmpty
-                      ? 1
-                      : list.length,
+              rowsPerPage: 5,
               headingRowColor: MaterialStateProperty.resolveWith(
                   (states) => Color(0xff941420)),
               columns: const <DataColumn>[

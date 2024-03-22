@@ -26,138 +26,148 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Log In',
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 26),
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
       // backgroundColor: Colors.green,
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          decoration: BoxDecoration(color: Color(0xffefefef)),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 25.0, left: 25.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Center(
-                  child: Text(
-                    'Login',
-                    style: TextStyle(fontSize: 25, color: Color(0xff941420)),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  'Email',
-                  style: TextStyle(fontSize: 15, color: Color(0xff941420)),
-                ),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter Email'),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                const Text('Password',
-                    style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                TextFormField(
-                  obscureText: visibility == false ? true : false,
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            visibility = !visibility;
-                          });
-                        },
-                        child: Icon(
-                          visibility == true
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter Password'),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: Stack(
-                    children: [
-                      RoundButton(
-                        text: isLoading ? '' : 'Login',
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await apiServices.loginApi(
-                            context,
-                            emailController.text,
-                            passwordController.text,
-                          );
-                          setState(() {
-                            isLoading = false;
-                          });
-                        },
-                        color: Color(0xff941420),
-                      ),
-                      Positioned.fill(
-                        child: Center(
-                          child: isLoading
-                              ? SizedBox(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.05,
-                                  width: MediaQuery.sizeOf(context).width * 0.1,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2.0,
-                                  ),
-                                )
-                              : SizedBox(), // This SizedBox is necessary to maintain the layout
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Dont have an account? ',
-                      textAlign: TextAlign.center,
-                    ),
-                    InkWell(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Image(
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.sizeOf(context).height * 0.3,
+                image: const AssetImage('assets/images/logo.jpeg')),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 14.5),
+                controller: emailController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Email'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0, right: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 14.5),
+                obscureText: visibility == false ? true : false,
+                controller: passwordController,
+                decoration: InputDecoration(
+                    suffixIcon: InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
+                        setState(() {
+                          visibility = !visibility;
+                        });
                       },
-                      child: Text(
-                        'Register? ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Color(0xff941420)),
+                      child: Icon(
+                        visibility == true
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Colors.grey,
                       ),
                     ),
-                  ],
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Password'),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25.0, right: 25),
+                    child: RoundButton(
+                      text: isLoading ? '' : 'Login',
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await apiServices.loginApi(
+                          context,
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
+                      color: Color(0xff941420),
+                      width: double.infinity,
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: isLoading
+                          ? SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.05,
+                              width: MediaQuery.sizeOf(context).width * 0.1,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.0,
+                              ),
+                            )
+                          : SizedBox(), // This SizedBox is necessary to maintain the layout
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Dont have an account? ',
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 40,
-                )
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterPage()));
+                  },
+                  child: Text(
+                    'Register? ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                ),
               ],
             ),
-          ),
+            SizedBox(
+              height: 40,
+            )
+          ],
         ),
       ),
     );

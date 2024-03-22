@@ -89,13 +89,10 @@ class _MarketingMaterialState extends State<MarketingMaterial> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: widget.role == "admin"
-                ? InkWell(
-                    onTap: () async {
-                      await showDialog(
+
+      ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(onPressed: () async {
+        await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                                 shape: RoundedRectangleBorder(
@@ -166,13 +163,11 @@ class _MarketingMaterialState extends State<MarketingMaterial> {
                                   ],
                                 ),
                               ));
-                    },
-                    child: Icon(Icons.add))
-                : Text(""),
-          )
-        ],
 
-      ),
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -322,6 +317,9 @@ class _MarketingMaterialState extends State<MarketingMaterial> {
                                                                 Icons.edit,
                                                                 size: 14,
                                                               )),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
                                                           InkWell(
                                                               onTap: () {
                                                                 showDialog(
@@ -366,6 +364,9 @@ class _MarketingMaterialState extends State<MarketingMaterial> {
                                                                 color: Colors.red,
                                                                 size: 14,
                                                               )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     InkWell(
                                                   onTap: () async {
                                                     await showDialog(

@@ -40,14 +40,11 @@ class _UpdatesState extends State<Updates> {
           'Updates',
           style: TextStyle(color: Colors.white),
         ),
-        actions: [
-          Visibility(
-          visible: widget.role == "admin" ? true : false,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: InkWell(
-              onTap: () async {
-                await showDialog(
+        
+      ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(
+        onPressed: () async {
+          await showDialog(
               context: context,
               builder: (context) => AlertDialog(
                     shape: RoundedRectangleBorder(
@@ -119,11 +116,10 @@ class _UpdatesState extends State<Updates> {
                     ),
                   ));
 
-              },
-              child: Icon(Icons.add, color: Colors.white,)),
-          )),
-        ]
-      ),
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -172,6 +168,7 @@ class _UpdatesState extends State<Updates> {
                             return Column(
 
                               children: [
+
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 8),

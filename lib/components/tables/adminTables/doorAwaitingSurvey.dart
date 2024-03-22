@@ -60,7 +60,7 @@ class _AdminDoorAwaitingSurveyState extends State<AdminDoorAwaitingSurvey> {
           return Center(child: Text('Data is being loaded...'));
         }
 
-        list = snapshot.data!;
+        list = snapshot.data ?? [];
 
         // List<AdminPanelOrders> filteredList = list!.where((result) => result.orderStatusVal == "Awaiting Survey / Dimensions").toList();
 

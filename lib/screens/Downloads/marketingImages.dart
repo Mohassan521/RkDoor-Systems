@@ -68,12 +68,9 @@ class _MarketingImagesState extends State<MarketingImages> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: widget.role == "admin"
-                ? InkWell(onTap: () async  {
-                  await showDialog(
+      ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(onPressed: () async {
+        await showDialog(
                                                           context: context,
                                                           builder:
                                                               (context) =>
@@ -143,11 +140,10 @@ class _MarketingImagesState extends State<MarketingImages> {
                                                                     ),
                                                                   ));
 
-                }, child: Icon(Icons.add))
-                : Text(""),
-          )
-        ],
-      ),
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -301,6 +297,9 @@ class _MarketingImagesState extends State<MarketingImages> {
                                                     Icons.edit,
                                                     size: 14,
                                                   )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () {
                                                     showDialog(
@@ -356,7 +355,9 @@ class _MarketingImagesState extends State<MarketingImages> {
                                                     color: Colors.red,
                                                     size: 14,
                                                   )),
-                                            
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () async {
                                                     await showDialog(

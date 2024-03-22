@@ -34,222 +34,256 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Sign Up',
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 26),
+        ),
+        centerTitle: true,
+        
+      ),
       // backgroundColor: Colors.green,
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: double.infinity,
-          decoration: BoxDecoration(color: Color(0xffefefef)),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 25.0, left: 25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Center(
-                    child: Text(
-                      'Register',
-                      style: TextStyle(fontSize: 25, color: Color(0xff941420)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
-                    'First Name',
-                    style: TextStyle(fontSize: 15, color: Color(0xff941420)),
-                  ),
-                  TextFormField(
-                    controller: fNameController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Last Name',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: lNameController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Dealer',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: dealerController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Dealer Address (Line 1)',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: dealerAddressOneController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Dealer Address (Line 2)',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: dealerAddressTwoController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Dealer Address (Line 3)',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: dealerAddressThreeController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Post Code',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: postCodeController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Tel',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: telephoneController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Email',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Password',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  const Text('Confirm Password',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  TextFormField(
-                    controller: confirmPasswordController,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Center(
-                      child: RoundButton(
-                    text: 'Register',
-                    onTap: () async {
-                      SharedPreferences sp =
-                          await SharedPreferences.getInstance();
-
-                      String enteredEmail = emailController.text.trim();
-                      sp.setString('fname', fNameController.text.toString());
-                      sp.setString('lname', lNameController.text.toString());
-                      sp.setString('email', enteredEmail);
-                      sp.setString('password', passwordController.text);
-
-                      Utils().showToast(
-                          'User registered', Colors.green, Colors.white);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    },
-                    color: Color(0xff941420),
-                  )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Already have an account? '),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
-                        },
-                        child: Text(
-                          'Login ',
-                          style: TextStyle(color: Color(0xff941420)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 40,
-                  )
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: fNameController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'First Name'),
               ),
             ),
-          ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: lNameController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Last Name'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: dealerController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Dealer'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: dealerAddressOneController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Dealer Address 1'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: dealerAddressTwoController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Dealer Address 2'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: dealerAddressThreeController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Dealer Address 3'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: postCodeController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Post Code'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: telephoneController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Telephone'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: emailController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Email'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: passwordController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Password'),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25),
+              child: TextFormField(
+                style: TextStyle(fontSize: 15),
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: 'Confirm Password'),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0, right: 25),
+              child: RoundButton(
+                text: 'Register',
+                onTap: () async {},
+                color: Color(0xff941420),
+                width: double.infinity,
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            )
+          ],
         ),
       ),
     );

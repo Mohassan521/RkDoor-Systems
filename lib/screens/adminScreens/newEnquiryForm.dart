@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/services/fetchify_api.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class AdminEnquiryForm extends StatefulWidget {
   final String dealerId;
@@ -183,10 +178,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
               TextFormField(
                 controller: dealerController,
+                style: TextStyle(fontSize: 11.5),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    ),
               ),
               SizedBox(
                 height: 10,

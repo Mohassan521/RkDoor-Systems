@@ -70,12 +70,14 @@ class _AdminDoorReadyForShippingState extends State<AdminDoorReadyForShipping> {
         //     filteredList.isNotEmpty ? filteredList : list;
 
         return ClipRRect(
+          
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(23),
               topRight: Radius.circular(23),
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
+            showEmptyRows: false,
               rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
                   ? 5
                   : (list!.isEmpty)

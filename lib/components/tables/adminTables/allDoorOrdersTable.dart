@@ -8,14 +8,10 @@ import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/adminScreens/financialHistory.dart';
 import 'package:price_link/screens/adminScreens/quoteAnalysis.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/pdfViewer.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -78,11 +74,10 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
-                  : (list!.isEmpty)
-                      ? 1
-                      : list!.length,
+            
+            sortColumnIndex: 0,
+              showEmptyRows: false,
+              rowsPerPage: 5,
               headingRowColor: MaterialStateProperty.resolveWith(
                   (states) => Color(0xff941420)),
               columns: const <DataColumn>[
@@ -329,7 +324,9 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
               ],
               source: MyData(displayData, _dateTime, widget.dealerId,
                   widget.dealerName, _showDatePicker,
-                  myGlobalBuildContext: context))
+                  myGlobalBuildContext: context),
+                
+                  )
         );
       },
     );
@@ -337,18 +334,19 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
 }
 
 class MyData extends DataTableSource {
+  final String? message;
   final String? dealerId;
   final String? dealerName;
   NetworkApiServices apiServices = NetworkApiServices();
-  DateTime _datetime = DateTime.now();
+  DateTime? _datetime = DateTime.now();
   //final String? prevNotesValue;
   void Function()? _showDatePicker;
-  final BuildContext myGlobalBuildContext;
+  final BuildContext? myGlobalBuildContext;
   final List<OrdersCompleteResponse>? dealerDataList;
 
   MyData(this.dealerDataList, this._datetime, this.dealerId, this.dealerName,
       this._showDatePicker,
-      {required this.myGlobalBuildContext});
+      {required this.myGlobalBuildContext, this.message});
 
   File? _image;
   List<File> filesToUpload = [];
@@ -398,10 +396,9 @@ class MyData extends DataTableSource {
     TextEditingController ankaValue = TextEditingController();
 
     int currentIndex = 0;
+    
     for (var dealerData in dealerDataList!) {
       for (var quote in dealerData.orders) {
-        // TextEditingController configuratorCode = TextEditingController();
-        // configuratorCode.text = quote.enquiryConfCode ?? "";
 
         confcode.text = quote.orderNoVal ?? "";
         facDeliveryWeek.text = quote.facDeliveryWeeksVal ?? "";
@@ -439,7 +436,7 @@ class MyData extends DataTableSource {
     String paymentStatus = quote.orderPaymentStatusVal ?? "";
     TextEditingController notesController = TextEditingController();
 
-        if (currentIndex == index) {
+      if(currentIndex == index) {
           return DataRow.byIndex(
             index: index,
             cells: [
@@ -762,7 +759,7 @@ class MyData extends DataTableSource {
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              myGlobalBuildContext,
+                              myGlobalBuildContext!,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -771,7 +768,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(myGlobalBuildContext, file);
+                            showImageDialog(myGlobalBuildContext!, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -839,7 +836,7 @@ class MyData extends DataTableSource {
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              myGlobalBuildContext,
+                              myGlobalBuildContext!,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -848,7 +845,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(myGlobalBuildContext, file);
+                            showImageDialog(myGlobalBuildContext!, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -900,7 +897,7 @@ class MyData extends DataTableSource {
           quote.anticipatedDateVal!.isNotEmpty ? Text(quote.anticipatedDateVal!) : Text('mm/dd/yyyy'),
           DateButton(onTap: () async {
             DateTime? pickedDate = await showDatePicker(
-                      context: myGlobalBuildContext,
+                      context: myGlobalBuildContext!,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
@@ -937,7 +934,7 @@ class MyData extends DataTableSource {
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              myGlobalBuildContext,
+                              myGlobalBuildContext!,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -946,7 +943,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(myGlobalBuildContext, file);
+                            showImageDialog(myGlobalBuildContext!, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -995,15 +992,15 @@ class MyData extends DataTableSource {
               DataCell(Text(quote.balDueBeforeDelivery ?? "")),
               //15
               DataCell(RoundButton(onTap: (){
-                Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => FinancialHistoryForAdminOrders(
+                Navigator.push(myGlobalBuildContext!, MaterialPageRoute(builder: (context) => FinancialHistoryForAdminOrders(
                   dealerName: dealerData.dealerName,
                   dealerId: dealerData.userId.toString(),
                   ordersModel: quote,)));
               },
               text: "Financial History",
               color: Colors.blue,
-              height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+              height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+              width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.4,
               )),
               //16
               DataCell(
@@ -1028,7 +1025,7 @@ class MyData extends DataTableSource {
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              myGlobalBuildContext,
+                              myGlobalBuildContext!,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -1037,7 +1034,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(myGlobalBuildContext, file);
+                            showImageDialog(myGlobalBuildContext!, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -1140,7 +1137,7 @@ class MyData extends DataTableSource {
                 DateButton(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                      context: myGlobalBuildContext,
+                      context: myGlobalBuildContext!,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2050),
@@ -1219,7 +1216,7 @@ class MyData extends DataTableSource {
                           if (fileExtension == ".pdf") {
                             print(file);
                             Navigator.push(
-                              myGlobalBuildContext,
+                              myGlobalBuildContext!,
                               MaterialPageRoute(
                                 builder: (context) => PDFViewer(url: file),
                               ),
@@ -1228,7 +1225,7 @@ class MyData extends DataTableSource {
                               fileExtension == ".jpeg" ||
                               fileExtension == ".png") {
                             print(file);
-                            showImageDialog(myGlobalBuildContext, file);
+                            showImageDialog(myGlobalBuildContext!, file);
                           } else {
                             print(file);
                             Utils().showToast(
@@ -1278,7 +1275,7 @@ class MyData extends DataTableSource {
         RoundButton(onTap: () async {
           notesController.text = quote.notes ?? "";
           await showDialog(
-              context: myGlobalBuildContext,
+              context: myGlobalBuildContext!,
               builder: (context) => AlertDialog(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -1352,23 +1349,23 @@ class MyData extends DataTableSource {
       },
       text: "Notes",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.4,
       )),
       // custom handle file
       //38
     DataCell(Text(dealerData.dealerName ?? "")),
     //39
     DataCell(RoundButton(onTap: (){
-        Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
+        Navigator.push(myGlobalBuildContext!, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
             dealerId: dealerData.userId.toString(),
             quoteId: quote.id,
           )));
       },
       text: "Quote Analysis",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.4,
       )),
       //40
       DataCell(RoundButton(onTap: (){
@@ -1376,8 +1373,8 @@ class MyData extends DataTableSource {
       },
       text: "Back To Quote",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.4,
       )),
       //41
       DataCell(Text("${quote.date} ${quote.orderStatusVal}")),
@@ -1395,8 +1392,8 @@ class MyData extends DataTableSource {
       },
       text: "Survey Form",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+      height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.4,
       )),
       //47
       DataCell(RoundButton(onTap: (){
@@ -1404,8 +1401,8 @@ class MyData extends DataTableSource {
       },
       text: "Order Complete - Archive File",
       color: Colors.blue,
-      height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-      width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
+      height: MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.045,
+      width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.55,
       )),
 
               //48
@@ -1413,7 +1410,7 @@ class MyData extends DataTableSource {
                 children: [
                   InkWell(
                     onTap: (){
-                      Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => CalculatorWebView(
+                      Navigator.push(myGlobalBuildContext!, MaterialPageRoute(builder: (context) => CalculatorWebView(
                         dealerId: dealerId!,
                         url: "https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_order_id=${quote.id}&mobile_token=true")));
                     },
@@ -1466,3 +1463,4 @@ class MyData extends DataTableSource {
     return count;
   }
 }
+

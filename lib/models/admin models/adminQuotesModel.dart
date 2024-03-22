@@ -134,8 +134,8 @@ class AdminQuotesModel {
 
 class CompleteResponse {
   final List<AdminQuotesModel> quotes;
-  final String? displayName;
-  final String? dealerName;
+   String? displayName;
+   String? dealerName;
   final int? userId;
 
   CompleteResponse({

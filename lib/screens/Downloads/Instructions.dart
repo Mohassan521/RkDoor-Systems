@@ -5,10 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/BIMDetailsModel.dart';
-import 'package:price_link/models/CadDetailsModel.dart';
-import 'package:price_link/models/PDFDetailsModel.dart';
-import 'package:price_link/models/careAndMaintenanceModel.dart';
 import 'package:price_link/models/instructionsModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
@@ -72,13 +68,10 @@ class _InstructionsState extends State<Instructions> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: widget.role == "admin"
-                ? InkWell(
-                    onTap: () async {
-                      await showDialog(
+        
+      ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(onPressed: () async {
+        await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                                 shape: RoundedRectangleBorder(
@@ -149,12 +142,11 @@ class _InstructionsState extends State<Instructions> {
                                   ],
                                 ),
                               ));
-                    },
-                    child: Icon(Icons.add))
-                : Text(""),
-          )
-        ],
-      ),
+
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -308,6 +300,9 @@ class _InstructionsState extends State<Instructions> {
                                                     Icons.edit,
                                                     size: 14,
                                                   )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () {
                                                     showDialog(
@@ -363,6 +358,9 @@ class _InstructionsState extends State<Instructions> {
                                                     color: Colors.red,
                                                     size: 14,
                                                   )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () async {
                                                     await showDialog(

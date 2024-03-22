@@ -66,8 +66,10 @@ class _AdminDoorOrdersReceivedState extends State<AdminDoorOrdersReceived> {
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: PaginatedDataTable(
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
+            sortColumnIndex: 0,
+              showEmptyRows: false,
+              rowsPerPage: (list!.length >= 3 && list!.isNotEmpty)
+                  ? 3
                   : (list!.isEmpty)
                       ? 1
                       : list!.length,

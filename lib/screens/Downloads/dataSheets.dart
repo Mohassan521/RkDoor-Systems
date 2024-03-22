@@ -5,12 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/BIMDetailsModel.dart';
-import 'package:price_link/models/CadDetailsModel.dart';
-import 'package:price_link/models/PDFDetailsModel.dart';
-import 'package:price_link/models/careAndMaintenanceModel.dart';
 import 'package:price_link/models/dataSheetsModel.dart';
-import 'package:price_link/models/instructionsModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 
@@ -156,6 +151,83 @@ class _DataSheetsState extends State<DataSheets> {
           )
         ],
       ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(onPressed: () async {
+        await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                insetPadding: EdgeInsets.all(9),
+                                content: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                        right: -40,
+                                        top: -40,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const CircleAvatar(
+                                            backgroundColor: Color(0xff941420),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )),
+                                    Form(
+                                        child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Center(
+                                            child: Text('Add Category',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xff941420),
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: TextFormField(
+                                            maxLines: 1,
+                                            controller: category,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Color(
+                                                            0xff941420)))),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        RoundButton(
+                                          text: 'Save',
+                                          onTap: () async {
+                                            apiServices.addInsideFolder5(
+                                                category.text);
+
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          color: Color(0xff941420),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              ));
+
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -309,6 +381,9 @@ class _DataSheetsState extends State<DataSheets> {
                                                     Icons.edit,
                                                     size: 14,
                                                   )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () {
                                                     showDialog(
@@ -364,6 +439,9 @@ class _DataSheetsState extends State<DataSheets> {
                                                     color: Colors.red,
                                                     size: 14,
                                                   )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               InkWell(
                                                   onTap: () async {
                                                     await showDialog(

@@ -4,6 +4,7 @@ import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/quotationsTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -51,45 +52,23 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             style: TextStyle(color: Colors.white),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(onPressed: (){
+          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CalculatorWebView(
+                                dealerId: widget.dealerId!,
+                                  url:
+                                      'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
+        },
+        label: Text('Add New Quote', style: TextStyle(color: Colors.white),),
+        icon: Icon(Icons.add, color: Colors.white,),
+        backgroundColor: Color(0xff941420),
+        ),
         body: ListView(
           children: [
             SizedBox(
               height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RkDoorCalculatorView(
-                                dealerId: widget.dealerId!,
-                                  url:
-                                      'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          size: 15,
-                          color: Colors.blue,
-                        ),
-                        Text(
-                          'Add New Quote',
-                          style: TextStyle(color: Colors.blue),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 18,
             ),
             Container(
                 padding: EdgeInsets.only(left: 20, right: 20),

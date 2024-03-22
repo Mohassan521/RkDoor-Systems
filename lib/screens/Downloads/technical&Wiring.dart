@@ -1,18 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/BIMDetailsModel.dart';
-import 'package:price_link/models/CadDetailsModel.dart';
-import 'package:price_link/models/PDFDetailsModel.dart';
-import 'package:price_link/models/careAndMaintenanceModel.dart';
-import 'package:price_link/models/dataSheetsModel.dart';
-import 'package:price_link/models/instructionsModel.dart';
 import 'package:price_link/models/technicalWiring.dart';
-import 'package:price_link/models/testingModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 
@@ -76,13 +70,9 @@ class _TechnicalAndWiringState extends State<TechnicalAndWiring> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: widget.role == "admin"
-                ? InkWell(
-                    onTap: () async {
-                      await showDialog(
+      ),
+      floatingActionButton: widget.role == "admin" ? FloatingActionButton(onPressed: () async {
+        await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                                 shape: RoundedRectangleBorder(
@@ -153,12 +143,11 @@ class _TechnicalAndWiringState extends State<TechnicalAndWiring> {
                                   ],
                                 ),
                               ));
-                    },
-                    child: Icon(Icons.add))
-                : Text(""),
-          )
-        ],
-      ),
+
+      },
+      backgroundColor: Color(0xff941420),
+      child: Icon(Icons.add, color: Colors.white,),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -212,13 +201,15 @@ class _TechnicalAndWiringState extends State<TechnicalAndWiring> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                  bimdetails[index].name,
-                                  style: TextStyle(
-                                      color: Color(0xff941420),
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                                    Flexible(
+                                      child: Text(
+                                                                        bimdetails[index].name,
+                                                                        style: TextStyle(
+                                        color: Color(0xff941420),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w500),
+                                                                      ),
+                                    ),
                                 Row(
                                   children: [
                                     InkWell(
@@ -311,6 +302,9 @@ class _TechnicalAndWiringState extends State<TechnicalAndWiring> {
                                                                 Icons.edit,
                                                                 size: 14,
                                                               )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                                           InkWell(
                                                               onTap: () {
                                                                 showDialog(
@@ -355,6 +349,9 @@ class _TechnicalAndWiringState extends State<TechnicalAndWiring> {
                                                                 color: Colors.red,
                                                                 size: 14,
                                                               )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     InkWell(
                                                   onTap: () async {
                                                     await showDialog(
