@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/inRKDSWarehouse.dart';
 import 'package:price_link/components/tables/doorInRKDSWarehouseTable.dart';
 import 'package:price_link/models/ordersListModel.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +56,26 @@ class _DoorInRKDSState extends State<DoorInRKDS> {
             style: TextStyle(color: Colors.white),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalculatorWebView(
+                        dealerId: widget.dealerId,
+                        url:
+                            'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealerId}&method=order&mobile_token=true')));
+          },
+          label: Text(
+            'Add New Order',
+            style: TextStyle(color: Colors.white),
+          ),
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xff941420),
+        ),
         body: ListView(
           children: [
             SizedBox(
@@ -93,7 +113,9 @@ class _DoorInRKDSState extends State<DoorInRKDS> {
                       role: widget.role,
                     )
                   : DoorInRKDSTable(
-                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
+                      dealerId: widget.role == "employee"
+                          ? widget.empId
+                          : widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             ),

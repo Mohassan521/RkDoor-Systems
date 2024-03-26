@@ -5,6 +5,7 @@ import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/doorOutForDelivery.dart';
 import 'package:price_link/components/tables/doorOutOfDeliveryTable.dart';
 import 'package:price_link/models/ordersListModel.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +57,26 @@ class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
             style: TextStyle(color: Colors.white),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalculatorWebView(
+                        dealerId: widget.dealerId,
+                        url:
+                            'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealerId}&method=order&mobile_token=true')));
+          },
+          label: Text(
+            'Add New Order',
+            style: TextStyle(color: Colors.white),
+          ),
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xff941420),
+        ),
         body: ListView(
           children: [
             SizedBox(
@@ -93,7 +114,9 @@ class _DoorOutOfDeliveryState extends State<DoorOutOfDelivery> {
                       role: widget.role,
                     )
                   : DoorOutOfDeliveryTable(
-                      dealerId: widget.role == "employee" ? widget.empId :  widget.dealerId,
+                      dealerId: widget.role == "employee"
+                          ? widget.empId
+                          : widget.dealerId,
                       dealerName: widget.dealerName,
                     ),
             )

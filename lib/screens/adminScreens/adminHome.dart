@@ -27,6 +27,7 @@ import 'package:price_link/components/tables/ownerTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/dealersModel.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -97,6 +98,26 @@ class _AdminHomePageState extends State<AdminHomePage>
             iconTheme: const IconThemeData(color: Colors.white),
             backgroundColor: Color(0xff941420),
           ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CalculatorWebView(
+                          dealerId: widget.dealer_id!,
+                          url:
+                              'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealer_id}&method=order&mobile_token=true')));
+            },
+            label: Text(
+              'Add New Order',
+              style: TextStyle(color: Colors.white),
+            ),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            backgroundColor: Color(0xff941420),
+          ),
           body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
@@ -116,7 +137,6 @@ class _AdminHomePageState extends State<AdminHomePage>
                           Text(
                             'Administrator',
                             style: TextStyle(
-
                                 fontSize: 25, fontWeight: FontWeight.w600),
                           ),
                           // Text(
@@ -324,7 +344,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           child: Text(
                             'Awaiting Survey / Dimensions',
                             style: TextStyle(
-                              letterSpacing: 2.5,
+                                letterSpacing: 2.5,
                                 height: 1.5,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600),
@@ -396,28 +416,28 @@ class _AdminHomePageState extends State<AdminHomePage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                      padding: EdgeInsets.only(
-                          bottom: 8), // Adjust padding as needed
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color:
-                                Color(0xff941420), // Adjust color as needed
-                            width: 3.0, // Adjust thickness as needed
+                        padding: EdgeInsets.only(
+                            bottom: 8), // Adjust padding as needed
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color:
+                                  Color(0xff941420), // Adjust color as needed
+                              width: 3.0, // Adjust thickness as needed
+                            ),
                           ),
                         ),
+                        child: Text(
+                          'PC Issued',
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              letterSpacing: 2.5,
+                              height: 1.5,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
-                      child: Text(
-                        'PC Issued',
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            letterSpacing: 2.5,
-                            height: 1.5,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
-                                            ),
                     ],
                   ),
                 ),

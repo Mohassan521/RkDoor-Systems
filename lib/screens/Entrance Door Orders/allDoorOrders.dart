@@ -6,6 +6,7 @@ import 'package:price_link/components/tables/adminTables/allDoorOrdersTable.dart
 import 'package:price_link/components/tables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/employeeTables/allDoorOrdersTable.dart';
 import 'package:price_link/models/ordersListModel.dart';
+import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +29,8 @@ class AllDoorOrders extends StatefulWidget {
 class _AllDoorOrdersState extends State<AllDoorOrders> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    
-        await apiServices.getOrdersList(widget.dealerId!,"");
-        await apiServices.getAdminOrders();
+    await apiServices.getOrdersList(widget.dealerId!, "");
+    await apiServices.getAdminOrders();
     // Update the UI with the new data
     setState(() {});
 
@@ -57,6 +57,26 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
             style: TextStyle(color: Colors.white),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalculatorWebView(
+                        dealerId: widget.dealerId!,
+                        url:
+                            'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealerId}&method=order&mobile_token=true')));
+          },
+          label: Text(
+            'Add New Order',
+            style: TextStyle(color: Colors.white),
+          ),
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xff941420),
+        ),
         body: ListView(
           children: [
             SizedBox(
@@ -66,17 +86,14 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    if(widget.role == "dealer" || widget.role == "employee"){
+                    if (widget.role == "dealer" || widget.role == "employee") {
                       Provider.of<AllEntranceDoorOrderSearchedData>(context,
-                            listen: false)
-                        .getAllData(widget.dealerId!, value);
+                              listen: false)
+                          .getAllData(widget.dealerId!, value);
+                    } else if (widget.role == "admin") {
+                      Provider.of<AllDoorOrdersForAdmin>(context, listen: false)
+                          .getAllData(widget.dealerId!, value);
                     }
-                    else if(widget.role == "admin"){
-                      Provider.of<AllDoorOrdersForAdmin>(context,
-                            listen: false)
-                        .getAllData(widget.dealerId!, value);
-                    }
-                    
                   },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),
