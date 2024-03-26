@@ -40,7 +40,8 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
         list = snapshot.data!;
 
         List<AdminModel> filteredList =
-            Provider.of<AllAdministratorsSearchedData>(context).filteredDataModel;
+            Provider.of<AllAdministratorsSearchedData>(context)
+                .filteredDataModel;
         List<AdminModel>? displayData =
             filteredList.isNotEmpty ? filteredList : list;
 
@@ -66,36 +67,44 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
               columns: const <DataColumn>[
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'ID',
                   style: TextStyle(color: Colors.white),
                 )),
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'Name',
                   style: TextStyle(color: Colors.white),
                 )),
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'Post Code',
                   style: TextStyle(color: Colors.white),
                 )),
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'Tel No.',
                   style: TextStyle(color: Colors.white),
                 )),
                 DataColumn(
-                    label: Text(
-                  'Email',
-                  style: TextStyle(color: Colors.white),
+                    label: Center(
+                  child: Text(
+                    'Email',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 )),
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'Date & Time Administrator Created',
                   style: TextStyle(color: Colors.white),
                 )),
                 DataColumn(
                     label: Text(
+                  textAlign: TextAlign.center,
                   'Actions',
                   style: TextStyle(color: Colors.white),
                 )),
@@ -178,31 +187,27 @@ class MyData extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    final  result = data![index];
-    // TextEditingController factoryValue = TextEditingController();
-    // TextEditingController factoryDeliveryWeek = TextEditingController();
-    // factoryDeliveryWeek.text = result.steelFacWeekVal ?? "";
-    // factoryValue.text = result.steelFacOrderNoVal ?? "";
-
-    //NetworkApiServices apiServices = NetworkApiServices();
+    final result = data![index];
     return DataRow.byIndex(index: index, cells: <DataCell>[
       //1
       DataCell(Text(result.iD.toString())),
       //2
       DataCell(Text(result.name ?? "")),
       //3
-      DataCell(Text(result.postCode ?? "")),
+      DataCell(Center(child: Text(result.postCode ?? ""))),
       //4
       DataCell(Text(result.tel ?? "")),
       //5
       DataCell(Text(result.email ?? "")),
       //6
-      DataCell(Text(result.registeredUser ?? "")),
+      DataCell(Center(child: Text(result.registeredUser ?? ""))),
       //7
-      DataCell(Row(
-        children: [
-          Icon(Icons.delete, color: Colors.red,size: 14,),
-        ],
+      DataCell(Center(
+        child: Icon(
+          Icons.delete,
+          color: Colors.red,
+          size: 14,
+        ),
       )),
     ]);
   }

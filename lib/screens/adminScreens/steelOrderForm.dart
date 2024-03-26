@@ -1,13 +1,10 @@
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
-import 'package:price_link/models/dealersModel.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
 
 class SteelOrderFormForAdmin extends StatefulWidget {
@@ -138,30 +135,48 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Name',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'Customer Name',
                 controller: cname,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Name'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Quotation Number',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'Quotation_Number',
                 controller: qnum,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Quotation Number'),
               ),
               SizedBox(
                 height: 15,
@@ -171,60 +186,76 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(color: Color(0xff941420)),
               ),
               FutureBuilder<List<AllDealersModel>>(
-                future: NetworkApiServices().getAllDealers(), 
-                builder: ((context, snapshot) {
-                  return  DropdownButton<String>(
-                hint: Text('Select value'),
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: user,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (newValue) {
-                  user = newValue ?? "";
-                  setState(() {
-                    
-                  });
-                },
-                items: snapshot.data != null ? snapshot.data!.map((e) {
-                  print("name present in API: ${e.name}");
-                  return DropdownMenuItem(
-                    value: e.name ?? "",
-                    child: Center(child: Text(e.name ?? "")));
-                }).toList() : [],
-              );
-
-                
-              })),
+                  future: NetworkApiServices().getAllDealers(),
+                  builder: ((context, snapshot) {
+                    return DropdownButton<String>(
+                      hint: Text('Select value'),
+                      alignment: Alignment.center,
+                      isExpanded: true,
+                      value: user,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.grey,
+                      ),
+                      onChanged: (newValue) {
+                        user = newValue ?? "";
+                        setState(() {});
+                      },
+                      items: snapshot.data != null
+                          ? snapshot.data!.map((e) {
+                              print("name present in API: ${e.name}");
+                              return DropdownMenuItem(
+                                  value: e.name ?? "",
+                                  child: Center(child: Text(e.name ?? "")));
+                            }).toList()
+                          : [],
+                    );
+                  })),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Dealer',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'dealer',
                 controller: dealer,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Dealer'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Salesperson',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'salesperson',
                 controller: salesperson,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Salesperson'),
               ),
               SizedBox(
                 height: 15,
@@ -366,58 +397,94 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Address 1',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address1',
                 controller: address,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address 1'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Address 2',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address2',
                 controller: address2,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address 2'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Address 3',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address3',
                 controller: address3,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address 3'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Delivery Post Code',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'postcode',
                 controller: postcode,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Delivery Post Code'),
               ),
               SizedBox(
                 height: 15,
@@ -472,72 +539,116 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Address (if different to above)',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
-                //controller: dealerController,
+              FormBuilderTextField(
+                name: 'address_diff',
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address (if different to above)'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Frame Size',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'frame',
                 controller: frame,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Frame Size'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Email',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'email',
                 controller: cusEmail,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Email'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Customer Tel Number',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'telephone',
                 controller: telephone,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Tel Number'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Total Order Value (incl VAT)',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'total_order',
                 controller: totalOrderValue,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Total Order Value (incl. VAT)'),
               ),
               SizedBox(
                 height: 15,
@@ -593,45 +704,72 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Delivery Cost',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'del_cost',
                 controller: deliveryCost,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Delivery Cost'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Total Weight (kg.)',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'weight',
                 controller: totalWeight,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Total Weight'),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Net Order Value',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              TextFormField(
-                readOnly: true,
+              FormBuilderTextField(
+                name: 'netValue',
+                enabled: false,
                 controller: netOrderValue,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Net Order Value'),
               ),
               SizedBox(
                 height: 15,
@@ -678,7 +816,29 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               ),
               RoundButton(
                 onTap: () {
-                  NetworkApiServices().createSteelOrderForAdmin(widget.dealerId, productType, cname.text, qnum.text, user, salesperson.text, supply, address.text, address2.text, address3.text, postcode.text, color, frame.text, cusEmail.text, telephone.text, totalOrderValue.text, discount, deliveryCost.text, totalWeight.text, netOrderValue.text, filesToUpload, notes.text);
+                  NetworkApiServices().createSteelOrderForAdmin(
+                      widget.dealerId,
+                      productType,
+                      cname.text,
+                      qnum.text,
+                      user,
+                      salesperson.text,
+                      supply,
+                      address.text,
+                      address2.text,
+                      address3.text,
+                      postcode.text,
+                      color,
+                      frame.text,
+                      cusEmail.text,
+                      telephone.text,
+                      totalOrderValue.text,
+                      discount,
+                      deliveryCost.text,
+                      totalWeight.text,
+                      netOrderValue.text,
+                      filesToUpload,
+                      notes.text);
                 },
                 text: 'Submit',
                 width: double.infinity,

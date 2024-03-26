@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/services/services.dart';
@@ -53,133 +54,198 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(color: Color(0xffefefef)),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 25.0, left: 25.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    const Text(
-                      'First Name',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420)),
-                    ),
-                    TextFormField(
-                      controller: fname,
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 25.0, left: 25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  FormBuilderTextField(
+                    name: 'first_name',
+                    controller: fname,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Last Name',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: lname,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'First Name'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'last_name',
+                    controller: lname,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Post Code',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: postCode,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Last Name'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'post_code',
+                    controller: postCode,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Tel',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: telephone,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Post Code'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'tel',
+                    controller: telephone,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Email',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: email,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Telephone'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'email',
+                    controller: email,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Password',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: password,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Email'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'password',
+                    controller: password,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    const Text('Confirm Password',
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xff941420))),
-                    TextFormField(
-                      controller: cpassword,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Password'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FormBuilderTextField(
+                    name: 'confirm',
+                    controller: cpassword,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        labelStyle:
+                            TextStyle(color: Color(0xff941420), fontSize: 13),
+                        fillColor: Color.fromARGB(255, 246, 245, 245),
                         filled: true,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                        child: RoundButton(
-                      text: 'Register',
-                      onTap: () {
-                        if (password.text == cpassword.text) {
-                          NetworkApiServices().createAdministrator(fname.text, lname.text, postCode.text, telephone.text, email.text, password.text);
-                        }
-                      },
-                      color: Color(0xff941420),
-                    )),
-                    const SizedBox(
-                      height: 40,
-                    )
-                  ],
-                ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        labelText: 'Confirm Password'),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                      child: RoundButton(
+                    width: double.infinity,
+                    text: 'Register',
+                    onTap: () {
+                      if (password.text == cpassword.text) {
+                        NetworkApiServices().createAdministrator(
+                            fname.text,
+                            lname.text,
+                            postCode.text,
+                            telephone.text,
+                            email.text,
+                            password.text);
+                      }
+                    },
+                    color: Color(0xff941420),
+                  )),
+                  const SizedBox(
+                    height: 40,
+                  )
+                ],
               ),
             ),
           ),

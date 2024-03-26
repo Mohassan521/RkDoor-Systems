@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/administratorsTable.dart';
-import 'package:price_link/components/tables/adminTables/ankaTable.dart';
-import 'package:price_link/components/tables/adminTables/enquiryAllocationTable.dart';
-import 'package:price_link/components/tables/adminTables/orderAllocationTable.dart';
-import 'package:price_link/components/tables/adminTables/queueAllocationTable.dart';
+import 'package:price_link/screens/adminScreens/administrationStaffForm.dart';
 import 'package:provider/provider.dart';
 
 class AdministratorList extends StatefulWidget {
@@ -36,6 +33,26 @@ class _AdministratorListState extends State<AdministratorList> {
           style: TextStyle(color: Colors.white),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateAdministrationStaff(
+                      dealerId: widget.dealerId!,
+                      dealerName: widget.dealerName!,
+                      role: widget.role!)));
+        },
+        label: Text(
+          'Add New Admin',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Color(0xff941420),
+      ),
       body: ListView(
         children: [
           SizedBox(
@@ -45,7 +62,9 @@ class _AdministratorListState extends State<AdministratorList> {
               padding: EdgeInsets.only(left: 20.0, right: 20),
               child: TextFormField(
                 onChanged: (value) {
-                  Provider.of<AllAdministratorsSearchedData>(context, listen: false).getAllData(widget.dealerId!, value);
+                  Provider.of<AllAdministratorsSearchedData>(context,
+                          listen: false)
+                      .getAllData(widget.dealerId!, value);
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
