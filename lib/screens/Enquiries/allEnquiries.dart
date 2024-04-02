@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/AdminAllEnquiryTable.dart';
 import 'package:price_link/components/tables/allEnquiriesTable.dart';
 import 'package:price_link/services/services.dart';
@@ -51,6 +50,17 @@ class _AllEnquiriesState extends State<AllEnquiries> {
               style: TextStyle(color: Colors.white),
             ),
           ),
+          floatingActionButton: FloatingActionButton.extended(
+              label: Text(
+                'Add New Enquiry',
+                style: TextStyle(color: Colors.white),
+              ),
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              backgroundColor: Color(0xff941420),
+              onPressed: () {}),
           body: ListView(
             children: [
               SizedBox(
@@ -60,17 +70,16 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                   padding: EdgeInsets.only(left: 20.0, right: 20),
                   child: TextFormField(
                     onChanged: (value) {
-                      if(widget.role == "dealer" || widget.role=="employee"){
-                      Provider.of<AllEnquiriesSearchedData>(context,
-                              listen: false)
-                          .getAllData(widget.dealerId!, value);
+                      if (widget.role == "dealer" ||
+                          widget.role == "employee") {
+                        Provider.of<AllEnquiriesSearchedData>(context,
+                                listen: false)
+                            .getAllData(widget.dealerId!, value);
+                      } else if (widget.role == "admin") {
+                        Provider.of<AllEnquiriesSearchedDataForAdmin>(context,
+                                listen: false)
+                            .getAllData(widget.dealerId!, value);
                       }
-                      else if(widget.role == "admin"){
-                          Provider.of<AllEnquiriesSearchedDataForAdmin>(context,
-                              listen: false)
-                          .getAllData(widget.dealerId!, value);
-                      }
-
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -89,12 +98,16 @@ class _AllEnquiriesState extends State<AllEnquiries> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, right: 8),
-                child: widget.role=="admin" ? AdminAllEnquiriesTable(dealerId: widget.dealerId,dealerName: widget.dealerName) : AllEnquiriesTable(
-                  dealerId: widget.role == "employee"
-                      ? widget.empId
-                      : widget.dealerId,
-                  dealerName: widget.dealerName,
-                ),
+                child: widget.role == "admin"
+                    ? AdminAllEnquiriesTable(
+                        dealerId: widget.dealerId,
+                        dealerName: widget.dealerName)
+                    : AllEnquiriesTable(
+                        dealerId: widget.role == "employee"
+                            ? widget.empId
+                            : widget.dealerId,
+                        dealerName: widget.dealerName,
+                      ),
               ),
               SizedBox(
                 height: 20,

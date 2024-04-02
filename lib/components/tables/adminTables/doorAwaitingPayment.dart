@@ -3,18 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
-import 'package:price_link/screens/steel%20Orders/editSteelOrder.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class AdminDoorAwaitingPayment extends StatefulWidget {
   final String dealerId;
@@ -69,241 +64,238 @@ class _AdminDoorAwaitingPaymentState extends State<AdminDoorAwaitingPayment> {
         // List<SteelOrderModel>? displayData =
         //     filteredList.isNotEmpty ? filteredList : list;
 
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
-                  : (list!.isEmpty)
-                      ? 1
-                      : list!.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Username',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Order No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Payment Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Confirmation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quick PDF Quotation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anticipated Delivery Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Invoices',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Balance Due',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Financial History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Profile',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Door Model',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Marine Grade Finish',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Frame Size',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Goalpost Construction',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Overall Weight',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Threshold Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Keyless Access',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Delivery Week',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value (inc. VAT)',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Made',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anka Items',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Custom Handles',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Back to Quote',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Date History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Sales Bonus',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer Support',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Completed Orders',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(list!, _dateTime, widget.dealerId,
-                  widget.dealerName, _showDatePicker,
-                  myGlobalBuildContext: context)),
-        );
+        return PaginatedDataTable(
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            showEmptyRows: false,
+            rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
+                ? 5
+                : (list!.isEmpty)
+                    ? 1
+                    : list!.length,
+            // headingRowColor: MaterialStateProperty.resolveWith(
+            //     (states) => Color(0xff941420)),
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Username',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Order No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Payment Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Confirmation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quick PDF Quotation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anticipated Delivery Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Invoices',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Balance Due',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Financial History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Profile',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Door Model',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Marine Grade Finish',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Frame Size',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Goalpost Construction',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Overall Weight',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Threshold Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Keyless Access',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Delivery Week',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Tel No',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Quote Value (inc. VAT)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Made',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote ID',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anka Items',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Custom Handles',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote Analysis',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Back to Quote',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Date History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Sales Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer Support',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Completed Orders',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(list!, _dateTime, widget.dealerId, widget.dealerName,
+                _showDatePicker,
+                myGlobalBuildContext: context));
       },
     );
   }
@@ -428,6 +420,7 @@ class MyData extends DataTableSource {
           TextEditingController notesController = TextEditingController();
           final _formKey = GlobalKey<FormState>();
           return DataRow.byIndex(
+            color: MaterialStatePropertyAll(Colors.white),
             index: index,
             cells: [
               //1
@@ -435,7 +428,8 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  padding: EdgeInsets.all(5.0),
+                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
                     color: quote.orderStatusVal == "Deposit Received" ||
                             quote.orderStatusVal ==
@@ -450,19 +444,24 @@ class MyData extends DataTableSource {
                         ? Colors.red
                         : Color(0xffb5e51d),
                   ),
-                  child: Text(
-                    (quote.orderStatusVal == "Deposit Received" ||
-                            quote.orderStatusVal ==
-                                "Preliminary Confirmation Issued" ||
-                            quote.orderStatusVal == "Awaiting Deposit" ||
-                            quote.orderStatusVal ==
-                                "Revised Confirmation Issued" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Balance Payment" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Survey / Dimensions")
-                        ? 'Action Required'
-                        : "No Action Required",
+                  child: Center(
+                    child: Text(
+                      (quote.orderStatusVal == "Deposit Received" ||
+                              quote.orderStatusVal ==
+                                  "Preliminary Confirmation Issued" ||
+                              quote.orderStatusVal == "Awaiting Deposit" ||
+                              quote.orderStatusVal ==
+                                  "Revised Confirmation Issued" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Balance Payment" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Survey / Dimensions")
+                          ? 'Action Required'
+                          : "No Action Required",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
@@ -489,7 +488,8 @@ class MyData extends DataTableSource {
               //7
               DataCell(Builder(builder: (context) {
                 return Container(
-                    alignment: Alignment.center,
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    width: MediaQuery.sizeOf(context).width * 0.39,
                     decoration: BoxDecoration(
                         color: quote.orderStatusVal == "Order Received"
                             ? Color(0xff9ad9ea)
@@ -522,136 +522,154 @@ class MyData extends DataTableSource {
                                                                 : Color(
                                                                     0xff7092bf),
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.60,
-                    child: Center(
-                      child: DropdownButton<String>(
-                        alignment: Alignment.center,
-                        iconEnabledColor: quote.orderStatusVal ==
-                                "Order Received"
-                            ? Color(0xff9ad9ea)
-                            : quote.orderStatusVal == "Order Placed"
-                                ? Color(0xffffc90d)
-                                : quote.orderStatusVal ==
-                                        "Awaiting Balance Payment"
-                                    ? Colors.yellow
-                                    : quote.orderStatusVal == "Delayed"
-                                        ? Colors.red
-                                        : quote.orderStatusVal ==
-                                                "In Production"
-                                            ? Color(0xffb5351d)
-                                            : quote.orderStatusVal ==
-                                                    "Ready For Shipping"
-                                                ? Color(0xff0080001)
-                                                : quote.orderStatusVal ==
-                                                        "Revised Confirmation Issued"
-                                                    ? Color(0xffa747a2)
-                                                    : quote.orderStatusVal ==
-                                                            "Final Confirmation Issued"
-                                                        ? Color(0xffc7bfe6)
-                                                        : quote.orderStatusVal ==
-                                                                "In Transit To UK"
-                                                            ? Color(0xfffeaec9)
-                                                            : quote.orderStatusVal ==
-                                                                    "In RKDS Warehouse"
-                                                                ? Color(
-                                                                    0xff9ad9ea)
-                                                                : Color(
-                                                                    0xff7092bf),
-                        isExpanded: true,
-                        value: orderStatus,
-                        underline: Container(
-                          height: 2,
-                          color: Colors.white,
-                        ),
-                        onChanged: (String? newValue) {
-                          //newValue = result.orderFollowup;
-                          if (newValue != null) {
-                            // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                            //     .changeValue(newValue: newValue, quoteId: result.id!);
-                            apiServices.setOrderStatus(
-                                quote.id!, dealerData.userId, newValue);
-                          } else {
-                            // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                            //     .changeValue(
-                            //         newValue: result.orderFollowup, quoteId: result.id!);
-                            apiServices.setOrderStatus(
-                                quote.id!, dealerData.userId, orderStatus);
-                          }
-                        },
-                        items: [
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Order Received',
-                              child: Text('Order Received')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Order Placed',
-                              child: Text('Order Placed')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Awaiting Survey / Dimensions',
-                              child: Text('Awaiting Survey / Dimensions')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Awaiting Deposit',
-                              child: Text('Awaiting Deposit')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Deposit Received',
-                              child: Text('Deposit Received')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Preliminary Confirmation Issued',
-                              child: Text('Preliminary Confirmation Issued')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Revised Confirmation Issued',
-                              child: Text('Revised Confirmation Issued')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Final Confirmation Issued',
-                              child: Text('Final Confirmation Issued')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'In Production',
-                              child: Text('In Production')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Ready For Shipping',
-                              child: Text('Ready For Shipping')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'In Transit To UK',
-                              child: Text('In Transit To UK')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'In RKDS Warehouse',
-                              child: Text('In RKDS Warehouse')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Awaiting Balance Payment',
-                              child: Text('Awaiting Balance Payment')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Out For Delivery',
-                              child: Text('Out For Delivery')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Delivered',
-                              child: Text('Delivered')),
-                          DropdownMenuItem<String>(
-                              alignment: Alignment.center,
-                              value: 'Delayed',
-                              child: Text('Delayed')),
-                        ],
+                    child: DropdownButton<String>(
+                      style: TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
+                      iconEnabledColor: quote.orderStatusVal == "Order Received"
+                          ? Color(0xff9ad9ea)
+                          : quote.orderStatusVal == "Order Placed"
+                              ? Color(0xffffc90d)
+                              : quote.orderStatusVal ==
+                                      "Awaiting Balance Payment"
+                                  ? Colors.yellow
+                                  : quote.orderStatusVal == "Delayed"
+                                      ? Colors.red
+                                      : quote.orderStatusVal == "In Production"
+                                          ? Color(0xffb5351d)
+                                          : quote.orderStatusVal ==
+                                                  "Ready For Shipping"
+                                              ? Color(0xff0080001)
+                                              : quote.orderStatusVal ==
+                                                      "Revised Confirmation Issued"
+                                                  ? Color(0xffa747a2)
+                                                  : quote.orderStatusVal ==
+                                                          "Final Confirmation Issued"
+                                                      ? Color(0xffc7bfe6)
+                                                      : quote.orderStatusVal ==
+                                                              "In Transit To UK"
+                                                          ? Color(0xfffeaec9)
+                                                          : quote.orderStatusVal ==
+                                                                  "In RKDS Warehouse"
+                                                              ? Color(
+                                                                  0xff9ad9ea)
+                                                              : Color(
+                                                                  0xff7092bf),
+                      isExpanded: true,
+                      value: orderStatus,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.white,
+                      ),
+                      onChanged: (String? newValue) {
+                        //newValue = result.orderFollowup;
+                        if (newValue != null) {
+                          // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                          //     .changeValue(newValue: newValue, quoteId: result.id!);
+                          apiServices.setOrderStatus(
+                              quote.id!, dealerData.userId, newValue);
+                        } else {
+                          // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                          //     .changeValue(
+                          //         newValue: result.orderFollowup, quoteId: result.id!);
+                          apiServices.setOrderStatus(
+                              quote.id!, dealerData.userId, orderStatus);
+                        }
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Order Received',
+                            child: Text(
+                              'Order Received',
+                              textAlign: TextAlign.center,
+                            )),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Order Placed',
+                            child: Text('Order Placed',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Awaiting Survey / Dimensions',
+                            child: Text('Awaiting Survey / Dimensions',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Awaiting Deposit',
+                            child: Text('Awaiting Deposit',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Deposit Received',
+                            child: Text('Deposit Received',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Preliminary Confirmation Issued',
+                            child: Text('Preliminary Confirmation Issued',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Revised Confirmation Issued',
+                            child: Text('Revised Confirmation Issued',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Final Confirmation Issued',
+                            child: Text('Final Confirmation Issued',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'In Production',
+                            child: Text('In Production',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Ready For Shipping',
+                            child: Text('Ready For Shipping',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'In Transit To UK',
+                            child: Text('In Transit To UK',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'In RKDS Warehouse',
+                            child: Text('In RKDS Warehouse',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Awaiting Balance Payment',
+                            child: Text('Awaiting Balance Payment',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Out For Delivery',
+                            child: Text('Out For Delivery',
+                                textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Delivered',
+                            child:
+                                Text('Delivered', textAlign: TextAlign.center)),
+                        DropdownMenuItem<String>(
+                            alignment: Alignment.center,
+                            value: 'Delayed',
+                            child:
+                                Text('Delayed', textAlign: TextAlign.center)),
+                      ],
                     ));
               })),
 
               //9
               DataCell(Builder(builder: (context) {
                 return Container(
+                  height: MediaQuery.sizeOf(context).height * 0.05,
+                  width: MediaQuery.sizeOf(context).width * 0.30,
                   decoration: BoxDecoration(
                       color: quote.orderPaymentStatusVal == "Awaiting Deposit"
                           ? Colors.yellow
@@ -677,10 +695,12 @@ class MyData extends DataTableSource {
                                                       ? Color(0xff0d714b)
                                                       : Colors.yellow,
                       borderRadius: BorderRadius.circular(5.5)),
-                  height: MediaQuery.sizeOf(context).height * 0.05,
-                  width: MediaQuery.sizeOf(context).width * 0.60,
                   child: DropdownButton<String>(
                     alignment: Alignment.center,
+                    style: TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                     iconEnabledColor: quote.orderPaymentStatusVal ==
                             "Awaiting Deposit"
                         ? Colors.yellow
@@ -1042,8 +1062,7 @@ class MyData extends DataTableSource {
                 onTap: () {},
                 text: "Financial History",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
               )),
               //15
               DataCell(
@@ -1152,7 +1171,7 @@ class MyData extends DataTableSource {
                     style: TextStyle(fontSize: 13),
                     controller: facDeliveryWeek,
                     onChanged: (value) {
-                      String value = facDeliveryWeek.text;
+                      value = facDeliveryWeek.text;
                       apiServices.setFacDeliveryWeekValue(
                           quote.id!, dealerData.userId, value);
                       // Timer(Duration(seconds: 5), () {
@@ -1328,8 +1347,7 @@ class MyData extends DataTableSource {
                 },
                 text: "Notes",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
               )),
               // custom handle file
               //36
@@ -1339,8 +1357,7 @@ class MyData extends DataTableSource {
                 onTap: () {},
                 text: "Quote Analysis",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
               )),
               //38
               DataCell(RoundButton(
@@ -1350,8 +1367,7 @@ class MyData extends DataTableSource {
                 },
                 text: "Back To Quote",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
               )),
               //39
               DataCell(Text("${quote.date} ${quote.orderStatusVal}")),
@@ -1367,7 +1383,6 @@ class MyData extends DataTableSource {
                 },
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
               )),
 

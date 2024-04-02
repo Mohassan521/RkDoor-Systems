@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/quotationsTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -52,18 +50,25 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(onPressed: (){
-          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CalculatorWebView(
-                                dealerId: widget.dealerId!,
-                                  url:
-                                      'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
-        },
-        label: Text('Add New Quote', style: TextStyle(color: Colors.white),),
-        icon: Icon(Icons.add, color: Colors.white,),
-        backgroundColor: Color(0xff941420),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalculatorWebView(
+                        dealerId: widget.dealerId!,
+                        url:
+                            'https://www.pricelink.net/rk-door-calculator/?${widget.dealerId}&mobile_token=true')));
+          },
+          label: Text(
+            'Add New Quote',
+            style: TextStyle(color: Colors.white),
+          ),
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xff941420),
         ),
         body: ListView(
           children: [
@@ -73,20 +78,21 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     FocusScope.of(context).requestFocus(FocusNode());
                   },
                   child: TextFormField(
                     onChanged: (value) {
-                      if(widget.role == "dealer" || widget.role == "employee"){
-                        Provider.of<QuotationsSearchedData>(context, listen: false)
-                          .getAllData(widget.dealerId!, value);
+                      if (widget.role == "dealer" ||
+                          widget.role == "employee") {
+                        Provider.of<QuotationsSearchedData>(context,
+                                listen: false)
+                            .getAllData(widget.dealerId!, value);
+                      } else if (widget.role == "admin") {
+                        Provider.of<QuotationsSearchedDataForAdmin>(context,
+                                listen: false)
+                            .getAllData(widget.dealerId!, value);
                       }
-                      else if(widget.role == "admin"){
-                        Provider.of<QuotationsSearchedDataForAdmin>(context, listen: false)
-                          .getAllData(widget.dealerId!, value);
-                      }
-                  
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5),

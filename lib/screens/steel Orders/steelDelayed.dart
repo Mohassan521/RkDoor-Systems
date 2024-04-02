@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/delayed.dart';
 import 'package:price_link/components/tables/steelDelayedTable.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +48,7 @@ class _SteelDelayedState extends State<SteelDelayed> {
             height: 18,
           ),
           Container(
-              width: MediaQuery.of(context).size.width * 0.75,
+              padding: EdgeInsets.only(left: 20.0, right: 20),
               child: TextFormField(
                 onChanged: (value) {
                   Provider.of<AllSteelOrdersData>(context, listen: false)
@@ -84,8 +83,7 @@ class _SteelDelayedState extends State<SteelDelayed> {
                         : widget.dealerId,
                     dealerName: widget.dealerName,
                     role: widget.role,
-                    empId: widget.empId
-                  ),
+                    empId: widget.empId),
           ),
         ],
       ),

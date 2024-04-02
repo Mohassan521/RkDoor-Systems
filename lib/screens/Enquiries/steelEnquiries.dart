@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/AdminSteelEnquiries.dart';
 import 'package:price_link/components/tables/steelEnquiriesTable.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class SteelEnquiries extends StatefulWidget {
   final String dealerId;
@@ -81,12 +78,16 @@ class _SteelEnquiriesState extends State<SteelEnquiries> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, right: 8),
-                child: widget.role == "admin" ? AdminSteelEnquiries(dealerId: widget.dealerId,dealerName: widget.dealerName) : SteelEnquiriesTable(
-                  dealerId: widget.role == "employee"
-                      ? widget.empId
-                      : widget.dealerId,
-                  dealerName: widget.dealerName,
-                ),
+                child: widget.role == "admin"
+                    ? AdminSteelEnquiries(
+                        dealerId: widget.dealerId,
+                        dealerName: widget.dealerName)
+                    : SteelEnquiriesTable(
+                        dealerId: widget.role == "employee"
+                            ? widget.empId
+                            : widget.dealerId,
+                        dealerName: widget.dealerName,
+                      ),
               )
             ],
           )),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/employeeTables/allDoorOrdersTable.dart';
-import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +100,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

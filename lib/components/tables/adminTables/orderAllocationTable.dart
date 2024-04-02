@@ -59,241 +59,234 @@ class _OrdersAllocationTableState extends State<OrdersAllocationTable> {
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: Text('Data is being loaded...'));
         }
-    
+
         list = snapshot.data ?? [];
-    
+
         List<OrdersCompleteResponse> filteredList =
-            Provider.of<AllDoorOrdersForAdmin>(context)
-                .filteredDataModel;
+            Provider.of<AllDoorOrdersForAdmin>(context).filteredDataModel;
         List<OrdersCompleteResponse>? displayData =
             filteredList.isNotEmpty ? filteredList : list;
-    
-    
+
         // List<SteelOrderModel> filteredList =
         //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
         // List<SteelOrderModel>? displayData =
         //     filteredList.isNotEmpty ? filteredList : list;
-    
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
-                  : (list!.isEmpty)
-                      ? 1
-                      : list!.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Username',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Order No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Confirmation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anticipated Delivery Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Invoices',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Balance Due',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Financial History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Marine Grade Finish',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Frame Size',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Goalpost Construction',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Overall Weight',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Threshold Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Keyless Access',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Delivery Week',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value (inc. VAT)',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Made',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anka Items',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Custom Handles',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Back to Quote',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Date History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Sales Bonus',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer Support',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Completed Orders',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Allocate to other users',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(displayData ?? list, _dateTime, widget.dealerId,
-                  widget.dealerName, _showDatePicker,
-                  myGlobalBuildContext: context)),
-        );
+
+        return PaginatedDataTable(
+            showEmptyRows: false,
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
+                ? 5
+                : (list!.isEmpty)
+                    ? 1
+                    : list!.length,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Username',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Order No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Confirmation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anticipated Delivery Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Invoices',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Balance Due',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Financial History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Marine Grade Finish',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Frame Size',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Goalpost Construction',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Overall Weight',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Threshold Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Keyless Access',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Delivery Week',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Tel No',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Quote Value (inc. VAT)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Made',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote ID',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anka Items',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Custom Handles',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote Analysis',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Back to Quote',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Date History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Sales Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer Support',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Completed Orders',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Allocate to other users',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(displayData ?? list, _dateTime, widget.dealerId,
+                widget.dealerName, _showDatePicker,
+                myGlobalBuildContext: context));
       },
     );
   }
@@ -402,12 +395,15 @@ class MyData extends DataTableSource {
         if (currentIndex == index) {
           return DataRow.byIndex(
             index: index,
+            color: MaterialStatePropertyAll(Colors.white),
             cells: [
               //1
               DataCell(Text(quote.name ?? "")),
               //2
               DataCell(
                 Container(
+                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
                   padding: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     color: quote.orderStatusVal == "Deposit Received" ||
@@ -423,19 +419,23 @@ class MyData extends DataTableSource {
                         ? Colors.red
                         : Color(0xffb5e51d),
                   ),
-                  child: Text(
-                    (quote.orderStatusVal == "Deposit Received" ||
-                            quote.orderStatusVal ==
-                                "Preliminary Confirmation Issued" ||
-                            quote.orderStatusVal == "Awaiting Deposit" ||
-                            quote.orderStatusVal ==
-                                "Revised Confirmation Issued" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Balance Payment" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Survey / Dimensions")
-                        ? 'Action Required'
-                        : "No Action Required",
+                  child: Center(
+                    child: Text(
+                      (quote.orderStatusVal == "Deposit Received" ||
+                              quote.orderStatusVal ==
+                                  "Preliminary Confirmation Issued" ||
+                              quote.orderStatusVal == "Awaiting Deposit" ||
+                              quote.orderStatusVal ==
+                                  "Revised Confirmation Issued" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Balance Payment" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Survey / Dimensions")
+                          ? 'Action Required'
+                          : "No Action Required",
+                      style:
+                          TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
@@ -500,7 +500,10 @@ class MyData extends DataTableSource {
                         child: Text(
                       quote.orderStatusVal!,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w600),
                     )));
               })),
 
@@ -544,7 +547,8 @@ class MyData extends DataTableSource {
                             IconButton(
                               onPressed: () {
                                 getImage().then((value) {
-                                  apiServices.OrderDocumentUpload(quote.id!, dealerData.userId, value);
+                                  apiServices.OrderDocumentUpload(
+                                      quote.id!, dealerData.userId, value);
                                 });
                               },
                               icon: Icon(Icons.add_circle_outline),
@@ -600,7 +604,8 @@ class MyData extends DataTableSource {
                             IconButton(
                               onPressed: () {
                                 getImage().then((value) {
-                                  apiServices.OrderDocumentUpload(quote.id!, dealerData.userId, value);
+                                  apiServices.OrderDocumentUpload(
+                                      quote.id!, dealerData.userId, value);
                                 });
                               },
                               icon: Icon(Icons.add_circle_outline),
@@ -624,15 +629,16 @@ class MyData extends DataTableSource {
                   DateButton(
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
-                      context: myGlobalBuildContext,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2050),
-                    );
+                        context: myGlobalBuildContext,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2050),
+                      );
 
-                    if (pickedDate != null) {
-                      apiServices.setAnticipatedDateForAdmin(dealerData.userId, quote.id!, pickedDate);
-                    }
+                      if (pickedDate != null) {
+                        apiServices.setAnticipatedDateForAdmin(
+                            dealerData.userId, quote.id!, pickedDate);
+                      }
                     },
                     icon: Icons.date_range,
                   ),
@@ -646,9 +652,10 @@ class MyData extends DataTableSource {
                           children: [
                             IconButton(
                               onPressed: () {
-                                getImage().then((value){
-                          apiServices.setInvoiceDocumentForAdmin(quote.id!, dealerData.userId, value);
-                        });
+                                getImage().then((value) {
+                                  apiServices.setInvoiceDocumentForAdmin(
+                                      quote.id!, dealerData.userId, value);
+                                });
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
@@ -702,9 +709,10 @@ class MyData extends DataTableSource {
                           children: [
                             IconButton(
                               onPressed: () {
-                                getImage().then((value){
-                          apiServices.setInvoiceDocumentForAdmin(quote.id!, dealerData.userId, value);
-                        });
+                                getImage().then((value) {
+                                  apiServices.setInvoiceDocumentForAdmin(
+                                      quote.id!, dealerData.userId, value);
+                                });
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
@@ -722,15 +730,18 @@ class MyData extends DataTableSource {
               //15
               DataCell(RoundButton(
                 onTap: () {
-                  Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => FinancialHistoryForAdminOrders(
-                  dealerName: dealerData.dealerName,
-                  dealerId: dealerData.userId.toString(),
-                  ordersModel: quote,)));
+                  Navigator.push(
+                      myGlobalBuildContext,
+                      MaterialPageRoute(
+                          builder: (context) => FinancialHistoryForAdminOrders(
+                                dealerName: dealerData.dealerName,
+                                dealerId: dealerData.userId.toString(),
+                                ordersModel: quote,
+                              )));
                 },
                 text: "Financial History",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.33,
               )),
               //16
               DataCell(
@@ -741,8 +752,9 @@ class MyData extends DataTableSource {
                             IconButton(
                               onPressed: () {
                                 getImage().then((value) {
-                          apiServices.setDeliveryDocForAdmin(dealerData.userId, quote.id!, value);
-                        });
+                                  apiServices.setDeliveryDocForAdmin(
+                                      dealerData.userId, quote.id!, value);
+                                });
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
@@ -797,8 +809,9 @@ class MyData extends DataTableSource {
                             IconButton(
                               onPressed: () {
                                 getImage().then((value) {
-                          apiServices.setDeliveryDocForAdmin(dealerData.userId, quote.id!, value);
-                        });
+                                  apiServices.setDeliveryDocForAdmin(
+                                      dealerData.userId, quote.id!, value);
+                                });
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
@@ -833,7 +846,8 @@ class MyData extends DataTableSource {
                     controller: facDeliveryWeek,
                     onEditingComplete: () {
                       String value = facDeliveryWeek.text;
-              apiServices.setFacDeliveryWeekValue(quote.id!, dealerData.userId, value);
+                      apiServices.setFacDeliveryWeekValue(
+                          quote.id!, dealerData.userId, value);
                     },
                   ))),
               //26
@@ -870,7 +884,8 @@ class MyData extends DataTableSource {
                           );
 
                           if (pickedDate != null) {
-                            apiServices.setOrderDateForAdmin(dealerData.userId, quote.id!, pickedDate);
+                            apiServices.setOrderDateForAdmin(
+                                dealerData.userId, quote.id!, pickedDate);
                           }
                         },
                         icon: Icons.calendar_month,
@@ -881,32 +896,30 @@ class MyData extends DataTableSource {
               )),
               //33
               DataCell(Center(
-                    child: DropdownButton<String>(
-                      value: (quote.orderFollowup == "")
-                          ? "NO"
-                          : quote.orderFollowup!,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.white,
-                      ),
-                      onChanged: (String? newValue) {
-                        //newValue = result.orderFollowup;
-                        if (newValue != null) {
-                          apiServices.setFollowUpForAdmin(dealerData.userId, quote.id!, newValue);
-                        } else {
-                          String value = quote.orderFollowup ?? "";
-                    apiServices.setFollowUpForAdmin(dealerData.userId, quote.id!, value);
-                        }
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'YES', child: Text('YES')),
-                        DropdownMenuItem<String>(
-                            value: 'NO', child: Text('NO')),
-                      ],
-                    ),
-                  )
-),
+                child: DropdownButton<String>(
+                  value:
+                      (quote.orderFollowup == "") ? "NO" : quote.orderFollowup!,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    //newValue = result.orderFollowup;
+                    if (newValue != null) {
+                      apiServices.setFollowUpForAdmin(
+                          dealerData.userId, quote.id!, newValue);
+                    } else {
+                      String value = quote.orderFollowup ?? "";
+                      apiServices.setFollowUpForAdmin(
+                          dealerData.userId, quote.id!, value);
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
+                    DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
+                  ],
+                ),
+              )),
               //34
               DataCell(Text(quote.id ?? "")),
               //35
@@ -926,87 +939,94 @@ class MyData extends DataTableSource {
               //36
               //37
               DataCell(RoundButton(
-                onTap: ()  async {
-                  TextEditingController notesController = TextEditingController();
+                onTap: () async {
+                  TextEditingController notesController =
+                      TextEditingController();
                   final _formKey = GlobalKey<FormState>();
                   notesController.text = quote.notes ?? "";
-          await showDialog(
-              context: myGlobalBuildContext,
-              builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    insetPadding: EdgeInsets.all(9),
-                    content: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                            right: -40,
-                            top: -40,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const CircleAvatar(
-                                backgroundColor: Color(0xff941420),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                        Form(
-                            key: _formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                  await showDialog(
+                      context: myGlobalBuildContext,
+                      builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            insetPadding: EdgeInsets.all(9),
+                            content: Stack(
+                              clipBehavior: Clip.none,
                               children: [
-                                Center(
-                                    child: Text('Enter Notes',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color(0xff941420),
-                                            fontWeight: FontWeight.w600))),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: TextFormField(
-                                    maxLines: 6,
-                                    // initialValue: result.notes,
-                                    controller: notesController,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xff941420))),
-                                        hintText: 'Notes'),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                RoundButton(
-                                  text: 'Save',
-                                  onTap: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      apiServices.setNotesValueForAdmin(quote.id!, dealerData.userId, notesController.text);
-                                    }
+                                Positioned(
+                                    right: -40,
+                                    top: -40,
+                                    child: InkResponse(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const CircleAvatar(
+                                        backgroundColor: Color(0xff941420),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )),
+                                Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Center(
+                                            child: Text('Enter Notes',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xff941420),
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: TextFormField(
+                                            maxLines: 6,
+                                            // initialValue: result.notes,
+                                            controller: notesController,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            Color(0xff941420))),
+                                                hintText: 'Notes'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        RoundButton(
+                                          text: 'Save',
+                                          onTap: () async {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              apiServices.setNotesValueForAdmin(
+                                                  quote.id!,
+                                                  dealerData.userId,
+                                                  notesController.text);
+                                            }
 
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop('dialog');
-                                  },
-                                  color: Color(0xff941420),
-                                )
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          color: Color(0xff941420),
+                                        )
+                                      ],
+                                    ))
                               ],
-                            ))
-                      ],
-                    ),
-                  ));
-
+                            ),
+                          ));
                 },
                 text: "Notes",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
               )),
               // custom handle file
               //38
@@ -1014,31 +1034,32 @@ class MyData extends DataTableSource {
                 onTap: () {},
                 text: "Custom Handle",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
               ))),
               //39
               DataCell(RoundButton(
                 onTap: () {
-                  Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
-            dealerId: dealerData.userId.toString(),
-            quoteId: quote.id,
-          )));
+                  Navigator.push(
+                      myGlobalBuildContext,
+                      MaterialPageRoute(
+                          builder: (context) => QuoteAnalysisForAdmin(
+                                dealerId: dealerData.userId.toString(),
+                                quoteId: quote.id,
+                              )));
                 },
                 text: "Quote Analysis",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
               )),
               //40
               DataCell(RoundButton(
                 onTap: () {
-                  apiServices.backToQuote(dealerData.userId.toString(), quote.id!);
+                  apiServices.backToQuote(
+                      dealerData.userId.toString(), quote.id!);
                 },
                 text: "Back To Quote",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
               )),
               //41
               DataCell(Text("${quote.date} ${quote.orderStatusVal}")),
@@ -1055,7 +1076,6 @@ class MyData extends DataTableSource {
                 },
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.045,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
               )),
 
@@ -1088,10 +1108,13 @@ class MyData extends DataTableSource {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => RkDoorCalculatorView(
-                        dealerId: dealerId!,
-                        url: "https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_order_id=${quote.id}&mobile_token=true")));
-
+                      Navigator.push(
+                          myGlobalBuildContext,
+                          MaterialPageRoute(
+                              builder: (context) => RkDoorCalculatorView(
+                                  dealerId: dealerId!,
+                                  url:
+                                      "https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_order_id=${quote.id}&mobile_token=true")));
                     },
                     child: Icon(
                       Icons.edit,
@@ -1104,45 +1127,42 @@ class MyData extends DataTableSource {
                   ),
                   InkWell(
                     onTap: () {
-
                       showDialog(
-                  context: myGlobalBuildContext,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Icon(Icons.warning),
-                      content:
-                          Text('Are u sure you want to delete this quotation'),
-                      actions: [
-                        Center(
-                          child: Column(
-                            children: [
-                              RoundButton(
-                                text: 'Delete',
-                                onTap: () {
-                                  apiServices.DeleteOrderFromAdmin(dealerData.userId, quote.id!);
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RoundButton(
-                                text: 'Cancel',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  });
-
-
-                      
+                          context: myGlobalBuildContext,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Icon(Icons.warning),
+                              content: Text(
+                                  'Are u sure you want to delete this quotation'),
+                              actions: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      RoundButton(
+                                        text: 'Delete',
+                                        onTap: () {
+                                          apiServices.DeleteOrderFromAdmin(
+                                              dealerData.userId, quote.id!);
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      RoundButton(
+                                        text: 'Cancel',
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          });
                     },
                     child: Icon(
                       Icons.delete,

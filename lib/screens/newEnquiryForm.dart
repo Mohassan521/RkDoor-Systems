@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/services/fetchify_api.dart';
 import 'package:price_link/services/services.dart';
@@ -147,28 +145,54 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       child: Center(child: Text('External Steel'))),
                 ],
               ),
-              const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              SizedBox(
+                height: 20,
+              ),
+              FormBuilderTextField(
+                name: 'dealer',
                 controller: dealerController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Dealer'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Enquiry Entered By',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'enq_entered',
                 controller: enquiryEnteredByController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Enquiry Entered By'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text('Enquiry Source',
                   style: TextStyle(color: Color(0xff941420))),
@@ -227,7 +251,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text('Requirements',
                   style: TextStyle(color: Color(0xff941420))),
@@ -266,31 +290,53 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Name',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'cus_name',
                 controller: cusNameController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Name'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Company Name',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'company',
                 controller: companyController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Company'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text('Supply Type',
                   style: TextStyle(color: Color(0xff941420))),
@@ -323,94 +369,168 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              SizedBox(
-                height: 10,
-              ),
-              const Text('Customer Address Line 1',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'del_address',
                 controller: deliveryAddressController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address Line 1'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Address Line 2',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address2',
                 controller: deliveryAddressController2,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address Line 2'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Address Line 3',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address3',
                 controller: deliveryAddressController3,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address Line 3'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Address Line 4',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'address4',
                 controller: deliveryAddressController4,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Address Line 4'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Delivery Post Code',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'post_code',
                 controller: deliveryPostCode,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Delivery Post Code'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Email',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'email',
                 controller: emailController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Customer Email'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Customer Tel Number',
-                  style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'tel',
                 controller: telephoneController,
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Telephone'),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text('Priority Level',
                   style: TextStyle(color: Color(0xff941420))),
@@ -454,7 +574,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text('File Upload',
                   style: TextStyle(color: Color(0xff941420))),
@@ -479,45 +599,58 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Text('Notes', style: TextStyle(color: Color(0xff941420))),
-              TextFormField(
+              FormBuilderTextField(
+                name: 'notes',
                 controller: notesController,
+                style: TextStyle(fontSize: 13),
                 maxLines: 6,
-                decoration: const InputDecoration(border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    labelStyle:
+                        TextStyle(color: Color(0xff941420), fontSize: 13),
+                    fillColor: Color.fromARGB(255, 246, 245, 245),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey)),
+                    labelText: 'Notes'),
               ),
               SizedBox(
                 height: 20,
               ),
-              Center(
-                child: RoundButton(
-                  text: 'Save',
-                  onTap: () {
-                    apiServices.createEnquiries(
-                        widget.dealerId,
-                        entranceDoorValue,
-                        dealerController.text,
-                        enquiryEnteredByController.text,
-                        requirementValue,
-                        cusNameController.text,
-                        companyController.text,
-                        supplyTypeValue,
-                        deliveryAddressController.text,
-                        deliveryAddressController2.text,
-                        deliveryAddressController3.text,
-                        deliveryAddressController4.text,
-                        deliveryPostCode.text,
-                        emailController.text,
-                        telephoneController.text,
-                        priorityValue,
-                        filesToUpload,
-                        notesController.text,
-                        enquirySourceValue,
-                        enquiryEnteredByController.text);
-                  },
-                  color: Color(0xff941420),
-                ),
+              RoundButton(
+                width: double.infinity,
+                text: 'Save',
+                onTap: () {
+                  apiServices.createEnquiries(
+                      widget.dealerId,
+                      entranceDoorValue,
+                      dealerController.text,
+                      enquiryEnteredByController.text,
+                      requirementValue,
+                      cusNameController.text,
+                      companyController.text,
+                      supplyTypeValue,
+                      deliveryAddressController.text,
+                      deliveryAddressController2.text,
+                      deliveryAddressController3.text,
+                      deliveryAddressController4.text,
+                      deliveryPostCode.text,
+                      emailController.text,
+                      telephoneController.text,
+                      priorityValue,
+                      filesToUpload,
+                      notesController.text,
+                      enquirySourceValue,
+                      enquiryEnteredByController.text);
+                },
+                color: Color(0xff941420),
               )
             ],
           ),

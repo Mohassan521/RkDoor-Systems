@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/inProduction.dart';
 import 'package:price_link/components/tables/steelInProductionTable.dart';
-import 'package:price_link/components/tables/steelReadyForShippingTable.dart';
 import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -98,8 +96,7 @@ class _SteelInProductionState extends State<SteelInProduction> {
                           : widget.dealerId,
                       dealerName: widget.dealerName,
                       role: widget.role,
-                      empId: widget.empId
-                    ),
+                      empId: widget.empId),
             ),
           ],
         ),

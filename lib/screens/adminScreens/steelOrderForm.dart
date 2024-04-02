@@ -82,137 +82,194 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Product Type',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: productType,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    productType = newValue ?? productType;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: '', child: Center(child: Text(''))),
-                  DropdownMenuItem<String>(
-                      value: 'Standard Hinged',
-                      child: Center(child: Text('Standard Hinged'))),
-                  DropdownMenuItem<String>(
-                      value: 'Sound Reduction',
-                      child: Center(child: Text('Sound Reduction'))),
-                  DropdownMenuItem<String>(
-                      value: 'FD30 Hinged',
-                      child: Center(child: Text('FD30 Hinged'))),
-                  DropdownMenuItem<String>(
-                      value: 'Sliding', child: Center(child: Text('Sliding'))),
-                  DropdownMenuItem<String>(
-                      value: 'BI-FOLD', child: Center(child: Text('BI-FOLD'))),
-                  DropdownMenuItem<String>(
-                      value: 'Fixed Window',
-                      child: Center(child: Text('Fixed Window'))),
-                  DropdownMenuItem<String>(
-                      value: 'Pocket Door Panel',
-                      child: Center(child: Text('Pocket Door Panel'))),
-                  DropdownMenuItem<String>(
-                      value: 'Various', child: Center(child: Text('Various'))),
-                  DropdownMenuItem<String>(
-                      value: 'External Doors',
-                      child: Center(child: Text('External Doors'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Product Type:',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: productType,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          productType = newValue ?? productType;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: '', child: Center(child: Text(''))),
+                        DropdownMenuItem<String>(
+                            value: 'Standard Hinged',
+                            child: Center(
+                                child: Text(
+                              'Standard Hinged',
+                              style: TextStyle(fontSize: 12),
+                            ))),
+                        DropdownMenuItem<String>(
+                            value: 'Sound Reduction',
+                            child: Center(
+                                child: Text('Sound Reduction',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'FD30 Hinged',
+                            child: Center(
+                                child: Text('FD30 Hinged',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Sliding',
+                            child: Center(
+                                child: Text('Sliding',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'BI-FOLD',
+                            child: Center(
+                                child: Text('BI-FOLD',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Fixed Window',
+                            child: Center(
+                                child: Text('Fixed Window',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Pocket Door Panel',
+                            child: Center(
+                                child: Text('Pocket Door Panel',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Various',
+                            child: Center(
+                                child: Text('Various',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'External Doors',
+                            child: Center(
+                                child: Text('External Doors',
+                                    style: TextStyle(fontSize: 12)))),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
               ),
+              const Text('Customer Name',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               FormBuilderTextField(
-                name: 'Customer Name',
+                name: 'cname',
                 controller: cname,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Name'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
+              const Text('Quotation Number',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               FormBuilderTextField(
-                name: 'Quotation_Number',
+                name: 'qnum',
                 controller: qnum,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Quotation Number'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'User',
-                style: TextStyle(color: Color(0xff941420)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'User: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  FutureBuilder<List<AllDealersModel>>(
+                      future: NetworkApiServices().getAllDealers(),
+                      builder: ((context, snapshot) {
+                        return Container(
+                          height: MediaQuery.sizeOf(context).height * 0.05,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(5.5),
+                              color: Colors.white),
+                          child: DropdownButton<String>(
+                            hint: Text('Select value'),
+                            alignment: Alignment.center,
+                            isExpanded: false,
+                            value: user,
+                            underline: SizedBox(),
+                            onChanged: (newValue) {
+                              user = newValue ?? "";
+                              setState(() {});
+                            },
+                            items: snapshot.data != null
+                                ? snapshot.data!.map((e) {
+                                    print("name present in API: ${e.name}");
+                                    return DropdownMenuItem(
+                                        value: e.name ?? "",
+                                        child: Center(
+                                            child: Text(
+                                          e.name ?? "",
+                                          style: TextStyle(fontSize: 10),
+                                        )));
+                                  }).toList()
+                                : [],
+                          ),
+                        );
+                      })),
+                ],
               ),
-              FutureBuilder<List<AllDealersModel>>(
-                  future: NetworkApiServices().getAllDealers(),
-                  builder: ((context, snapshot) {
-                    return DropdownButton<String>(
-                      hint: Text('Select value'),
-                      alignment: Alignment.center,
-                      isExpanded: true,
-                      value: user,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.grey,
-                      ),
-                      onChanged: (newValue) {
-                        user = newValue ?? "";
-                        setState(() {});
-                      },
-                      items: snapshot.data != null
-                          ? snapshot.data!.map((e) {
-                              print("name present in API: ${e.name}");
-                              return DropdownMenuItem(
-                                  value: e.name ?? "",
-                                  child: Center(child: Text(e.name ?? "")));
-                            }).toList()
-                          : [],
-                    );
-                  })),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'dealer',
@@ -220,22 +277,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Dealer'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Salesperson',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'salesperson',
@@ -243,159 +304,221 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Salesperson'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Use Dealer Address',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: useDealerAddress,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) async {
-                  // setState(() {
-                  //   useDealerAddress = newValue ?? useDealerAddress;
-                  // });
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Use Dealer Address: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: useDealerAddress,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) async {
+                        // setState(() {
+                        //   useDealerAddress = newValue ?? useDealerAddress;
+                        // });
 
-                  // if (useDealerAddress == "YES") {
-                  //   // Fetch data from API
-                  //   List<DealersModel> steelOrders = await NetworkApiServices()
-                  //       .getDealersList(context, widget.dealerId);
+                        // if (useDealerAddress == "YES") {
+                        //   // Fetch data from API
+                        //   List<DealersModel> steelOrders = await NetworkApiServices()
+                        //       .getDealersList(context, widget.dealerId);
 
-                  //   // Check if there's any data and update the salesperson.text
+                        //   // Check if there's any data and update the salesperson.text
 
-                  //   if (steelOrders.isNotEmpty) {
-                  //     salesperson.text = steelOrders[0].displayName!;
-                  //     address.text = steelOrders[0].dealerAddress1 ?? "";
-                  //     address2.text = steelOrders[0].dealerAddress2 ?? "";
-                  //     address3.text = steelOrders[0].dealerAddress3 ?? "";
-                  //     postcode.text = steelOrders[0].postCodeRegister ?? "";
-                  //   } else {
-                  //     salesperson.text =
-                  //         ""; // Set to empty if no data is available
-                  //   }
+                        //   if (steelOrders.isNotEmpty) {
+                        //     salesperson.text = steelOrders[0].displayName!;
+                        //     address.text = steelOrders[0].dealerAddress1 ?? "";
+                        //     address2.text = steelOrders[0].dealerAddress2 ?? "";
+                        //     address3.text = steelOrders[0].dealerAddress3 ?? "";
+                        //     postcode.text = steelOrders[0].postCodeRegister ?? "";
+                        //   } else {
+                        //     salesperson.text =
+                        //         ""; // Set to empty if no data is available
+                        //   }
 
-                  //   //print(model.steelDealerEmail);
-                  // } else {
-                  //   salesperson.text = "";
-                  // }
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'NO', child: Center(child: Text('NO'))),
-                  DropdownMenuItem<String>(
-                      value: 'YES', child: Center(child: Text('YES'))),
+                        //   //print(model.steelDealerEmail);
+                        // } else {
+                        //   salesperson.text = "";
+                        // }
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'NO',
+                            child: Center(
+                                child: Text('NO',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'YES',
+                            child: Center(
+                                child: Text('YES',
+                                    style: TextStyle(fontSize: 12)))),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'VAT Rate',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: vat,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    vat = newValue ?? vat;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: '', child: Center(child: Text(''))),
-                  DropdownMenuItem<String>(
-                      value: 'Standard 20%',
-                      child: Center(child: Text('Standard 20%'))),
-                  DropdownMenuItem<String>(
-                      value: 'Reduced 5%',
-                      child: Center(child: Text('Reduced 5%'))),
-                  DropdownMenuItem<String>(
-                      value: 'New Build 0%',
-                      child: Center(child: Text('New Build 0%'))),
-                  DropdownMenuItem<String>(
-                      value: 'Excempt 0%',
-                      child: Center(child: Text('Excempt 0%'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'VAT Rate: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: vat,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          vat = newValue ?? vat;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: '', child: Center(child: Text(''))),
+                        DropdownMenuItem<String>(
+                            value: 'Standard 20%',
+                            child: Center(
+                                child: Text('Standard 20%',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Reduced 5%',
+                            child: Center(
+                                child: Text('Reduced 5%',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'New Build 0%',
+                            child: Center(
+                                child: Text('New Build 0%',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Excempt 0%',
+                            child: Center(
+                                child: Text('Excempt 0%',
+                                    style: TextStyle(fontSize: 12)))),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Supply Type',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: supply,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    supply = newValue ?? supply;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: '', child: Center(child: Text(''))),
-                  DropdownMenuItem<String>(
-                      value: 'Supply Only',
-                      child: Center(child: Text('Supply Only'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation RKDS',
-                      child: Center(child: Text('Installation RKDS'))),
-                  DropdownMenuItem<String>(
-                      value: 'Survey Only',
-                      child: Center(child: Text('Survey Only'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation - CB',
-                      child: Center(child: Text('Installation - CB'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation Direct - CB',
-                      child: Center(child: Text('Installation Direct - CB'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation - PB',
-                      child: Center(child: Text('Installation - PB'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation Installation - PB',
-                      child: Center(
-                          child: Text('Installation Installation - PB'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation - Other',
-                      child: Center(child: Text('Installation - Other'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Supply Type: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: supply,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          supply = newValue ?? supply;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: '', child: Center(child: Text(''))),
+                        DropdownMenuItem<String>(
+                            value: 'Supply Only',
+                            child: Center(
+                                child: Text(
+                              'Supply Only',
+                              style: TextStyle(fontSize: 12),
+                            ))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation RKDS',
+                            child: Center(
+                                child: Text('Installation RKDS',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Survey Only',
+                            child: Center(
+                                child: Text('Survey Only',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation - CB',
+                            child: Center(
+                                child: Text('Installation - CB',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation Direct - CB',
+                            child: Center(
+                                child: Text('Installation Direct - CB',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation - PB',
+                            child: Center(
+                                child: Text('Installation - PB',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation Installation - PB',
+                            child: Center(
+                                child: Text('Installation Installation - PB',
+                                    style: TextStyle(fontSize: 12)))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation - Other',
+                            child: Center(
+                                child: Text('Installation - Other',
+                                    style: TextStyle(fontSize: 12)))),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Customer Address 1',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'address1',
@@ -403,22 +526,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address 1'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Customer Address 2',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'address2',
@@ -426,22 +553,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address 2'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Customer Address 3',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'address3',
@@ -449,22 +580,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address 3'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Delivery Post Code',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'postcode',
@@ -472,94 +607,130 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Delivery Post Code'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Colour',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: color,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    color = newValue ?? color;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: "", child: Center(child: Text(""))),
-                  DropdownMenuItem<String>(
-                      value: 'RAL 9005 MS',
-                      child: Center(child: Text('RAL 9005 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'RAL 9003 MS',
-                      child: Center(child: Text('RAL 9003 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'RAL 7021 MS',
-                      child: Center(child: Text('RAL 7021 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'RAL 7039 MS',
-                      child: Center(child: Text('RAL 7039 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'RAL 7022 MS',
-                      child: Center(child: Text('RAL 7022 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'DB703 MS',
-                      child: Center(child: Text('DB703 MS'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation Installation - PB',
-                      child: Center(
-                          child: Text('Installation Installation - PB'))),
-                  DropdownMenuItem<String>(
-                      value: 'CUSTOM COLOUR',
-                      child: Center(child: Text('CUSTOM COLOUR'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Colour: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    child: Container(
+                      height: MediaQuery.sizeOf(context).height * 0.05,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(5.5),
+                          color: Colors.white),
+                      child: DropdownButton<String>(
+                        alignment: Alignment.center,
+                        isExpanded: false,
+                        value: color,
+                        underline: SizedBox(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            color = newValue ?? color;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem<String>(
+                              value: "", child: Center(child: Text(""))),
+                          DropdownMenuItem<String>(
+                              value: 'RAL 9005 MS',
+                              child: Center(
+                                  child: Text(
+                                'RAL 9005 MS',
+                                style: TextStyle(fontSize: 12),
+                              ))),
+                          DropdownMenuItem<String>(
+                              value: 'RAL 9003 MS',
+                              child: Center(
+                                  child: Text('RAL 9003 MS',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'RAL 7021 MS',
+                              child: Center(
+                                  child: Text('RAL 7021 MS',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'RAL 7039 MS',
+                              child: Center(
+                                  child: Text('RAL 7039 MS',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'RAL 7022 MS',
+                              child: Center(
+                                  child: Text('RAL 7022 MS',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'DB703 MS',
+                              child: Center(
+                                  child: Text('DB703 MS',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'Installation Installation - PB',
+                              child: Center(
+                                  child: Text('Installation Installation - PB',
+                                      style: TextStyle(fontSize: 12)))),
+                          DropdownMenuItem<String>(
+                              value: 'CUSTOM COLOUR',
+                              child: Center(
+                                  child: Text('CUSTOM COLOUR',
+                                      style: TextStyle(fontSize: 12)))),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Customer Address (if different from above)',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'address_diff',
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address (if different to above)'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Frame Size',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'frame',
@@ -567,22 +738,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Frame Size'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Customer Email',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'email',
@@ -590,119 +765,141 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Email'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
+              const Text('Customer Tel Number',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               FormBuilderTextField(
-                name: 'telephone',
+                name: 'tel',
                 controller: telephone,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Tel Number'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
+              const Text('Total Order Value (incl. VAT)',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               FormBuilderTextField(
-                name: 'total_order',
+                name: 'totalValue',
                 controller: totalOrderValue,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Total Order Value (incl. VAT)'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Discount',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: discount,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    discount = newValue ?? discount;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: "", child: Center(child: Text(""))),
-                  DropdownMenuItem<String>(
-                      value: '0', child: Center(child: Text('0%'))),
-                  DropdownMenuItem<String>(
-                      value: '5', child: Center(child: Text('5%'))),
-                  DropdownMenuItem<String>(
-                      value: '10', child: Center(child: Text('10%'))),
-                  DropdownMenuItem<String>(
-                      value: '15', child: Center(child: Text('15%'))),
-                  DropdownMenuItem<String>(
-                      value: '20', child: Center(child: Text('20%'))),
-                  DropdownMenuItem<String>(
-                      value: '25', child: Center(child: Text('25%'))),
-                  DropdownMenuItem<String>(
-                      value: '30', child: Center(child: Text('30%'))),
-                  DropdownMenuItem<String>(
-                      value: '35', child: Center(child: Text('35%'))),
-                  DropdownMenuItem<String>(
-                      value: '40', child: Center(child: Text('40%'))),
-                  DropdownMenuItem<String>(
-                      value: '45', child: Center(child: Text('45%'))),
-                  DropdownMenuItem<String>(
-                      value: '50', child: Center(child: Text('50%'))),
-                  DropdownMenuItem<String>(
-                      value: '60', child: Center(child: Text('60%'))),
-                  DropdownMenuItem<String>(
-                      value: 'other', child: Center(child: Text('other'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Discount: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: discount,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          discount = newValue ?? discount;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: "", child: Center(child: Text(""))),
+                        DropdownMenuItem<String>(
+                            value: '0', child: Center(child: Text('0%'))),
+                        DropdownMenuItem<String>(
+                            value: '5', child: Center(child: Text('5%'))),
+                        DropdownMenuItem<String>(
+                            value: '10', child: Center(child: Text('10%'))),
+                        DropdownMenuItem<String>(
+                            value: '15', child: Center(child: Text('15%'))),
+                        DropdownMenuItem<String>(
+                            value: '20', child: Center(child: Text('20%'))),
+                        DropdownMenuItem<String>(
+                            value: '25', child: Center(child: Text('25%'))),
+                        DropdownMenuItem<String>(
+                            value: '30', child: Center(child: Text('30%'))),
+                        DropdownMenuItem<String>(
+                            value: '35', child: Center(child: Text('35%'))),
+                        DropdownMenuItem<String>(
+                            value: '40', child: Center(child: Text('40%'))),
+                        DropdownMenuItem<String>(
+                            value: '45', child: Center(child: Text('45%'))),
+                        DropdownMenuItem<String>(
+                            value: '50', child: Center(child: Text('50%'))),
+                        DropdownMenuItem<String>(
+                            value: '60', child: Center(child: Text('60%'))),
+                        DropdownMenuItem<String>(
+                            value: 'other',
+                            child: Center(child: Text('other'))),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Delivery Cost',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'del_cost',
@@ -710,22 +907,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Delivery Cost'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Total Weight',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'weight',
@@ -733,22 +934,26 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Total Weight'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
+              ),
+              const Text('Net Order Value',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
               ),
               FormBuilderTextField(
                 name: 'netValue',
@@ -757,40 +962,54 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Net Order Value'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Color.fromARGB(255, 246, 245, 245),
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
               const Text('File Upload',
                   style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 children: [
-                  RoundButton(
-                    onTap: () {
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xff941420)),
+                    ),
+                    icon: Icon(
+                      Icons.cloud_upload_outlined,
+                      size: 19,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Browse',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
                       getImage();
                     },
-                    text: 'Choose File',
-                    color: Color(0xff941420),
-                    width: MediaQuery.sizeOf(context).width * 0.25,
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.sizeOf(context).width * 0.70),
                     child: Text(
-                      _image?.path ?? "",
+                      _image != null && _image!.path.isNotEmpty
+                          ? "File Uploaded"
+                          : "",
                       textAlign: TextAlign.end,
                     ),
                   ),

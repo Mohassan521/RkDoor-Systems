@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:image_picker/image_picker.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
@@ -8,7 +7,6 @@ import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/quoteAnalysis.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
 import 'package:price_link/screens/pdfViewer.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +18,8 @@ class AllDoorOrdersTable extends StatefulWidget {
   final String? dealerName;
   final String? role;
 
-  const AllDoorOrdersTable({super.key, this.dealerId, this.dealerName, this.role});
+  const AllDoorOrdersTable(
+      {super.key, this.dealerId, this.dealerName, this.role});
 
   @override
   State<AllDoorOrdersTable> createState() => _AllDoorOrdersTableState();
@@ -48,7 +47,7 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
     NetworkApiServices apiServices = NetworkApiServices();
 
     return FutureBuilder(
-      future: apiServices.getOrdersList(widget.dealerId!,""),
+      future: apiServices.getOrdersList(widget.dealerId!, ""),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('${snapshot.error}');
@@ -58,197 +57,203 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
 
         list = snapshot.data ?? [];
 
-
         List<OrdersModel> filteredList =
             Provider.of<AllEntranceDoorOrderSearchedData>(context)
                 .filteredDataModel;
         List<OrdersModel>? displayData =
             filteredList.isNotEmpty ? filteredList : list;
 
-        return Consumer<PaginationProvider>(builder: (context, value, child) {
+        return Consumer(builder: (context, value, child) {
           return PaginatedDataTable(
+              showEmptyRows: false,
+              headingRowHeight: 48,
+              dataRowMaxHeight: 48,
+              columnSpacing: 20,
               rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
                   ? 5
                   : (list!.isEmpty)
                       ? 1
                       : list!.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
+              // headingRowColor:
+              //     MaterialStateProperty.resolveWith((states) => Colors.white),
+              columns: <DataColumn>[
                 DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
+                  label: Text(
+                    'Customer Name',
+                    style: TextStyle(
+                      color: Color(0xff941420),
+                    ),
+                  ),
+                ),
                 DataColumn(
                     label: Text(
                   'Quotation Number',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Dealer',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Quote Created By',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Factory Order No.',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Order Status',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Payment Status',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Order Confirmation',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Quick PDF Quotation',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Anticipated Delivery Date',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Invoices',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Balance Due',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Delivery Note',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Profile',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Door Model',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Marine Grade Finish',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Frame Size',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Goalpost Construction',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Overall Weight',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Threshold Type',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Keyless access',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Customer Tel No.',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Customer Email',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Post Code',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Quote ID',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Date',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Time',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Total Quote Value',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Follow up Date',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Follow up Made',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Financial History',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Notes',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   'Order Date History',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
                 DataColumn(
                     label: Text(
                   '',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color(0xff941420)),
                 )),
               ],
               source: MyData(displayData!, _dateTime, widget.dealerId,
@@ -299,45 +304,54 @@ class MyData extends DataTableSource {
     String fileExtension = extension(filePath).toLowerCase();
 
     List<dynamic> invoicesDocuments = result.invoicesDocuments ?? [];
-    String invoiceFilePath = invoicesDocuments.isNotEmpty ? invoicesDocuments.last : '';
+    String invoiceFilePath =
+        invoicesDocuments.isNotEmpty ? invoicesDocuments.last : '';
     String invoiceFileExtension = extension(invoiceFilePath).toLowerCase();
 
     // print(invoiceFileExtension);
 
     List<dynamic> deliveryDocuments = result.deliveryDocuments ?? [];
-    String ddFilePath = deliveryDocuments.isNotEmpty ? deliveryDocuments.first : '';
+    String ddFilePath =
+        deliveryDocuments.isNotEmpty ? deliveryDocuments.first : '';
     String ddFileExtension = extension(ddFilePath).toLowerCase();
 
     print('delivery doc file ext: $ddFileExtension');
 
     //Widget selectedTable = determineTable(result, dealerId!);
     showImageDialog(BuildContext context, String imageUrl) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        insetPadding: EdgeInsets.all(9),
-        content: SizedBox(
-          height: 200.0, // Set the height as needed
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.fill,
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-      ),
-    );
-  }
-
+      );
+    }
 
     return DataRow.byIndex(
+      color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.name ?? "")),
-        DataCell(Text(result.quotationNumber ?? "")),
-        DataCell(Text(dealerData.dealerName ?? "")),
-        DataCell(Text(dealerName ?? "")),
-        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "")),
+        DataCell(Text(
+          result.name ?? "",
+          style: TextStyle(fontWeight: FontWeight.w400),
+        )),
+        DataCell(Text(result.quotationNumber ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(dealerData.dealerName ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(dealerName ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -369,16 +383,18 @@ class MyData extends DataTableSource {
                                                           : Color(0xff7092bf),
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.40,
+              width: MediaQuery.sizeOf(context).width * 0.33,
               child: Center(
                   child: Text(
-                    
                 result.orderStatusVal!,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 8,
+                    fontWeight: FontWeight.w600),
               )));
         })),
-        
+
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -386,11 +402,14 @@ class MyData extends DataTableSource {
                       ? Colors.yellow
                       : result.orderPaymentStatusVal == "Deposit Received"
                           ? Color(0xffffd5cd)
-                          : result.orderPaymentStatusVal == "Awaiting Survey Fee"
+                          : result.orderPaymentStatusVal ==
+                                  "Awaiting Survey Fee"
                               ? Color(0xffbde2fd)
-                              : result.orderPaymentStatusVal == "Survey Fee Received"
+                              : result.orderPaymentStatusVal ==
+                                      "Survey Fee Received"
                                   ? Color(0xffd2ecbd)
-                                  : result.orderPaymentStatusVal == "Awaiting Balance"
+                                  : result.orderPaymentStatusVal ==
+                                          "Awaiting Balance"
                                       ? Color(0xffffe8a1)
                                       : result.orderPaymentStatusVal ==
                                               "Balance Paid"
@@ -398,80 +417,85 @@ class MyData extends DataTableSource {
                                           : result.orderPaymentStatusVal ==
                                                   "Awaiting Install Payment"
                                               ? Color(0xfffbd0ca)
-                                              : result.orderPaymentStatusVal == "All Invoices Paid"
-                                                  ? Color(0xff0d714b) : Colors.yellow,
+                                              : result.orderPaymentStatusVal ==
+                                                      "All Invoices Paid"
+                                                  ? Color(0xff0d714b)
+                                                  : Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.22,
               child: Center(
                   child: Text(
                 result.orderPaymentStatusVal!,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 8,
+                    fontWeight: FontWeight.w600),
               )));
         })),
         DataCell(
-        result.documents!.isNotEmpty
-            ? Center(
-                child: Row(
-                  children: [
-                    // Create icons for each file
-                    for (var file in result.documents!)
-                      InkWell(
-                        onTap: () {
-                          String fileExtension = extension(file).toLowerCase();
-                          if (fileExtension == ".pdf") {
-                            print(file);
-                            Navigator.push(
-                              myGlobalBuildContext,
-                              MaterialPageRoute(
-                                builder: (context) => PDFViewer(url: file),
-                              ),
-                            );
-                          } else if (fileExtension == ".jpg" ||
-                              fileExtension == ".jpeg" ||
-                              fileExtension == ".png") {
-                            print(file);
-                            showImageDialog(myGlobalBuildContext, file);
-                          } else {
-                            print(file);
-                            Utils().showToast(
-                              'File Format not supported',
-                              Color(0xff941420),
-                              Colors.white,
-                            );
-                          }
-                        },
-                        child: Icon(
-                          (fileExtension == '.jpg' ||
-                                  fileExtension == '.jpeg' ||
-                                  fileExtension == '.png')
-                              ? Icons.file_open
-                              : (fileExtension == '.pdf')
-                                  ? Icons.picture_as_pdf
-                                  : Icons.file_present,
-                          size: 21,
-                          color: Colors.blue,
+          result.documents!.isNotEmpty
+              ? Center(
+                  child: Row(
+                    children: [
+                      // Create icons for each file
+                      for (var file in result.documents!)
+                        InkWell(
+                          onTap: () {
+                            String fileExtension =
+                                extension(file).toLowerCase();
+                            if (fileExtension == ".pdf") {
+                              print(file);
+                              Navigator.push(
+                                myGlobalBuildContext,
+                                MaterialPageRoute(
+                                  builder: (context) => PDFViewer(url: file),
+                                ),
+                              );
+                            } else if (fileExtension == ".jpg" ||
+                                fileExtension == ".jpeg" ||
+                                fileExtension == ".png") {
+                              print(file);
+                              showImageDialog(myGlobalBuildContext, file);
+                            } else {
+                              print(file);
+                              Utils().showToast(
+                                'File Format not supported',
+                                Color(0xff941420),
+                                Colors.white,
+                              );
+                            }
+                          },
+                          child: Icon(
+                            (fileExtension == '.jpg' ||
+                                    fileExtension == '.jpeg' ||
+                                    fileExtension == '.png')
+                                ? Icons.file_open
+                                : (fileExtension == '.pdf')
+                                    ? Icons.picture_as_pdf
+                                    : Icons.file_present,
+                            size: 21,
+                            color: Colors.blue,
+                          ),
                         ),
-                        
-                      ),
-                  ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
-
+                    ],
+                  ),
+                )
+              : Center(child: Text('')),
+        ),
 
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
-        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "")),
+        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: Colors.yellow,
+                  color: result.anticipatedDateVal != ""
+                      ? Colors.yellow
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.28,
               child: Center(
                   child: Text(
                 result.anticipatedDateVal ?? "",
@@ -481,121 +505,122 @@ class MyData extends DataTableSource {
         // DataCell(Text(
         //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
         DataCell(
-        result.invoicesDocuments!.isNotEmpty
-            ? Center(
-                child: Row(
-                  children: [
-                    // Create icons for each file
-                    for (var file in result.invoicesDocuments!)
-                      InkWell(
-                        onTap: () {
-                          String fileExtension = extension(file).toLowerCase();
-                          if (fileExtension == ".pdf") {
-                            print(file);
-                            Navigator.push(
-                              myGlobalBuildContext,
-                              MaterialPageRoute(
-                                builder: (context) => PDFViewer(url: file),
-                              ),
-                            );
-                          } else if (fileExtension == ".jpg" ||
-                              fileExtension == ".jpeg" ||
-                              fileExtension == ".png") {
-                            print(file);
-                            showImageDialog(myGlobalBuildContext, file);
-                          } else {
-                            print(file);
-                            Utils().showToast(
-                              'File Format not supported',
-                              Color(0xff941420),
-                              Colors.white,
-                            );
-                          }
-                        },
-                        child: Icon(
-                          (invoiceFileExtension == '.jpg' ||
-                                  invoiceFileExtension == '.jpeg' ||
-                                  invoiceFileExtension == '.png')
-                              ? Icons.file_open
-                              : (invoiceFileExtension == '.pdf')
-                                  ? Icons.picture_as_pdf
-                                  : Icons.file_present,
-                          size: 21,
-                          color: Colors.blue,
+          result.invoicesDocuments!.isNotEmpty
+              ? Center(
+                  child: Row(
+                    children: [
+                      // Create icons for each file
+                      for (var file in result.invoicesDocuments!)
+                        InkWell(
+                          onTap: () {
+                            String fileExtension =
+                                extension(file).toLowerCase();
+                            if (fileExtension == ".pdf") {
+                              print(file);
+                              Navigator.push(
+                                myGlobalBuildContext,
+                                MaterialPageRoute(
+                                  builder: (context) => PDFViewer(url: file),
+                                ),
+                              );
+                            } else if (fileExtension == ".jpg" ||
+                                fileExtension == ".jpeg" ||
+                                fileExtension == ".png") {
+                              print(file);
+                              showImageDialog(myGlobalBuildContext, file);
+                            } else {
+                              print(file);
+                              Utils().showToast(
+                                'File Format not supported',
+                                Color(0xff941420),
+                                Colors.white,
+                              );
+                            }
+                          },
+                          child: Icon(
+                            (invoiceFileExtension == '.jpg' ||
+                                    invoiceFileExtension == '.jpeg' ||
+                                    invoiceFileExtension == '.png')
+                                ? Icons.file_open
+                                : (invoiceFileExtension == '.pdf')
+                                    ? Icons.picture_as_pdf
+                                    : Icons.file_present,
+                            size: 21,
+                            color: Colors.blue,
+                          ),
                         ),
-                        
-                      ),
-                  ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
+                    ],
+                  ),
+                )
+              : Center(child: Text('')),
+        ),
 
-        DataCell(Text(result.balDueBeforeDelivery ?? "")),
+        DataCell(Text(result.balDueBeforeDelivery ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         // DataCell(Text(
         //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(
-        result.deliveryDocuments!.isNotEmpty
-            ? Center(
-                child: Row(
-                  children: [
-                    // Create icons for each file
-                    for (var file in result.deliveryDocuments!)
-                      InkWell(
-                        onTap: () {
-                          String fileExtension = extension(file).toLowerCase();
-                          if (fileExtension == ".pdf") {
-                            print(file);
-                            Navigator.push(
-                              myGlobalBuildContext,
-                              MaterialPageRoute(
-                                builder: (context) => PDFViewer(url: file),
-                              ),
-                            );
-                          } else if (fileExtension == ".jpg" ||
-                              fileExtension == ".jpeg" ||
-                              fileExtension == ".png") {
-                            print(file);
-                            showImageDialog(myGlobalBuildContext, file);
-                          } else {
-                            print(file);
-                            Utils().showToast(
-                              'File Format not supported',
-                              Color(0xff941420),
-                              Colors.white,
-                            );
-                          }
-                        },
-                        child: Icon(
-                          (ddFileExtension == '.jpg' ||
-                                  ddFileExtension == '.jpeg' ||
-                                  ddFileExtension == '.png')
-                              ? Icons.file_open
-                              : (ddFileExtension == '.pdf')
-                                  ? Icons.picture_as_pdf
-                                  : Icons.file_present,
-                          size: 21,
-                          color: Colors.blue,
+          result.deliveryDocuments!.isNotEmpty
+              ? Center(
+                  child: Row(
+                    children: [
+                      // Create icons for each file
+                      for (var file in result.deliveryDocuments!)
+                        InkWell(
+                          onTap: () {
+                            String fileExtension =
+                                extension(file).toLowerCase();
+                            if (fileExtension == ".pdf") {
+                              print(file);
+                              Navigator.push(
+                                myGlobalBuildContext,
+                                MaterialPageRoute(
+                                  builder: (context) => PDFViewer(url: file),
+                                ),
+                              );
+                            } else if (fileExtension == ".jpg" ||
+                                fileExtension == ".jpeg" ||
+                                fileExtension == ".png") {
+                              print(file);
+                              showImageDialog(myGlobalBuildContext, file);
+                            } else {
+                              print(file);
+                              Utils().showToast(
+                                'File Format not supported',
+                                Color(0xff941420),
+                                Colors.white,
+                              );
+                            }
+                          },
+                          child: Icon(
+                            (ddFileExtension == '.jpg' ||
+                                    ddFileExtension == '.jpeg' ||
+                                    ddFileExtension == '.png')
+                                ? Icons.file_open
+                                : (ddFileExtension == '.pdf')
+                                    ? Icons.picture_as_pdf
+                                    : Icons.file_present,
+                            size: 21,
+                            color: Colors.blue,
+                          ),
                         ),
-                        
-                      ),
-                  ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
+                    ],
+                  ),
+                )
+              : Center(child: Text('')),
+        ),
 
-        DataCell(Text(result.profile ?? "")),
-        DataCell(Text(result.doorModel ?? "")),
+        DataCell(Text(result.profile ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.doorModel ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.marineGradeVal == "YES" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  color: result.marineGradeVal == "YES"
+                      ? Color(0xff9ad9ea)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
               width: MediaQuery.sizeOf(context).width * 0.35,
@@ -606,44 +631,69 @@ class MyData extends DataTableSource {
               )));
         })),
 
-        DataCell(Text(result.frameSizeHeightWidth ?? "")),
+        DataCell(Text(result.frameSizeHeightWidth ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         //DataCell(Text(result.lhGoalPostE44 ?? "")),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.lhGoalPostE44 == "YES" ? const Color.fromARGB(255, 200, 197, 169) : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(5.5)),
+                  color: result.lhGoalPostE44 == "YES"
+                      ? const Color.fromARGB(255, 200, 197, 169)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.18,
               child: Center(
                   child: Text(
                 result.lhGoalPostE44 ?? "",
                 style: TextStyle(color: Colors.black),
               )));
         })),
- 
-        DataCell(Text(result.totalWeightKg ?? "")),
+
+        DataCell(Text(result.totalWeightKg ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 225MM WIDE" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  color: result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 225MM WIDE"
+                      ? Color(0xff9ad9ea)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.33,
               child: Center(
                   child: Text(
                 result.thresholdType ?? "",
-                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 8,
+                    fontWeight: FontWeight.w600),
               )));
         })),
-        DataCell(Text(result.ekeylessAccess ?? "")),
-        DataCell(Text(result.telephoneNumber ?? "")),
-        DataCell(Text(result.customerEmail ?? "")),
-        DataCell(Text(result.dileveryPostCodeC13 ?? "")),
-        DataCell(Text(result.id ?? "")),
-        DataCell(Text(result.date ?? "")),
-        DataCell(Text(result.time ?? "")),
-        DataCell(Text(result.wholeTotal ?? "")),
+        DataCell(Text(result.ekeylessAccess ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.telephoneNumber ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.customerEmail ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.dileveryPostCodeC13 ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.id ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.date ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.time ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.wholeTotal ?? "",
+            style: TextStyle(fontWeight: FontWeight.w400))),
         DataCell(Consumer<FollowUpOrderDate>(
           builder: (context, value, child) {
             return Row(
@@ -712,6 +762,7 @@ class MyData extends DataTableSource {
         //DataCell(Text(result.orderFinHisNoteBox ?? "")),
         //DataCell(Text(result.customNotes ?? "")),
         DataCell(RoundButton(
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
           text: 'Financial History',
           onTap: () {
             Navigator.push(
@@ -726,6 +777,7 @@ class MyData extends DataTableSource {
           color: Colors.blue,
         )),
         DataCell(RoundButton(
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.22,
           text: 'Notes',
           onTap: () async {
             orderNotesController.text = result.notes!;
@@ -800,20 +852,22 @@ class MyData extends DataTableSource {
           color: Colors.blue,
         )),
         DataCell(RoundButton(
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
           text: 'Quote Analysis',
           onTap: () {
             Navigator.push(
                 myGlobalBuildContext,
                 MaterialPageRoute(
                     builder: (context) => OrdersQuoteAnalysis(
-                      dealerId: dealerId,
-                      quoteId: result.id,
-                    )));
+                          dealerId: dealerId,
+                          quoteId: result.id,
+                        )));
           },
           color: Colors.blue,
         )),
 
-        DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}')),
+        DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}',
+            style: TextStyle(fontWeight: FontWeight.w500))),
         DataCell(Text(""))
         // DataCell(Row(
         //   children: [

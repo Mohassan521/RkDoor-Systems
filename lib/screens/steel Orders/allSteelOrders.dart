@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/allSteelOrders.dart';
 import 'package:price_link/components/tables/allSteelOrderTable.dart';
 import 'package:price_link/models/steelOrderModel.dart';
@@ -27,8 +26,7 @@ class AllSteelOrders extends StatefulWidget {
 class _AllSteelOrdersState extends State<AllSteelOrders> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<SteelOrderModel>? newData =
-        await apiServices.allSteelOrders(context, widget.dealer_id);
+    await apiServices.allSteelOrders(context, widget.dealer_id);
 
     // Update the UI with the new data
     setState(() {});
@@ -65,8 +63,13 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    Provider.of<AllSteelOrdersData>(context, listen: false)
-                        .getAllData(context, widget.dealer_id, value);
+                    if (widget.role == "dealer" || widget.role == "employee") {
+                      Provider.of<AllSteelOrdersData>(context, listen: false)
+                          .getAllData(context, widget.dealer_id, value);
+                    } else if (widget.role == "admin") {
+                      Provider.of<AllSteelOrdersData>(context, listen: false)
+                          .getAllDataForAdmin(context, widget.dealer_id, value);
+                    }
                   },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),

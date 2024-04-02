@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/tables/adminTables/ankaTable.dart';
 import 'package:price_link/components/tables/adminTables/enquiryAllocationTable.dart';
-import 'package:price_link/components/tables/adminTables/orderAllocationTable.dart';
-import 'package:price_link/components/tables/adminTables/queueAllocationTable.dart';
 import 'package:provider/provider.dart';
 
 class EnquiryAllocation extends StatefulWidget {
@@ -45,8 +42,8 @@ class _EnquiryAllocationState extends State<EnquiryAllocation> {
               child: TextFormField(
                 onChanged: (value) {
                   Provider.of<AllEnquiriesSearchedDataForAdmin>(context,
-                              listen: false)
-                          .getAllData(widget.dealerId!, value);
+                          listen: false)
+                      .getAllData(widget.dealerId!, value);
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5),

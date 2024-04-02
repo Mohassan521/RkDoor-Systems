@@ -49,7 +49,7 @@ class _SteelDeliveredState extends State<SteelDelivered> {
             height: 18,
           ),
           Container(
-              width: MediaQuery.of(context).size.width * 0.75,
+              padding: EdgeInsets.only(left: 20.0, right: 20),
               child: TextFormField(
                 onChanged: (value) {
                   Provider.of<AllSteelOrdersData>(context, listen: false)
@@ -84,8 +84,7 @@ class _SteelDeliveredState extends State<SteelDelivered> {
                         : widget.dealerId,
                     dealerName: widget.dealerName,
                     role: widget.role,
-                    empId: widget.empId
-                  ),
+                    empId: widget.empId),
           ),
         ],
       ),

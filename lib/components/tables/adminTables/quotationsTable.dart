@@ -62,142 +62,137 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
         List<CompleteResponse>? displayData =
             filteredList.isNotEmpty ? filteredList : list;
 
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: 5,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Username',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value (inc. VAT)',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Installation Cost',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Cost',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Level of Discount',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Sale Bonus',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow Up Made',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Survey Form',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(
-                displayData,
-                widget.dealerId,
-                dealerName: widget.dealerName!,
-                context: context,
-                datetime: _dateTime,
-                showDatePickerCallback: _showDatePicker,
+        return PaginatedDataTable(
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            showEmptyRows: false,
+            rowsPerPage: 5,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
               )),
-        );
+              DataColumn(
+                  label: Text(
+                'Username',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote ID',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Tel No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Quote Value (inc. VAT)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Installation Cost',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Cost',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Level of Discount',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Sale Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow Up Made',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote Analysis',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Survey Form',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(
+              displayData,
+              widget.dealerId,
+              dealerName: widget.dealerName!,
+              context: context,
+              datetime: _dateTime,
+              showDatePickerCallback: _showDatePicker,
+            ));
       },
     );
   }
@@ -280,6 +275,7 @@ class MyData extends DataTableSource {
         if (currentIndex == index) {
           return DataRow.byIndex(
             index: index,
+            color: MaterialStatePropertyAll(Colors.white),
             cells: [
               DataCell(Text(quote.name ?? "")),
               DataCell(Text(dealerData.displayName ?? "")),
@@ -334,7 +330,7 @@ class MyData extends DataTableSource {
                     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                     child: Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.sizeOf(context).width * 0.4,
+                      width: MediaQuery.sizeOf(context).width * 0.3,
                       decoration: BoxDecoration(
                           color: quote.orderFUpQVal == "YES"
                               ? Color(0Xff008000)
@@ -390,14 +386,16 @@ class MyData extends DataTableSource {
 
               DataCell(RoundButton(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuoteAnalysisForAdmin(
-            dealerId: dealerData.userId.toString(),
-            quoteId: quote.id,
-          )));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => QuoteAnalysisForAdmin(
+                                dealerId: dealerData.userId.toString(),
+                                quoteId: quote.id,
+                              )));
                 },
                 text: "Quote Analysis",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.33,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -482,24 +480,22 @@ class MyData extends DataTableSource {
                           ));
                 },
                 text: "Notes",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.22,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Survey Form",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.26,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
                 onTap: () {
-                  NetworkApiServices().createOrder(dealerData.userId.toString(), quote.id!);
+                  NetworkApiServices()
+                      .createOrder(dealerData.userId.toString(), quote.id!);
                 },
                 text: "Create Order",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.27,
                 color: Colors.blue,
               )),
               DataCell(Row(
@@ -507,66 +503,73 @@ class MyData extends DataTableSource {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CalculatorWebView(
-                        dealerId: dealerId!,
-                          url:
-                              'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_id=${quote.id}&mobile_token=true')));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CalculatorWebView(
+                                  dealerId: dealerId!,
+                                  url:
+                                      'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerData.userId}&cal_id=${quote.id}&mobile_token=true')));
                     },
                     child: Icon(
                       Icons.edit,
                       size: 14,
                     ),
                   ),
+                  SizedBox(
+                    width: 12,
+                  ),
                   InkWell(
                     onTap: () {
-                      NetworkApiServices().duplicateQuotes(dealerData.userId.toString(), quote.id!);
+                      NetworkApiServices().duplicateQuotes(
+                          dealerData.userId.toString(), quote.id!);
                     },
                     child: Icon(
                       Icons.copy,
                       size: 14,
                     ),
                   ),
+                  SizedBox(
+                    width: 12,
+                  ),
                   InkWell(
                     onTap: () {
                       showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Icon(Icons.warning),
-                      content:
-                          Text('Are u sure you want to delete this quotation'),
-                      actions: [
-                        Center(
-                          child: Column(
-                            children: [
-                              RoundButton(
-                                text: 'Delete',
-                                onTap: () {
-                                  NetworkApiServices().deleteQuotes(
-                                      dealerData.userId.toString(), quote.id!);
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RoundButton(
-                                text: 'Cancel',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  });
-
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Icon(Icons.warning),
+                              content: Text(
+                                  'Are u sure you want to delete this quotation'),
+                              actions: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      RoundButton(
+                                        text: 'Delete',
+                                        onTap: () {
+                                          NetworkApiServices().deleteQuotes(
+                                              dealerData.userId.toString(),
+                                              quote.id!);
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      RoundButton(
+                                        text: 'Cancel',
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          });
                     },
                     child: Icon(
                       Icons.delete,

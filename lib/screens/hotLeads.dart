@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/hotLeads.dart';
 import 'package:price_link/components/tables/hotLeadsTable.dart';
-import 'package:provider/provider.dart';
 
 class HotLeads extends StatefulWidget {
   final String dealerId;
@@ -23,9 +20,6 @@ class HotLeads extends StatefulWidget {
 }
 
 class _HotLeadsState extends State<HotLeads> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

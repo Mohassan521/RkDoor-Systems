@@ -422,7 +422,7 @@ class NetworkApiServices {
         return OrdersModel.fromJson(data);
       }).toList();
 
-      orders.sort((a,b){
+      orders.sort((a, b) {
         DateTime adate = DateTime.parse(a.date!);
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
@@ -469,7 +469,7 @@ class NetworkApiServices {
         return QuotationsModel.fromJson(data);
       }).toList();
 
-      quotes.sort((a,b) {
+      quotes.sort((a, b) {
         DateTime adate = DateTime.parse(a.date!);
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
@@ -495,7 +495,7 @@ class NetworkApiServices {
         return SteelOrderModel.fromJson(data);
       }).toList();
 
-      steelOrders.sort((a,b){
+      steelOrders.sort((a, b) {
         DateTime adate = DateTime.parse(a.date!);
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
@@ -1779,7 +1779,7 @@ class NetworkApiServices {
 //     data.forEach((key, value) {
 //       // Extract quotes array from each object
 //       List<dynamic> quotesData = value['quotes'];
-      
+
 //       // Convert quotesData into a list of Quote objects
 //       List<AdminQuotesModel> quotesList = quotesData.map((quoteData) => AdminQuotesModel.fromJson(quoteData)).toList();
 
@@ -1815,7 +1815,7 @@ class NetworkApiServices {
 //     data.forEach((key, value) {
 //       // Create a CompleteResponse object from each entry in the data map
 //       CompleteResponse completeResponse = CompleteResponse.fromJson(value);
-      
+
 //       // Sort the quotes within each CompleteResponse object based on date
 //       completeResponse.quotes.sort((a, b) {
 //         DateTime aDate = DateTime.parse(a.date ?? "");
@@ -1840,8 +1840,6 @@ class NetworkApiServices {
 //   }
 // }
 
-
-
   Future<List<CompleteResponse>> getAdminQuotes() async {
     final apiUrl =
         "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_quotes/1";
@@ -1849,27 +1847,57 @@ class NetworkApiServices {
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+
       List<CompleteResponse> quotes = [];
+
       data.forEach((key, value) {
         CompleteResponse completeResponse = CompleteResponse.fromJson(value);
-      
-      // Sort the quotes array within each CompleteResponse by date in descending order
-      completeResponse.quotes.sort((a, b) =>
-          DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
-      
-      quotes.add(completeResponse);
+
+        completeResponse.quotes.sort((a, b) =>
+            DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
+
+        quotes.add(completeResponse);
       });
 
+      quotes.forEach((element) {
+        element.quotes.sort((a, b) {
+          DateTime aDate = DateTime.parse(a.date!);
+          DateTime bDate = DateTime.parse(b.date!);
+          return bDate.compareTo(aDate);
+        });
+      });
+
+      // Now, apply secondary sorting to maintain original order for quotes with equal dates
+      quotes.forEach((element) {
+        element.quotes.sort((a, b) {
+          DateTime aDate = DateTime.parse(a.date!);
+          DateTime bDate = DateTime.parse(b.date!);
+
+          // Compare dates first
+          int dateComparison = bDate.compareTo(aDate);
+          if (dateComparison != 0) {
+            return dateComparison;
+          } else {
+            return element.quotes
+                .indexOf(a)
+                .compareTo(element.quotes.indexOf(b));
+          }
+        });
+      });
+
+      // Sort the quotes list based on the creation date of the first quote in each CompleteResponse object
       quotes.sort((a, b) {
-       DateTime aDate = a.quotes.isNotEmpty ? DateTime.parse(a.quotes.first.date ?? "") : DateTime.now();
-       DateTime bDate = b.quotes.isNotEmpty ? DateTime.parse(b.quotes.first.date ?? "") : DateTime.now();
-       return bDate.compareTo(aDate);
+        DateTime aDate = a.quotes.isNotEmpty
+            ? DateTime.parse(a.quotes.first.date ?? "")
+            : DateTime.now();
+
+        DateTime bDate = b.quotes.isNotEmpty
+            ? DateTime.parse(b.quotes.first.date!)
+            : DateTime.now();
+        return bDate.compareTo(aDate);
       });
-
-
 
       return quotes;
-      //return quotes;
     } else {
       throw Exception('Failed to load quotes');
     }
@@ -1884,31 +1912,32 @@ class NetworkApiServices {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 
-    List<OrdersCompleteResponse> orders = [];
-    data.forEach((key, value) {
-      OrdersCompleteResponse completeResponse = OrdersCompleteResponse.fromJson(value);
+      List<OrdersCompleteResponse> orders = [];
+      data.forEach((key, value) {
+        OrdersCompleteResponse completeResponse =
+            OrdersCompleteResponse.fromJson(value);
 
-      completeResponse.orders.sort((a,b){
-        DateTime aDate = DateTime.parse(a.date!);
-        DateTime bDate = DateTime.parse(b.date!);
+        completeResponse.orders.sort((a, b) {
+          DateTime aDate = DateTime.parse(a.date!);
+          DateTime bDate = DateTime.parse(b.date!);
+          return bDate.compareTo(aDate);
+        });
+
+        orders.add(completeResponse);
+      });
+
+      // Sort the list of OrdersCompleteResponse based on the date of the first order
+      orders.sort((a, b) {
+        DateTime aDate = a.orders.isNotEmpty
+            ? DateTime.parse(a.orders.first.date!)
+            : DateTime.now();
+        DateTime bDate = b.orders.isNotEmpty
+            ? DateTime.parse(b.orders.first.date!)
+            : DateTime.now();
         return bDate.compareTo(aDate);
       });
 
-      orders.add(completeResponse);
-    });
-
-    // Sort the list of OrdersCompleteResponse based on the date of the first order
-    orders.sort((a, b) {
-      DateTime aDate = a.orders.isNotEmpty
-          ? DateTime.parse(a.orders.first.date!)
-          : DateTime.now();
-      DateTime bDate = b.orders.isNotEmpty
-          ? DateTime.parse(b.orders.first.date!)
-          : DateTime.now();
-      return bDate.compareTo(aDate);
-    });
-
-    return orders;
+      return orders;
     } else {
       throw Exception('something went wrong');
     }
@@ -1944,7 +1973,6 @@ class NetworkApiServices {
             : DateTime.now();
         return bDate.compareTo(aDate);
       });
-
 
       return steelorders;
     } else {
@@ -1983,7 +2011,6 @@ class NetworkApiServices {
             : DateTime.now();
         return bDate.compareTo(aDate);
       });
-
 
       return dealerDataList;
     } else {

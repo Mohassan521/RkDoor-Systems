@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/AdminSwindonSBC.dart';
 import 'package:price_link/components/tables/swindonSBCTable.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class SwindonwSBC extends StatefulWidget {
   final String dealerId;
@@ -81,11 +78,15 @@ class _SwindonwSBCState extends State<SwindonwSBC> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8),
-              child: widget.role == "admin" ? AdminSwindonSBCTable(dealerId: widget.dealerId,dealerName: widget.dealerName) : SwindonSBCTable(
-                dealerId:
-                    widget.role == "employee" ? widget.empId : widget.dealerId,
-                dealerName: widget.dealerName,
-              ),
+              child: widget.role == "admin"
+                  ? AdminSwindonSBCTable(
+                      dealerId: widget.dealerId, dealerName: widget.dealerName)
+                  : SwindonSBCTable(
+                      dealerId: widget.role == "employee"
+                          ? widget.empId
+                          : widget.dealerId,
+                      dealerName: widget.dealerName,
+                    ),
             ),
           ],
         ),

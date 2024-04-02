@@ -1,22 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/EmployeeList.dart';
 import 'package:price_link/models/quotationsModel.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/quoteAnalysis.dart';
 import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class QuotationsTable extends StatefulWidget {
   final String? dealerId;
   final String? dealerName;
   final String? role;
   final String? empId;
-  const QuotationsTable({super.key, this.dealerId, this.dealerName, this.role, this.empId});
+  const QuotationsTable(
+      {super.key, this.dealerId, this.dealerName, this.role, this.empId});
 
   @override
   State<QuotationsTable> createState() => _QuotationsTableState();
@@ -184,16 +182,14 @@ class MyData extends DataTableSource {
   final BuildContext myGlobalBuildContext;
   final void Function() showDatePickerCallback;
   //final void Function() getSavedValue;
-  MyData(
-    this.data,
-    this.dealerId, {
-    required this.dealerName,
-    required this.datetime,
-    required this.myGlobalBuildContext,
-    required this.showDatePickerCallback,
-    this.empId
-    //required this.getSavedValue
-  });
+  MyData(this.data, this.dealerId,
+      {required this.dealerName,
+      required this.datetime,
+      required this.myGlobalBuildContext,
+      required this.showDatePickerCallback,
+      this.empId
+      //required this.getSavedValue
+      });
 
   @override
   int get rowCount => data.length;
@@ -250,63 +246,69 @@ class MyData extends DataTableSource {
           ]);
         },
       )),
-      DataCell(Consumer<setFollowUpValue>(
-        builder: (context, value, child) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.sizeOf(context).width * 0.4,
-              decoration: BoxDecoration(
-                  color: result.orderFUpQVal == "YES"
-                      ? Color(0Xff008000)
-                      : Color(0xffFF0000),
-                  border: Border.all(width: 1)),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                value: result.orderFUpQVal ?? "NO",
-                iconEnabledColor: result.orderFUpQVal == "YES"
-                    ? Color(0Xff008000)
-                    : Color(0xffFF0000),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    apiServices.setFollowUpValue(
-                        dealerId!, result.id!, newValue);
-                  } else {
-                    apiServices.setFollowUpValue(
-                        dealerId!, result.id!, result.orderFUpQVal!);
-                  }
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'YES',
-                      alignment: Alignment.center,
-                      child: Text(
-                        'YES',
-                        style: TextStyle(color: Colors.black),
-                      )),
-                  DropdownMenuItem<String>(
-                      value: 'NO',
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(
-                          'NO',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      )),
-                ],
-              ),
-            ),
-          );
-        },
+      DataCell(Padding(
+        padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+        child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+          decoration: BoxDecoration(
+              color: result.orderFUpQVal == "YES"
+                  ? Color(0Xff008000)
+                  : Color(0xffFF0000),
+              border: Border.all(width: 1)),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: result.orderFUpQVal == "YES" ? "YES" : "NO",
+            iconEnabledColor: result.orderFUpQVal == "YES"
+                ? Color(0Xff008000)
+                : Color(0xffFF0000),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                apiServices.setFollowUpValue(dealerId!, result.id!, newValue);
+              } else {
+                apiServices.setFollowUpValue(
+                    dealerId!, result.id!, result.orderFUpQVal!);
+              }
+            },
+            items: [
+              DropdownMenuItem<String>(
+                  value: '',
+                  alignment: Alignment.center,
+                  child: Text(
+                    '',
+                    style: TextStyle(color: Colors.black),
+                  )),
+              DropdownMenuItem<String>(
+                  value: 'YES',
+                  alignment: Alignment.center,
+                  child: Text(
+                    'YES',
+                    style: TextStyle(color: Colors.black),
+                  )),
+              DropdownMenuItem<String>(
+                  value: 'NO',
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: Text(
+                      'NO',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )),
+            ],
+          ),
+        ),
       )),
       DataCell(RoundButton(
         text: 'Quote Analysis',
         onTap: () {
-          Navigator.push(myGlobalBuildContext, MaterialPageRoute(builder: (context) => OrdersQuoteAnalysis(
-            dealerId: dealerId,
-            quoteId: result.id,
-          )));        },
+          Navigator.push(
+              myGlobalBuildContext,
+              MaterialPageRoute(
+                  builder: (context) => OrdersQuoteAnalysis(
+                        dealerId: dealerId,
+                        quoteId: result.id,
+                      )));
+        },
         color: Colors.blue,
       )),
       DataCell(RoundButton(
@@ -405,7 +407,7 @@ class MyData extends DataTableSource {
                   myGlobalBuildContext,
                   MaterialPageRoute(
                       builder: (context) => RkDoorCalculatorView(
-                        dealerId: dealerId!,
+                          dealerId: dealerId!,
                           url:
                               'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerId}&cal_id=${result.id}&mobile_token=true')));
             },

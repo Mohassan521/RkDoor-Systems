@@ -2,11 +2,8 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:price_link/Provider/provider.dart';
-import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/ClosedEnquiryModel.dart';
 import 'package:price_link/models/admin%20models/adminHotleads.dart';
 import 'package:price_link/screens/adminScreens/enquiryRecord.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
@@ -57,194 +54,141 @@ class _AdminHotLeadsState extends State<AdminHotLeads> {
         //print("admin hot leads data: $list ");
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0)),
-            child: PaginatedDataTable(
-                rowsPerPage: (list.length >= 5 && list.isNotEmpty)
-                    ? 5
-                    : (list.isEmpty)
-                        ? 1
-                        : list.length,
-                headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Color(0xff941420)),
-                columns: const <DataColumn>[
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Enquiry Allocated To',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Customer Name',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Company',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      '',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Tel Number',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Product Type',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Priority',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Requirement',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Supply Type',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Dealer',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Address',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Email',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Post Code',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Enquiry Source',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Configurator Code',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'File Upload',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'File Upload (From Enquiry Form)',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Enquiry Record',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Create Quotation',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Quotation Number',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Close Enquiry',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Enquiry Date',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Time',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                  DataColumn(
-                      label: Expanded(
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-                ],
-                source: MyData(list, _dateTime, widget.dealerId,
-                    widget.dealerName, _showDatePicker,
-                    context: context)),
-          );
+          return PaginatedDataTable(
+              showEmptyRows: false,
+              columnSpacing: 20,
+              headingRowHeight: 48,
+              dataRowMaxHeight: 48,
+              rowsPerPage: (list.length >= 5 && list.isNotEmpty)
+                  ? 5
+                  : (list.isEmpty)
+                      ? 1
+                      : list.length,
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Enquiry Allocated To',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Name',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Company',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  '',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Tel Number',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Product Type',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Priority',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Requirement',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Supply Type',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Dealer',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Address',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Email',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Post Code',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Source',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Configurator Code',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'File Upload',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'File Upload (From Enquiry Form)',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Record',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Create Quotation',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quotation Number',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Close Enquiry',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Date',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Time',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Edit',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+              ],
+              source: MyData(list, _dateTime, widget.dealerId,
+                  widget.dealerName, _showDatePicker,
+                  context: context));
         });
       },
     );
@@ -325,6 +269,7 @@ class MyData extends DataTableSource {
         if (currentIndex == index) {
           return DataRow.byIndex(
             index: index,
+            color: MaterialStatePropertyAll(Colors.white),
             cells: [
               DataCell(Text(quote.enquiryAllocatedTo ?? "")),
               DataCell(Text(quote.enquiryCusName ?? "")),
@@ -337,7 +282,7 @@ class MyData extends DataTableSource {
                         color: Color(0xffff0000),
                       ),
                       height: MediaQuery.sizeOf(context).height * 0.04,
-                      width: MediaQuery.sizeOf(context).width * 0.3,
+                      width: MediaQuery.sizeOf(context).width * 0.15,
                       child: Center(
                           child: Text(
                         quote.newSymbol!,
@@ -379,7 +324,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.enquiryOrderConfFile!)
                               InkWell(
@@ -433,7 +378,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -444,52 +388,51 @@ class MyData extends DataTableSource {
               ),
               DataCell(
                 quote.enquiryFileUpload!.isNotEmpty
-                    ? Center(
-                        child: Row(
-                          children: [
-                            // Create icons for each file
-                            for (var file in quote.enquiryFileUpload!)
-                              InkWell(
-                                onTap: () {
-                                  String fileExtension =
-                                      extension(file).toLowerCase();
-                                  if (fileExtension == ".pdf") {
-                                    print(file);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PDFViewer(url: file),
-                                      ),
-                                    );
-                                  } else if (fileExtension == ".jpg" ||
-                                      fileExtension == ".jpeg" ||
-                                      fileExtension == ".png") {
-                                    print(file);
-                                    showImageDialog(context, file);
-                                  } else {
-                                    print(file);
-                                    Utils().showToast(
-                                      'File Format not supported',
-                                      Color(0xff941420),
-                                      Colors.white,
-                                    );
-                                  }
-                                },
-                                child: Icon(
-                                  (enqFormExtension == '.jpg' ||
-                                          enqFormExtension == '.jpeg' ||
-                                          enqFormExtension == '.png')
-                                      ? Icons.file_open
-                                      : (enqFormExtension == '.pdf')
-                                          ? Icons.picture_as_pdf
-                                          : Icons.file_present,
-                                  size: 16,
-                                  color: Colors.blue,
-                                ),
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Create icons for each file
+                          for (var file in quote.enquiryFileUpload!)
+                            InkWell(
+                              onTap: () {
+                                String fileExtension =
+                                    extension(file).toLowerCase();
+                                if (fileExtension == ".pdf") {
+                                  print(file);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PDFViewer(url: file),
+                                    ),
+                                  );
+                                } else if (fileExtension == ".jpg" ||
+                                    fileExtension == ".jpeg" ||
+                                    fileExtension == ".png") {
+                                  print(file);
+                                  showImageDialog(context, file);
+                                } else {
+                                  print(file);
+                                  Utils().showToast(
+                                    'File Format not supported',
+                                    Color(0xff941420),
+                                    Colors.white,
+                                  );
+                                }
+                              },
+                              child: Icon(
+                                (enqFormExtension == '.jpg' ||
+                                        enqFormExtension == '.jpeg' ||
+                                        enqFormExtension == '.png')
+                                    ? Icons.file_open
+                                    : (enqFormExtension == '.pdf')
+                                        ? Icons.picture_as_pdf
+                                        : Icons.file_present,
+                                size: 16,
+                                color: Colors.blue,
                               ),
-                          ],
-                        ),
+                            ),
+                        ],
                       )
                     : Center(
                         child: Row(
@@ -505,32 +448,40 @@ class MyData extends DataTableSource {
 
               DataCell(RoundButton(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => EnquiryRecordForAdmin(
-                    enquiries: quote,
-                  )));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EnquiryRecordForAdmin(
+                                enquiries: quote,
+                              )));
                 },
                 text: "Enquiry Record",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.3,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CalculatorWebView(url: 'https://www.pricelink.net/rk-door-calulator-by-admin/?user_id=${dealerData.userId}&method=enquiryorder&cus_name=${quote.enquiryCusName}&add1=${quote.customerAddress}&add2=${quote.customerAddress2}&add3=${quote.customerAddress3}&add4=${quote.customerAddress4}&quote_id=${quote.id}&postcode=${quote.dileveryPostCodeC13}&supplyType=${quote.enquirySupplyType}&telno=${quote.enquiryTelNum}&email=${quote.enquiryCusEmail}&allocatedto=${quote.enquiryAllocatedTo}&mobile_token=true',dealerId: dealerId!,)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalculatorWebView(
+                                url:
+                                    'https://www.pricelink.net/rk-door-calulator-by-admin/?user_id=${dealerData.userId}&method=enquiryorder&cus_name=${quote.enquiryCusName}&add1=${quote.customerAddress}&add2=${quote.customerAddress2}&add3=${quote.customerAddress3}&add4=${quote.customerAddress4}&quote_id=${quote.id}&postcode=${quote.dileveryPostCodeC13}&supplyType=${quote.enquirySupplyType}&telno=${quote.enquiryTelNum}&email=${quote.enquiryCusEmail}&allocatedto=${quote.enquiryAllocatedTo}&mobile_token=true',
+                                dealerId: dealerId!,
+                              )));
                 },
                 text: "Create Quotation",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.35,
                 color: Colors.blue,
               )),
               DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
               DataCell(RoundButton(
                 onTap: () {
-                  NetworkApiServices().closeEnquiry(dealerData.userId.toString(), quote.id!);
+                  NetworkApiServices()
+                      .closeEnquiry(dealerData.userId.toString(), quote.id!);
                 },
                 text: "Close Enquiry",
-                height: MediaQuery.sizeOf(context).height * 0.045,
-                width: MediaQuery.sizeOf(context).width * 0.4,
+                width: MediaQuery.sizeOf(context).width * 0.28,
                 color: Colors.blue,
               )),
               DataCell(Text(quote.date ?? "")),
@@ -549,42 +500,42 @@ class MyData extends DataTableSource {
                   InkWell(
                     onTap: () {
                       showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Icon(Icons.warning),
-                      content:
-                          Text('Are u sure you want to delete this enquiry'),
-                      actions: [
-                        Center(
-                          child: Column(
-                            children: [
-                              RoundButton(
-                                text: 'Delete',
-                                onTap: () {
-                                  NetworkApiServices()
-                                        .deleteEnquiry(dealerData.userId.toString(), quote.id!);
-                                    Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RoundButton(
-                                text: 'Cancel',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  });
-
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Icon(Icons.warning),
+                              content: Text(
+                                  'Are u sure you want to delete this enquiry'),
+                              actions: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      RoundButton(
+                                        text: 'Delete',
+                                        onTap: () {
+                                          NetworkApiServices().deleteEnquiry(
+                                              dealerData.userId.toString(),
+                                              quote.id!);
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.red,
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      RoundButton(
+                                        text: 'Cancel',
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          });
                     },
                     child: Icon(
                       Icons.delete,

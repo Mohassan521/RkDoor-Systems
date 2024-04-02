@@ -50,68 +50,63 @@ class _AdministratorsTableState extends State<AdministratorsTable> {
         // List<SteelOrderModel>? displayData =
         //     filteredList.isNotEmpty ? filteredList : list;
 
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
-                  : (list!.isEmpty)
-                      ? 1
-                      : list!.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'Tel No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Center(
-                  child: Text(
-                    'Email',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )),
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'Date & Time Administrator Created',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  textAlign: TextAlign.center,
-                  'Actions',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(
-                  displayData, context, widget.dealerId, widget.dealerName)),
-        );
+        return PaginatedDataTable(
+            columnSpacing: 20,
+            showEmptyRows: false,
+            dataRowMaxHeight: 48,
+            headingRowHeight: 48,
+            rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
+                ? 5
+                : (list!.isEmpty)
+                    ? 1
+                    : list!.length,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'ID',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'Tel No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Center(
+                child: Text(
+                  'Email',
+                  style: TextStyle(color: Color(0xff941420)),
+                ),
+              )),
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'Date & Time Administrator Created',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                textAlign: TextAlign.center,
+                'Actions',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(
+                displayData, context, widget.dealerId, widget.dealerName));
       },
     );
   }
@@ -188,27 +183,30 @@ class MyData extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final result = data![index];
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      //1
-      DataCell(Text(result.iD.toString())),
-      //2
-      DataCell(Text(result.name ?? "")),
-      //3
-      DataCell(Center(child: Text(result.postCode ?? ""))),
-      //4
-      DataCell(Text(result.tel ?? "")),
-      //5
-      DataCell(Text(result.email ?? "")),
-      //6
-      DataCell(Center(child: Text(result.registeredUser ?? ""))),
-      //7
-      DataCell(Center(
-        child: Icon(
-          Icons.delete,
-          color: Colors.red,
-          size: 14,
-        ),
-      )),
-    ]);
+    return DataRow.byIndex(
+        color: MaterialStatePropertyAll(Colors.white),
+        index: index,
+        cells: <DataCell>[
+          //1
+          DataCell(Text(result.iD.toString())),
+          //2
+          DataCell(Text(result.name ?? "")),
+          //3
+          DataCell(Center(child: Text(result.postCode ?? ""))),
+          //4
+          DataCell(Text(result.tel ?? "")),
+          //5
+          DataCell(Text(result.email ?? "")),
+          //6
+          DataCell(Center(child: Text(result.registeredUser ?? ""))),
+          //7
+          DataCell(Center(
+            child: Icon(
+              Icons.delete,
+              color: Colors.red,
+              size: 14,
+            ),
+          )),
+        ]);
   }
 }
