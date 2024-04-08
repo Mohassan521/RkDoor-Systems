@@ -6,7 +6,6 @@ import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/Entrance%20Door%20Orders/quoteAnalysis.dart';
 import 'package:price_link/screens/FinancialHistory.dart';
 import 'package:price_link/screens/pdfViewer.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -66,202 +65,196 @@ class _DoorPreliminaryConfirmationTableState
             filteredList.isNotEmpty ? filteredList : doorConfirmationList;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0)),
-            child: PaginatedDataTable(
-                rowsPerPage: (doorConfirmationList.length >= 5 &&
-                        doorConfirmationList.isNotEmpty)
-                    ? 5
-                    : (doorConfirmationList.isEmpty)
-                        ? 1
-                        : doorConfirmationList.length,
-                headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Color(0xff941420)),
-                columns: const <DataColumn>[
-                  DataColumn(
-                      label: Text(
-                    'Customer Name',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quotation Number',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Dealer',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quote Created By',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Factory Order No.',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Order Status',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Payment Status',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Order Confirmation',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quick PDF Quotation',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Anticipated Delivery Date',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Invoices',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Balance Due',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Delivery Note',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Profile',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Door Model',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Marine Grade Finish',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Frame Size',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Goalpost Construction',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Overall Weight',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Threshold Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Keyless access',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Customer Tel No.',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Customer Email',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Post Code',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quote ID',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Date',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Time',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Total Quote Value',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Follow up Date',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Follow up Made',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Financial History',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Notes',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quote Analysis',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Order Date History',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    '',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                ],
-                source: MyData(displayData, _dateTime, widget.dealerId,
+          return PaginatedDataTable(
+              headingRowHeight: 48,
+              dataRowMaxHeight: 48,
+              columnSpacing: 20,
+              rowsPerPage: (doorConfirmationList.length >= 5 &&
+                      doorConfirmationList.isNotEmpty)
+                  ? 5
+                  : (doorConfirmationList.isEmpty)
+                      ? 1
+                      : doorConfirmationList.length,
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Customer Name',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quotation Number',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Dealer',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote Created By',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Factory Order No.',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Order Status',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Payment Status',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Order Confirmation',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quick PDF Quotation',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Anticipated Delivery Date',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Invoices',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Balance Due',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Delivery Note',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Profile',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Door Model',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Marine Grade Finish',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Frame Size',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Goalpost Construction',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Overall Weight',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Threshold Type',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Keyless access',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Tel No.',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Customer Email',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Post Code',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote ID',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Date',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Time',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Total Quote Value',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Follow up Date',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Follow up Made',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Financial History',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Notes',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quote Analysis',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Order Date History',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  '',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+              ],
+              source: MyData(displayData, _dateTime, widget.dealerId,
                   widget.dealerName, _showDatePicker,
-                  myGlobalBuildContext: context)),
-          );
+                  myGlobalBuildContext: context));
         });
       },
     );
@@ -292,7 +285,6 @@ class MyData extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-
   @override
   DataRow getRow(int index) {
     // String? prevValue =
@@ -306,38 +298,40 @@ class MyData extends DataTableSource {
     String fileExtension = extension(filePath).toLowerCase();
 
     List<dynamic> invoicesDocuments = result.invoicesDocuments ?? [];
-    String invoiceFilePath = invoicesDocuments.isNotEmpty ? invoicesDocuments.last : '';
+    String invoiceFilePath =
+        invoicesDocuments.isNotEmpty ? invoicesDocuments.last : '';
     String invoiceFileExtension = extension(invoiceFilePath).toLowerCase();
 
     // print(invoiceFileExtension);
 
     List<dynamic> deliveryDocuments = result.deliveryDocuments ?? [];
-    String ddFilePath = deliveryDocuments.isNotEmpty ? deliveryDocuments.first : '';
+    String ddFilePath =
+        deliveryDocuments.isNotEmpty ? deliveryDocuments.first : '';
     String ddFileExtension = extension(ddFilePath).toLowerCase();
 
     print('delivery doc file ext: $ddFileExtension');
 
     //Widget selectedTable = determineTable(result, dealerId!);
     showImageDialog(BuildContext context, String imageUrl) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        insetPadding: EdgeInsets.all(9),
-        content: SizedBox(
-          height: 200.0, // Set the height as needed
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.fill,
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-      ),
-    );
-  }
-
+      );
+    }
 
     return DataRow.byIndex(
+      color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
         DataCell(Text(result.name ?? "")),
@@ -376,14 +370,15 @@ class MyData extends DataTableSource {
                                                           : Color(0xff7092bf),
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.28,
               child: Center(
                   child: Text(
                 result.orderStatusVal!,
-                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: 12),
               )));
         })),
-        
+
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -391,11 +386,14 @@ class MyData extends DataTableSource {
                       ? Colors.yellow
                       : result.orderPaymentStatusVal == "Deposit Received"
                           ? Color(0xffffd5cd)
-                          : result.orderPaymentStatusVal == "Awaiting Survey Fee"
+                          : result.orderPaymentStatusVal ==
+                                  "Awaiting Survey Fee"
                               ? Color(0xffbde2fd)
-                              : result.orderPaymentStatusVal == "Survey Fee Received"
+                              : result.orderPaymentStatusVal ==
+                                      "Survey Fee Received"
                                   ? Color(0xffd2ecbd)
-                                  : result.orderPaymentStatusVal == "Awaiting Balance"
+                                  : result.orderPaymentStatusVal ==
+                                          "Awaiting Balance"
                                       ? Color(0xffffe8a1)
                                       : result.orderPaymentStatusVal ==
                                               "Balance Paid"
@@ -403,21 +401,24 @@ class MyData extends DataTableSource {
                                           : result.orderPaymentStatusVal ==
                                                   "Awaiting Install Payment"
                                               ? Color(0xfffbd0ca)
-                                              : result.orderPaymentStatusVal == "All Invoices Paid"
-                                                  ? Color(0xff0d714b) : Colors.yellow,
+                                              : result.orderPaymentStatusVal ==
+                                                      "All Invoices Paid"
+                                                  ? Color(0xff0d714b)
+                                                  : Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.30,
               child: Center(
                   child: Text(
                 result.orderPaymentStatusVal!,
-                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: 12),
               )));
         })),
         DataCell(
-        result.documents!.isNotEmpty
-            ? Center(
-                child: Row(
+          result.documents!.isNotEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Create icons for each file
                     for (var file in result.documents!)
@@ -454,19 +455,14 @@ class MyData extends DataTableSource {
                               : (fileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 21,
+                          size: 15,
                           color: Colors.blue,
                         ),
-                        
                       ),
                   ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
-
+                )
+              : Center(child: Text('')),
+        ),
 
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "")),
@@ -486,9 +482,9 @@ class MyData extends DataTableSource {
         // DataCell(Text(
         //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
         DataCell(
-        result.invoicesDocuments!.isNotEmpty
-            ? Center(
-                child: Row(
+          result.invoicesDocuments!.isNotEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Create icons for each file
                     for (var file in result.invoicesDocuments!)
@@ -525,27 +521,23 @@ class MyData extends DataTableSource {
                               : (invoiceFileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 21,
+                          size: 15,
                           color: Colors.blue,
                         ),
-                        
                       ),
                   ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
+                )
+              : Center(child: Text('')),
+        ),
 
         DataCell(Text(result.balDueBeforeDelivery ?? "")),
         // DataCell(Text(
         //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(
-        result.deliveryDocuments!.isNotEmpty
-            ? Center(
-                child: Row(
+          result.deliveryDocuments!.isNotEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Create icons for each file
                     for (var file in result.deliveryDocuments!)
@@ -582,25 +574,23 @@ class MyData extends DataTableSource {
                               : (ddFileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 21,
+                          size: 15,
                           color: Colors.blue,
                         ),
-                        
                       ),
                   ],
-                ),
-              )
-            : Center(
-                child: Text('')
-              ),
-      ),
+                )
+              : Center(child: Text('')),
+        ),
 
         DataCell(Text(result.profile ?? "")),
         DataCell(Text(result.doorModel ?? "")),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.marineGradeVal == "YES" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  color: result.marineGradeVal == "YES"
+                      ? Color(0xff9ad9ea)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
               width: MediaQuery.sizeOf(context).width * 0.35,
@@ -616,8 +606,10 @@ class MyData extends DataTableSource {
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.lhGoalPostE44 == "YES" ? Colors.yellow : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(5.5)),
+                  color: result.lhGoalPostE44 == "YES"
+                      ? Colors.yellow
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
@@ -626,19 +618,29 @@ class MyData extends DataTableSource {
                 style: TextStyle(color: Colors.black),
               )));
         })),
- 
+
         DataCell(Text(result.totalWeightKg ?? "")),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
-                  color: result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" || result.thresholdType == "C - 25MM HIGH PROJECTING CILL - 225MM WIDE" ?  Color(0xff9ad9ea) : Colors.transparent,
+                  color: result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 85MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 150MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 190MM WIDE" ||
+                          result.thresholdType ==
+                              "C - 25MM HIGH PROJECTING CILL - 225MM WIDE"
+                      ? Color(0xff9ad9ea)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
+              width: MediaQuery.sizeOf(context).width * 0.30,
               child: Center(
                   child: Text(
                 result.thresholdType ?? "",
-                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: 12),
               )));
         })),
         DataCell(Text(result.ekeylessAccess ?? "")),
@@ -729,6 +731,7 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
         )),
         DataCell(RoundButton(
           text: 'Notes',
@@ -803,6 +806,7 @@ class MyData extends DataTableSource {
                     ));
           },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
         )),
         DataCell(RoundButton(
           text: 'Quote Analysis',
@@ -811,10 +815,12 @@ class MyData extends DataTableSource {
                 myGlobalBuildContext,
                 MaterialPageRoute(
                     builder: (context) => OrdersQuoteAnalysis(
-                      dealerId: dealerId,
-                      quoteId: result.id,
-                    )));          },
+                          dealerId: dealerId,
+                          quoteId: result.id,
+                        )));
+          },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.28,
         )),
 
         DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}')),

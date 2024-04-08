@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
 import 'package:price_link/services/services.dart';
 
@@ -95,6 +94,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -238,7 +238,11 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                               borderRadius: BorderRadius.circular(5.5),
                               color: Colors.white),
                           child: DropdownButton<String>(
-                            hint: Text('Select value'),
+                            hint: Text(
+                              'Select value',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.black),
+                            ),
                             alignment: Alignment.center,
                             isExpanded: false,
                             value: user,
@@ -255,7 +259,9 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                                         child: Center(
                                             child: Text(
                                           e.name ?? "",
-                                          style: TextStyle(fontSize: 10),
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.black),
                                         )));
                                   }).toList()
                                 : [],
@@ -338,34 +344,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                       isExpanded: false,
                       value: useDealerAddress,
                       underline: SizedBox(),
-                      onChanged: (String? newValue) async {
-                        // setState(() {
-                        //   useDealerAddress = newValue ?? useDealerAddress;
-                        // });
-
-                        // if (useDealerAddress == "YES") {
-                        //   // Fetch data from API
-                        //   List<DealersModel> steelOrders = await NetworkApiServices()
-                        //       .getDealersList(context, widget.dealerId);
-
-                        //   // Check if there's any data and update the salesperson.text
-
-                        //   if (steelOrders.isNotEmpty) {
-                        //     salesperson.text = steelOrders[0].displayName!;
-                        //     address.text = steelOrders[0].dealerAddress1 ?? "";
-                        //     address2.text = steelOrders[0].dealerAddress2 ?? "";
-                        //     address3.text = steelOrders[0].dealerAddress3 ?? "";
-                        //     postcode.text = steelOrders[0].postCodeRegister ?? "";
-                        //   } else {
-                        //     salesperson.text =
-                        //         ""; // Set to empty if no data is available
-                        //   }
-
-                        //   //print(model.steelDealerEmail);
-                        // } else {
-                        //   salesperson.text = "";
-                        // }
-                      },
+                      onChanged: (String? newValue) async {},
                       items: [
                         DropdownMenuItem<String>(
                             value: 'NO',
@@ -394,6 +373,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
@@ -448,6 +428,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
@@ -633,6 +614,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   Container(
                     child: Container(
                       height: MediaQuery.sizeOf(context).height * 0.05,
+                      padding: EdgeInsets.only(left: 9),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 1),
                           borderRadius: BorderRadius.circular(5.5),
@@ -844,6 +826,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
@@ -862,32 +845,96 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                         DropdownMenuItem<String>(
                             value: "", child: Center(child: Text(""))),
                         DropdownMenuItem<String>(
-                            value: '0', child: Center(child: Text('0%'))),
+                            value: '0',
+                            child: Center(
+                                child: Text(
+                              '0%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '5', child: Center(child: Text('5%'))),
+                            value: '5',
+                            child: Center(
+                                child: Text(
+                              '5%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '10', child: Center(child: Text('10%'))),
+                            value: '10',
+                            child: Center(
+                                child: Text(
+                              '10%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '15', child: Center(child: Text('15%'))),
+                            value: '15',
+                            child: Center(
+                                child: Text(
+                              '15%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '20', child: Center(child: Text('20%'))),
+                            value: '20',
+                            child: Center(
+                                child: Text(
+                              '20%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '25', child: Center(child: Text('25%'))),
+                            value: '25',
+                            child: Center(
+                                child: Text(
+                              '25%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '30', child: Center(child: Text('30%'))),
+                            value: '30',
+                            child: Center(
+                                child: Text(
+                              '30%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '35', child: Center(child: Text('35%'))),
+                            value: '35',
+                            child: Center(
+                                child: Text(
+                              '35%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '40', child: Center(child: Text('40%'))),
+                            value: '40',
+                            child: Center(
+                                child: Text(
+                              '40%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '45', child: Center(child: Text('45%'))),
+                            value: '45',
+                            child: Center(
+                                child: Text(
+                              '45%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '50', child: Center(child: Text('50%'))),
+                            value: '50',
+                            child: Center(
+                                child: Text(
+                              '50%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '60', child: Center(child: Text('60%'))),
+                            value: '60',
+                            child: Center(
+                                child: Text(
+                              '60%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'other',
-                            child: Center(child: Text('other'))),
+                            child: Center(
+                                child: Text(
+                              'other',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -1003,15 +1050,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                       getImage();
                     },
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.70),
-                    child: Text(
-                      _image != null && _image!.path.isNotEmpty
-                          ? "File Uploaded"
-                          : "",
-                      textAlign: TextAlign.end,
-                    ),
+                  SizedBox(
+                    width: 60,
+                  ),
+                  Text(
+                    _image != null && _image!.path.isNotEmpty
+                        ? "File Uploaded"
+                        : "",
+                    textAlign: TextAlign.end,
                   ),
                 ],
               ),
@@ -1022,19 +1068,36 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 'Notes',
                 style: TextStyle(color: Color(0xff941420)),
               ),
-              TextFormField(
-                controller: notes,
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'notes',
                 maxLines: 6,
-                decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    border: OutlineInputBorder()),
+                controller: notes,
+                style: TextStyle(fontSize: 13),
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 20,
               ),
-              RoundButton(
-                onTap: () {
+              MaterialButton(
+                color: Color(0xff941420),
+                textColor: Colors.white,
+                minWidth: double.infinity,
+                onPressed: () {
                   NetworkApiServices().createSteelOrderForAdmin(
                       widget.dealerId,
                       productType,
@@ -1059,10 +1122,38 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                       filesToUpload,
                       notes.text);
                 },
-                text: 'Submit',
-                width: double.infinity,
-                color: Color(0xff941420),
+                child: Text("Submit"),
               )
+              // RoundButton(
+              //   onTap: () {
+              //     NetworkApiServices().createSteelOrderForAdmin(
+              //         widget.dealerId,
+              //         productType,
+              //         cname.text,
+              //         qnum.text,
+              //         user,
+              //         salesperson.text,
+              //         supply,
+              //         address.text,
+              //         address2.text,
+              //         address3.text,
+              //         postcode.text,
+              //         color,
+              //         frame.text,
+              //         cusEmail.text,
+              //         telephone.text,
+              //         totalOrderValue.text,
+              //         discount,
+              //         deliveryCost.text,
+              //         totalWeight.text,
+              //         netOrderValue.text,
+              //         filesToUpload,
+              //         notes.text);
+              //   },
+              //   text: 'Submit',
+              //   width: double.infinity,
+              //   color: Color(0xff941420),
+              // )
             ],
           ),
         ),

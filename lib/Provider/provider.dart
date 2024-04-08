@@ -319,8 +319,6 @@ class AllEnquiriesSearchedDataForAdmin extends ChangeNotifier {
     }
 
     filteredDataModel = dataModel.where((quotations) {
-      // Search in displayName and dealerName
-
       bool matchesDealerName =
           quotations.dealerName.toLowerCase().contains(query.toLowerCase());
       bool matchesDisplayName =
@@ -333,39 +331,36 @@ class AllEnquiriesSearchedDataForAdmin extends ChangeNotifier {
       // Search within each quote object
       return quotations.quotes.any((quote) {
         // Search by various attributes of the quote object
-        bool matchesName = (quote.enquirySupplyType
+        bool enqSupplyType = (quote.enquirySupplyType
+                ?.trim()
+                .toLowerCase()
+                .contains(query.trim().toLowerCase()) ??
+            false);
+        bool enqCusName = (quote.enquiryCustomerName!
+                .trim()
+                .toLowerCase()
+                .contains(query.trim().toLowerCase()) ||
+            quote.enquiryCustomerName?.trim().toLowerCase() ==
+                query.trim().toLowerCase());
+        bool enqAllocatedTo = (quote.enquiryAllocatedTo
                 ?.toLowerCase()
                 .contains(query.toLowerCase()) ??
             false);
-        bool matchesPaymentStatus = (quote.enquiryCustomerName
-                ?.toLowerCase()
-                .contains(query.toLowerCase()) ??
-            false ||
-                quote.enquiryCustomerName?.toLowerCase() ==
-                    query.toLowerCase());
-        bool matchesOrderStatus = (quote.enquiryAllocatedTo
+        bool enqReq = (quote.enquiryRequirement
                 ?.toLowerCase()
                 .contains(query.toLowerCase()) ??
             false);
-        bool matchesEmail = (quote.enquiryRequirement
-                ?.toLowerCase()
-                .contains(query.toLowerCase()) ??
-            false);
-        bool matchedFacNum =
+        bool enqType =
             (quote.enquiryType?.toLowerCase().contains(query.toLowerCase()) ??
                 false);
 
-        // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
-        // print("Query: $query");
-        // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
-
         return matchesDealerName ||
             matchesDisplayName ||
-            matchesName ||
-            matchesPaymentStatus ||
-            matchesOrderStatus ||
-            matchesEmail ||
-            matchedFacNum;
+            enqSupplyType ||
+            enqCusName ||
+            enqAllocatedTo ||
+            enqReq ||
+            enqType;
       });
     }).toList();
 
@@ -650,57 +645,14 @@ class QuotationsSearchedDataForAdmin extends ChangeNotifier {
                 .contains(query.toLowerCase()) || // Search dealer name
             quotations.quotes.any(
                 (quote) => // Search within each quote objectaaa
-                    (quote.name?.toLowerCase().contains(query.toLowerCase()) ??
-                        false) || // Existing check
-                    (quote.id
-                            ?.toString()
-                            .toLowerCase()
-                            .contains(query.toLowerCase()) ??
-                        false) || // Search by ID
-                    (quote.customerEmail
-                            ?.toLowerCase()
-                            .contains(query.toLowerCase()) ??
-                        false) ||
-                    (quote.quotationNumber
-                            ?.toLowerCase()
-                            .contains(query.toLowerCase()) ??
-                        false)))
+                    (quote.name!.toLowerCase() == query.toLowerCase()) ||
+                    (quote.id.toString().toLowerCase() ==
+                        query.toLowerCase()) ||
+                    (quote.customerEmail!.toLowerCase() ==
+                        query.toLowerCase()) ||
+                    (quote.quotationNumber!.toLowerCase() ==
+                        query.toLowerCase())))
         .toList();
-
-    // _filteredDataModel = _dataModel.where((response) {
-    //   final lowercaseQuery = query.toLowerCase();
-    //   final quotes = response.quotes;
-    //   String cname = "";
-    //   String quotationNumber = "";
-    //   String quoteId = "";
-    //   String tel = "";
-    //   String email = "";
-    //   String postcode = "";
-
-    //   for (var quote in quotes) {
-    //     cname = quote.name?.toLowerCase() ?? "";
-    //     quotationNumber = quote.quotationNumber ?? "";
-    //     quoteId = quote.id?.toLowerCase() ?? "";
-    //     tel = quote.telephoneNumber?.toLowerCase() ?? "";
-    //     email = quote.customerEmail?.toLowerCase() ?? "";
-    //     postcode = quote.deliveryPostCode?.toLowerCase() ?? "";
-    //   }
-    //   final name = response.displayName?.toLowerCase() ?? '';
-    //   final dealerName = response.dealerName?.toLowerCase() ?? '';
-    //   //print(name);
-    //   if (name.contains(lowercaseQuery) ||
-    //       dealerName.contains(lowercaseQuery) ||
-    //       cname.contains(lowercaseQuery) ||
-    //       quotationNumber.contains(lowercaseQuery) ||
-    //       quoteId.contains(lowercaseQuery) ||
-    //       tel.contains(lowercaseQuery) ||
-    //       email.contains(lowercaseQuery) ||
-    //       postcode.contains(lowercaseQuery)) {
-    //     return true;
-    //   }
-    //   return false;
-    //   //return name.contains(lowercaseQuery) || dealerName.contains(lowercaseQuery) || cname.contains(lowercaseQuery) || quotationNumber.contains(lowercaseQuery);
-    // }).toList();
 
     notifyListeners();
   }
@@ -765,33 +717,47 @@ class AllDoorOrdersForAdmin extends ChangeNotifier {
       }
 
       return quotations.orders.any((quote) {
-        // Search only for exact match of orderStatusVal
-        bool matchesName =
-            (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
-        bool matchesId =
-            (quote.id?.toString().toLowerCase() == query.toLowerCase());
-        bool matchesPaymentStatus = (quote.orderPaymentStatusVal
-                ?.toLowerCase()
-                .contains(query.toLowerCase()) ??
-            false);
+        bool matchesName = (quote.name?.toLowerCase() == query.toLowerCase() ||
+            quote.name!.toLowerCase().contains(query.toLowerCase()));
 
-        bool matchesTelephone = (quote.telephoneNumber
-                ?.toLowerCase()
-                .contains(query.toLowerCase()) ??
-            false);
-        bool matchesEmail =
-            (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ??
-                false);
+        bool matchesId = (quote.id?.toString().toLowerCase() ==
+                query.toLowerCase() ||
+            quote.id!.toString().toLowerCase().contains(query.toLowerCase()));
+
+        bool matchesPaymentStatus =
+            (quote.orderPaymentStatusVal?.toLowerCase() ==
+                    query.toLowerCase() ||
+                quote.orderPaymentStatusVal!
+                    .toLowerCase()
+                    .contains(query.toLowerCase()));
+
+        bool matchesTelephone = (quote.telephoneNumber?.toLowerCase() ==
+                query.toLowerCase() ||
+            quote.telephoneNumber!.toLowerCase().contains(query.toLowerCase()));
+
+        bool matchesEmail = (quote.customerEmail?.toLowerCase() ==
+                query.toLowerCase() ||
+            quote.customerEmail!.toLowerCase().contains(query.toLowerCase()));
+
         bool matchedFacNum =
-            (quote.orderNoVal?.toLowerCase().contains(query.toLowerCase()) ??
-                false);
+            (quote.orderNoVal?.toLowerCase() == query.toLowerCase() ||
+                quote.orderNoVal!.toLowerCase().contains(query.toLowerCase()));
 
-        bool matchesOrderStatus =
-            quote.orderStatusVal?.toLowerCase() == query.toLowerCase();
+        bool matchesOrderStatus = (quote.orderStatusVal?.toLowerCase() ==
+                query.toLowerCase() ||
+            quote.orderStatusVal!.toLowerCase().contains(query.toLowerCase()));
 
-        // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
-        // print("Query: $query");
-        // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
+        if (matchesDisplayName ||
+            matchesDealerName ||
+            matchesName ||
+            matchesId ||
+            matchesEmail ||
+            matchesPaymentStatus ||
+            matchesTelephone ||
+            matchedFacNum ||
+            matchesOrderStatus) {
+          return true; // If either display name or dealer name matches, include the record
+        }
 
         return matchesName ||
             matchesId ||
@@ -801,26 +767,6 @@ class AllDoorOrdersForAdmin extends ChangeNotifier {
             matchesEmail ||
             matchedFacNum;
       });
-
-      // Search within each quote object
-      // return quotations.orders.any((quote) {
-      //   // Search by various attributes of the quote object
-      //   bool matchesName = (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
-      //   bool matchesId = (quote.id?.toString().toLowerCase() == query.toLowerCase());
-      //   bool matchesPaymentStatus = (quote.orderPaymentStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
-
-      //   bool matchesTelephone = (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false);
-      //   bool matchesEmail = (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
-      //   bool matchedFacNum = (quote.orderNoVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
-
-      //   bool matchesOrderStatus = quote.orderStatusVal?.toLowerCase() == query.toLowerCase();
-
-      //   // print("Name: ${quote.name}, ID: ${quote.id}, Payment Status: ${quote.orderPaymentStatusVal}, Order Status: ${quote.orderStatusVal}, Telephone: ${quote.telephoneNumber}, Email: ${quote.customerEmail}, order number: ${quote.orderNoVal}");
-      //   // print("Query: $query");
-      //   // print("Matches Name: $matchesName, Matches ID: $matchesId, Matches Payment Status: $matchesPaymentStatus, Matches Order Status: $matchesOrderStatus, Matches Telephone: $matchesTelephone, Matches Email: $matchesEmail,factory order num : $matchedFacNum"  );
-
-      //   return matchesName || matchesId || matchesPaymentStatus || matchesOrderStatus || matchesTelephone || matchesEmail || matchedFacNum;
-      // });
     }).toList();
 
     notifyListeners();

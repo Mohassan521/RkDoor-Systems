@@ -119,6 +119,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -139,6 +140,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             child: Center(
                                 child: Text(
                               'Entrance Door',
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
@@ -162,7 +164,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Enquiry Allocated To',
+                  const Text('Enquiry Allocated To:',
                       style: TextStyle(color: Color(0xff941420))),
                   FutureBuilder<List<AllDealersModel>>(
                       future: apiServices.getAllDealers(),
@@ -174,7 +176,10 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                               color: Colors.white,
                               border: Border.all(color: Colors.grey, width: 1)),
                           child: DropdownButton<String>(
-                            hint: Text('Select value'),
+                            hint: Text(
+                              'Select value',
+                              style: TextStyle(fontSize: 12),
+                            ),
                             alignment: Alignment.center,
                             isExpanded: false,
                             value: enqAllocatedTo,
@@ -191,7 +196,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                                         child: Center(
                                             child: Text(
                                           e.name ?? "",
-                                          style: TextStyle(fontSize: 10),
+                                          style: TextStyle(fontSize: 12),
                                         )));
                                   }).toList()
                                 : [],
@@ -236,6 +241,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5.5),
@@ -256,70 +262,70 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             child: Center(
                                 child: Text(
                               'Ian',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Trish',
                             child: Center(
                                 child: Text(
                               'Trish',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Alecia',
                             child: Center(
                                 child: Text(
                               'Alecia',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Tressy',
                             child: Center(
                                 child: Text(
                               'Tressy',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Domimic',
                             child: Center(
                                 child: Text(
                               'Domimic',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Graham',
                             child: Center(
                                 child: Text(
                               'Graham',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Julie',
                             child: Center(
                                 child: Text(
                               'Julie',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Ben',
                             child: Center(
                                 child: Text(
                               'Ben',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Elliot',
                             child: Center(
                                 child: Text(
                               'Elliot',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Other',
                             child: Center(
                                 child: Text(
                               'Other',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                       ],
                     ),
@@ -336,6 +342,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -355,73 +362,73 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             child: Center(
                                 child: Text(
                               'Instagram',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'Internet Search',
                             child: Center(
                                 child: Text('Internet Search',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Returning Customer',
                             child: Center(
                                 child: Text('Returning Customer',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Door Configurator',
                             child: Center(
                                 child: Text('Door Configurator',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Steel Configurator',
                             child: Center(
                                 child: Text('Steel Configurator',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Swindon SBC',
                             child: Center(
                                 child: Text('Swindon SBC',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Chat Box',
                             child: Center(
                                 child: Text('Chat Box',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Info@',
                             child: Center(
                                 child: Text('Info@',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Recommendation',
                             child: Center(
                                 child: Text('Recommendation',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Showroom Visit',
                             child: Center(
                                 child: Text('Showroom Visit',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Trade Window Company',
                             child: Center(
                                 child: Text('Trade Window Company',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Telephone Enquiry',
                             child: Center(
                                 child: Text('Telephone Enquiry',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Trade',
                             child: Center(
                                 child: Text('Trade',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Other',
                             child: Center(
                                 child: Text('Other',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -437,6 +444,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -455,38 +463,38 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             child: Center(
                                 child: Text(
                               'Call Back',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'brochure',
                             child: Center(
                                 child: Text('brochure',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Quotation',
                             child: Center(
                                 child: Text('Quotation',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Chasing Configurator Enquiry',
                             child: Center(
                                 child: Text('Chasing Configurator Enquiry',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Technical Details',
                             child: Center(
                                 child: Text('Technical Details',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Dealership',
                             child: Center(
                                 child: Text('Dealership',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Others',
                             child: Center(
                                 child: Text('Others',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -555,6 +563,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -573,22 +582,22 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             value: 'Supply Only',
                             child: Center(
                                 child: Text('Supply Only',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Installation',
                             child: Center(
                                 child: Text('Installation',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Not Applicable',
                             child: Center(
                                 child: Text('Not Applicable',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Not Specified',
                             child: Center(
                                 child: Text('Not Specified',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -796,6 +805,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
@@ -815,17 +825,17 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             value: 'LOW',
                             child: Center(
                                 child: Text('LOW',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'MEDIUM',
                             child: Center(
                                 child: Text('MEDIUM',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'HIGH',
                             child: Center(
                                 child: Text('HIGH',
-                                    style: TextStyle(fontSize: 14)))),
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -862,14 +872,10 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     width: 60,
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.60),
-                    child: Text(
-                      _image != null && _image!.path.isNotEmpty
-                          ? "File Uploaded"
-                          : "",
-                    ),
+                  Text(
+                    _image != null && _image!.path.isNotEmpty
+                        ? "File Uploaded"
+                        : "",
                   ),
                 ],
               ),
@@ -904,14 +910,10 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     width: 60,
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.70),
-                    child: Text(
-                      _image2 != null && _image2!.path.isNotEmpty
-                          ? "File Uploaded"
-                          : "",
-                    ),
+                  Text(
+                    _image2 != null && _image2!.path.isNotEmpty
+                        ? "File Uploaded"
+                        : "",
                   ),
                 ],
               ),
@@ -933,6 +935,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               Center(
                 child: RoundButton(
                   text: 'Save',
+                  width: double.infinity,
                   onTap: () {
                     apiServices.createEnquiriesForAdmin(
                         widget.dealerId,
@@ -966,6 +969,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               Center(
                 child: RoundButton(
                   text: 'Save as Hot Lead',
+                  width: double.infinity,
                   onTap: () {},
                   color: Color(0xff941420),
                 ),

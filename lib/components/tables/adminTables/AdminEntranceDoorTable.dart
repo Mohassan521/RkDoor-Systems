@@ -339,7 +339,7 @@ class MyData extends DataTableSource {
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Enquiry Details",
-                width: MediaQuery.sizeOf(context).width * 0.35,
+                width: MediaQuery.sizeOf(context).width * 0.32,
                 color: Colors.blue,
               )),
               DataCell(Text(quote.enquiryTelNum ?? "")),

@@ -423,26 +423,29 @@ class MyData extends DataTableSource {
             index: index,
             cells: [
               //1
-              DataCell(Text(quote.name ?? "")),
+              DataCell(Text(
+                quote.name ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //2
               DataCell(
                 Container(
                   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
-                    color: quote.orderStatusVal == "Deposit Received" ||
-                            quote.orderStatusVal ==
-                                "Preliminary Confirmation Issued" ||
-                            quote.orderStatusVal == "Awaiting Deposit" ||
-                            quote.orderStatusVal ==
-                                "Revised Confirmation Issued" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Balance Payment" ||
-                            quote.orderStatusVal ==
-                                "Awaiting Survey / Dimensions"
-                        ? Colors.red
-                        : Color(0xffb5e51d),
-                  ),
+                      color: quote.orderStatusVal == "Deposit Received" ||
+                              quote.orderStatusVal ==
+                                  "Preliminary Confirmation Issued" ||
+                              quote.orderStatusVal == "Awaiting Deposit" ||
+                              quote.orderStatusVal ==
+                                  "Revised Confirmation Issued" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Balance Payment" ||
+                              quote.orderStatusVal ==
+                                  "Awaiting Survey / Dimensions"
+                          ? Colors.red
+                          : Color(0xffb5e51d),
+                      borderRadius: BorderRadius.circular(5.5)),
                   child: Center(
                     child: Text(
                       (quote.orderStatusVal == "Deposit Received" ||
@@ -465,17 +468,26 @@ class MyData extends DataTableSource {
                 ),
               ),
               //3
-              DataCell(Text(dealerData.displayName ?? "")),
+              DataCell(Text(
+                dealerData.displayName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //4
-              DataCell(Text(quote.quotationNumber ?? "")),
+              DataCell(Text(
+                quote.quotationNumber ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //5
-              DataCell(Text(dealerData.dealerName ?? "")),
+              DataCell(Text(
+                dealerData.dealerName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //6
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 10),
                     controller: confcode,
                     onChanged: (value) {
                       value = confcode.text;
@@ -488,7 +500,7 @@ class MyData extends DataTableSource {
               DataCell(Builder(builder: (context) {
                 return Container(
                     height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.28,
+                    width: MediaQuery.sizeOf(context).width * 0.27,
                     decoration: BoxDecoration(
                         color: quote.orderStatusVal == "Order Received"
                             ? Color(0xff9ad9ea)
@@ -522,6 +534,7 @@ class MyData extends DataTableSource {
                                                                     0xff7092bf),
                         borderRadius: BorderRadius.circular(5.5)),
                     child: DropdownButton<String>(
+                      alignment: Alignment.center,
                       style: TextStyle(
                         fontSize: 8,
                         fontWeight: FontWeight.w600,
@@ -581,85 +594,67 @@ class MyData extends DataTableSource {
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Order Received',
-                            child: Text(
-                              'Order Received',
-                              textAlign: TextAlign.center,
-                            )),
+                            child: Text('Order Received')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Order Placed',
-                            child: Text('Order Placed',
-                                textAlign: TextAlign.center)),
+                            child: Text('Order Placed')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Awaiting Survey / Dimensions',
-                            child: Text('Awaiting Survey / Dimensions',
-                                textAlign: TextAlign.center)),
+                            child: Text('Awaiting Survey / Dimensions')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Awaiting Deposit',
-                            child: Text('Awaiting Deposit',
-                                textAlign: TextAlign.center)),
+                            child: Text('Awaiting Deposit')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Deposit Received',
-                            child: Text('Deposit Received',
-                                textAlign: TextAlign.center)),
+                            child: Text('Deposit Received')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Preliminary Confirmation Issued',
-                            child: Text('Preliminary Confirmation Issued',
-                                textAlign: TextAlign.center)),
+                            child: Text('Preliminary Confirmation Issued')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Revised Confirmation Issued',
-                            child: Text('Revised Confirmation Issued',
-                                textAlign: TextAlign.center)),
+                            child: Text('Revised Confirmation Issued')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Final Confirmation Issued',
-                            child: Text('Final Confirmation Issued',
-                                textAlign: TextAlign.center)),
+                            child: Text('Final Confirmation Issued')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'In Production',
-                            child: Text('In Production',
-                                textAlign: TextAlign.center)),
+                            child: Text('In Production')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Ready For Shipping',
-                            child: Text('Ready For Shipping',
-                                textAlign: TextAlign.center)),
+                            child: Text('Ready For Shipping')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'In Transit To UK',
-                            child: Text('In Transit To UK',
-                                textAlign: TextAlign.center)),
+                            child: Text('In Transit To UK')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'In RKDS Warehouse',
-                            child: Text('In RKDS Warehouse',
-                                textAlign: TextAlign.center)),
+                            child: Text('In RKDS Warehouse')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Awaiting Balance Payment',
-                            child: Text('Awaiting Balance Payment',
-                                textAlign: TextAlign.center)),
+                            child: Text('Awaiting Balance Payment')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Out For Delivery',
-                            child: Text('Out For Delivery',
-                                textAlign: TextAlign.center)),
+                            child: Text('Out For Delivery')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Delivered',
-                            child:
-                                Text('Delivered', textAlign: TextAlign.center)),
+                            child: Text('Delivered')),
                         DropdownMenuItem<String>(
                             alignment: Alignment.center,
                             value: 'Delayed',
-                            child:
-                                Text('Delayed', textAlign: TextAlign.center)),
+                            child: Text('Delayed')),
                       ],
                     ));
               })),
@@ -668,7 +663,7 @@ class MyData extends DataTableSource {
               DataCell(Builder(builder: (context) {
                 return Container(
                   height: MediaQuery.sizeOf(context).height * 0.05,
-                  width: MediaQuery.sizeOf(context).width * 0.30,
+                  width: MediaQuery.sizeOf(context).width * 0.40,
                   decoration: BoxDecoration(
                       color: quote.orderPaymentStatusVal == "Awaiting Deposit"
                           ? Colors.yellow
@@ -726,10 +721,7 @@ class MyData extends DataTableSource {
                                                     : Colors.yellow,
                     isExpanded: true,
                     value: paymentStatus,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.white,
-                    ),
+                    underline: SizedBox(),
                     onChanged: (String? newValue) {
                       //newValue = result.orderFollowup;
                       if (newValue != null) {
@@ -753,35 +745,45 @@ class MyData extends DataTableSource {
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Awaiting Deposit',
-                          child: Text('Awaiting Deposit')),
+                          child: Text(
+                            'Awaiting Deposit',
+                            textAlign: TextAlign.center,
+                          )),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Deposit Received',
-                          child: Text('Deposit Received')),
+                          child: Text('Deposit Received',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Awaiting Survey Fee',
-                          child: Text('Awaiting Survey Fee')),
+                          child: Text('Awaiting Survey Fee',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Survey Fee Received',
-                          child: Text('Survey Fee Received')),
+                          child: Text('Survey Fee Received',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Awaiting Balance',
-                          child: Text('Awaiting Balance')),
+                          child: Text('Awaiting Balance',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Balance Paid',
-                          child: Text('Balance Paid')),
+                          child: Text('Balance Paid',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'Awaiting Install Payment',
-                          child: Text('Awaiting Install Payment')),
+                          child: Text('Awaiting Install Payment',
+                              textAlign: TextAlign.center)),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
                           value: 'All Invoices Paid',
-                          child: Text('All Invoices Paid')),
+                          child: Text('All Invoices Paid',
+                              textAlign: TextAlign.center)),
                     ],
                   ),
                 );
@@ -801,7 +803,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.documents!)
                               InkWell(
@@ -858,7 +860,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -882,7 +883,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.manualQuickDocumentUpload!)
                               InkWell(
@@ -939,7 +940,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -953,8 +953,14 @@ class MyData extends DataTableSource {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   quote.anticipatedDateVal!.isNotEmpty
-                      ? Text(quote.anticipatedDateVal!)
-                      : Text('mm/dd/yyyy'),
+                      ? Text(
+                          quote.anticipatedDateVal!,
+                          style: TextStyle(fontSize: 12.5),
+                        )
+                      : Text(
+                          'mm/dd/yyyy',
+                          style: TextStyle(fontSize: 12.5),
+                        ),
                   DateButton(
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
@@ -988,7 +994,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.invoicesDocuments!)
                               InkWell(
@@ -1045,7 +1051,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -1055,13 +1060,17 @@ class MyData extends DataTableSource {
                       ),
               ),
               //13
-              DataCell(Text(quote.balDueBeforeDelivery ?? "")),
+              DataCell(Text(
+                quote.balDueBeforeDelivery ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //14
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Financial History",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //15
               DataCell(
@@ -1078,7 +1087,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.deliveryDocuments!)
                               InkWell(
@@ -1135,7 +1144,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -1145,21 +1153,45 @@ class MyData extends DataTableSource {
                       ),
               ),
               //16
-              DataCell(Text(quote.profile ?? "")),
+              DataCell(Text(
+                quote.profile ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //17
-              DataCell(Text(quote.doorModel ?? "")),
+              DataCell(Text(
+                quote.doorModel ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //18
-              DataCell(Text(quote.marineGradeVal ?? "")),
+              DataCell(Text(
+                quote.marineGradeVal ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //19
-              DataCell(Text(quote.frameSizeHeightWidth ?? "")),
+              DataCell(Text(
+                quote.frameSizeHeightWidth ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //20
-              DataCell(Text(quote.lhGoalPostE44 ?? "")),
+              DataCell(Text(
+                quote.lhGoalPostE44 ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //21
-              DataCell(Text(quote.totalWeightKg ?? "")),
+              DataCell(Text(
+                quote.totalWeightKg ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //22
-              DataCell(Text(quote.thresholdType ?? "")),
+              DataCell(Text(
+                quote.thresholdType ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //23
-              DataCell(Text(quote.ekeylessAccess ?? "")),
+              DataCell(Text(
+                quote.ekeylessAccess ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //25
               //24
 
@@ -1167,7 +1199,7 @@ class MyData extends DataTableSource {
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 10),
                     controller: facDeliveryWeek,
                     onChanged: (value) {
                       value = facDeliveryWeek.text;
@@ -1180,24 +1212,42 @@ class MyData extends DataTableSource {
                     },
                   ))),
               //25
-              DataCell(Text(quote.telephoneNumber ?? "")),
+              DataCell(Text(
+                quote.telephoneNumber ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //26
-              DataCell(Text(quote.customerEmail ?? "")),
+              DataCell(Text(
+                quote.customerEmail ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //27
-              DataCell(Text(quote.deliveryPostCode ?? "")),
+              DataCell(Text(
+                quote.deliveryPostCode ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //28
-              DataCell(Text(quote.date ?? "")),
+              DataCell(Text(
+                quote.date ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //29
-              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(
+                quote.time ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //30
-              DataCell(Text(quote.wholeTotal ?? "")),
+              DataCell(Text(
+                quote.wholeTotal ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //31
               DataCell(Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     (quote.orderDate != null) ? quote.orderDate! : "mm/dd/yyyy",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12.5),
                   ),
                   DateButton(
                     onTap: () async {
@@ -1238,13 +1288,26 @@ class MyData extends DataTableSource {
                     }
                   },
                   items: [
-                    DropdownMenuItem<String>(value: 'YES', child: Text('YES')),
-                    DropdownMenuItem<String>(value: 'NO', child: Text('NO')),
+                    DropdownMenuItem<String>(
+                        value: 'YES',
+                        child: Text(
+                          'YES',
+                          style: TextStyle(fontSize: 12.5),
+                        )),
+                    DropdownMenuItem<String>(
+                        value: 'NO',
+                        child: Text(
+                          'NO',
+                          style: TextStyle(fontSize: 12.5),
+                        )),
                   ],
                 ),
               )),
               //33
-              DataCell(Text(quote.id ?? "")),
+              DataCell(Text(
+                quote.id ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //34
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
@@ -1346,7 +1409,8 @@ class MyData extends DataTableSource {
                 },
                 text: "Notes",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               // custom handle file
               //36
@@ -1356,7 +1420,8 @@ class MyData extends DataTableSource {
                 onTap: () {},
                 text: "Quote Analysis",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.18,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //38
               DataCell(RoundButton(
@@ -1366,15 +1431,25 @@ class MyData extends DataTableSource {
                 },
                 text: "Back To Quote",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.32,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.21,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //39
-              DataCell(Text("${quote.date} ${quote.orderStatusVal}")),
+              DataCell(Text(
+                "${quote.date} ${quote.orderStatusVal}",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //40
-              DataCell(Text("${quote.saleBonus}")),
+              DataCell(Text(
+                "${quote.saleBonus}",
+                style: TextStyle(fontSize: 12.5),
+              )),
 
               //41
-              DataCell(Text("${dealerData.dealerName}")),
+              DataCell(Text(
+                "${dealerData.dealerName}",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //42
               DataCell(RoundButton(
                 onTap: () {
@@ -1382,7 +1457,8 @@ class MyData extends DataTableSource {
                 },
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
 
               // DataCell(RoundButton(
@@ -1427,9 +1503,15 @@ class MyData extends DataTableSource {
                       size: 14,
                     ),
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.copy,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   InkWell(
                     onTap: () {

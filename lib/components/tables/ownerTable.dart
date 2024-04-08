@@ -32,70 +32,64 @@ class _TablePageState extends State<TablePage> {
           List<DealersModel> data = snapshot.data ?? [];
 
           return Consumer<PaginationProvider>(builder: (context, value, child) {
-            return ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(23),
-                  topRight: Radius.circular(23),
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(0)),
-              child: PaginatedDataTable(
-                  rowsPerPage: value.rowsPerPage,
-                  headingRowColor: MaterialStateProperty.resolveWith(
-                      (states) => Color(0xff941420)),
-                  columns: const <DataColumn>[
-                    DataColumn(
-                        label: Text(
-                      'Dealer ID',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Dealer Name',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Email',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Tel',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Post Code',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Quotation Type',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'Dealer Type',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'License Type',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      'License Expiry Date',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    DataColumn(
-                        label: Text(
-                      '',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    )),
-                  ],
-                  source: MyData(data, context)),
-            );
+            return PaginatedDataTable(
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                columnSpacing: 20,
+                rowsPerPage: 1,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Dealer ID',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Tel',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'License Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'License Expiry Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  )),
+                ],
+                source: MyData(data, context));
           });
         });
   }
@@ -118,30 +112,34 @@ class MyData extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final DealersModel result = data[index];
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      DataCell(Text('${result.iD}')),
-      DataCell(Text(result.displayName ?? '')),
-      DataCell(Text(result.userEmail ?? '')),
-      DataCell(Text('${result.telephone}')),
-      DataCell(Text('${result.postCodeRegister}')),
-      DataCell(Text('${result.quotationType}')),
-      DataCell(Text('${result.dealerType}')),
-      DataCell(Text('${result.lDealer}')),
-      DataCell(Text('${result.lDate}')),
-      DataCell(Row(
-        children: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditDealerPage(dealers: result)));
-            },
-            icon: Icon(Icons.edit),
-            iconSize: 16,
-          ),
-        ],
-      )),
-    ]);
+    return DataRow.byIndex(
+        color: MaterialStatePropertyAll(Colors.white),
+        index: index,
+        cells: <DataCell>[
+          DataCell(Text('${result.iD}')),
+          DataCell(Text(result.displayName ?? '')),
+          DataCell(Text(result.userEmail ?? '')),
+          DataCell(Text('${result.telephone}')),
+          DataCell(Text('${result.postCodeRegister}')),
+          DataCell(Text('${result.quotationType}')),
+          DataCell(Text('${result.dealerType}')),
+          DataCell(Text('${result.lDealer}')),
+          DataCell(Text('${result.lDate}')),
+          DataCell(Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditDealerPage(dealers: result)));
+                },
+                icon: Icon(Icons.edit),
+                iconSize: 14,
+              ),
+            ],
+          )),
+        ]);
   }
 }

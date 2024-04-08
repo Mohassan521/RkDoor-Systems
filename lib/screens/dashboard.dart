@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/components/tables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/employeeTable.dart';
 import 'package:price_link/components/tables/employeeTables/employeeTable.dart';
-import 'package:price_link/components/tables/orderTable.dart';
 import 'package:price_link/components/tables/ownerTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
-import 'package:price_link/models/EmployeeList.dart';
-import 'package:price_link/models/dealersModel.dart';
-import 'package:price_link/screens/Entrance%20Door%20Orders/allDoorOrders.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
   final String? dealer_id;
@@ -299,7 +288,6 @@ class _DashboardPageState extends State<DashboardPage> {
       return await Future.delayed(Duration(seconds: 2));
     }
 
-
     // print(dealerData);
     return RefreshIndicator(
       onRefresh: _handleRefresh,
@@ -336,10 +324,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                 fontSize: 25, fontWeight: FontWeight.w600),
                           ),
                           FutureBuilder(
-                            future: apiServices.getDealersList(context, widget.dealer_id!),
+                            future: apiServices.getDealersList(
+                                context, widget.dealer_id!),
                             builder: (context, snapshot) {
                               return Text(
-                                '${snapshot.data != null ? snapshot.data![0].dealerName : "loading name..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress1 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress2 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress3 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].postCodeRegister : "loading post code..."}');
+                                  '${snapshot.data != null ? snapshot.data![0].dealerName : "loading name..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress1 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress2 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].dealerAddress3 : "loading address..."}\n${snapshot.data != null ? snapshot.data![0].postCodeRegister : "loading post code..."}');
                             },
                           )
                         ],
@@ -420,10 +409,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: AllDoorOrdersTable(
-                    dealerId: widget.role == "employee" ? widget.empId :  widget.dealer_id,
+                    dealerId: widget.role == "employee"
+                        ? widget.empId
+                        : widget.dealer_id,
                     dealerName: widget.dealer_name ?? "",
                     role: widget.role,
-                    
                   ),
                 ),
                 SizedBox(
@@ -475,7 +465,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: QuotationsTable(
-                    dealerId: widget.role == "employee" ? widget.empId : widget.dealer_id,
+                    dealerId: widget.role == "employee"
+                        ? widget.empId
+                        : widget.dealer_id,
                     dealerName: widget.dealer_name,
                     role: widget.role,
                   ),

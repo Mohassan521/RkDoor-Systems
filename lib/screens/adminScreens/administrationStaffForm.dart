@@ -64,28 +64,38 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                   SizedBox(
                     height: 30,
                   ),
+                  const Text('First Name',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
+                  ),
                   FormBuilderTextField(
                     name: 'first_name',
                     controller: fname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'First Name'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Last Name',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'last_name',
@@ -93,22 +103,27 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Last Name'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Post Code',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'post_code',
@@ -116,22 +131,27 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Post Code'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Telephone',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'tel',
@@ -139,22 +159,27 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Telephone'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Email',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'email',
@@ -162,22 +187,27 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Email'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Password',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'password',
@@ -185,22 +215,27 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Password'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Confirm Password',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'confirm',
@@ -208,19 +243,19 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Confirm Password'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 20,

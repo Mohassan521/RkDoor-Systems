@@ -3,7 +3,6 @@ import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/depositReceived.dart';
 import 'package:price_link/components/tables/steelDepositReceivedTable.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +25,7 @@ class SteelDepositReceived extends StatefulWidget {
 class _SteelDepositReceivedState extends State<SteelDepositReceived> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<SteelOrderModel>? newData =
-        await apiServices.allSteelOrders(context, widget.dealerId);
+    await apiServices.allSteelOrders(context, widget.dealerId);
 
     // Update the UI with the new data
     setState(() {});

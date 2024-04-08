@@ -60,112 +60,107 @@ class _QuotationsTableState extends State<QuotationsTable> {
             filteredList.isNotEmpty ? filteredList : data;
         //print(object)
 
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: (data.length >= 5 && data.isNotEmpty)
-                  ? 5
-                  : (data.isEmpty)
-                      ? 1
-                      : data.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Created By',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value (inc. VAT)',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Made',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(
-                myGlobalBuildContext: context,
-                displayData,
-                widget.dealerId,
-                dealerName: widget.dealerName!,
-                showDatePickerCallback: _showDatePicker,
-                empId: widget.empId,
-                datetime: _dateTime,
+        return PaginatedDataTable(
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            columnSpacing: 20,
+            showEmptyRows: false,
+            rowsPerPage: (data.length >= 5 && data.isNotEmpty)
+                ? 5
+                : (data.isEmpty)
+                    ? 1
+                    : data.length,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
               )),
-        );
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote Created By',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Tel No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Quote Value (inc. VAT)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote ID',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow up Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Follow up Made',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quote Analysis',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(
+              myGlobalBuildContext: context,
+              displayData,
+              widget.dealerId,
+              dealerName: widget.dealerName!,
+              showDatePickerCallback: _showDatePicker,
+              empId: widget.empId,
+              datetime: _dateTime,
+            ));
       },
     );
   }
@@ -206,267 +201,289 @@ class MyData extends DataTableSource {
     final _formKey = GlobalKey<FormState>();
     NetworkApiServices apiServices = NetworkApiServices();
     final QuotationsModel result = data[index];
-    return DataRow.byIndex(index: index, cells: <DataCell>[
-      DataCell(Text(result.name ?? "")),
-      DataCell(Text(result.quotationNumber ?? "")),
-      DataCell(Text(dealerName)),
-      DataCell(Text(result.telephoneNumber ?? "")),
-      DataCell(Text(result.customerEmail ?? "")),
-      DataCell(Text(result.dileveryPostCodeC13 ?? "")),
-      DataCell(Text(result.date ?? "")),
-      DataCell(Text(result.time ?? "")),
-      DataCell(Text(result.wholeTotal ?? "")),
-      DataCell(Text(result.id ?? "")),
-      DataCell(Consumer<FollowUpDate>(
-        builder: (context, value, child) {
-          return Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(
-              (result.orderDateQArray != null)
-                  ? result.orderDateQArray!
-                  : value.getDate(result.id!),
-              style: TextStyle(fontSize: 12),
-            ),
-            DateButton(
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2050),
-                );
+    return DataRow.byIndex(
+        color: MaterialStatePropertyAll(Colors.white),
+        index: index,
+        cells: <DataCell>[
+          DataCell(Text(result.name ?? "")),
+          DataCell(Text(result.quotationNumber ?? "")),
+          DataCell(Text(dealerName)),
+          DataCell(Text(result.telephoneNumber ?? "")),
+          DataCell(Text(result.customerEmail ?? "")),
+          DataCell(Text(result.dileveryPostCodeC13 ?? "")),
+          DataCell(Text(result.date ?? "")),
+          DataCell(Text(result.time ?? "")),
+          DataCell(Text(result.wholeTotal ?? "")),
+          DataCell(Text(result.id ?? "")),
+          DataCell(Consumer<FollowUpDate>(
+            builder: (context, value, child) {
+              return Row(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  (result.orderDateQArray != null)
+                      ? result.orderDateQArray!
+                      : value.getDate(result.id!),
+                  style: TextStyle(fontSize: 12),
+                ),
+                DateButton(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050),
+                    );
 
-                if (pickedDate != null) {
-                  // value.setDate(result.id!, pickedDate);
-                  apiServices.setFollowUpDate(
-                      dealerId!, result.id!, pickedDate);
-                }
-              },
-              icon: Icons.calendar_month,
-            )
-          ]);
-        },
-      )),
-      DataCell(Padding(
-        padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-        child: Container(
-          alignment: Alignment.center,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          decoration: BoxDecoration(
-              color: result.orderFUpQVal == "YES"
-                  ? Color(0Xff008000)
-                  : Color(0xffFF0000),
-              border: Border.all(width: 1)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: result.orderFUpQVal == "YES" ? "YES" : "NO",
-            iconEnabledColor: result.orderFUpQVal == "YES"
-                ? Color(0Xff008000)
-                : Color(0xffFF0000),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                apiServices.setFollowUpValue(dealerId!, result.id!, newValue);
-              } else {
-                apiServices.setFollowUpValue(
-                    dealerId!, result.id!, result.orderFUpQVal!);
-              }
+                    if (pickedDate != null) {
+                      // value.setDate(result.id!, pickedDate);
+                      apiServices.setFollowUpDate(
+                          dealerId!, result.id!, pickedDate);
+                    }
+                  },
+                  icon: Icons.calendar_month,
+                )
+              ]);
             },
-            items: [
-              DropdownMenuItem<String>(
-                  value: '',
-                  alignment: Alignment.center,
-                  child: Text(
-                    '',
-                    style: TextStyle(color: Colors.black),
-                  )),
-              DropdownMenuItem<String>(
-                  value: 'YES',
-                  alignment: Alignment.center,
-                  child: Text(
-                    'YES',
-                    style: TextStyle(color: Colors.black),
-                  )),
-              DropdownMenuItem<String>(
-                  value: 'NO',
-                  alignment: Alignment.center,
-                  child: Center(
-                    child: Text(
-                      'NO',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  )),
-            ],
-          ),
-        ),
-      )),
-      DataCell(RoundButton(
-        text: 'Quote Analysis',
-        onTap: () {
-          Navigator.push(
-              myGlobalBuildContext,
-              MaterialPageRoute(
-                  builder: (context) => OrdersQuoteAnalysis(
-                        dealerId: dealerId,
-                        quoteId: result.id,
-                      )));
-        },
-        color: Colors.blue,
-      )),
-      DataCell(RoundButton(
-        text: 'Notes',
-        width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.13,
-        onTap: () async {
-          notesController.text = result.notes!;
-          await showDialog(
-              context: myGlobalBuildContext,
-              builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    insetPadding: EdgeInsets.all(9),
-                    content: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                            right: -40,
-                            top: -40,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const CircleAvatar(
-                                backgroundColor: Color(0xff941420),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                        Form(
-                            key: _formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Center(
-                                    child: Text('Enter Notes',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color(0xff941420),
-                                            fontWeight: FontWeight.w600))),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: TextFormField(
-                                    maxLines: 6,
-                                    // initialValue: result.notes,
-                                    controller: notesController,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xff941420))),
-                                        hintText: 'Notes'),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                RoundButton(
-                                  text: 'Save',
-                                  onTap: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      apiServices.setNotesValue(dealerId!,
-                                          result.id!, notesController.text);
-                                    }
-
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop('dialog');
-                                  },
-                                  color: Color(0xff941420),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ));
-        },
-        color: Colors.blue,
-      )),
-      DataCell(RoundButton(
-        text: 'Create Order',
-        onTap: () {
-          apiServices.createOrder(dealerId!, result.id!);
-        },
-        color: Colors.blue,
-      )),
-      DataCell(Row(
-        children: [
-          IconButton(
-            // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-            onPressed: () {
+          )),
+          DataCell(Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+              decoration: BoxDecoration(
+                  color: result.orderFUpQVal == "YES"
+                      ? Color(0Xff008000)
+                      : Color(0xffFF0000),
+                  border: Border.all(width: 1)),
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: result.orderFUpQVal == "YES" ? "YES" : "NO",
+                iconEnabledColor: result.orderFUpQVal == "YES"
+                    ? Color(0Xff008000)
+                    : Color(0xffFF0000),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    apiServices.setFollowUpValue(
+                        dealerId!, result.id!, newValue);
+                  } else {
+                    apiServices.setFollowUpValue(
+                        dealerId!, result.id!, result.orderFUpQVal!);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      value: '',
+                      alignment: Alignment.center,
+                      child: Text(
+                        '',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'YES',
+                      alignment: Alignment.center,
+                      child: Text(
+                        'YES',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: 'NO',
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          )),
+          DataCell(RoundButton(
+            text: 'Quote Analysis',
+            onTap: () {
               Navigator.push(
                   myGlobalBuildContext,
                   MaterialPageRoute(
-                      builder: (context) => RkDoorCalculatorView(
-                          dealerId: dealerId!,
-                          url:
-                              'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerId}&cal_id=${result.id}&mobile_token=true')));
+                      builder: (context) => OrdersQuoteAnalysis(
+                            dealerId: dealerId,
+                            quoteId: result.id,
+                          )));
             },
-            icon: Icon(Icons.edit),
-            iconSize: 16,
-          ),
-          IconButton(
-            // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-            onPressed: () {
-              apiServices.duplicateQuotes(dealerId!, result.id!);
-            },
-            icon: Icon(Icons.copy),
-            iconSize: 16,
-          ),
-          IconButton(
-            // constraints: BoxConstraints.tight(Size.fromWidth(0)),
-            onPressed: () {
-              showDialog(
+            color: Colors.blue,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
+          )),
+          DataCell(RoundButton(
+            text: 'Notes',
+            width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.13,
+            onTap: () async {
+              notesController.text = result.notes!;
+              await showDialog(
                   context: myGlobalBuildContext,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Icon(Icons.warning),
-                      content:
-                          Text('Are u sure you want to delete this quotation'),
-                      actions: [
-                        Center(
-                          child: Column(
-                            children: [
-                              RoundButton(
-                                text: 'Delete',
-                                onTap: () {
-                                  apiServices.deleteQuotes(
-                                      dealerId!, result.id!);
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RoundButton(
-                                text: 'Cancel',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  });
+                  builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        insetPadding: EdgeInsets.all(9),
+                        content: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                                right: -40,
+                                top: -40,
+                                child: InkResponse(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const CircleAvatar(
+                                    backgroundColor: Color(0xff941420),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )),
+                            Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Center(
+                                        child: Text('Enter Notes',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color(0xff941420),
+                                                fontWeight: FontWeight.w600))),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: TextFormField(
+                                        maxLines: 6,
+                                        // initialValue: result.notes,
+                                        controller: notesController,
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xff941420))),
+                                            hintText: 'Notes'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    RoundButton(
+                                      text: 'Save',
+                                      onTap: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          apiServices.setNotesValue(dealerId!,
+                                              result.id!, notesController.text);
+                                        }
+
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop('dialog');
+                                      },
+                                      color: Color(0xff941420),
+                                    )
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ));
             },
-            icon: Icon(Icons.delete),
-            iconSize: 16,
-          ),
-        ],
-      )),
-    ]);
+            color: Colors.blue,
+          )),
+          DataCell(RoundButton(
+            text: 'Create Order',
+            onTap: () {
+              apiServices.createOrder(dealerId!, result.id!);
+            },
+            color: Colors.blue,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.30,
+          )),
+          DataCell(Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      myGlobalBuildContext,
+                      MaterialPageRoute(
+                          builder: (context) => RkDoorCalculatorView(
+                              dealerId: dealerId!,
+                              url:
+                                  'https://www.pricelink.net/rk-door-calculator/?user_id=${dealerId}&cal_id=${result.id}&mobile_token=true')));
+                },
+                child: Icon(
+                  // constraints: BoxConstraints.tight(Size.fromWidth(0)),
+
+                  Icons.edit,
+                  size: 14,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                onTap: () {
+                  apiServices.duplicateQuotes(dealerId!, result.id!);
+                },
+                child: Icon(
+                  // constraints: BoxConstraints.tight(Size.fromWidth(0)),
+
+                  Icons.copy,
+                  size: 14,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                onTap: () {
+                  showDialog(
+                      context: myGlobalBuildContext,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Icon(Icons.warning),
+                          content: Text(
+                              'Are u sure you want to delete this quotation'),
+                          actions: [
+                            Center(
+                              child: Column(
+                                children: [
+                                  RoundButton(
+                                    text: 'Delete',
+                                    onTap: () {
+                                      apiServices.deleteQuotes(
+                                          dealerId!, result.id!);
+                                      Navigator.pop(context);
+                                    },
+                                    color: Colors.red,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  RoundButton(
+                                    text: 'Cancel',
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    color: Colors.blue,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 14,
+                ),
+              ),
+            ],
+          )),
+        ]);
   }
 }

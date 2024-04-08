@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/doorAwaitingSurvey.dart';
 import 'package:price_link/components/tables/doorAwaitedSurveyTable.dart';
-import 'package:price_link/models/ordersListModel.dart';
+
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -24,8 +23,7 @@ class DoorAwaitedSurvey extends StatefulWidget {
 class _DoorAwaitedSurveyState extends State<DoorAwaitedSurvey> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<OrdersModel>? newData =
-        await apiServices.getOrdersList(widget.dealerId!, "");
+    await apiServices.getOrdersList(widget.dealerId!, "");
 
     // Update the UI with the new data
     setState(() {});

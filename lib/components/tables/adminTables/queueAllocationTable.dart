@@ -65,11 +65,6 @@ class _QueueAllocationTableState extends State<QueueAllocationTable> {
         List<CompleteResponse>? displayData =
             filteredList.isNotEmpty ? filteredList : list;
 
-        // List<SteelOrderModel> filteredList =
-        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        // List<SteelOrderModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
-
         return PaginatedDataTable(
             columnSpacing: 20,
             dataRowMaxHeight: 48,
@@ -277,18 +272,31 @@ class MyData extends DataTableSource {
             color: MaterialStatePropertyAll(Colors.white),
             index: index,
             cells: [
-              DataCell(Text(dealerData.displayName ?? "")),
-              DataCell(Text(quote.quotationNumber ?? "")),
-              DataCell(Text(dealerData.dealerName ?? "")),
-              DataCell(Text(quote.id ?? "")),
-              DataCell(Text(quote.name ?? "")),
-              DataCell(Text(quote.telephoneNumber ?? "")),
-              DataCell(Text(quote.customerEmail ?? "")),
-              DataCell(Text(quote.deliveryPostCode ?? "")),
-              DataCell(Text(quote.date ?? "")),
-              DataCell(Text(quote.time ?? "")),
-              DataCell(Text(quote.wholeTotal ?? "")),
-              DataCell(Text(quote.saleBonus ?? "")),
+              DataCell(Text(
+                dealerData.displayName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(quote.quotationNumber ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(dealerData.dealerName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.id ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.name ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.telephoneNumber ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.customerEmail ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.deliveryPostCode ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.date ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.time ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.wholeTotal ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.saleBonus ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -296,7 +304,7 @@ class MyData extends DataTableSource {
                     (quote.orderDateQArray != null)
                         ? quote.orderDateQArray!
                         : "mm/dd/yyyy",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12.5),
                   ),
                   DateButton(
                     onTap: () async {
@@ -327,7 +335,7 @@ class MyData extends DataTableSource {
                     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                     child: Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.sizeOf(context).width * 0.28,
+                      width: MediaQuery.sizeOf(context).width * 0.20,
                       decoration: BoxDecoration(
                           color: quote.orderFUpQVal == "YES"
                               ? Color(0Xff008000)
@@ -339,6 +347,7 @@ class MyData extends DataTableSource {
                         iconEnabledColor: quote.orderFUpQVal == "YES"
                             ? Color(0Xff008000)
                             : Color(0xffFF0000),
+                        style: TextStyle(fontSize: 12.5, color: Colors.black),
                         onChanged: (String? newValue) {
                           if (newValue != null) {
                             // apiServices.setFollowUpValue(
@@ -365,7 +374,8 @@ class MyData extends DataTableSource {
                               alignment: Alignment.center,
                               child: Text(
                                 'YES',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12.5),
                               )),
                           DropdownMenuItem<String>(
                               value: 'NO',
@@ -373,7 +383,8 @@ class MyData extends DataTableSource {
                               child: Center(
                                 child: Text(
                                   'NO',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12.5),
                                 ),
                               )),
                         ],
@@ -382,19 +393,22 @@ class MyData extends DataTableSource {
                   );
                 },
               )),
-              DataCell(RoundButton(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QuoteAnalysisForAdmin(
-                                dealerId: dealerData.userId.toString(),
-                                quoteId: quote.id,
-                              )));
-                },
-                text: "Quote Analysis",
-                width: MediaQuery.sizeOf(context).width * 0.37,
-                color: Colors.blue,
+              DataCell(Center(
+                child: RoundButton(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QuoteAnalysisForAdmin(
+                                  dealerId: dealerData.userId.toString(),
+                                  quoteId: quote.id,
+                                )));
+                  },
+                  text: "Quote Analysis",
+                  width: MediaQuery.sizeOf(context).width * 0.21,
+                  height: MediaQuery.sizeOf(context).height * 0.05,
+                  color: Colors.blue,
+                ),
               )),
               DataCell(RoundButton(
                 onTap: () async {
@@ -478,7 +492,8 @@ class MyData extends DataTableSource {
                           ));
                 },
                 text: "Notes",
-                width: MediaQuery.sizeOf(context).width * 0.25,
+                width: MediaQuery.sizeOf(context).width * 0.15,
+                height: MediaQuery.sizeOf(context).height * 0.05,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -487,12 +502,14 @@ class MyData extends DataTableSource {
                       dealerData.userId.toString(), quote.id!);
                 },
                 text: "Create Order",
-                width: MediaQuery.sizeOf(context).width * 0.35,
+                width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.05,
                 color: Colors.blue,
               )),
               DataCell(
                 DropdownButton<String>(
                   value: dealerType,
+                  style: TextStyle(fontSize: 12.5, color: Colors.black),
                   underline: Container(
                     height: 2,
                     color: Colors.white,
@@ -515,16 +532,24 @@ class MyData extends DataTableSource {
                   items: [
                     DropdownMenuItem<String>(value: '', child: Text('')),
                     DropdownMenuItem<String>(
-                        value: 'TRADE', child: Text('TRADE')),
+                        value: 'TRADE',
+                        child: Text('TRADE', style: TextStyle(fontSize: 12.5))),
                     DropdownMenuItem<String>(
-                        value: 'TRADE DEALER', child: Text('TRADE DEALER')),
+                        value: 'TRADE DEALER',
+                        child: Text('TRADE DEALER',
+                            style: TextStyle(fontSize: 12.5))),
                     DropdownMenuItem<String>(
-                        value: 'RKDS Dealer', child: Text('RKDS Dealer')),
+                        value: 'RKDS Dealer',
+                        child: Text('RKDS Dealer',
+                            style: TextStyle(fontSize: 12.5))),
                     DropdownMenuItem<String>(
                         value: 'RKDS Premier DEALER',
-                        child: Text('RKDS Premier DEALER')),
+                        child: Text('RKDS Premier DEALER',
+                            style: TextStyle(fontSize: 12.5))),
                     DropdownMenuItem<String>(
-                        value: 'IQ Glass', child: Text('IQ Glass')),
+                        value: 'IQ Glass',
+                        child:
+                            Text('IQ Glass', style: TextStyle(fontSize: 12.5))),
                   ],
                 ),
               ),
@@ -535,6 +560,7 @@ class MyData extends DataTableSource {
                       return DropdownButton<String>(
                         value: enqAllocatedTo,
                         isExpanded: false,
+                        style: TextStyle(fontSize: 12.5, color: Colors.black),
                         underline: Container(
                           height: 2,
                           color: Colors.grey,
@@ -547,7 +573,9 @@ class MyData extends DataTableSource {
                                 print("name present in API: ${e.name}");
                                 return DropdownMenuItem(
                                     value: e.name ?? "",
-                                    child: Center(child: Text(e.name ?? "")));
+                                    child: Center(
+                                        child: Text(e.name ?? "",
+                                            style: TextStyle(fontSize: 12.5))));
                               }).toList()
                             : [],
                       );
@@ -569,9 +597,15 @@ class MyData extends DataTableSource {
                         Icons.edit,
                         size: 14,
                       )),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.copy,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   InkWell(
                       onTap: () {

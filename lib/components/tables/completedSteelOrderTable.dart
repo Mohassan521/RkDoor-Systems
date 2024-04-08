@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/completedSteelOrdersModel.dart';
-import 'package:price_link/models/steelOrderModel.dart';
-import 'package:price_link/screens/steel%20Orders/SteelOrderFinancialHistory.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class CompletedSteelOrdersTable extends StatefulWidget {
   final String dealerId;
@@ -39,164 +35,158 @@ class _CompletedSteelOrdersTableState extends State<CompletedSteelOrdersTable> {
         // List<SteelOrderModel>? displayData =
         //     filteredList.isNotEmpty ? filteredList : list;
 
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23),
-              topRight: Radius.circular(23),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0)),
-          child: PaginatedDataTable(
-              rowsPerPage: (list.length > 5 && list.isNotEmpty)
-                  ? 5
-                  : list.isEmpty
-                      ? 1
-                      : list.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Action Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Username',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Order No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Steel Order Status',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Steel Order Confirmation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anticipated Delivery Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Steel Invoices',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Balance Due',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Financial History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Frame Size',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Delivery Week',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Weight',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Tel No.',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Email',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Order Value (including VAT)',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'File Upload',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Date History',
-                  style: TextStyle(color: Colors.white),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ],
-              source: MyData(list, context)),
-        );
+        return PaginatedDataTable(
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            rowsPerPage: (list.length > 5 && list.isNotEmpty)
+                ? 5
+                : list.isEmpty
+                    ? 1
+                    : list.length,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Username',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Order No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Order Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Order Confirmation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anticipated Delivery Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Invoices',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Balance Due',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Financial History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Supply Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Frame Size',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Delivery Week',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Weight',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Tel No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Order Value (including VAT)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'File Upload',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Date History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(list, context));
       },
     );
   }
@@ -222,6 +212,7 @@ class MyData extends DataTableSource {
     final CompletedSteelOrdersModel result = data![index];
     print(data);
     return DataRow.byIndex(
+      color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
         //1
@@ -307,8 +298,7 @@ class MyData extends DataTableSource {
           },
           text: 'Financial History',
           color: Colors.blue,
-          height: MediaQuery.sizeOf(context).height * 0.06,
-          width: MediaQuery.sizeOf(context).width * 0.4,
+          width: MediaQuery.sizeOf(context).width * 0.35,
         )),
         //13
         DataCell(result.steelDelNotes!.isNotEmpty
@@ -339,11 +329,10 @@ class MyData extends DataTableSource {
         //DataCell(Text(result.steelFacWeekVal ?? "")),
         DataCell(result.manualPDFImageURL!.isNotEmpty
             ? Icon(Icons.file_open)
-            : Text('No file found')),
+            : Text('')),
         //23
-        DataCell(result.pDFImageURL!.isNotEmpty
-            ? Icon(Icons.file_open)
-            : Text('No file found')),
+        DataCell(
+            result.pDFImageURL!.isNotEmpty ? Icon(Icons.file_open) : Text('')),
         //DataCell(Text(result.dileveryPostCodeC13 ?? "")),
         //24
         DataCell(Text(result.date ?? "")),
@@ -354,8 +343,7 @@ class MyData extends DataTableSource {
           onTap: () {},
           color: Colors.blue,
           text: 'Notes',
-          width: MediaQuery.sizeOf(context).width * 0.28,
-          height: MediaQuery.sizeOf(context).height * 0.05,
+          width: MediaQuery.sizeOf(context).width * 0.25,
         )),
         //27
         DataCell(Text('${result.date} ${result.time}')),

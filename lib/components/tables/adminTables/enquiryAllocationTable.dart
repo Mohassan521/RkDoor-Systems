@@ -74,11 +74,6 @@ class _EnquiryAllocationTableState extends State<EnquiryAllocationTable> {
         List<CompleteResponseOfEnquiries> displayData =
             filteredList.isNotEmpty ? filteredList : list;
 
-        // List<EnquiriesModel> filteredList =
-        //     Provider.of<AllEnquiriesSearchedData>(context).filteredDataModel;
-        // List<EnquiriesModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
-
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return PaginatedDataTable(
               columnSpacing: 20,
@@ -284,10 +279,22 @@ class MyData extends DataTableSource {
             index: index,
             color: MaterialStatePropertyAll(Colors.white),
             cells: [
-              DataCell(Text(dealerData.displayName)),
-              DataCell(Text(dealerData.dealerName)),
-              DataCell(Text(quote.enquiryCustomerName ?? "")),
-              DataCell(Text(quote.enquiryCompanyName ?? "")),
+              DataCell(Text(
+                dealerData.displayName,
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                dealerData.dealerName,
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryCustomerName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryCompanyName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               DataCell(Text("")),
               //   DataCell((quote != "")
               // ? Container(
@@ -302,22 +309,51 @@ class MyData extends DataTableSource {
               //       style: TextStyle(color: Colors.white),
               //     )))
               // : Text("")),
-              DataCell(Text(quote.enquiryTelNum ?? "")),
-              DataCell(Text(quote.enquiryType ?? "")),
-              DataCell(Text(quote.enquiryPriorityLevel ?? "")),
-              DataCell(Text(quote.enquiryRequirement ?? "")),
-              DataCell(Text(quote.enquirySupplyType ?? "")),
-              DataCell(Text(dealerData.dealerName)),
               DataCell(Text(
-                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
-              DataCell(Text(quote.enquiryCustomerEmail ?? "")),
-              DataCell(Text(quote.deliveryPostCodeC13 ?? "")),
-              DataCell(Text(quote.enquirySource ?? "")),
+                quote.enquiryTelNum ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryType ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryPriorityLevel ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryRequirement ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquirySupplyType ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                dealerData.dealerName,
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquiryCustomerEmail ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.deliveryPostCodeC13 ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.enquirySource ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 10),
                     controller: configuratorCode,
                     onEditingComplete: () {
                       String value = configuratorCode.text;
@@ -343,7 +379,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.enquiryOrderConfFile!)
                               InkWell(
@@ -400,7 +436,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -467,10 +502,19 @@ class MyData extends DataTableSource {
                       ),
               ),
 
-              DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
+              DataCell(Text(
+                quote.quotationNumberForEnquiry ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
 
-              DataCell(Text(quote.date ?? "")),
-              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(
+                quote.date ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(
+                quote.time ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
 
               DataCell(
                 FutureBuilder<List<AllDealersModel>>(
@@ -482,6 +526,7 @@ class MyData extends DataTableSource {
                           height: 2,
                           color: Colors.grey,
                         ),
+                        style: TextStyle(fontSize: 12.5, color: Colors.black),
                         onChanged: (newValue) {
                           enqAllocatedTo = newValue ?? "";
                         },
@@ -502,9 +547,15 @@ class MyData extends DataTableSource {
                     Icons.edit,
                     size: 14,
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.copy,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   Icon(
                     Icons.delete,

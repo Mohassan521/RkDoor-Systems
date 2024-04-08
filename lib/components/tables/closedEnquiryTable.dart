@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:price_link/Provider/provider.dart';
-import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/ClosedEnquiryModel.dart';
-import 'package:price_link/models/loginDataModel.dart';
-import 'package:price_link/models/ordersListModel.dart';
-import 'package:price_link/screens/FinancialHistory.dart';
-import 'package:price_link/screens/rkdoorCalculatorView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ClosedEnquiryTable extends StatefulWidget {
   final String? dealerId;
@@ -58,101 +51,95 @@ class _ClosedEnquiryTableState extends State<ClosedEnquiryTable> {
             filteredList.isNotEmpty ? filteredList : list;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0)),
-            child: PaginatedDataTable(
-                rowsPerPage: (list.length >= 5 && list.isNotEmpty)
-                    ? 5
-                    : (list.isEmpty)
-                        ? 1
-                        : list.length,
-                headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Color(0xff941420)),
-                columns: const <DataColumn>[
-                  DataColumn(
-                      label: Text(
-                    'Customer Name',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Company',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Telephone',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Product Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Priority',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Requirement',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Enquiry Allocated To',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Dealer',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Address',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Email',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Enquiry Source',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'File Upload',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Notes',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Create Quotation',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Edit',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                ],
-                source: MyData(displayData, _dateTime, widget.dealerId,
-                    widget.dealerName, _showDatePicker,
-                    myGlobalBuildContext: context)),
-          );
+          return PaginatedDataTable(
+              columnSpacing: 20,
+              headingRowHeight: 48,
+              dataRowMaxHeight: 48,
+              rowsPerPage: (list.length >= 5 && list.isNotEmpty)
+                  ? 5
+                  : (list.isEmpty)
+                      ? 1
+                      : list.length,
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Customer Name',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Company',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Telephone',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Product Type',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Priority',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Requirement',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Allocated To',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Dealer',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Address',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Email',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Enquiry Source',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'File Upload',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Notes',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Create Quotation',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Edit',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+              ],
+              source: MyData(displayData, _dateTime, widget.dealerId,
+                  widget.dealerName, _showDatePicker,
+                  myGlobalBuildContext: context));
         });
       },
     );
@@ -187,13 +174,13 @@ class MyData extends DataTableSource {
   DataRow getRow(int index) {
     // String? prevValue =
     //print(prevNotesValue);
-    var userData = Provider.of<UserLoginData>(myGlobalBuildContext).dataModel;
     var dealerData = Provider.of<DealerData>(myGlobalBuildContext).model;
     final ClosedEnquiryModel result = data[index];
 
     //Widget selectedTable = determineTable(result, dealerId!);
 
     return DataRow.byIndex(
+      color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
         DataCell(Text(result.enquiryCusName ?? "")),
@@ -218,7 +205,7 @@ class MyData extends DataTableSource {
                 child: GestureDetector(
                   onTap: () {},
                   child: Icon(
-                    Icons.file_download,
+                    Icons.file_open,
                     size: 15,
                   ),
                 ),
@@ -229,14 +216,12 @@ class MyData extends DataTableSource {
           text: 'Notes',
           color: Color(0xff941420),
           width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.2,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
         )),
         DataCell(RoundButton(
           onTap: () {},
           text: 'Create Quotation',
           color: Color(0xff941420),
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
         )),
         DataCell(Text("")),
 

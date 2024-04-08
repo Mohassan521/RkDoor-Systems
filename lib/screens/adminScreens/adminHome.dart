@@ -52,13 +52,8 @@ class _AdminHomePageState extends State<AdminHomePage>
   Widget build(BuildContext context) {
     print("dealer Id in dashboard: ${widget.role}");
     Future<void> _handleRefresh() async {
-      // await apiServices.getDealersList(context, widget.dealer_id!);
+      await apiServices.getAdminOrders();
 
-      // await apiServices.getEmployeeList(widget.dealer_id!);
-      // await apiServices.getOrdersList(widget.dealer_id!, "");
-      // await apiServices.getQuotationsList(widget.dealer_id);
-
-      // Update the UI with the new data
       setState(() {});
 
       // Return a delayed Future to simulate a refresh
@@ -140,14 +135,12 @@ class _AdminHomePageState extends State<AdminHomePage>
                   child: Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
+                        padding: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
+                              color: Color(0xff941420),
+                              width: 3.0,
                             ),
                           ),
                         ),
@@ -269,8 +262,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
+                        padding: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -306,50 +298,49 @@ class _AdminHomePageState extends State<AdminHomePage>
                 SizedBox(
                   height: 40,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Flexible(
-                          child: Text(
-                            'Awaiting Survey / Dimensions',
-                            style: TextStyle(
-                                letterSpacing: 2.5,
-                                height: 1.5,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: AdminDoorAwaitingSurvey(
-                    dealerId: widget.dealer_id ?? "",
-                    dealerName: widget.dealer_name ?? "",
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 15.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Container(
+                //         padding: EdgeInsets.only(
+                //             bottom: 8), // Adjust padding as needed
+                //         decoration: BoxDecoration(
+                //           border: Border(
+                //             bottom: BorderSide(
+                //               color:
+                //                   Color(0xff941420), // Adjust color as needed
+                //               width: 3.0, // Adjust thickness as needed
+                //             ),
+                //           ),
+                //         ),
+                //         child: Flexible(
+                //           child: Text(
+                //             'Awaiting Survey / Dimensions',
+                //             style: TextStyle(
+                //                 height: 1.5,
+                //                 fontSize: 20,
+                //                 fontWeight: FontWeight.w600),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 15,
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: AdminDoorAwaitingSurvey(
+                //     dealerId: widget.dealer_id ?? "",
+                //     dealerName: widget.dealer_name ?? "",
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 40,
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Row(

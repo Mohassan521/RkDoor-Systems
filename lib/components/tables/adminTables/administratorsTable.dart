@@ -188,23 +188,43 @@ class MyData extends DataTableSource {
         index: index,
         cells: <DataCell>[
           //1
-          DataCell(Text(result.iD.toString())),
+          DataCell(Text(
+            result.iD.toString(),
+            style: TextStyle(fontSize: 12.5),
+          )),
           //2
-          DataCell(Text(result.name ?? "")),
+          DataCell(Text(
+            result.name ?? "",
+            style: TextStyle(fontSize: 12.5),
+          )),
           //3
-          DataCell(Center(child: Text(result.postCode ?? ""))),
+          DataCell(Center(
+              child: Text(
+            result.postCode ?? "",
+            style: TextStyle(fontSize: 12.5),
+          ))),
           //4
-          DataCell(Text(result.tel ?? "")),
+          DataCell(Text(
+            result.tel ?? "",
+            style: TextStyle(fontSize: 12.5),
+          )),
           //5
-          DataCell(Text(result.email ?? "")),
+          DataCell(Text(
+            result.email ?? "",
+            style: TextStyle(fontSize: 12.5),
+          )),
           //6
-          DataCell(Center(child: Text(result.registeredUser ?? ""))),
+          DataCell(Center(
+              child: Text(
+            result.registeredUser ?? "",
+            style: TextStyle(fontSize: 12.5),
+          ))),
           //7
           DataCell(Center(
             child: Icon(
               Icons.delete,
               color: Colors.red,
-              size: 14,
+              size: 12.5,
             ),
           )),
         ]);

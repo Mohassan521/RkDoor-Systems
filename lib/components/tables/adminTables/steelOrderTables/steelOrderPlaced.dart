@@ -420,26 +420,29 @@ class MyData extends DataTableSource {
             color: MaterialStatePropertyAll(Colors.white),
             index: index,
             cells: [
-              DataCell(Text(quote.steelCustomerName ?? "")),
+              DataCell(Text(
+                quote.steelCustomerName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //2
               DataCell(
                 Container(
                   height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
                   decoration: BoxDecoration(
-                    color: quote.steelOrderStatusVal == "Deposit Received" ||
-                            quote.steelOrderStatusVal ==
-                                "Preliminary Confirmation Issued" ||
-                            quote.steelOrderStatusVal == "Awaiting Deposit" ||
-                            quote.steelOrderStatusVal ==
-                                "Revised Confirmation Issued" ||
-                            quote.steelOrderStatusVal ==
-                                "Awaiting Balance Payment" ||
-                            quote.steelOrderStatusVal ==
-                                "Awaiting Survey / Dimensions"
-                        ? Colors.red
-                        : Color(0xffb5e51d),
-                  ),
+                      color: quote.steelOrderStatusVal == "Deposit Received" ||
+                              quote.steelOrderStatusVal ==
+                                  "Preliminary Confirmation Issued" ||
+                              quote.steelOrderStatusVal == "Awaiting Deposit" ||
+                              quote.steelOrderStatusVal ==
+                                  "Revised Confirmation Issued" ||
+                              quote.steelOrderStatusVal ==
+                                  "Awaiting Balance Payment" ||
+                              quote.steelOrderStatusVal ==
+                                  "Awaiting Survey / Dimensions"
+                          ? Colors.red
+                          : Color(0xffb5e51d),
+                      borderRadius: BorderRadius.circular(5.5)),
                   child: Center(
                     child: Text(
                       (quote.steelOrderStatusVal == "Deposit Received" ||
@@ -462,17 +465,26 @@ class MyData extends DataTableSource {
                 ),
               ),
               //3
-              DataCell(Text(dealerData.displayName ?? "")),
+              DataCell(Text(
+                dealerData.displayName ?? "",
+                style: TextStyle(fontSize: 12),
+              )),
               //4
-              DataCell(Text(quote.steelQNumber ?? "")),
+              DataCell(Text(
+                quote.steelQNumber ?? "",
+                style: TextStyle(fontSize: 12),
+              )),
               //5
-              DataCell(Text(dealerData.dealerName ?? "")),
+              DataCell(Text(
+                dealerData.dealerName ?? "",
+                style: TextStyle(fontSize: 12),
+              )),
               //6
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 10),
                     controller: facOrderNo,
                     onEditingComplete: () {
                       String value = facOrderNo.text;
@@ -481,7 +493,10 @@ class MyData extends DataTableSource {
                     },
                   ))),
               //7
-              DataCell(Text(quote.steelOrderStatusVal ?? "")),
+              DataCell(Text(
+                quote.steelOrderStatusVal ?? "",
+                style: TextStyle(fontSize: 12),
+              )),
               //8
               DataCell(Builder(builder: (context) {
                 return Container(
@@ -532,13 +547,14 @@ class MyData extends DataTableSource {
                                                                         .white,
                         borderRadius: BorderRadius.circular(5.5)),
                     height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.26,
+                    width: MediaQuery.sizeOf(context).width * 0.35,
                     child: DropdownButton<String>(
                       style: TextStyle(
                         fontSize: 8,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
+                      alignment: Alignment.center,
                       iconEnabledColor: quote.steelOrderStatusVal ==
                                   "Awaiting Deposit" ||
                               quote.steelOrderStatusVal ==
@@ -606,140 +622,123 @@ class MyData extends DataTableSource {
                       },
                       items: [
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: '',
-                            child: Center(
-                              child: Text(
-                                '',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              '',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Deposit Received',
-                            child: Center(
-                              child: Text(
-                                'Deposit Received',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Deposit Received',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Order Received',
-                            child: Center(
-                              child: Text(
-                                'Order Received',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Order Received',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Order Placed',
-                            child: Center(
-                              child: Text(
-                                'Order Placed',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Order Placed',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Awaiting Survey / Dimensions',
-                            child: Center(
-                              child: Text(
-                                'Awaiting Survey / Dimensions',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Awaiting Survey / Dimensions',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Awaiting Deposit',
-                            child: Center(
-                              child: Text(
-                                'Awaiting Deposit',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Awaiting Deposit',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Preliminary Confirmation Issued',
-                            child: Center(
-                              child: Text(
-                                'Preliminary Confirmation Issued',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Preliminary Confirmation Issued',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Revised Confirmation Issued',
-                            child: Center(
-                              child: Text(
-                                'Revised Confirmation Issued',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Revised Confirmation Issued',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Final Confirmation Issued',
-                            child: Center(
-                              child: Text(
-                                'Final Confirmation Issued',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Final Confirmation Issued',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'In Production',
-                            child: Center(
-                              child: Text(
-                                'In Production',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'In Production',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Ready For Shipping',
-                            child: Center(
-                              child: Text(
-                                'Ready For Shipping',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Ready For Shipping',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'In Transit To UK',
-                            child: Center(
-                              child: Text(
-                                'In Transit To UK',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'In Transit To UK',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'In RKDS Warehouse',
-                            child: Center(
-                              child: Text(
-                                'In RKDS Warehouse',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'In RKDS Warehouse',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Awaiting Balance Payment',
-                            child: Center(
-                              child: Text(
-                                'Awaiting Balance Payment',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Awaiting Balance Payment',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Out For Delivery',
-                            child: Center(
-                              child: Text(
-                                'Out For Delivery',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Out For Delivery',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Delivered',
-                            child: Center(
-                              child: Text(
-                                'Delivered',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Delivered',
+                              textAlign: TextAlign.center,
                             )),
                         DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: 'Delayed',
-                            child: Center(
-                              child: Text(
-                                'Delayed',
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Text(
+                              'Delayed',
+                              textAlign: TextAlign.center,
                             )),
                       ],
                     ));
@@ -776,135 +775,129 @@ class MyData extends DataTableSource {
                         borderRadius: BorderRadius.circular(5.5)),
                     height: MediaQuery.sizeOf(context).height * 0.05,
                     width: MediaQuery.sizeOf(context).width * 0.26,
-                    child: DropdownButton<String>(
-                      style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                      alignment: Alignment.center,
-                      iconEnabledColor: quote.steelOrderPaymentStatusVal ==
-                              "Awaiting Deposit"
-                          ? Colors.yellow
-                          : quote.steelOrderPaymentStatusVal ==
-                                  "Deposit Received"
-                              ? Color(0xffffd5cd)
-                              : quote.steelOrderPaymentStatusVal ==
-                                      "Awaiting Survey Fee"
-                                  ? Color(0xffbde2fd)
-                                  : quote.steelOrderPaymentStatusVal ==
-                                          "Survey Fee Received"
-                                      ? Color(0xffd2ecbd)
-                                      : quote.steelOrderPaymentStatusVal ==
-                                              "Awaiting Balance"
-                                          ? Color(0xffffe8a1)
-                                          : quote.steelOrderPaymentStatusVal ==
-                                                  "Balance Paid"
-                                              ? Colors.orange
-                                              : quote.steelOrderPaymentStatusVal ==
-                                                      "Awaiting Install Payment"
-                                                  ? Color(0xfffbd0ca)
-                                                  : quote.steelOrderPaymentStatusVal ==
-                                                          "All Invoices Paid"
-                                                      ? Color(0xff0d714b)
-                                                      : Colors.yellow,
-                      isExpanded: true,
-                      value: paymentStatus,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.white,
-                      ),
-                      onChanged: (String? newValue) {
-                        //newValue = result.orderFollowup;
-                        if (newValue != null) {
-                          // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                          //     .changeValue(newValue: newValue, quoteId: result.id!);
-                          //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
-                          apiServices.setSteelPaymentStatus(
-                              dealerData.userId!, quote.id!, newValue);
-                        } else {
-                          String value = quote.steelOrderPaymentStatusVal ?? "";
-                          // Provider.of<setFollowUpOrderValue>(context, listen: false)
-                          //     .changeValue(
-                          //         newValue: result.orderFollowup, quoteId: result.id!);
-                          //apiServices.setOrderStatus(quote.id!, dealerData.userId, orderStatus);
-                          apiServices.setSteelPaymentStatus(
-                              dealerData.userId!, quote.id!, value);
-                        }
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: '',
-                            child: Center(
+                    child: Center(
+                      child: DropdownButton<String>(
+                        style: TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                        alignment: Alignment.center,
+                        iconEnabledColor: quote.steelOrderPaymentStatusVal ==
+                                "Awaiting Deposit"
+                            ? Colors.yellow
+                            : quote.steelOrderPaymentStatusVal ==
+                                    "Deposit Received"
+                                ? Color(0xffffd5cd)
+                                : quote.steelOrderPaymentStatusVal ==
+                                        "Awaiting Survey Fee"
+                                    ? Color(0xffbde2fd)
+                                    : quote.steelOrderPaymentStatusVal ==
+                                            "Survey Fee Received"
+                                        ? Color(0xffd2ecbd)
+                                        : quote.steelOrderPaymentStatusVal ==
+                                                "Awaiting Balance"
+                                            ? Color(0xffffe8a1)
+                                            : quote.steelOrderPaymentStatusVal ==
+                                                    "Balance Paid"
+                                                ? Colors.orange
+                                                : quote.steelOrderPaymentStatusVal ==
+                                                        "Awaiting Install Payment"
+                                                    ? Color(0xfffbd0ca)
+                                                    : quote.steelOrderPaymentStatusVal ==
+                                                            "All Invoices Paid"
+                                                        ? Color(0xff0d714b)
+                                                        : Colors.yellow,
+                        isExpanded: true,
+                        value: paymentStatus,
+                        underline: Container(
+                          height: 2,
+                          color: Colors.white,
+                        ),
+                        onChanged: (String? newValue) {
+                          //newValue = result.orderFollowup;
+                          if (newValue != null) {
+                            // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                            //     .changeValue(newValue: newValue, quoteId: result.id!);
+                            //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                            apiServices.setSteelPaymentStatus(
+                                dealerData.userId!, quote.id!, newValue);
+                          } else {
+                            String value =
+                                quote.steelOrderPaymentStatusVal ?? "";
+                            // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                            //     .changeValue(
+                            //         newValue: result.orderFollowup, quoteId: result.id!);
+                            //apiServices.setOrderStatus(quote.id!, dealerData.userId, orderStatus);
+                            apiServices.setSteelPaymentStatus(
+                                dealerData.userId!, quote.id!, value);
+                          }
+                        },
+                        items: [
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: '',
                               child: Text(
                                 '',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Awaiting Deposit',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Awaiting Deposit',
                               child: Text(
                                 'Awaiting Deposit',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Deposit Received',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Deposit Received',
                               child: Text(
                                 'Deposit Received',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Awaiting Survey Fee',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Awaiting Survey Fee',
                               child: Text(
                                 'Awaiting Survey Fee',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Survey Fee Received',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Survey Fee Received',
                               child: Text(
                                 'Survey Fee Received',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Awaiting Balance',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Awaiting Balance',
                               child: Text(
                                 'Awaiting Balance',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Balance Paid',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Balance Paid',
                               child: Text(
                                 'Balance Paid',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'Awaiting Install Payment',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'Awaiting Install Payment',
                               child: Text(
                                 'Awaiting Install Payment',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                        DropdownMenuItem<String>(
-                            value: 'All Invoices Paid',
-                            child: Center(
+                              )),
+                          DropdownMenuItem<String>(
+                              alignment: Alignment.center,
+                              value: 'All Invoices Paid',
                               child: Text(
                                 'All Invoices Paid',
                                 textAlign: TextAlign.center,
-                              ),
-                            )),
-                      ],
+                              )),
+                        ],
+                      ),
                     ));
               })),
 
@@ -923,7 +916,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.steelOrderConfFile!)
                               InkWell(
@@ -980,7 +973,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -998,7 +990,7 @@ class MyData extends DataTableSource {
                     (quote.steelAnticipatedDate != null)
                         ? quote.steelAnticipatedDate!
                         : "mm/dd/yyyy",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12.5),
                   ),
                   DateButton(
                     onTap: () async {
@@ -1034,7 +1026,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.steelInvoices!)
                               InkWell(
@@ -1091,7 +1083,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -1102,13 +1093,19 @@ class MyData extends DataTableSource {
               ),
 
               //13
-              DataCell(Text(quote.steelBalDueBeforeDelivery ?? "")),
+              DataCell(Center(
+                  child: Text(
+                quote.steelBalDueBeforeDelivery ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //14
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Financial History",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //15
               DataCell(
@@ -1125,7 +1122,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.steelDelNotes!)
                               InkWell(
@@ -1182,7 +1179,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -1193,9 +1189,15 @@ class MyData extends DataTableSource {
               ),
 
               //16
-              DataCell(Text(quote.steelSupplyType ?? "")),
+              DataCell(Text(
+                quote.steelSupplyType ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //17
-              DataCell(Text(quote.steelFrameSize ?? "")),
+              DataCell(Text(
+                quote.steelFrameSize ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //18
               DataCell(Builder(builder: (context) {
                 return Container(
@@ -1210,11 +1212,11 @@ class MyData extends DataTableSource {
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(5.5)),
                     height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.35,
+                    width: MediaQuery.sizeOf(context).width * 0.29,
                     child: Center(
                         child: Text(
                       quote.steelColor ?? "",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black, fontSize: 12.5),
                     )));
               })),
 
@@ -1236,17 +1238,35 @@ class MyData extends DataTableSource {
                     },
                   ))),
               //20
-              DataCell(Text(quote.deliveryPostCode ?? "")),
+              DataCell(Text(
+                quote.deliveryPostCode ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //21
-              DataCell(Text(quote.steelWeight ?? "")),
+              DataCell(Text(
+                quote.steelWeight ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //22
-              DataCell(Text(quote.steelCustomerTel ?? "")),
+              DataCell(Text(
+                quote.steelCustomerTel ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //23
-              DataCell(Text(quote.steelDealerEmail ?? "")),
+              DataCell(Text(
+                quote.steelDealerEmail ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //24
-              DataCell(Text(quote.steelTotalOrderValue ?? "")),
+              DataCell(Text(
+                quote.steelTotalOrderValue ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //25
-              DataCell(Text(quote.steelDeliveryCost ?? "")),
+              DataCell(Text(
+                quote.steelDeliveryCost ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //26
               DataCell(
                 quote.manualPDFImageURL!.isNotEmpty
@@ -1262,7 +1282,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.manualPDFImageURL!)
                               InkWell(
@@ -1319,7 +1339,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -1374,9 +1393,15 @@ class MyData extends DataTableSource {
                       : Text("No file uploaded")),
 
               //28
-              DataCell(Text(quote.date ?? "")),
+              DataCell(Text(
+                quote.date ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //29
-              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(
+                quote.time ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //30
               DataCell(RoundButton(
                 onTap: () async {
@@ -1463,26 +1488,63 @@ class MyData extends DataTableSource {
                 },
                 text: "Notes",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.23,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //31
-              DataCell(Text(quote.steelOrderNetVal ?? "")),
+              DataCell(Center(
+                  child: Text(
+                quote.steelOrderNetVal ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //32
-              DataCell(Text(quote.steelDiscount ?? "")),
+              DataCell(Center(
+                  child: Text(
+                quote.steelDiscount ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //33
-              DataCell(Text(quote.saleBonus ?? "")),
+              DataCell(Center(
+                  child: Text(
+                quote.saleBonus ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //34
               DataCell(Text("")),
               //35
-              DataCell(Text(quote.steelOrderSaleBonus.toString())),
+              DataCell(Center(
+                  child: Text(
+                quote.steelOrderSaleBonus.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //36
-              DataCell(Text(quote.steelOrderAdminStaffBonus.toString())),
+              DataCell(Center(
+                  child: Text(
+                quote.steelOrderAdminStaffBonus.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //37
-              DataCell(Text(quote.steelSupplier ?? "")),
+              DataCell(Center(
+                  child: Text(
+                quote.steelSupplier ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5),
+              ))),
               //38
-              DataCell(Text(quote.steelSupplier ?? "")),
+              DataCell(Text(
+                quote.steelSupplier ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //39
-              DataCell(Text("${quote.date} ${quote.steelOrderStatusVal}")),
+              DataCell(Text(
+                "${quote.date} ${quote.steelOrderStatusVal}",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //40
               DataCell(RoundButton(
                 onTap: () {
@@ -1491,7 +1553,8 @@ class MyData extends DataTableSource {
                 },
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.55,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
 
               DataCell(Row(
@@ -1511,10 +1574,16 @@ class MyData extends DataTableSource {
                       size: 14,
                     ),
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.content_copy_rounded,
                     size: 14,
                     color: Colors.greenAccent,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   Icon(
                     Icons.delete,

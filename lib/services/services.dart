@@ -1926,13 +1926,20 @@ class NetworkApiServices {
         orders.add(completeResponse);
       });
 
-      // Sort the list of OrdersCompleteResponse based on the date of the first order
+      orders.forEach((element) {
+        element.orders.sort((a, b) {
+          DateTime aDate = DateTime.parse(a.date ?? "");
+          DateTime bDate = DateTime.parse(b.date ?? "");
+          return bDate.compareTo(aDate);
+        });
+      });
+
       orders.sort((a, b) {
         DateTime aDate = a.orders.isNotEmpty
-            ? DateTime.parse(a.orders.first.date!)
+            ? DateTime.parse(a.orders.first.date ?? "")
             : DateTime.now();
         DateTime bDate = b.orders.isNotEmpty
-            ? DateTime.parse(b.orders.first.date!)
+            ? DateTime.parse(b.orders.first.date ?? "")
             : DateTime.now();
         return bDate.compareTo(aDate);
       });

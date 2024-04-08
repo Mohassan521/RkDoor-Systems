@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/completedOrders.dart';
 import 'package:price_link/components/tables/completedOrdersTable.dart';
 import 'package:price_link/services/services.dart';
@@ -63,17 +62,15 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    if(widget.role == "dealer" || widget.role == "employee"){
+                    if (widget.role == "dealer" || widget.role == "employee") {
                       Provider.of<CompletedOrdersSearchData>(context,
-                            listen: false)
-                        .getAllData(widget.dealerId, value);
-                    }
-                    else if(widget.role == "admin"){
+                              listen: false)
+                          .getAllData(widget.dealerId, value);
+                    } else if (widget.role == "admin") {
                       Provider.of<CompletedOrdersSearchData>(context,
-                            listen: false)
-                        .getAllDataForAdmin(widget.dealerId, value);
+                              listen: false)
+                          .getAllDataForAdmin(widget.dealerId, value);
                     }
-                    
                   },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 5),

@@ -30,11 +30,12 @@ class _RoundButtonState extends State<RoundButton> {
         width: widget.width ?? MediaQuery.of(context).size.width * 0.40,
         height: widget.height ?? MediaQuery.of(context).size.height * 0.055,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6), color: widget.color),
+            borderRadius: BorderRadius.circular(5.5), color: widget.color),
         child: Center(
             child: Text(
           widget.text ?? "",
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 8, fontWeight: FontWeight.w600),
         )),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/screens/register.dart';
 import 'package:price_link/services/services.dart';
+import 'package:price_link/utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,15 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Log In',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 26),
-        ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
       // backgroundColor: Colors.green,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -105,11 +97,18 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        await apiServices.loginApi(
-                          context,
-                          emailController.text,
-                          passwordController.text,
-                        );
+                        if (emailController.text.isNotEmpty &&
+                            passwordController.text.isNotEmpty) {
+                          await apiServices.loginApi(
+                            context,
+                            emailController.text,
+                            passwordController.text,
+                          );
+                        } else {
+                          Utils().showToast('None field can be null',
+                              Color(0xff941420), Colors.white);
+                        }
+
                         setState(() {
                           isLoading = false;
                         });
@@ -122,14 +121,14 @@ class _LoginPageState extends State<LoginPage> {
                     child: Center(
                       child: isLoading
                           ? SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.05,
-                              width: MediaQuery.sizeOf(context).width * 0.1,
+                              height: MediaQuery.sizeOf(context).height * 0.04,
+                              width: MediaQuery.sizeOf(context).width * 0.08,
                               child: CircularProgressIndicator(
                                 color: Colors.white,
                                 strokeWidth: 2.0,
                               ),
                             )
-                          : SizedBox(), // This SizedBox is necessary to maintain the layout
+                          : SizedBox(),
                     ),
                   ),
                 ],

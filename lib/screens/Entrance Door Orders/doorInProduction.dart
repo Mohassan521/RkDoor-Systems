@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/doorInProduction.dart';
 import 'package:price_link/components/tables/doorInProductionTable.dart';
-import 'package:price_link/models/ordersListModel.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +26,7 @@ class DoorInProduction extends StatefulWidget {
 class _DoorInProductionState extends State<DoorInProduction> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<OrdersModel>? newData =
-        await apiServices.getOrdersList(widget.dealerId, "");
+    await apiServices.getOrdersList(widget.dealerId, "");
 
     // Update the UI with the new data
     setState(() {});

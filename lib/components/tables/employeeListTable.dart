@@ -33,75 +33,69 @@ class EmployeeListTable extends StatelessWidget {
             filteredList.isNotEmpty ? filteredList : list;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0)),
-            child: PaginatedDataTable(
-                rowsPerPage: (list.length >= 5) ? 5 : list.length,
-                headingRowColor: MaterialStateProperty.resolveWith(
-                    (states) => Color(0xff941420)),
-                columns: const <DataColumn>[
-                  DataColumn(
-                      label: Text(
-                    'Employee ID',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Employee Name',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Employee Email',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Telephone',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Post Code',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Quotation Type',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Minimum markup',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Maximum Discount',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Status',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  // DataColumn(
-                  //     label: Text(
-                  //   'Create Order Rights',
-                  //   style: TextStyle(color: Colors.white),
-                  // )),
-                  DataColumn(
-                      label: Text(
-                    '',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                ],
-                source: MyData(displayData)),
-          );
+          return PaginatedDataTable(
+              columnSpacing: 20,
+              headingRowHeight: 48,
+              dataRowMaxHeight: 48,
+              rowsPerPage: (list.length >= 5) ? 5 : list.length,
+              columns: const <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Employee ID',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Employee Name',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Employee Email',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Telephone',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Post Code',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Quotation Type',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Minimum markup',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Maximum Discount',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                DataColumn(
+                    label: Text(
+                  'Status',
+                  style: TextStyle(color: Color(0xff941420)),
+                )),
+                // DataColumn(
+                //     label: Text(
+                //   'Create Order Rights',
+                //   style: TextStyle(color: Color(0xff941420)),
+                // )),
+                DataColumn(
+                    label: Text(
+                  '',
+                  style: TextStyle(color: Colors.white),
+                )),
+              ],
+              source: MyData(displayData));
         });
       },
     );
@@ -140,8 +134,7 @@ class MyData extends DataTableSource {
             return FutureBuilder(
               future: apiServices.getEmployeeStatus(result.id.toString()),
               builder: (context, snapshot) {
-                String? currentValue =
-                    snapshot.data ?? "";
+                String? currentValue = snapshot.data ?? "";
                 return DropdownButton(
                   value: currentValue,
                   onChanged: (String? newValue) async {
@@ -167,13 +160,13 @@ class MyData extends DataTableSource {
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.edit),
-            iconSize: 16,
+            iconSize: 14,
           ),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.delete),
             color: Colors.red,
-            iconSize: 16,
+            iconSize: 14,
           ),
         ],
       )),

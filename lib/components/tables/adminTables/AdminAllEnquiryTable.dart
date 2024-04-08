@@ -300,19 +300,6 @@ class MyData extends DataTableSource {
               DataCell(Text(quote.enquiryCustomerName ?? "")),
               DataCell(Text(quote.enquiryCompanyName ?? "")),
               DataCell(Text("")),
-              //   DataCell((quote != "")
-              // ? Container(
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(5.5),
-              //       color: Color(0xffff0000),
-              //     ),
-              //     height: MediaQuery.sizeOf(context).height * 0.04,
-              //     child: Center(
-              //         child: Text(
-              //       result.newSymbol!,
-              //       style: TextStyle(color: Colors.white),
-              //     )))
-              // : Text("")),
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Enquiry Details",
@@ -356,7 +343,7 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             // Create icons for each file
                             for (var file in quote.enquiryOrderConfFile!)
                               InkWell(
@@ -413,7 +400,6 @@ class MyData extends DataTableSource {
                               },
                               icon: Icon(Icons.add_circle_outline),
                             ),
-                            SizedBox(width: 20),
                             Text(
                               'Add Files',
                               style: TextStyle(color: Colors.grey),
@@ -507,7 +493,7 @@ class MyData extends DataTableSource {
                       quote.enquiryAllocatedTo);
                 },
                 text: "Hot Leads",
-                width: MediaQuery.sizeOf(context).width * 0.29,
+                width: MediaQuery.sizeOf(context).width * 0.24,
                 color: Colors.blue,
               )),
               DataCell(Text(quote.enquiryEntered ?? "")),
@@ -516,7 +502,7 @@ class MyData extends DataTableSource {
                   NetworkApiServices().closeEnquiry(dealerId, quote.id!);
                 },
                 text: "Close Enquiry",
-                width: MediaQuery.sizeOf(context).width * 0.33,
+                width: MediaQuery.sizeOf(context).width * 0.29,
                 color: Colors.blue,
               )),
               DataCell(
@@ -597,9 +583,15 @@ class MyData extends DataTableSource {
                         Icons.edit,
                         size: 14,
                       )),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.copy,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   InkWell(
                       onTap: () {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/delivered.dart';
 import 'package:price_link/components/tables/steelDeliveredTable.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +22,6 @@ class SteelDelivered extends StatefulWidget {
 }
 
 class _SteelDeliveredState extends State<SteelDelivered> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
