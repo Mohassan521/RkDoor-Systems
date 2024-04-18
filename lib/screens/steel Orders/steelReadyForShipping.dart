@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/readyForShipping.dart';
 import 'package:price_link/components/tables/steelReadyForShippingTable.dart';
 import 'package:price_link/models/steelOrderModel.dart';
@@ -76,7 +75,7 @@ class _SteelReadyForShippingState extends State<SteelReadyForShipping> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

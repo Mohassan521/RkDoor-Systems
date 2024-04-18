@@ -5,7 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/CadDetailsModel.dart';
 import 'package:price_link/models/PDFDetailsModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
@@ -166,7 +165,7 @@ class _PDFDetailsState extends State<PDFDetails> {
                             Color(0xff941420), Colors.white);
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: Text("Data is being loaded..."));
                       } else if (!snapshot.hasData) {
                         print('No data found');
                       }

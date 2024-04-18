@@ -271,9 +271,14 @@ class MyData extends DataTableSource {
             index: index,
             color: MaterialStatePropertyAll(Colors.white),
             cells: [
-              DataCell(Text(quote.enquiryAllocatedTo ?? "")),
-              DataCell(Text(quote.enquiryCusName ?? "")),
-              DataCell(Text(quote.enquiryCompanyName ?? "")),
+              DataCell(Text(
+                quote.enquiryAllocatedTo ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(quote.enquiryCusName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryCompanyName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //DataCell(Text("")),
               DataCell((quote != "")
                   ? Container(
@@ -286,20 +291,30 @@ class MyData extends DataTableSource {
                       child: Center(
                           child: Text(
                         quote.newSymbol!,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 13),
                       )))
                   : Text("")),
-              DataCell(Text(quote.enquiryTelNum ?? "")),
-              DataCell(Text(quote.enquiryType ?? "")),
-              DataCell(Text(quote.enquiryPriorityLevel ?? "")),
-              DataCell(Text(quote.enquiryRequirement ?? "")),
-              DataCell(Text(quote.enquirySupplyType ?? "")),
-              DataCell(Text(dealerData.dealerName)),
+              DataCell(Text(quote.enquiryTelNum ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryType ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryPriorityLevel ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryRequirement ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquirySupplyType ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(dealerData.dealerName,
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Text(
-                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
-              DataCell(Text(quote.enquiryCusEmail ?? "")),
-              DataCell(Text(quote.dileveryPostCodeC13 ?? "")),
-              DataCell(Text(quote.enquirySource ?? "")),
+                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryCusEmail ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.dileveryPostCodeC13 ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquirySource ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
@@ -456,7 +471,8 @@ class MyData extends DataTableSource {
                               )));
                 },
                 text: "Enquiry Record",
-                width: MediaQuery.sizeOf(context).width * 0.3,
+                width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.05,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -471,21 +487,26 @@ class MyData extends DataTableSource {
                               )));
                 },
                 text: "Create Quotation",
-                width: MediaQuery.sizeOf(context).width * 0.35,
+                width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.05,
                 color: Colors.blue,
               )),
-              DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
+              DataCell(Text(quote.quotationNumberForEnquiry ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(RoundButton(
                 onTap: () {
                   NetworkApiServices()
                       .closeEnquiry(dealerData.userId.toString(), quote.id!);
                 },
                 text: "Close Enquiry",
-                width: MediaQuery.sizeOf(context).width * 0.28,
+                width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.05,
                 color: Colors.blue,
               )),
-              DataCell(Text(quote.date ?? "")),
-              DataCell(Text(quote.time ?? "")),
+              DataCell(
+                  Text(quote.date ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.time ?? "", style: TextStyle(fontSize: 12.5))),
 
               DataCell(Row(
                 children: [
@@ -493,9 +514,15 @@ class MyData extends DataTableSource {
                     Icons.edit,
                     size: 14,
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(
                     Icons.copy,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   InkWell(
                     onTap: () {

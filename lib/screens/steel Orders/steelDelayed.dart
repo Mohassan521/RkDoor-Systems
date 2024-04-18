@@ -22,9 +22,6 @@ class SteelDelayed extends StatefulWidget {
 }
 
 class _SteelDelayedState extends State<SteelDelayed> {
-  late String selectedValue;
-  List<String> qtyList = ['10', '25', '50', '100'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +58,7 @@ class _SteelDelayedState extends State<SteelDelayed> {
                     onPressed: () {},
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.circular(7.0),
                   ),
                   hintText: 'Search here',
                 ),

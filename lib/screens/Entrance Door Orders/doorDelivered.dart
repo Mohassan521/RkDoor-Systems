@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/doorDelivered.dart';
 import 'package:price_link/components/tables/doorDeliveredTable.dart';
 import 'package:price_link/models/ordersListModel.dart';
@@ -97,7 +96,7 @@ class _DoorDeliveredState extends State<DoorDelivered> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

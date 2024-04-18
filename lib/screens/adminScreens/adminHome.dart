@@ -150,7 +150,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -193,7 +193,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -236,7 +236,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -278,7 +278,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -320,7 +320,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                 //             'Awaiting Survey / Dimensions',
                 //             style: TextStyle(
                 //                 height: 1.5,
-                //                 fontSize: 20,
+                //                 fontSize: 17,
                 //                 fontWeight: FontWeight.w600),
                 //           ),
                 //         ),
@@ -364,7 +364,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -408,7 +408,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -451,7 +451,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -494,7 +494,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -537,7 +537,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -580,7 +580,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -623,7 +623,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -666,7 +666,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -708,7 +708,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -751,7 +751,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -794,7 +794,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -837,7 +837,7 @@ class _AdminHomePageState extends State<AdminHomePage>
                           style: TextStyle(
                               letterSpacing: 2.5,
                               height: 1.5,
-                              fontSize: 20,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600),
                         ),
                       ),

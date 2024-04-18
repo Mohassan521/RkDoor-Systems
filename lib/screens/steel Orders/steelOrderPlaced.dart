@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/dropdown.dart';
 import 'package:price_link/components/tables/adminTables/steelOrderTables/steelOrderPlaced.dart';
 import 'package:price_link/components/tables/steelOrderPlacedTable.dart';
-import 'package:price_link/models/steelOrderModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +25,7 @@ class SteelOrderPlaced extends StatefulWidget {
 class _SteelOrderPlacedState extends State<SteelOrderPlaced> {
   NetworkApiServices apiServices = NetworkApiServices();
   Future<void> _handleRefresh() async {
-    List<SteelOrderModel>? newData =
-        await apiServices.allSteelOrders(context, widget.dealerId);
+    await apiServices.allSteelOrders(context, widget.dealerId);
 
     // Update the UI with the new data
     setState(() {});
@@ -75,7 +72,7 @@ class _SteelOrderPlacedState extends State<SteelOrderPlaced> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

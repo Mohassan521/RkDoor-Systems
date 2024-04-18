@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/updatedModel.dart';
 import 'package:price_link/services/services.dart';
 
@@ -21,9 +20,7 @@ class Updates extends StatefulWidget {
 }
 
 class _UpdatesState extends State<Updates> {
-
   TextEditingController updatesController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,86 +37,72 @@ class _UpdatesState extends State<Updates> {
           'Updates',
           style: TextStyle(color: Colors.white),
         ),
-        
+        centerTitle: true,
       ),
-      floatingActionButton: widget.role == "admin" ? FloatingActionButton(
-        onPressed: () async {
-          await showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    insetPadding: EdgeInsets.all(9),
-                    content: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                            right: -40,
-                            top: -40,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const CircleAvatar(
-                                backgroundColor: Color(0xff941420),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                        Form(
-                            key: _formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Center(
-                                    child: Text('Updates',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color(0xff941420),
-                                            fontWeight: FontWeight.w600))),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: TextFormField(
-                                    maxLines: 6,
-                                    // initialValue: result.notes,
-                                    controller: updatesController,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xff941420))),
-                                        ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                RoundButton(
-                                  text: 'Save',
-                                  onTap: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      NetworkApiServices().sendUpdatesForAdmin(updatesController.text);
-                                    }
-
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop('dialog');
-                                  },
-                                  color: Color(0xff941420),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ));
-
-      },
-      backgroundColor: Color(0xff941420),
-      child: Icon(Icons.add, color: Colors.white,),
-      ) : null,
+      floatingActionButton: widget.role == "admin"
+          ? FloatingActionButton(
+              onPressed: () async {
+                showModalBottomSheet<void>(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                              child: Text(
+                            "Add Update",
+                            style: TextStyle(
+                                fontSize: 24, color: Color(0xff941420)),
+                          )),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          TextField(
+                            controller: updatesController,
+                            maxLines: 6,
+                            decoration: InputDecoration(
+                              fillColor: Color.fromARGB(255, 246, 245, 245),
+                              filled: true,
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.grey)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.grey)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          MaterialButton(
+                            onPressed: () {
+                              NetworkApiServices()
+                                  .sendUpdatesForAdmin(updatesController.text);
+                            },
+                            child: Text("Submit"),
+                            color: Color(0xff941420),
+                            textColor: Colors.white,
+                            minWidth: double.infinity,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.5)),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              backgroundColor: Color(0xff941420),
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            )
+          : null,
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -141,15 +124,19 @@ class _UpdatesState extends State<Updates> {
                     future: NetworkApiServices().getUpdatesValue(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: Column(
+                        return Center(
+                            child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.info),
-                            Text('No Updates Available', style: TextStyle(fontSize: 23),),
+                            Text(
+                              'No Updates Available',
+                              style: TextStyle(fontSize: 23),
+                            ),
                           ],
                         ));
                       }
-                      if(snapshot.connectionState == ConnectionState.waiting){
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -166,19 +153,19 @@ class _UpdatesState extends State<Updates> {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             return Column(
-
                               children: [
-
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 8),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
+                                        padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                                BorderRadius.circular(8.5),
                                             color: Colors.blue),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(

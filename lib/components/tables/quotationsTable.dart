@@ -205,16 +205,21 @@ class MyData extends DataTableSource {
         color: MaterialStatePropertyAll(Colors.white),
         index: index,
         cells: <DataCell>[
-          DataCell(Text(result.name ?? "")),
-          DataCell(Text(result.quotationNumber ?? "")),
-          DataCell(Text(dealerName)),
-          DataCell(Text(result.telephoneNumber ?? "")),
-          DataCell(Text(result.customerEmail ?? "")),
-          DataCell(Text(result.dileveryPostCodeC13 ?? "")),
-          DataCell(Text(result.date ?? "")),
-          DataCell(Text(result.time ?? "")),
-          DataCell(Text(result.wholeTotal ?? "")),
-          DataCell(Text(result.id ?? "")),
+          DataCell(Text(result.name ?? "", style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.quotationNumber ?? "",
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(dealerName, style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.telephoneNumber ?? "",
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.customerEmail ?? "",
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.dileveryPostCodeC13 ?? "",
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.date ?? "", style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.time ?? "", style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text(result.wholeTotal ?? "", style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.id ?? "", style: TextStyle(fontSize: 12.5))),
           DataCell(Consumer<FollowUpDate>(
             builder: (context, value, child) {
               return Row(mainAxisSize: MainAxisSize.min, children: [
@@ -248,13 +253,14 @@ class MyData extends DataTableSource {
             padding: const EdgeInsets.only(bottom: 8.0, top: 8),
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.4,
+              width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.22,
               decoration: BoxDecoration(
                   color: result.orderFUpQVal == "YES"
                       ? Color(0Xff008000)
                       : Color(0xffFF0000),
                   border: Border.all(width: 1)),
               child: DropdownButton<String>(
+                style: TextStyle(fontSize: 12.5, color: Colors.black),
                 isExpanded: true,
                 value: result.orderFUpQVal == "YES" ? "YES" : "NO",
                 iconEnabledColor: result.orderFUpQVal == "YES"
@@ -309,11 +315,13 @@ class MyData extends DataTableSource {
                           )));
             },
             color: Colors.blue,
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.18,
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
           )),
           DataCell(RoundButton(
             text: 'Notes',
             width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.13,
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
             onTap: () async {
               notesController.text = result.notes!;
               await showDialog(
@@ -399,7 +407,7 @@ class MyData extends DataTableSource {
               apiServices.createOrder(dealerId!, result.id!);
             },
             color: Colors.blue,
-            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.30,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
           )),
           DataCell(Row(
             children: [
@@ -421,7 +429,7 @@ class MyData extends DataTableSource {
                 ),
               ),
               SizedBox(
-                width: 5,
+                width: 10,
               ),
               InkWell(
                 onTap: () {
@@ -435,7 +443,7 @@ class MyData extends DataTableSource {
                 ),
               ),
               SizedBox(
-                width: 5,
+                width: 10,
               ),
               InkWell(
                 onTap: () {

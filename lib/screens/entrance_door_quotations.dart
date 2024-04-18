@@ -77,36 +77,30 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
             ),
             Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
+                child: TextFormField(
+                  onChanged: (value) {
+                    if (widget.role == "dealer" || widget.role == "employee") {
+                      Provider.of<QuotationsSearchedData>(context,
+                              listen: false)
+                          .getAllData(widget.dealerId!, value);
+                    } else if (widget.role == "admin") {
+                      Provider.of<QuotationsSearchedDataForAdmin>(context,
+                              listen: false)
+                          .getAllData(widget.dealerId!, value);
+                    }
                   },
-                  child: TextFormField(
-                    onChanged: (value) {
-                      if (widget.role == "dealer" ||
-                          widget.role == "employee") {
-                        Provider.of<QuotationsSearchedData>(context,
-                                listen: false)
-                            .getAllData(widget.dealerId!, value);
-                      } else if (widget.role == "admin") {
-                        Provider.of<QuotationsSearchedDataForAdmin>(context,
-                                listen: false)
-                            .getAllData(widget.dealerId!, value);
-                      }
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5),
-                      prefixIcon: IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: () {
-                          // Perform the search here
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      hintText: 'Search Records here',
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        // Perform the search here
+                      },
                     ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(7.0),
+                    ),
+                    hintText: 'Search Records here',
                   ),
                 )),
             SizedBox(

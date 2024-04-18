@@ -1569,11 +1569,7 @@ class MyData extends DataTableSource {
                   SizedBox(
                     width: 10,
                   ),
-                  Icon(
-                    Icons.content_copy_rounded,
-                    size: 14,
-                    color: Colors.greenAccent,
-                  ),
+                  Icon(Icons.content_copy_rounded, size: 14),
                   SizedBox(
                     width: 10,
                   ),

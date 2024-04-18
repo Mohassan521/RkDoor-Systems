@@ -58,13 +58,6 @@ class _AdminSteelReadyForShippingState
 
         list = snapshot.data!;
 
-        // List<AdminSteelOrder> filteredList = list!.where((element) => element.steelOrderStatusVal == "Ready For Shipping").toList();
-
-        // List<SteelOrderModel> filteredList =
-        //     Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        // List<SteelOrderModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
-
         return PaginatedDataTable(
             showEmptyRows: false,
             columnSpacing: 20,
@@ -1578,11 +1571,7 @@ class MyData extends DataTableSource {
                   SizedBox(
                     width: 10,
                   ),
-                  Icon(
-                    Icons.content_copy_rounded,
-                    size: 14,
-                    color: Colors.greenAccent,
-                  ),
+                  Icon(Icons.content_copy_rounded, size: 14),
                   SizedBox(
                     width: 10,
                   ),

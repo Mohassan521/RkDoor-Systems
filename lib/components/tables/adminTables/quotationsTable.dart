@@ -277,22 +277,39 @@ class MyData extends DataTableSource {
             index: index,
             color: MaterialStatePropertyAll(Colors.white),
             cells: [
-              DataCell(Text(quote.name ?? "")),
-              DataCell(Text(dealerData.displayName ?? "")),
-              DataCell(Text(quote.quotationNumber ?? "")),
-              DataCell(Text(dealerData.dealerName ?? "")),
-              DataCell(Text(quote.id ?? "")),
-              DataCell(Text(quote.telephoneNumber ?? "")),
-              DataCell(Text(quote.customerEmail ?? "")),
-              DataCell(Text(quote.deliveryPostCode ?? "")),
-              DataCell(Text(quote.date ?? "")),
-              DataCell(Text(quote.time ?? "")),
-              DataCell(Text(quote.wholeTotal ?? "")),
-              DataCell(Text(quote.installationCostForQuote ?? "")),
-              DataCell(Text(quote.deliveryCostForQuote ?? "")),
-              DataCell(Text("${quote.randtSelectBox}-${quote.markupVal}")),
-              DataCell(Text(quote.discountLevel ?? "")),
-              DataCell(Text(quote.saleBonus ?? "")),
+              DataCell(Text(
+                quote.name ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(dealerData.displayName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.quotationNumber ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(dealerData.dealerName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.id ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.telephoneNumber ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.customerEmail ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.deliveryPostCode ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.date ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.time ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.wholeTotal ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.installationCostForQuote ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.deliveryCostForQuote ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text("${quote.randtSelectBox}-${quote.markupVal}",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.discountLevel ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.saleBonus ?? "",
+                  style: TextStyle(fontSize: 12.5))),
 
               DataCell(Row(
                 mainAxisSize: MainAxisSize.min,
@@ -301,7 +318,7 @@ class MyData extends DataTableSource {
                     (quote.orderDateQArray != null)
                         ? quote.orderDateQArray!
                         : "mm/dd/yyyy",
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12.5),
                   ),
                   DateButton(
                     onTap: () async {
@@ -330,13 +347,14 @@ class MyData extends DataTableSource {
                     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                     child: Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.sizeOf(context).width * 0.3,
+                      width: MediaQuery.sizeOf(context).width * 0.18,
                       decoration: BoxDecoration(
                           color: quote.orderFUpQVal == "YES"
                               ? Color(0Xff008000)
                               : Color(0xffFF0000),
                           border: Border.all(width: 1)),
                       child: DropdownButton<String>(
+                        style: TextStyle(fontSize: 12.5),
                         isExpanded: true,
                         value: quote.orderFUpQVal ?? "NO",
                         iconEnabledColor: quote.orderFUpQVal == "YES"
@@ -359,14 +377,16 @@ class MyData extends DataTableSource {
                               alignment: Alignment.center,
                               child: Text(
                                 '',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12.5),
                               )),
                           DropdownMenuItem<String>(
                               value: 'YES',
                               alignment: Alignment.center,
                               child: Text(
                                 'YES',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12.5),
                               )),
                           DropdownMenuItem<String>(
                               value: 'NO',
@@ -374,7 +394,8 @@ class MyData extends DataTableSource {
                               child: Center(
                                 child: Text(
                                   'NO',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12.5),
                                 ),
                               )),
                         ],
@@ -395,7 +416,7 @@ class MyData extends DataTableSource {
                               )));
                 },
                 text: "Quote Analysis",
-                width: MediaQuery.sizeOf(context).width * 0.33,
+                width: MediaQuery.sizeOf(context).width * 0.20,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -480,13 +501,13 @@ class MyData extends DataTableSource {
                           ));
                 },
                 text: "Notes",
-                width: MediaQuery.sizeOf(context).width * 0.22,
+                width: MediaQuery.sizeOf(context).width * 0.15,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Survey Form",
-                width: MediaQuery.sizeOf(context).width * 0.26,
+                width: MediaQuery.sizeOf(context).width * 0.23,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -495,7 +516,7 @@ class MyData extends DataTableSource {
                       .createOrder(dealerData.userId.toString(), quote.id!);
                 },
                 text: "Create Order",
-                width: MediaQuery.sizeOf(context).width * 0.27,
+                width: MediaQuery.sizeOf(context).width * 0.20,
                 color: Colors.blue,
               )),
               DataCell(Row(
@@ -516,7 +537,7 @@ class MyData extends DataTableSource {
                     ),
                   ),
                   SizedBox(
-                    width: 12,
+                    width: 10,
                   ),
                   InkWell(
                     onTap: () {
@@ -529,7 +550,7 @@ class MyData extends DataTableSource {
                     ),
                   ),
                   SizedBox(
-                    width: 12,
+                    width: 10,
                   ),
                   InkWell(
                     onTap: () {

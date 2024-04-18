@@ -19,15 +19,6 @@ class PDFViewer extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.print,
-              color: Colors.white,
-            ),
-          )
-        ],
       ),
       body: Container(child: SfPdfViewer.network(url)),
     );

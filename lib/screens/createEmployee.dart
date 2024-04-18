@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/services/services.dart';
 
 class CreateEmployee extends StatefulWidget {
@@ -34,9 +34,17 @@ class _CreateEmployeeState extends State<CreateEmployee> {
 
   String type = "";
 
+  // late DealersModel dealers;
+
+  // getPostCode() async {
+  //   dealers =
+  //       await NetworkApiServices().getDealersList(context, widget.dealerId) ;
+  // }
+
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    // postCode.text = model.postCodeRegister ?? "";
     return Scaffold(
       drawer: DrawerPage(
         dealer_id: widget.dealerId,
@@ -67,28 +75,34 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 30,
                   ),
+                  const Text('First Name',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
+                  ),
                   FormBuilderTextField(
                     name: 'first_name',
                     controller: fname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'First Name'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Last Name',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'last_name',
@@ -96,51 +110,64 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Last Name'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('Quotation Type',
-                      style: TextStyle(fontSize: 15, color: Color(0xff941420))),
-                  DropdownButton<String>(
-                    alignment: Alignment.center,
-                    isExpanded: true,
-                    value: type,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.grey,
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        type = newValue ?? type;
-                      });
-                    },
-                    items: [
-                      DropdownMenuItem<String>(
-                          value: '', child: Center(child: Text(''))),
-                      DropdownMenuItem<String>(
-                          value: 'R', child: Center(child: Text('R'))),
-                      DropdownMenuItem<String>(
-                          value: 'T', child: Center(child: Text('T'))),
-                      DropdownMenuItem<String>(
-                          value: 'R&T', child: Center(child: Text('R&T'))),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Quotation Type',
+                          style: TextStyle(
+                              fontSize: 15, color: Color(0xff941420))),
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.05,
+                        padding: EdgeInsets.only(left: 9),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.5),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1)),
+                        child: DropdownButton<String>(
+                          alignment: Alignment.center,
+                          isExpanded: false,
+                          value: type,
+                          underline: SizedBox(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              type = newValue ?? type;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: '', child: Center(child: Text(''))),
+                            DropdownMenuItem<String>(
+                                value: 'R', child: Center(child: Text('R'))),
+                            DropdownMenuItem<String>(
+                                value: 'T', child: Center(child: Text('T'))),
+                            DropdownMenuItem<String>(
+                                value: 'R&T',
+                                child: Center(child: Text('R&T'))),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Mark Up',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'mark_up',
@@ -148,22 +175,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Mark Up'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Post Code',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'post_code',
@@ -171,22 +199,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Post Code'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Telephone',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'tel',
@@ -194,22 +223,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Telephone'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Max Discount',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'discount',
@@ -217,22 +247,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Max Discount'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Email',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'email',
@@ -240,22 +271,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Email'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Password',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'password',
@@ -263,22 +295,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Password'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  const Text('Confirm Password',
+                      style: TextStyle(color: Color(0xff941420))),
+                  SizedBox(
+                    height: 5,
                   ),
                   FormBuilderTextField(
                     name: 'confirm',
@@ -286,19 +319,15 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        labelStyle:
-                            TextStyle(color: Color(0xff941420), fontSize: 13),
-                        fillColor: Color.fromARGB(255, 246, 245, 245),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        labelText: 'Confirm Password'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: BorderSide(color: Colors.grey)),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
@@ -330,28 +359,34 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text('Customer Address 1',
+                            style: TextStyle(color: Color(0xff941420))),
+                        SizedBox(
+                          height: 5,
+                        ),
                         FormBuilderTextField(
                           name: 'address1',
                           controller: address1,
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              labelStyle: TextStyle(
-                                  color: Color(0xff941420), fontSize: 13),
-                              fillColor: Color.fromARGB(255, 246, 245, 245),
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              labelText: 'Customer Address 1'),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                          ),
                         ),
                         SizedBox(
                           height: 15,
+                        ),
+                        const Text('Customer Address 2',
+                            style: TextStyle(color: Color(0xff941420))),
+                        SizedBox(
+                          height: 5,
                         ),
                         FormBuilderTextField(
                           name: 'address2',
@@ -359,22 +394,23 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              labelStyle: TextStyle(
-                                  color: Color(0xff941420), fontSize: 13),
-                              fillColor: Color.fromARGB(255, 246, 245, 245),
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              labelText: 'Customer Address 2'),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                          ),
                         ),
                         SizedBox(
                           height: 15,
+                        ),
+                        const Text('Customer Address 3',
+                            style: TextStyle(color: Color(0xff941420))),
+                        SizedBox(
+                          height: 5,
                         ),
                         FormBuilderTextField(
                           name: 'address3',
@@ -382,29 +418,25 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              labelStyle: TextStyle(
-                                  color: Color(0xff941420), fontSize: 13),
-                              fillColor: Color.fromARGB(255, 246, 245, 245),
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                              labelText: 'Customer Address 3'),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey)),
+                          ),
                         ),
                       ],
                     ),
                   SizedBox(
                     height: 20,
                   ),
-                  RoundButton(
-                    width: double.infinity,
-                    text: 'Register',
-                    onTap: () {
+                  MaterialButton(
+                    minWidth: double.infinity,
+                    child: Text('Register'),
+                    onPressed: () {
                       if (password.text == cpassword.text) {
                         NetworkApiServices().createEmployees(
                             widget.dealerId,
@@ -423,6 +455,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       }
                     },
                     color: Color(0xff941420),
+                    textColor: Colors.white,
                   ),
                   const SizedBox(
                     height: 40,

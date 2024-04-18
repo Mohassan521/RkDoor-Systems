@@ -87,13 +87,12 @@ class _LoginPageState extends State<LoginPage> {
               height: 30,
             ),
             Center(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25.0, right: 25),
-                    child: RoundButton(
-                      text: isLoading ? '' : 'Login',
-                      onTap: () async {
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25.0, right: 25),
+                child: Stack(
+                  children: [
+                    MaterialButton(
+                      onPressed: () async {
                         setState(() {
                           isLoading = true;
                         });
@@ -113,25 +112,30 @@ class _LoginPageState extends State<LoginPage> {
                           isLoading = false;
                         });
                       },
-                      color: Color(0xff941420),
-                      width: double.infinity,
+                      child: Text(isLoading ? '' : 'Login'),
+                      color: Color(0xffEB1420),
+                      textColor: Colors.white,
+                      minWidth: double.infinity,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.5)),
                     ),
-                  ),
-                  Positioned.fill(
-                    child: Center(
-                      child: isLoading
-                          ? SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.04,
-                              width: MediaQuery.sizeOf(context).width * 0.08,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.0,
-                              ),
-                            )
-                          : SizedBox(),
+                    Positioned.fill(
+                      child: Center(
+                        child: isLoading
+                            ? SizedBox(
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.04,
+                                width: MediaQuery.sizeOf(context).width * 0.08,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2.0,
+                                ),
+                              )
+                            : SizedBox(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(

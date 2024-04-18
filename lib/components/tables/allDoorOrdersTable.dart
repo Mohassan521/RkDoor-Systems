@@ -342,16 +342,15 @@ class MyData extends DataTableSource {
       cells: <DataCell>[
         DataCell(Text(
           result.name ?? "",
-          style: TextStyle(fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 12.5),
         )),
         DataCell(Text(result.quotationNumber ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Text(dealerData.dealerName ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(dealerName ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(dealerName ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -486,7 +485,7 @@ class MyData extends DataTableSource {
 
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -499,7 +498,7 @@ class MyData extends DataTableSource {
               child: Center(
                   child: Text(
                 result.anticipatedDateVal ?? "",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.black, fontSize: 12.5),
               )));
         })),
         // DataCell(Text(
@@ -556,7 +555,7 @@ class MyData extends DataTableSource {
         ),
 
         DataCell(Text(result.balDueBeforeDelivery ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         // DataCell(Text(
         //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
@@ -611,10 +610,9 @@ class MyData extends DataTableSource {
               : Center(child: Text('')),
         ),
 
-        DataCell(Text(result.profile ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.doorModel ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(Text(result.profile ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.doorModel ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -627,12 +625,12 @@ class MyData extends DataTableSource {
               child: Center(
                   child: Text(
                 result.marineGradeVal ?? "",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(fontSize: 12.5),
               )));
         })),
 
         DataCell(Text(result.frameSizeHeightWidth ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         //DataCell(Text(result.lhGoalPostE44 ?? "")),
         DataCell(Builder(builder: (context) {
           return Container(
@@ -646,12 +644,12 @@ class MyData extends DataTableSource {
               child: Center(
                   child: Text(
                 result.lhGoalPostE44 ?? "",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(fontSize: 12.5),
               )));
         })),
 
-        DataCell(Text(result.totalWeightKg ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+        DataCell(
+            Text(result.totalWeightKg ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -679,21 +677,18 @@ class MyData extends DataTableSource {
               )));
         })),
         DataCell(Text(result.ekeylessAccess ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Text(result.telephoneNumber ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.customerEmail ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.customerEmail ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Text(result.dileveryPostCodeC13 ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.id ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.date ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.time ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
-        DataCell(Text(result.wholeTotal ?? "",
-            style: TextStyle(fontWeight: FontWeight.w400))),
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.id ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.date ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.time ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.wholeTotal ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Consumer<FollowUpOrderDate>(
           builder: (context, value, child) {
             return Row(
@@ -762,7 +757,8 @@ class MyData extends DataTableSource {
         //DataCell(Text(result.orderFinHisNoteBox ?? "")),
         //DataCell(Text(result.customNotes ?? "")),
         DataCell(RoundButton(
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
           text: 'Financial History',
           onTap: () {
             Navigator.push(
@@ -777,7 +773,8 @@ class MyData extends DataTableSource {
           color: Colors.blue,
         )),
         DataCell(RoundButton(
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.22,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
           text: 'Notes',
           onTap: () async {
             orderNotesController.text = result.notes!;
@@ -852,7 +849,8 @@ class MyData extends DataTableSource {
           color: Colors.blue,
         )),
         DataCell(RoundButton(
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.3,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
           text: 'Quote Analysis',
           onTap: () {
             Navigator.push(
@@ -867,7 +865,7 @@ class MyData extends DataTableSource {
         )),
 
         DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}',
-            style: TextStyle(fontWeight: FontWeight.w500))),
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Text(""))
         // DataCell(Row(
         //   children: [

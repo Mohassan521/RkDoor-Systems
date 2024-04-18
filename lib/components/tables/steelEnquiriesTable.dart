@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/enquiriesModel.dart';
+import 'package:price_link/screens/Enquiries/editEnquiry.dart';
+import 'package:price_link/screens/Enquiries/enquiryDetails.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -165,7 +167,9 @@ class _SteelEnquiriesTableState extends State<SteelEnquiriesTable> {
                 )),
               ],
               source: MyData(list, context,
-                  steelEnquiriesList: steelEnquiriesList));
+                  steelEnquiriesList: steelEnquiriesList,
+                  dealer_id: widget.dealerId!,
+                  dealer_name: widget.dealerName!));
         });
       },
     );
@@ -173,11 +177,16 @@ class _SteelEnquiriesTableState extends State<SteelEnquiriesTable> {
 }
 
 class MyData extends DataTableSource {
+  final String dealer_id;
+  final String dealer_name;
   List<EnquiriesModel> steelEnquiriesList;
   final BuildContext context;
   final List<EnquiriesModel> data;
 
-  MyData(this.data, this.context, {required this.steelEnquiriesList});
+  MyData(this.data, this.context,
+      {required this.steelEnquiriesList,
+      required this.dealer_id,
+      required this.dealer_name});
 
   @override
   int get rowCount => steelEnquiriesList.length;
@@ -194,14 +203,20 @@ class MyData extends DataTableSource {
   DataRow getRow(int index) {
     final EnquiriesModel result = steelEnquiriesList[index];
     return DataRow.byIndex(
-      index: index,
       color: MaterialStatePropertyAll(Colors.white),
+      index: index,
       cells: <DataCell>[
-        DataCell(Text(result.enquiryAllocatedTo ?? '')),
-        DataCell(Text(result.enquiryCusName ?? '')),
-        DataCell(Text(result.enquiryCompanyName ?? '')),
+        DataCell(Text(
+          result.enquiryAllocatedTo ?? '',
+          style: TextStyle(fontSize: 12.5),
+        )),
+        DataCell(Text(result.enquiryCusName ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquiryCompanyName ?? '',
+            style: TextStyle(fontSize: 12.5))),
         DataCell((result.newSymbol != "")
             ? Container(
+                width: MediaQuery.sizeOf(context).height * 0.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.5),
                   color: Color(0xffff0000),
@@ -215,10 +230,22 @@ class MyData extends DataTableSource {
             : Text("")),
         DataCell(RoundButton(
           text: 'Enquiry Details',
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EnquiryDetails(
+                          dealerId: dealer_id,
+                          dealerName: dealer_name,
+                          enquiries: result,
+                        )));
+          },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(context).width * 0.18,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
-        DataCell(Text(result.enquiryType ?? '')),
+        DataCell(
+            Text(result.enquiryType ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -229,47 +256,140 @@ class MyData extends DataTableSource {
                           : Color(0xffff0000),
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
-              child: Center(child: Text(result.enquiryPriorityLevel ?? '')));
+              width: MediaQuery.sizeOf(context).width * 0.24,
+              child: Center(
+                  child: Text(
+                result.enquiryPriorityLevel ?? '',
+                style: TextStyle(color: Colors.black, fontSize: 12.5),
+              )));
         })),
-        DataCell(Text(result.enquiryRequirement ?? '')),
-        DataCell(Text(result.enquirySupplyType ?? '')),
-        DataCell(Text(result.enquiryDealer ?? '')),
+        DataCell(Text(result.enquiryRequirement ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquirySupplyType ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.enquiryDealer ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(Text(
-            '${result.customerAddress}, ${result.customerAddress2 ?? ''}, ${result.customerAddress3 ?? ''}, ${result.customerAddress4 ?? ''}')),
-        DataCell(Text(result.dileveryPostCodeC13 ?? '')),
-        DataCell(Text(result.enquirySource ?? '')),
-        DataCell(Text(result.enquiryConfCode ?? '')),
+            '${result.customerAddress ?? ""}, ${result.customerAddress2 ?? ''}, ${result.customerAddress3 ?? ''}, ${result.customerAddress4 ?? ''}',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.dileveryPostCodeC13 ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.enquirySource ?? '', style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquiryConfCode ?? '',
+            style: TextStyle(fontSize: 12.5))),
         // DataCell(Text(
         //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
         //DataCell(Text('')),
-        // DataCell(Text(result.quotationNumberForEnquiry ?? "")),
+        DataCell(Center(
+            child: Text(result.quotationNumberForEnquiry ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5)))),
         //DataCell(Text('')),
-        DataCell(Text(result.date ?? '')),
-        DataCell(Text(result.time ?? '')),
+        DataCell(Text(result.date ?? '', style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.time ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(RoundButton(
           text: 'Hot Leads',
-          onTap: () {},
+          onTap: () {
+            NetworkApiServices().hotLeadsOrder(
+                dealer_id,
+                result.enquiryType,
+                dealer_name,
+                result.enquiryEntered,
+                result.enquiryRequirement,
+                result.enquiryCusName,
+                result.enquiryCompanyName,
+                result.enquirySupplyType,
+                result.customerAddress,
+                result.customerAddress2,
+                result.customerAddress3,
+                result.customerAddress4,
+                result.dileveryPostCodeC13,
+                result.enquiryCusEmail,
+                result.enquiryTelNum,
+                result.enquiryPriorityLevel,
+                result.enquiryNotes,
+                result.enquirySource,
+                result.enquiryAllocatedTo);
+          },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(context).width * 0.18,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
-        DataCell(Text(result.enquiryEntered ?? '')),
+        DataCell(Center(
+            child: Text(result.enquiryEntered ?? '',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5)))),
         DataCell(RoundButton(
           text: 'Close Enquiry',
-          onTap: () {},
+          onTap: () {
+            NetworkApiServices().closeEnquiry(dealer_id, result.id!);
+          },
           color: Colors.blue,
+          width: MediaQuery.sizeOf(context).width * 0.19,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
         DataCell(Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditFormPage(
+                              dealerId: dealer_id,
+                              dealerName: dealer_name,
+                              enquiriesModel: result,
+                            )));
+              },
               icon: Icon(Icons.edit),
-              iconSize: 16,
+              iconSize: 14,
+            ),
+            SizedBox(
+              width: 10,
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Icon(Icons.warning),
+                        content:
+                            Text('Are u sure you want to delete this Enquiry'),
+                        actions: [
+                          Center(
+                            child: Column(
+                              children: [
+                                RoundButton(
+                                  text: 'Delete',
+                                  onTap: () {
+                                    NetworkApiServices()
+                                        .deleteEnquiry(dealer_id, result.id!);
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.red,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                RoundButton(
+                                  text: 'Cancel',
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.blue,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    });
+              },
               icon: Icon(Icons.delete),
               color: Colors.red,
-              iconSize: 16,
+              iconSize: 14,
             ),
           ],
         )),

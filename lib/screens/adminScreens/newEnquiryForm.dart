@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
-import 'package:price_link/services/fetchify_api.dart';
 import 'package:price_link/services/services.dart';
 
 class AdminEnquiryForm extends StatefulWidget {
@@ -56,8 +54,6 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
     }
   }
 
-  final FetchifyService fetchifyService =
-      FetchifyService('de602-9d509-28453-08f87');
   final TextEditingController addressController = TextEditingController();
   final TextEditingController enquiryEnteredByController =
       TextEditingController();
@@ -933,45 +929,50 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 20,
               ),
               Center(
-                child: RoundButton(
-                  text: 'Save',
-                  width: double.infinity,
-                  onTap: () {
-                    apiServices.createEnquiriesForAdmin(
-                        widget.dealerId,
-                        entranceDoorValue,
-                        dealerController.text,
-                        enqAllocatedTo,
-                        enqEnteredBy,
-                        enqEnteredBy,
-                        cusNameController.text,
-                        companyController.text,
-                        supplyTypeValue,
-                        addressController.text,
-                        deliveryAddressController2.text,
-                        deliveryAddressController3.text,
-                        deliveryAddressController4.text,
-                        deliveryPostCode.text,
-                        emailController.text,
-                        telephoneController.text,
-                        priorityValue,
-                        filesToUpload,
-                        filesToUploadForDoorDesign,
-                        notesController.text,
-                        enquirySourceValue);
-                  },
-                  color: Color(0xff941420),
-                ),
+                child: MaterialButton(
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.5)),
+                    minWidth: double.infinity,
+                    child: Text('Save'),
+                    color: Color(0xff941420),
+                    onPressed: () {
+                      apiServices.createEnquiriesForAdmin(
+                          widget.dealerId,
+                          entranceDoorValue,
+                          dealerController.text,
+                          enqAllocatedTo,
+                          enqEnteredBy,
+                          enqEnteredBy,
+                          cusNameController.text,
+                          companyController.text,
+                          supplyTypeValue,
+                          addressController.text,
+                          deliveryAddressController2.text,
+                          deliveryAddressController3.text,
+                          deliveryAddressController4.text,
+                          deliveryPostCode.text,
+                          emailController.text,
+                          telephoneController.text,
+                          priorityValue,
+                          filesToUpload,
+                          filesToUploadForDoorDesign,
+                          notesController.text,
+                          enquirySourceValue);
+                    }),
               ),
               SizedBox(
                 height: 20,
               ),
               Center(
-                child: RoundButton(
-                  text: 'Save as Hot Lead',
-                  width: double.infinity,
-                  onTap: () {},
+                child: MaterialButton(
+                  onPressed: () {},
+                  child: Text("Save as Hot Lead"),
+                  minWidth: double.infinity,
                   color: Color(0xff941420),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.5)),
+                  textColor: Colors.white,
                 ),
               )
             ],

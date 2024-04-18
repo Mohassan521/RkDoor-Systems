@@ -330,11 +330,14 @@ class MyData extends DataTableSource {
       color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.name ?? "")),
-        DataCell(Text(result.quotationNumber ?? "")),
-        DataCell(Text(dealerData.dealerName ?? "")),
-        DataCell(Text(dealerName ?? "")),
-        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "")),
+        DataCell(Text(result.name ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.quotationNumber ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(dealerData.dealerName ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(dealerName ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "",
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -461,7 +464,8 @@ class MyData extends DataTableSource {
         ),
 
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
-        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "")),
+        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -526,7 +530,8 @@ class MyData extends DataTableSource {
               : Center(child: Text('')),
         ),
 
-        DataCell(Text(result.balDueBeforeDelivery ?? "")),
+        DataCell(Text(result.balDueBeforeDelivery ?? "",
+            style: TextStyle(fontSize: 12.5))),
         // DataCell(Text(
         //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
@@ -579,8 +584,9 @@ class MyData extends DataTableSource {
               : Center(child: Text('')),
         ),
 
-        DataCell(Text(result.profile ?? "")),
-        DataCell(Text(result.doorModel ?? "")),
+        DataCell(Text(result.profile ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.doorModel ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -597,7 +603,8 @@ class MyData extends DataTableSource {
               )));
         })),
 
-        DataCell(Text(result.frameSizeHeightWidth ?? "")),
+        DataCell(Text(result.frameSizeHeightWidth ?? "",
+            style: TextStyle(fontSize: 12.5))),
         //DataCell(Text(result.lhGoalPostE44 ?? "")),
         DataCell(Builder(builder: (context) {
           return Container(
@@ -615,7 +622,8 @@ class MyData extends DataTableSource {
               )));
         })),
 
-        DataCell(Text(result.totalWeightKg ?? "")),
+        DataCell(
+            Text(result.totalWeightKg ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -639,14 +647,19 @@ class MyData extends DataTableSource {
                 style: TextStyle(color: Colors.black, fontSize: 12),
               )));
         })),
-        DataCell(Text(result.ekeylessAccess ?? "")),
-        DataCell(Text(result.telephoneNumber ?? "")),
-        DataCell(Text(result.customerEmail ?? "")),
-        DataCell(Text(result.dileveryPostCodeC13 ?? "")),
-        DataCell(Text(result.id ?? "")),
-        DataCell(Text(result.date ?? "")),
-        DataCell(Text(result.time ?? "")),
-        DataCell(Text(result.wholeTotal ?? "")),
+        DataCell(Text(result.ekeylessAccess ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.telephoneNumber ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.customerEmail ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.dileveryPostCodeC13 ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.id ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.date ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.time ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.wholeTotal ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Consumer<FollowUpOrderDate>(
           builder: (context, value, child) {
             return Row(
@@ -683,6 +696,7 @@ class MyData extends DataTableSource {
           builder: (context, value, child) {
             return Center(
               child: DropdownButton<String>(
+                style: TextStyle(fontSize: 12.5, color: Colors.black),
                 value:
                     (result.orderFollowup == "") ? "NO" : result.orderFollowup!,
                 underline: Container(
@@ -727,7 +741,8 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
         )),
         DataCell(RoundButton(
           text: 'Notes',
@@ -802,7 +817,8 @@ class MyData extends DataTableSource {
                     ));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.13,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
         )),
         DataCell(RoundButton(
           text: 'Quote Analysis',
@@ -816,10 +832,12 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.28,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.21,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
         )),
 
-        DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}')),
+        DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}',
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Text(""))
         // DataCell(Row(
         //   children: [

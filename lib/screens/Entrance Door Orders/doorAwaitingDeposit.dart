@@ -74,31 +74,6 @@ class _DoorAwaitingDepositState extends State<DoorAwaitingDeposit> {
         ),
         body: ListView(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Text('Show '),
-            //           Consumer<SelectedValueProvider>(
-            //               builder: (context, value, child) {
-            //             return Container(
-            //               height: MediaQuery.of(context).size.height * 0.035,
-            //               width: MediaQuery.of(context).size.width * 0.16,
-            //               child: ReusableDropdown(
-            //                   items: qtyList,
-            //                   valueProvider: value,
-            //                   onChanged: (newValue) {}),
-            //             );
-            //           }),
-            //           Text(' Entries'),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
             SizedBox(
               height: 18,
             ),
@@ -117,7 +92,7 @@ class _DoorAwaitingDepositState extends State<DoorAwaitingDeposit> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

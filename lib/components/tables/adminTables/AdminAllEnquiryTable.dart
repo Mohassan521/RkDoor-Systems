@@ -25,36 +25,6 @@ class AdminAllEnquiriesTable extends StatefulWidget {
 }
 
 class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
-  // String? _filePath;
-  // String selectedValue = "";
-
-  // List<String> enquiryStatus = [
-  //   'VIEWED',
-  //   'QUOTATION ISSUED',
-  //   'REVISED QUOTATION ISSUED',
-  //   '1ST FOLLOW UP MADE',
-  //   '2ND FOLLOW UP MADE',
-  //   'POTENTIAL ORDER',
-  //   'ORDERED',
-  //   'CLOSED'
-  // ];
-
-  // Future<void> _pickFile() async {
-  //   try {
-  //     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-  //     if (result != null) {
-  //       setState(() {
-  //         _filePath = result.files.single.path;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error picking file: $e');
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
@@ -76,152 +46,150 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
         List<CompleteResponseOfEnquiries> displayData =
             filteredList.isNotEmpty ? filteredList : dealerDataList;
 
-        return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              showEmptyRows: false,
-              columnSpacing: 20,
-              headingRowHeight: 48,
-              dataRowMaxHeight: 48,
-              rowsPerPage: 5,
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Enquiry Allocated To',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Company',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Status',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Details',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Tel Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Product Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Priority',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Requirement',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Address',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Email',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Source',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Configurator Code or RK Steel Quote No',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'File Upload',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'File Upload (From Enquiry Form)',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Hot Leads',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Entered By',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Close Enquiry',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date of Closure',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date of Issue',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Edit',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-              ],
-              source: MyData(displayData, context, dealerId: widget.dealerId!));
-        });
+        return PaginatedDataTable(
+            showEmptyRows: false,
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            rowsPerPage: 5,
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Enquiry Allocated To',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Company',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Enquiry Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Enquiry Details',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Tel Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Product Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Priority',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Requirement',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Supply Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Address',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Enquiry Source',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Configurator Code or RK Steel Quote No',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'File Upload',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'File Upload (From Enquiry Form)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Enquiry Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Hot Leads',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Enquiry Entered By',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Close Enquiry',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date of Closure',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date of Issue',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Edit',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(displayData, context, dealerId: widget.dealerId!));
       },
     );
   }
@@ -296,27 +264,42 @@ class MyData extends DataTableSource {
             color: MaterialStatePropertyAll(Colors.white),
             index: index,
             cells: [
-              DataCell(Text(dealerData.displayName)),
-              DataCell(Text(quote.enquiryCustomerName ?? "")),
-              DataCell(Text(quote.enquiryCompanyName ?? "")),
+              DataCell(Text(
+                dealerData.displayName,
+                style: TextStyle(fontSize: 12.5),
+              )),
+              DataCell(Text(quote.enquiryCustomerName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryCompanyName ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Text("")),
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Enquiry Details",
-                width: MediaQuery.sizeOf(context).width * 0.33,
+                width: MediaQuery.sizeOf(context).width * 0.24,
                 color: Colors.blue,
               )),
-              DataCell(Text(quote.enquiryTelNum ?? "")),
-              DataCell(Text(quote.enquiryType ?? "")),
-              DataCell(Text(quote.enquiryPriorityLevel ?? "")),
-              DataCell(Text(quote.enquiryRequirement ?? "")),
-              DataCell(Text(quote.enquirySupplyType ?? "")),
-              DataCell(Text(dealerData.dealerName)),
+              DataCell(Text(quote.enquiryTelNum ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryType ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryPriorityLevel ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryRequirement ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquirySupplyType ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(dealerData.dealerName,
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Text(
-                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
-              DataCell(Text(quote.enquiryCustomerEmail ?? "")),
-              DataCell(Text(quote.deliveryPostCodeC13 ?? "")),
-              DataCell(Text(quote.enquirySource ?? "")),
+                  "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquiryCustomerEmail ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.deliveryPostCodeC13 ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(Text(quote.enquirySource ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(Container(
                   margin: EdgeInsets.only(bottom: 10),
                   child: TextFormField(
@@ -465,10 +448,12 @@ class MyData extends DataTableSource {
                         ],
                       ),
               ),
-
-              DataCell(Text(quote.quotationNumberForEnquiry ?? "")),
-              DataCell(Text(quote.date ?? "")),
-              DataCell(Text(quote.time ?? "")),
+              DataCell(Text(quote.quotationNumberForEnquiry ?? "",
+                  style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.date ?? "", style: TextStyle(fontSize: 12.5))),
+              DataCell(
+                  Text(quote.time ?? "", style: TextStyle(fontSize: 12.5))),
               DataCell(RoundButton(
                 onTap: () {
                   NetworkApiServices().hotLeadsOrder(
@@ -493,16 +478,17 @@ class MyData extends DataTableSource {
                       quote.enquiryAllocatedTo);
                 },
                 text: "Hot Leads",
-                width: MediaQuery.sizeOf(context).width * 0.24,
+                width: MediaQuery.sizeOf(context).width * 0.18,
                 color: Colors.blue,
               )),
-              DataCell(Text(quote.enquiryEntered ?? "")),
+              DataCell(Text(quote.enquiryEntered ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               DataCell(RoundButton(
                 onTap: () {
                   NetworkApiServices().closeEnquiry(dealerId, quote.id!);
                 },
                 text: "Close Enquiry",
-                width: MediaQuery.sizeOf(context).width * 0.29,
+                width: MediaQuery.sizeOf(context).width * 0.22,
                 color: Colors.blue,
               )),
               DataCell(
@@ -513,7 +499,7 @@ class MyData extends DataTableSource {
                       (quote.dateOfClosure != null)
                           ? quote.dateOfClosure!
                           : "mm/dd/yyyy",
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.5),
                     ),
                     //Text(""),
                     DateButton(
@@ -544,7 +530,7 @@ class MyData extends DataTableSource {
                       (quote.dateOfIssue != null)
                           ? quote.dateOfIssue!
                           : "mm/dd/yyyy",
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.5),
                     ),
                     //Text(""),
                     DateButton(
@@ -640,8 +626,6 @@ class MyData extends DataTableSource {
                       )),
                 ],
               ))
-
-              // Add more cells for other quote fields if needed
             ],
           );
         }

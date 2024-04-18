@@ -60,8 +60,6 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
   //   }
   // }
 
-  final FetchifyService fetchifyService =
-      FetchifyService('de602-9d509-28453-08f87');
   final TextEditingController addressController = TextEditingController();
   final TextEditingController enquiryEnteredByController =
       TextEditingController();
@@ -116,484 +114,41 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Product Type',
-                style: TextStyle(color: Color(0xff941420)),
-              ),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: entranceDoorValue,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    entranceDoorValue = newValue ?? entranceDoorValue;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'Entrance Door',
-                      child: Center(child: Text('Entrance Door'))),
-                  DropdownMenuItem<String>(
-                      value: 'Internal Steel',
-                      child: Center(child: Text('Internal Steel'))),
-                  DropdownMenuItem<String>(
-                      value: 'External Steel',
-                      child: Center(child: Text('External Steel'))),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'dealer',
-                controller: dealerController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Dealer'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'enq_entered',
-                controller: enquiryEnteredByController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Enquiry Entered By'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Enquiry Source',
-                  style: TextStyle(color: Color(0xff941420))),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: enquirySourceValue,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    enquirySourceValue = newValue ?? enquirySourceValue;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'Instagram',
-                      child: Center(child: Text('Instagram'))),
-                  DropdownMenuItem<String>(
-                      value: 'Internet Search',
-                      child: Center(child: Text('Internet Search'))),
-                  DropdownMenuItem<String>(
-                      value: 'Returning Customer',
-                      child: Center(child: Text('Returning Customer'))),
-                  DropdownMenuItem<String>(
-                      value: 'Door Configurator',
-                      child: Center(child: Text('Door Configurator'))),
-                  DropdownMenuItem<String>(
-                      value: 'Steel Configurator',
-                      child: Center(child: Text('Steel Configurator'))),
-                  DropdownMenuItem<String>(
-                      value: 'Swindon SBC',
-                      child: Center(child: Text('Swindon SBC'))),
-                  DropdownMenuItem<String>(
-                      value: 'Chat Box',
-                      child: Center(child: Text('Chat Box'))),
-                  DropdownMenuItem<String>(
-                      value: 'Info@', child: Center(child: Text('Info@'))),
-                  DropdownMenuItem<String>(
-                      value: 'Recommendation',
-                      child: Center(child: Text('Recommendation'))),
-                  DropdownMenuItem<String>(
-                      value: 'Showroom Visit',
-                      child: Center(child: Text('Showroom Visit'))),
-                  DropdownMenuItem<String>(
-                      value: 'Trade Window Company',
-                      child: Center(child: Text('Trade Window Company'))),
-                  DropdownMenuItem<String>(
-                      value: 'Telephone Enquiry',
-                      child: Center(child: Text('Telephone Enquiry'))),
-                  DropdownMenuItem<String>(
-                      value: 'Trade', child: Center(child: Text('Trade'))),
-                  DropdownMenuItem<String>(
-                      value: 'Other', child: Center(child: Text('Other'))),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Requirements',
-                  style: TextStyle(color: Color(0xff941420))),
-              DropdownButton<String>(
-                isExpanded: true,
-                value: requirementValue,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  requirementValue = newValue ?? enquirySourceValue;
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'Call Back',
-                      child: Center(child: Text('Call Back'))),
-                  DropdownMenuItem<String>(
-                      value: 'brochure',
-                      child: Center(child: Text('brochure'))),
-                  DropdownMenuItem<String>(
-                      value: 'Quotation',
-                      child: Center(child: Text('Quotation'))),
-                  DropdownMenuItem<String>(
-                      value: 'Chasing Configurator Enquiry',
-                      child:
-                          Center(child: Text('Chasing Configurator Enquiry'))),
-                  DropdownMenuItem<String>(
-                      value: 'Technical Details',
-                      child: Center(child: Text('Technical Details'))),
-                  DropdownMenuItem<String>(
-                      value: 'Dealership',
-                      child: Center(child: Text('Dealership'))),
-                  DropdownMenuItem<String>(
-                      value: 'Others', child: Center(child: Text('Others'))),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'cus_name',
-                controller: cusNameController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Name'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'company',
-                controller: companyController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Company'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Supply Type',
-                  style: TextStyle(color: Color(0xff941420))),
-              DropdownButton<String>(
-                alignment: Alignment.center,
-                isExpanded: true,
-                value: supplyTypeValue,
-                underline: Container(
-                  height: 2,
-                  color: Colors.grey,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    supplyTypeValue = newValue ?? supplyTypeValue;
-                  });
-                },
-                items: [
-                  DropdownMenuItem<String>(
-                      value: 'Supply Only',
-                      child: Center(child: Text('Supply Only'))),
-                  DropdownMenuItem<String>(
-                      value: 'Installation',
-                      child: Center(child: Text('Installation'))),
-                  DropdownMenuItem<String>(
-                      value: 'Not Applicable',
-                      child: Center(child: Text('Not Applicable'))),
-                  DropdownMenuItem<String>(
-                      value: 'Not Specified',
-                      child: Center(child: Text('Not Specified'))),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'del_address',
-                controller: deliveryAddressController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address Line 1'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'address2',
-                controller: deliveryAddressController2,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address Line 2'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'address3',
-                controller: deliveryAddressController3,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address Line 3'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'address4',
-                controller: deliveryAddressController4,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Address Line 4'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'post_code',
-                controller: deliveryPostCode,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Delivery Post Code'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'email',
-                controller: emailController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Customer Email'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              FormBuilderTextField(
-                name: 'tel',
-                controller: telephoneController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Telephone'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Priority Level',
-                  style: TextStyle(color: Color(0xff941420))),
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.sizeOf(context).height * 0.06,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.5),
-                    border: Border.all(width: 1),
-                    color: priorityValue == "LOW"
-                        ? Colors.pink
-                        : priorityValue == "MEDIUM"
-                            ? Colors.orange
-                            : Colors.red),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: priorityValue,
-                  underline: SizedBox(),
-                  iconEnabledColor: priorityValue == "LOW"
-                      ? Colors.pink
-                      : priorityValue == "MEDIUM"
-                          ? Colors.orange
-                          : Colors.red,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      priorityValue = newValue ?? priorityValue;
-                    });
-                  },
-                  items: [
-                    DropdownMenuItem<String>(
-                        value: 'LOW',
-                        child: Center(
-                            child: Text(
-                          'LOW',
-                        ))),
-                    DropdownMenuItem<String>(
-                        value: 'MEDIUM', child: Center(child: Text('MEDIUM'))),
-                    DropdownMenuItem<String>(
-                        value: 'HIGH', child: Center(child: Text('HIGH'))),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('File Upload',
-                  style: TextStyle(color: Color(0xff941420))),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RoundButton(
-                    onTap: () {
-                      getImage();
-                    },
-                    text: 'Choose File',
-                    color: Color(0xff941420),
-                    width: MediaQuery.sizeOf(context).width * 0.25,
+                  const Text(
+                    'Product Type',
+                    style: TextStyle(color: Color(0xff941420)),
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.70),
-                    child: Text(
-                      _image?.path ?? "",
-                      textAlign: TextAlign.end,
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      // isExpanded: true,
+                      value: entranceDoorValue,
+
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          entranceDoorValue = newValue ?? entranceDoorValue;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'Entrance Door',
+                            child: Center(child: Text('Entrance Door'))),
+                        DropdownMenuItem<String>(
+                            value: 'Internal Steel',
+                            child: Center(child: Text('Internal Steel'))),
+                        DropdownMenuItem<String>(
+                            value: 'External Steel',
+                            child: Center(child: Text('External Steel'))),
+                      ],
                     ),
                   ),
                 ],
@@ -601,33 +156,587 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 20,
               ),
+              const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'dealer',
+                controller: dealerController,
+                style: TextStyle(fontSize: 13, color: Colors.black),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Enquiry Entered By',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'enq_entered',
+                controller: enquiryEnteredByController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Enquiry Source',
+                      style: TextStyle(color: Color(0xff941420))),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * .05,
+                    padding: EdgeInsets.only(left: 9),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: DropdownButton<String>(
+                      isExpanded: false,
+                      value: enquirySourceValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          enquirySourceValue = newValue ?? enquirySourceValue;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'Instagram',
+                            child: Center(child: Text('Instagram'))),
+                        DropdownMenuItem<String>(
+                            value: 'Internet Search',
+                            child: Center(child: Text('Internet Search'))),
+                        DropdownMenuItem<String>(
+                            value: 'Returning Customer',
+                            child: Center(child: Text('Returning Customer'))),
+                        DropdownMenuItem<String>(
+                            value: 'Door Configurator',
+                            child: Center(child: Text('Door Configurator'))),
+                        DropdownMenuItem<String>(
+                            value: 'Steel Configurator',
+                            child: Center(child: Text('Steel Configurator'))),
+                        DropdownMenuItem<String>(
+                            value: 'Swindon SBC',
+                            child: Center(child: Text('Swindon SBC'))),
+                        DropdownMenuItem<String>(
+                            value: 'Chat Box',
+                            child: Center(child: Text('Chat Box'))),
+                        DropdownMenuItem<String>(
+                            value: 'Info@',
+                            child: Center(child: Text('Info@'))),
+                        DropdownMenuItem<String>(
+                            value: 'Recommendation',
+                            child: Center(child: Text('Recommendation'))),
+                        DropdownMenuItem<String>(
+                            value: 'Showroom Visit',
+                            child: Center(child: Text('Showroom Visit'))),
+                        DropdownMenuItem<String>(
+                            value: 'Trade Window Company',
+                            child: Center(child: Text('Trade Window Company'))),
+                        DropdownMenuItem<String>(
+                            value: 'Telephone Enquiry',
+                            child: Center(child: Text('Telephone Enquiry'))),
+                        DropdownMenuItem<String>(
+                            value: 'Trade',
+                            child: Center(child: Text('Trade'))),
+                        DropdownMenuItem<String>(
+                            value: 'Other',
+                            child: Center(child: Text('Other'))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Requirements',
+                      style: TextStyle(color: Color(0xff941420))),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: DropdownButton<String>(
+                      isExpanded: false,
+                      value: requirementValue,
+                      onChanged: (String? newValue) {
+                        requirementValue = newValue ?? enquirySourceValue;
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'Call Back',
+                            child: Center(child: Text('Call Back'))),
+                        DropdownMenuItem<String>(
+                            value: 'brochure',
+                            child: Center(child: Text('brochure'))),
+                        DropdownMenuItem<String>(
+                            value: 'Quotation',
+                            child: Center(child: Text('Quotation'))),
+                        DropdownMenuItem<String>(
+                            value: 'Chasing Configurator Enquiry',
+                            child: Center(
+                                child: Text('Chasing Configurator Enquiry'))),
+                        DropdownMenuItem<String>(
+                            value: 'Technical Details',
+                            child: Center(child: Text('Technical Details'))),
+                        DropdownMenuItem<String>(
+                            value: 'Dealership',
+                            child: Center(child: Text('Dealership'))),
+                        DropdownMenuItem<String>(
+                            value: 'Others',
+                            child: Center(child: Text('Others'))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Name',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'cus_name',
+                controller: cusNameController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Company', style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'company',
+                controller: companyController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Supply Type',
+                      style: TextStyle(color: Color(0xff941420))),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    padding: EdgeInsets.only(left: 9),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: supplyTypeValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          supplyTypeValue = newValue ?? supplyTypeValue;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'Supply Only',
+                            child: Center(child: Text('Supply Only'))),
+                        DropdownMenuItem<String>(
+                            value: 'Installation',
+                            child: Center(child: Text('Installation'))),
+                        DropdownMenuItem<String>(
+                            value: 'Not Applicable',
+                            child: Center(child: Text('Not Applicable'))),
+                        DropdownMenuItem<String>(
+                            value: 'Not Specified',
+                            child: Center(child: Text('Not Specified'))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Address Line 1',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'del_address',
+                controller: deliveryAddressController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Address Line 2',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'address2',
+                controller: deliveryAddressController2,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Address Line 3',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'address3',
+                controller: deliveryAddressController3,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Address Line 4',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'address4',
+                controller: deliveryAddressController4,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Delivery Post Code',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'post_code',
+                controller: deliveryPostCode,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Customer Email',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'email',
+                controller: emailController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Telephone',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              FormBuilderTextField(
+                name: 'tel',
+                controller: telephoneController,
+                style: TextStyle(fontSize: 13),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Priority Level',
+                      style: TextStyle(color: Color(0xff941420))),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 9),
+                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.5),
+                        border: Border.all(width: 1),
+                        color: priorityValue == "LOW"
+                            ? Colors.pink
+                            : priorityValue == "MEDIUM"
+                                ? Colors.orange
+                                : Colors.red),
+                    child: DropdownButton<String>(
+                      isExpanded: false,
+                      alignment: Alignment.center,
+                      value: priorityValue,
+                      underline: SizedBox(),
+                      iconEnabledColor: priorityValue == "LOW"
+                          ? Colors.pink
+                          : priorityValue == "MEDIUM"
+                              ? Colors.orange
+                              : Colors.red,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          priorityValue = newValue ?? priorityValue;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: 'LOW',
+                            alignment: Alignment.center,
+                            child: Center(
+                                child: Text(
+                              'LOW',
+                            ))),
+                        DropdownMenuItem<String>(
+                            value: 'MEDIUM',
+                            alignment: Alignment.center,
+                            child: Center(child: Text('MEDIUM'))),
+                        DropdownMenuItem<String>(
+                            value: 'HIGH',
+                            alignment: Alignment.center,
+                            child: Center(child: Text('HIGH'))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('File Upload',
+                  style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xff941420)),
+                    ),
+                    icon: Icon(
+                      Icons.cloud_upload_outlined,
+                      size: 19,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Browse',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      getImage();
+                    },
+                  ),
+                  SizedBox(
+                    width: 60,
+                  ),
+                  Text(
+                    _image != null && _image!.path.isNotEmpty
+                        ? "File Uploaded"
+                        : "",
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text('Notes', style: TextStyle(color: Color(0xff941420))),
+              SizedBox(
+                height: 5,
+              ),
               FormBuilderTextField(
                 name: 'notes',
                 controller: notesController,
                 style: TextStyle(fontSize: 13),
                 maxLines: 6,
                 decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    labelStyle:
-                        TextStyle(color: Color(0xff941420), fontSize: 13),
-                    fillColor: Color.fromARGB(255, 246, 245, 245),
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Notes'),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Color.fromARGB(255, 246, 245, 245),
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: BorderSide(color: Colors.grey)),
+                ),
               ),
               SizedBox(
                 height: 20,
               ),
-              RoundButton(
-                width: double.infinity,
-                text: 'Save',
-                onTap: () {
+              MaterialButton(
+                minWidth: double.infinity,
+                child: Text('Save'),
+                onPressed: () {
                   apiServices.createEnquiries(
                       widget.dealerId,
                       entranceDoorValue,
@@ -651,6 +760,9 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       enquiryEnteredByController.text);
                 },
                 color: Color(0xff941420),
+                textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.5)),
               )
             ],
           ),

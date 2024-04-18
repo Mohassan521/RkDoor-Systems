@@ -332,11 +332,14 @@ class MyData extends DataTableSource {
       color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.name ?? "")),
-        DataCell(Text(result.quotationNumber ?? "")),
-        DataCell(Text(dealerData.dealerName ?? "")),
-        DataCell(Text(dealerName ?? "")),
-        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "")),
+        DataCell(Text(result.name ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.quotationNumber ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(dealerData.dealerName ?? "",
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(dealerName ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.orderNoVal != "" ? result.orderNoVal! : "",
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -463,7 +466,8 @@ class MyData extends DataTableSource {
         ),
 
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
-        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "")),
+        DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
+            style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -528,7 +532,8 @@ class MyData extends DataTableSource {
               : Center(child: Text('')),
         ),
 
-        DataCell(Text(result.balDueBeforeDelivery ?? "")),
+        DataCell(Text(result.balDueBeforeDelivery ?? "",
+            style: TextStyle(fontSize: 12.5))),
         // DataCell(Text(
         //     result.deliveryDocuments!.map((e) => e.toString()).join(', '))),
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
@@ -581,8 +586,9 @@ class MyData extends DataTableSource {
               : Center(child: Text('')),
         ),
 
-        DataCell(Text(result.profile ?? "")),
-        DataCell(Text(result.doorModel ?? "")),
+        DataCell(Text(result.profile ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.doorModel ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(

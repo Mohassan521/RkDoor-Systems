@@ -261,10 +261,13 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 20,
                   ),
                   Center(
-                      child: RoundButton(
-                    width: double.infinity,
-                    text: 'Register',
-                    onTap: () {
+                      child: MaterialButton(
+                    color: Color(0xff941420),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.5)),
+                    minWidth: double.infinity,
+                    onPressed: () {
                       if (password.text == cpassword.text) {
                         NetworkApiServices().createAdministrator(
                             fname.text,
@@ -275,7 +278,7 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                             password.text);
                       }
                     },
-                    color: Color(0xff941420),
+                    child: Text("Register"),
                   )),
                   const SizedBox(
                     height: 40,

@@ -389,11 +389,20 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //4
-              DataCell(Text(quote.steelQNumber ?? "")),
+              DataCell(Text(
+                quote.steelQNumber ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //5
-              DataCell(Text(dealerData.dealerName ?? "")),
+              DataCell(Text(
+                dealerData.dealerName ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //6
-              DataCell(Text(quote.steelFacOrderNoVal ?? "")),
+              DataCell(Text(
+                quote.steelFacOrderNoVal ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
 
               //8
               DataCell(Builder(builder: (context) {
@@ -641,13 +650,17 @@ class MyData extends DataTableSource {
               ),
 
               //13
-              DataCell(Text(quote.steelBalDueBeforeDelivery ?? "")),
+              DataCell(Text(
+                quote.steelBalDueBeforeDelivery ?? "",
+                style: TextStyle(fontSize: 12.5),
+              )),
               //14
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Financial History",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.34,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
               )),
               //15
               DataCell(
@@ -725,9 +738,11 @@ class MyData extends DataTableSource {
               ),
 
               //16
-              DataCell(Text(quote.steelSupplyType ?? "")),
+              DataCell(Text(quote.steelSupplyType ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //17
-              DataCell(Text(quote.steelFrameSize ?? "")),
+              DataCell(Text(quote.steelFrameSize ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //18
               // DataCell(Builder(builder: (context) {
               //     return Container(
@@ -758,20 +773,27 @@ class MyData extends DataTableSource {
                     },
                   ))),
               //20
-              DataCell(Text(quote.deliveryPostCode ?? "")),
+              DataCell(Text(quote.deliveryPostCode ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //21
-              DataCell(Text(quote.steelWeight ?? "")),
+              DataCell(Text(quote.steelWeight ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //22
-              DataCell(Text(quote.steelCustomerTel ?? "")),
+              DataCell(Text(quote.steelCustomerTel ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //23
-              DataCell(Text(quote.steelDealerEmail ?? "")),
+              DataCell(Text(quote.steelDealerEmail ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //24
-              DataCell(Text(quote.steelTotalOrderValue ?? "")),
+              DataCell(Text(quote.steelTotalOrderValue ?? "",
+                  style: TextStyle(fontSize: 12.5))),
 
               // discount
-              DataCell(Text(quote.steelDiscount ?? "")),
+              DataCell(Text(quote.steelDiscount ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //25
-              DataCell(Text(quote.steelDeliveryCost ?? "")),
+              DataCell(Text(quote.steelDeliveryCost ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //26
               DataCell(
                 quote.manualPDFImageURL!.isNotEmpty
@@ -848,26 +870,31 @@ class MyData extends DataTableSource {
               ),
 
               //27
-              DataCell(Text(quote.steelQNumber ?? "")),
+              DataCell(Text(quote.steelQNumber ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //28
-              DataCell(Text(quote.date ?? "")),
+              DataCell(
+                  Text(quote.date ?? "", style: TextStyle(fontSize: 12.5))),
               //29
-              DataCell(Text(quote.time ?? "")),
+              DataCell(
+                  Text(quote.time ?? "", style: TextStyle(fontSize: 12.5))),
               //30
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Notes",
                 color: Colors.blue,
-                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.16,
               )),
               //31
-              DataCell(Text(quote.saleBonus ?? "")),
+              DataCell(Text(quote.saleBonus ?? "",
+                  style: TextStyle(fontSize: 12.5))),
               //32
 
               //34
               DataCell(Text("")),
               //39
-              DataCell(Text("${quote.date} ${quote.steelOrderStatusVal}")),
+              DataCell(Text("${quote.date} ${quote.steelOrderStatusVal}",
+                  style: TextStyle(fontSize: 12.5))),
 
               DataCell(Row(
                 children: [

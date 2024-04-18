@@ -24,21 +24,6 @@ class AdminClosedEnquiryTable extends StatefulWidget {
 }
 
 class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
-  DateTime _dateTime = DateTime.now();
-  String? prevValue;
-  void _showDatePicker() {
-    showDatePicker(
-            context: context as BuildContext,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
@@ -53,11 +38,6 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
         }
 
         List<ClosedResponseOfEnquiries>? list = snapshot.data ?? [];
-
-        // List<ClosedEnquiryModel> filteredList =
-        //     Provider.of<ClosedEnquiriesSearchedData>(context).filteredDataModel;
-        // List<ClosedEnquiryModel>? displayData =
-        //     filteredList.isNotEmpty ? filteredList : list;
 
         return Consumer<PaginationProvider>(builder: (context, value, child) {
           return PaginatedDataTable(
@@ -153,7 +133,7 @@ class _AdminClosedEnquiryTableState extends State<AdminClosedEnquiryTable> {
                 )),
                 DataColumn(
                     label: Text(
-                  'Edit',
+                  '',
                   style: TextStyle(color: Color(0xff941420)),
                 )),
               ],
@@ -232,9 +212,9 @@ class MyData extends DataTableSource {
         TextEditingController configuratorCode = TextEditingController();
         configuratorCode.text = quote.enquiryConfCode ?? "";
 
-        List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
-        String fileUploadPath = fileUpload.isNotEmpty ? fileUpload.first : '';
-        String fileuploadExtension = extension(fileUploadPath).toLowerCase();
+        // List<dynamic> fileUpload = quote.enquiryOrderConfFile ?? [];
+        // String fileUploadPath = fileUpload.isNotEmpty ? fileUpload.first : '';
+        // String fileuploadExtension = extension(fileUploadPath).toLowerCase();
 
         List<dynamic> enquiryFormFileUpload = quote.enquiryOrderConfFile ?? [];
         String enqFormFileUpload =
@@ -252,18 +232,29 @@ class MyData extends DataTableSource {
               color: MaterialStatePropertyAll(Colors.white),
               index: index,
               cells: [
-                DataCell(Text(quote.enquiryCustomerName ?? "")),
-                DataCell(Text(quote.enquiryCompanyName ?? "")),
-                DataCell(Text(quote.enquiryTelNum ?? "")),
-                DataCell(Text(quote.enquiryType ?? "")),
-                DataCell(Text(quote.enquiryPriorityLevel ?? "")),
-                DataCell(Text(quote.enquiryRequirement ?? "")),
-                DataCell(Text(dealerData.displayName)),
-                DataCell(Text(dealerData.dealerName)),
+                DataCell(Text(quote.enquiryCustomerName ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryCompanyName ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryTelNum ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryType ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryPriorityLevel ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryRequirement ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(dealerData.displayName,
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(dealerData.dealerName,
+                    style: TextStyle(fontSize: 12.5))),
                 DataCell(Text(
-                    "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}")),
-                DataCell(Text(quote.enquiryCustomerEmail ?? "")),
-                DataCell(Text(quote.enquirySource ?? "")),
+                    "${quote.customerAddress},${quote.customerAddress2},${quote.customerAddress3},${quote.customerAddress4}",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquiryCustomerEmail ?? "",
+                    style: TextStyle(fontSize: 12.5))),
+                DataCell(Text(quote.enquirySource ?? "",
+                    style: TextStyle(fontSize: 12.5))),
                 DataCell(
                   quote.enquiryFileUpload!.isNotEmpty
                       ? Row(
@@ -326,25 +317,25 @@ class MyData extends DataTableSource {
                 DataCell(RoundButton(
                   onTap: () {},
                   text: "Notes",
-                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.16,
                   color: Colors.blue,
                 )),
                 DataCell(RoundButton(
                   onTap: () {},
                   text: "Create Quotation",
-                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.23,
                   color: Colors.blue,
                 )),
                 DataCell(RoundButton(
                   onTap: () {},
                   text: "Close Enquiry",
-                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.28,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.23,
                   color: Colors.blue,
                 )),
                 DataCell(RoundButton(
                   onTap: () {},
                   text: "Back To Enquiry",
-                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.31,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   color: Colors.blue,
                 )),
                 DataCell(Text(""))

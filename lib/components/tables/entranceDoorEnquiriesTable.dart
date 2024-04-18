@@ -233,11 +233,17 @@ class MyData extends DataTableSource {
       color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.enquiryAllocatedTo ?? '')),
-        DataCell(Text(result.enquiryCusName ?? '')),
-        DataCell(Text(result.enquiryCompanyName ?? '')),
+        DataCell(Text(
+          result.enquiryAllocatedTo ?? '',
+          style: TextStyle(fontSize: 12.5),
+        )),
+        DataCell(Text(result.enquiryCusName ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquiryCompanyName ?? '',
+            style: TextStyle(fontSize: 12.5))),
         DataCell((result.newSymbol != "")
             ? Container(
+                width: MediaQuery.sizeOf(context).height * 0.1,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.5),
                   color: Color(0xffff0000),
@@ -262,9 +268,11 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(context).width * 0.3,
+          width: MediaQuery.sizeOf(context).width * 0.18,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
-        DataCell(Text(result.enquiryType ?? '')),
+        DataCell(
+            Text(result.enquiryType ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
               decoration: BoxDecoration(
@@ -275,44 +283,78 @@ class MyData extends DataTableSource {
                           : Color(0xffff0000),
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.28,
-              child: Center(child: Text(result.enquiryPriorityLevel ?? '')));
+              width: MediaQuery.sizeOf(context).width * 0.24,
+              child: Center(
+                  child: Text(
+                result.enquiryPriorityLevel ?? '',
+                style: TextStyle(color: Colors.black, fontSize: 12.5),
+              )));
         })),
-        DataCell(Text(result.enquiryRequirement ?? '')),
-        DataCell(Text(result.enquirySupplyType ?? '')),
-        DataCell(Text(result.enquiryDealer ?? '')),
+        DataCell(Text(result.enquiryRequirement ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquirySupplyType ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.enquiryDealer ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(Text(
-            '${result.customerAddress ?? ""}, ${result.customerAddress2 ?? ''}, ${result.customerAddress3 ?? ''}, ${result.customerAddress4 ?? ''}')),
-        DataCell(Text(result.dileveryPostCodeC13 ?? '')),
-        DataCell(Text(result.enquirySource ?? '')),
-        DataCell(Text(result.enquiryConfCode ?? '')),
+            '${result.customerAddress ?? ""}, ${result.customerAddress2 ?? ''}, ${result.customerAddress3 ?? ''}, ${result.customerAddress4 ?? ''}',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.dileveryPostCodeC13 ?? '',
+            style: TextStyle(fontSize: 12.5))),
+        DataCell(
+            Text(result.enquirySource ?? '', style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.enquiryConfCode ?? '',
+            style: TextStyle(fontSize: 12.5))),
         // DataCell(Text(
         //     result.enquiryFileUpload!.map((e) => e.toString()).join(', '))),
         //DataCell(Text('')),
         DataCell(Center(
-            child: Text(
-          result.quotationNumberForEnquiry ?? "",
-          textAlign: TextAlign.center,
-        ))),
+            child: Text(result.quotationNumberForEnquiry ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5)))),
         //DataCell(Text('')),
-        DataCell(Text(result.date ?? '')),
-        DataCell(Text(result.time ?? '')),
+        DataCell(Text(result.date ?? '', style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(result.time ?? '', style: TextStyle(fontSize: 12.5))),
         DataCell(RoundButton(
           text: 'Hot Leads',
-          onTap: () {},
+          onTap: () {
+            NetworkApiServices().hotLeadsOrder(
+                dealer_id,
+                result.enquiryType,
+                dealer_name,
+                result.enquiryEntered,
+                result.enquiryRequirement,
+                result.enquiryCusName,
+                result.enquiryCompanyName,
+                result.enquirySupplyType,
+                result.customerAddress,
+                result.customerAddress2,
+                result.customerAddress3,
+                result.customerAddress4,
+                result.dileveryPostCodeC13,
+                result.enquiryCusEmail,
+                result.enquiryTelNum,
+                result.enquiryPriorityLevel,
+                result.enquiryNotes,
+                result.enquirySource,
+                result.enquiryAllocatedTo);
+          },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(context).width * 0.24,
+          width: MediaQuery.sizeOf(context).width * 0.18,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
         DataCell(Center(
-            child: Text(
-          result.enquiryEntered ?? '',
-          textAlign: TextAlign.center,
-        ))),
+            child: Text(result.enquiryEntered ?? '',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12.5)))),
         DataCell(RoundButton(
           text: 'Close Enquiry',
-          onTap: () {},
+          onTap: () {
+            NetworkApiServices().closeEnquiry(dealer_id, result.id!);
+          },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(context).width * 0.27,
+          width: MediaQuery.sizeOf(context).width * 0.19,
+          height: MediaQuery.sizeOf(context).height * 0.05,
         )),
         DataCell(Row(
           children: [
@@ -329,6 +371,9 @@ class MyData extends DataTableSource {
               },
               icon: Icon(Icons.edit),
               iconSize: 14,
+            ),
+            SizedBox(
+              width: 10,
             ),
             IconButton(
               onPressed: () {

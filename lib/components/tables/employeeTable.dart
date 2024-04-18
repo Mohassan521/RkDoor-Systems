@@ -130,26 +130,27 @@ class MyData extends DataTableSource {
         color: MaterialStatePropertyAll(Colors.white),
         index: index,
         cells: <DataCell>[
-          DataCell(Text('${result.id}')),
-          DataCell(Text(result.display_name ?? '')),
-          DataCell(Text(result.user_email ?? '')),
-          DataCell(Text('${result.telephone}')),
-          DataCell(Text('${result.postCode}')),
+          DataCell(Text('${result.id}', style: TextStyle(fontSize: 12.5))),
+          DataCell(Text(result.display_name ?? '',
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text(result.user_email ?? '', style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text('${result.telephone}', style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text('${result.postCode}', style: TextStyle(fontSize: 12.5))),
           DataCell(Center(
-              child: Text(
-            '${result.quotation_type}',
-            textAlign: TextAlign.center,
-          ))),
+              child: Text('${result.quotation_type}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5)))),
           DataCell(Center(
-              child: Text(
-            '${result.markup}',
-            textAlign: TextAlign.center,
-          ))),
+              child: Text('${result.markup}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5)))),
           DataCell(Center(
-              child: Text(
-            '${result.maxDiscount}',
-            textAlign: TextAlign.center,
-          ))),
+              child: Text('${result.maxDiscount}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5)))),
           //DataCell(Text('${result.user_status}')),
           DataCell(
             Consumer<setEmployeeStatus>(
@@ -159,6 +160,7 @@ class MyData extends DataTableSource {
                   builder: (context, snapshot) {
                     String? currentValue = snapshot.data ?? '';
                     return DropdownButton(
+                      style: TextStyle(fontSize: 12.5, color: Colors.black),
                       value: currentValue,
                       onChanged: (String? newValue) async {
                         value.setStatusForUser(result.id.toString(), newValue!);
@@ -219,6 +221,9 @@ class MyData extends DataTableSource {
                 },
                 icon: Icon(Icons.edit),
                 iconSize: 14,
+              ),
+              SizedBox(
+                width: 10,
               ),
               IconButton(
                 onPressed: () {

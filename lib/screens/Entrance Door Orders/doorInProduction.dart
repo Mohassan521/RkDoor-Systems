@@ -94,7 +94,7 @@ class _DoorInProductionState extends State<DoorInProduction> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

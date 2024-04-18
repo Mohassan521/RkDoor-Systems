@@ -61,8 +61,7 @@ class _DealerListState extends State<DealerList> {
                 padding: EdgeInsets.only(left: 20.0, right: 20),
                 child: TextFormField(
                   onChanged: (value) {
-                    Provider.of<allDealersList>(context,
-                            listen: false)
+                    Provider.of<allDealersList>(context, listen: false)
                         .getAllData(widget.dealerId, value);
                   },
                   decoration: InputDecoration(
@@ -72,7 +71,7 @@ class _DealerListState extends State<DealerList> {
                       onPressed: () {},
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(7.0),
                     ),
                     hintText: 'Search here',
                   ),

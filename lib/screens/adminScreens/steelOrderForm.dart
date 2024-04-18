@@ -1096,6 +1096,8 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               MaterialButton(
                 color: Color(0xff941420),
                 textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.5)),
                 minWidth: double.infinity,
                 onPressed: () {
                   NetworkApiServices().createSteelOrderForAdmin(

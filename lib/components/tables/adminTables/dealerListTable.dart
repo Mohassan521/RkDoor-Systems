@@ -16,21 +16,6 @@ class DealerListTable extends StatefulWidget {
 }
 
 class _DealerListTableState extends State<DealerListTable> {
-  DateTime _dateTime = DateTime.now();
-  String? prevValue;
-  void _showDatePicker() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
@@ -253,25 +238,33 @@ class MyData extends DataTableSource {
         index: index,
         cells: <DataCell>[
           //1
-          DataCell(Text(result.iD.toString())),
+          DataCell(
+              Text(result.iD.toString(), style: TextStyle(fontSize: 12.5))),
           //2
-          DataCell(Text(result.name ?? "")),
+          DataCell(Text(result.name ?? "", style: TextStyle(fontSize: 12.5))),
           //3
-          DataCell(Text(result.dealerName ?? "")),
+          DataCell(
+              Text(result.dealerName ?? "", style: TextStyle(fontSize: 12.5))),
           //4
-          DataCell(Text(result.dealerAddress1 ?? "")),
+          DataCell(Text(result.dealerAddress1 ?? "",
+              style: TextStyle(fontSize: 12.5))),
           //5
-          DataCell(Text(result.dealerAddress2 ?? "")),
+          DataCell(Text(result.dealerAddress2 ?? "",
+              style: TextStyle(fontSize: 12.5))),
           //6
-          DataCell(Text(result.dealerAddress3 ?? "")),
+          DataCell(Text(result.dealerAddress3 ?? "",
+              style: TextStyle(fontSize: 12.5))),
 
-          DataCell(Text(result.postCodeRegister ?? "")),
+          DataCell(Text(result.postCodeRegister ?? "",
+              style: TextStyle(fontSize: 12.5))),
 
-          DataCell(Text(result.telephone ?? "")),
+          DataCell(
+              Text(result.telephone ?? "", style: TextStyle(fontSize: 12.5))),
 
-          DataCell(Text(result.email ?? "")),
+          DataCell(Text(result.email ?? "", style: TextStyle(fontSize: 12.5))),
 
-          DataCell(Text(result.userRegistered ?? "")),
+          DataCell(Text(result.userRegistered ?? "",
+              style: TextStyle(fontSize: 12.5))),
 
           DataCell(Center(
             child: DropdownButton<String>(
@@ -280,6 +273,7 @@ class MyData extends DataTableSource {
                 height: 2,
                 color: Colors.white,
               ),
+              style: TextStyle(fontSize: 12.5, color: Colors.black),
               onChanged: (String? newValue) {
                 //newValue = result.orderFollowup;
                 if (newValue != null) {
@@ -319,6 +313,7 @@ class MyData extends DataTableSource {
                 height: 2,
                 color: Colors.white,
               ),
+              style: TextStyle(fontSize: 12.5, color: Colors.black),
               onChanged: (String? newValue) {
                 //newValue = result.orderFollowup;
                 if (newValue != null) {
@@ -350,6 +345,7 @@ class MyData extends DataTableSource {
           DataCell(Center(
             child: DropdownButton<String>(
               value: (result.lStatus == "") ? "" : result.lStatus,
+              style: TextStyle(fontSize: 12.5, color: Colors.black),
               underline: Container(
                 height: 2,
                 color: Colors.white,
@@ -380,7 +376,8 @@ class MyData extends DataTableSource {
           )),
           DataCell(Row(
             children: [
-              Text(result.lDate != "" ? result.lDate! : ""),
+              Text(result.lDate != "" ? result.lDate! : "",
+                  style: TextStyle(fontSize: 12.5)),
               DateButton(
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -416,9 +413,10 @@ class MyData extends DataTableSource {
           DataCell(Center(
             child: DropdownButton<String>(
               value: status,
+              style: TextStyle(fontSize: 12.5, color: Colors.black),
               underline: Container(
                 height: 2,
-                color: Colors.white,
+                color: Colors.black,
               ),
               onChanged: (String? newValue) {
                 //newValue = result.orderFollowup;
@@ -444,8 +442,10 @@ class MyData extends DataTableSource {
           )),
           DataCell(result.userMarketingRecord != null &&
                   result.userMarketingRecord!.isNotEmpty
-              ? Text('Marketing Record Available')
-              : Text('No Record of Marketing Images')),
+              ? Text('Marketing Record Available',
+                  style: TextStyle(fontSize: 12.5))
+              : Text('No Record of Marketing Images',
+                  style: TextStyle(fontSize: 12.5))),
           //7
           DataCell(Row(
             children: [
@@ -454,7 +454,7 @@ class MyData extends DataTableSource {
                 size: 14,
               ),
               SizedBox(
-                width: 15,
+                width: 10,
               ),
               Icon(
                 Icons.delete,

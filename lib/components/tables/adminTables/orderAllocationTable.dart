@@ -506,7 +506,7 @@ class MyData extends DataTableSource {
                                                                     0xff7092bf),
                         borderRadius: BorderRadius.circular(5.5)),
                     height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.40,
+                    width: MediaQuery.sizeOf(context).width * 0.30,
                     child: Center(
                         child: Text(
                       quote.orderStatusVal!,

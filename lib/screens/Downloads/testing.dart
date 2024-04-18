@@ -166,7 +166,7 @@ class _TestingState extends State<Testing> {
                             Color(0xff941420), Colors.white);
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: Text("Data is being loaded..."));
                       } else if (!snapshot.hasData) {
                         print('No data found');
                       }

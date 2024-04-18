@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/components/tables/employeeTables/settings.dart';
 import 'package:price_link/screens/Downloads/BIMFiles.dart';

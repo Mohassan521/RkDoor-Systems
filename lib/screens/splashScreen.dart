@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/screens/adminScreens/adminHome.dart';
 import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/screens/login.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

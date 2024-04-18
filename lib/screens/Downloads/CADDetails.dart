@@ -5,9 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/round_button.dart';
-import 'package:price_link/models/BIMDetailsModel.dart';
 import 'package:price_link/models/CadDetailsModel.dart';
-import 'package:price_link/models/PDFDetailsModel.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
 
@@ -16,7 +14,7 @@ class CADDetails extends StatefulWidget {
   final String dealerName;
   final String? empId;
   final String? role;
-  const CADDetails(
+  CADDetails(
       {super.key,
       required this.dealerId,
       required this.dealerName,
@@ -29,10 +27,13 @@ class CADDetails extends StatefulWidget {
 
 class _CADDetailsState extends State<CADDetails> {
   NetworkApiServices apiServices = NetworkApiServices();
+
   List<TextEditingController> controllers = [];
 
   TextEditingController numberController = TextEditingController();
+
   TextEditingController descController = TextEditingController();
+
   TextEditingController category = TextEditingController();
 
   @override
@@ -57,6 +58,7 @@ class _CADDetailsState extends State<CADDetails> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: DrawerPage(
         dealerName: widget.dealerName,
         dealer_id: widget.dealerId,
@@ -74,74 +76,63 @@ class _CADDetailsState extends State<CADDetails> {
       floatingActionButton: widget.role == "admin"
           ? FloatingActionButton(
               onPressed: () async {
-                await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          insetPadding: EdgeInsets.all(9),
-                          content: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Positioned(
-                                  right: -40,
-                                  top: -40,
-                                  child: InkResponse(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const CircleAvatar(
-                                      backgroundColor: Color(0xff941420),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )),
-                              Form(
-                                  child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Center(
-                                      child: Text('Add Category',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color(0xff941420),
-                                              fontWeight: FontWeight.w600))),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: TextFormField(
-                                      maxLines: 1,
-                                      controller: category,
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xff941420)))),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  RoundButton(
-                                    text: 'Save',
-                                    onTap: () async {
-                                      apiServices
-                                          .addInsideFolder(category.text);
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Container(
+                        height: MediaQuery.sizeOf(context).height * 0.3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                                child: Text(
+                              "Add Category",
+                              style: TextStyle(
+                                  fontSize: 24, color: Color(0xff941420)),
+                            )),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            TextField(
+                              controller: category,
+                              decoration: InputDecoration(
+                                fillColor: Color.fromARGB(255, 246, 245, 245),
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(color: Colors.grey)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(color: Colors.grey)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            MaterialButton(
+                              onPressed: () {
+                                apiServices.addInsideFolder(category.text);
 
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop('dialog');
-                                    },
-                                    color: Color(0xff941420),
-                                  )
-                                ],
-                              ))
-                            ],
-                          ),
-                        ));
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop('dialog');
+                              },
+                              child: Text("Submit"),
+                              color: Color(0xff941420),
+                              textColor: Colors.white,
+                              minWidth: double.infinity,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.5)),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
               backgroundColor: Color(0xff941420),
               child: Icon(
@@ -172,7 +163,7 @@ class _CADDetailsState extends State<CADDetails> {
                               Color(0xff941420), Colors.white);
                         } else if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: Text("Data is being loaded..."));
                         } else if (!snapshot.hasData) {
                           print('No data found');
                         }
@@ -185,8 +176,6 @@ class _CADDetailsState extends State<CADDetails> {
                           controllers.add(value);
                         });
                         //print('CAD Details name: ${bimdetails[0].name}');
-
-                        final _formKey = GlobalKey<FormState>();
 
                         return ListView.builder(
                           shrinkWrap: true,
@@ -272,7 +261,6 @@ class _CADDetailsState extends State<CADDetails> {
                                                                             Padding(
                                                                               padding: const EdgeInsets.all(8),
                                                                               child: TextFormField(
-                                                                                key: _formKey,
                                                                                 maxLines: 1,
                                                                                 controller: value,
                                                                                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide(color: Color(0xff941420)))),

@@ -473,11 +473,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 25,
                 ),
-                SizedBox(
-                  height: 10,
-                )
               ],
             ),
           )),

@@ -116,15 +116,24 @@ class MyData extends DataTableSource {
         color: MaterialStatePropertyAll(Colors.white),
         index: index,
         cells: <DataCell>[
-          DataCell(Text('${result.iD}')),
-          DataCell(Text(result.displayName ?? '')),
-          DataCell(Text(result.userEmail ?? '')),
-          DataCell(Text('${result.telephone}')),
-          DataCell(Text('${result.postCodeRegister}')),
-          DataCell(Text('${result.quotationType}')),
-          DataCell(Text('${result.dealerType}')),
-          DataCell(Text('${result.lDealer}')),
-          DataCell(Text('${result.lDate}')),
+          DataCell(Text(
+            '${result.iD}',
+            style: TextStyle(fontSize: 12.5),
+          )),
+          DataCell(
+              Text(result.displayName ?? '', style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text(result.userEmail ?? '', style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text('${result.telephone}', style: TextStyle(fontSize: 12.5))),
+          DataCell(Text('${result.postCodeRegister}',
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(Text('${result.quotationType}',
+              style: TextStyle(fontSize: 12.5))),
+          DataCell(
+              Text('${result.dealerType}', style: TextStyle(fontSize: 12.5))),
+          DataCell(Text('${result.lDealer}', style: TextStyle(fontSize: 12.5))),
+          DataCell(Text('${result.lDate}', style: TextStyle(fontSize: 12.5))),
           DataCell(Row(
             children: [
               IconButton(
