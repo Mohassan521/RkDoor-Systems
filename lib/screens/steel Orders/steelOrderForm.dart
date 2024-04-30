@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/services/services.dart';
 
@@ -84,6 +82,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
           'Steel Order Form',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -100,7 +99,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -162,31 +161,51 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                             value: '', child: Center(child: Text(''))),
                         DropdownMenuItem<String>(
                             value: 'Standard Hinged',
-                            child: Center(child: Text('Standard Hinged'))),
+                            child: Center(
+                                child: Text(
+                              'Standard Hinged',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Sound Reduction',
-                            child: Center(child: Text('Sound Reduction'))),
+                            child: Center(
+                                child: Text('Sound Reduction',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'FD30 Hinged',
-                            child: Center(child: Text('FD30 Hinged'))),
+                            child: Center(
+                                child: Text('FD30 Hinged',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Sliding',
-                            child: Center(child: Text('Sliding'))),
+                            child: Center(
+                                child: Text('Sliding',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'BI-FOLD',
-                            child: Center(child: Text('BI-FOLD'))),
+                            child: Center(
+                                child: Text('BI-FOLD',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Fixed Window',
-                            child: Center(child: Text('Fixed Window'))),
+                            child: Center(
+                                child: Text('Fixed Window',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Pocket Door Panel',
-                            child: Center(child: Text('Pocket Door Panel'))),
+                            child: Center(
+                                child: Text('Pocket Door Panel',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Various',
-                            child: Center(child: Text('Various'))),
+                            child: Center(
+                                child: Text('Various',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'External Doors',
-                            child: Center(child: Text('External Doors'))),
+                            child: Center(
+                                child: Text('External Doors',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -200,22 +219,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'cname',
+              TextFormField(
                 controller: cname,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -227,22 +245,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'quotation',
+              TextFormField(
                 controller: qnum,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -253,22 +270,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'dealer',
+              TextFormField(
                 controller: dealer,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -280,22 +296,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'salesperson',
+              TextFormField(
                 controller: salesperson,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -310,7 +325,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -352,9 +367,19 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                       },
                       items: [
                         DropdownMenuItem<String>(
-                            value: 'NO', child: Center(child: Text('NO'))),
+                            value: 'NO',
+                            child: Center(
+                                child: Text(
+                              'NO',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: 'YES', child: Center(child: Text('YES'))),
+                            value: 'YES',
+                            child: Center(
+                                child: Text(
+                              'YES',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -371,7 +396,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(5.5)),
@@ -387,19 +412,40 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                       },
                       items: [
                         DropdownMenuItem<String>(
-                            value: '', child: Center(child: Text(''))),
+                            value: '',
+                            child: Center(
+                                child: Text(
+                              '',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Standard 20%',
-                            child: Center(child: Text('Standard 20%'))),
+                            child: Center(
+                                child: Text(
+                              'Standard 20%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Reduced 5%',
-                            child: Center(child: Text('Reduced 5%'))),
+                            child: Center(
+                                child: Text(
+                              'Reduced 5%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'New Build 0%',
-                            child: Center(child: Text('New Build 0%'))),
+                            child: Center(
+                                child: Text(
+                              'New Build 0%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Excempt 0%',
-                            child: Center(child: Text('Excempt 0%'))),
+                            child: Center(
+                                child: Text(
+                              'Excempt 0%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -416,7 +462,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.grey),
@@ -474,30 +520,60 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                             value: '', child: Center(child: Text(''))),
                         DropdownMenuItem<String>(
                             value: 'Supply Only',
-                            child: Center(child: Text('Supply Only'))),
+                            child: Center(
+                                child: Text(
+                              'Supply Only',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation RKDS',
-                            child: Center(child: Text('Installation RKDS'))),
+                            child: Center(
+                                child: Text(
+                              'Installation RKDS',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Survey Only',
-                            child: Center(child: Text('Survey Only'))),
+                            child: Center(
+                                child: Text(
+                              'Survey Only',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation - CB',
-                            child: Center(child: Text('Installation - CB'))),
+                            child: Center(
+                                child: Text(
+                              'Installation - CB',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation Direct - CB',
                             child: Center(
-                                child: Text('Installation Direct - CB'))),
+                                child: Text(
+                              'Installation Direct - CB',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation - PB',
-                            child: Center(child: Text('Installation - PB'))),
+                            child: Center(
+                                child: Text(
+                              'Installation - PB',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation Installation - PB',
                             child: Center(
-                                child: Text('Installation Installation - PB'))),
+                                child: Text(
+                              'Installation Installation - PB',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation - Other',
-                            child: Center(child: Text('Installation - Other'))),
+                            child: Center(
+                                child: Text(
+                              'Installation - Other',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -511,22 +587,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address',
+              TextFormField(
                 controller: address,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -538,22 +613,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address2',
+              TextFormField(
                 controller: address2,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -565,22 +639,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address3',
+              TextFormField(
                 controller: address3,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -592,22 +665,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'postcode',
+              TextFormField(
                 controller: postcode,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -622,7 +694,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.grey),
@@ -642,29 +714,46 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                             value: "", child: Center(child: Text(""))),
                         DropdownMenuItem<String>(
                             value: 'RAL 9005 MS',
-                            child: Center(child: Text('RAL 9005 MS'))),
+                            child: Center(
+                                child: Text(
+                              'RAL 9005 MS',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'RAL 9003 MS',
-                            child: Center(child: Text('RAL 9003 MS'))),
+                            child: Center(
+                                child: Text('RAL 9003 MS',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'RAL 7021 MS',
-                            child: Center(child: Text('RAL 7021 MS'))),
+                            child: Center(
+                                child: Text('RAL 7021 MS',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'RAL 7039 MS',
-                            child: Center(child: Text('RAL 7039 MS'))),
+                            child: Center(
+                                child: Text('RAL 7039 MS',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'RAL 7022 MS',
-                            child: Center(child: Text('RAL 7022 MS'))),
+                            child: Center(
+                                child: Text('RAL 7022 MS',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'DB703 MS',
-                            child: Center(child: Text('DB703 MS'))),
+                            child: Center(
+                                child: Text('DB703 MS',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Installation Installation - PB',
                             child: Center(
-                                child: Text('Installation Installation - PB'))),
+                                child: Text('Installation Installation - PB',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'CUSTOM COLOUR',
-                            child: Center(child: Text('CUSTOM COLOUR'))),
+                            child: Center(
+                                child: Text('CUSTOM COLOUR',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -678,21 +767,20 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -704,19 +792,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 controller: frame,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -728,19 +818,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'email',
+              TextFormField(
                 controller: cusEmail,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -752,22 +844,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 controller: telephone,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -779,22 +870,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'totalValue',
+              TextFormField(
                 controller: totalOrderValue,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -809,7 +899,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(5.5)),
@@ -827,32 +917,72 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                         DropdownMenuItem<String>(
                             value: "", child: Center(child: Text(""))),
                         DropdownMenuItem<String>(
-                            value: '0', child: Center(child: Text('0%'))),
+                            value: '0',
+                            child: Center(
+                                child: Text(
+                              '0%',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
-                            value: '5', child: Center(child: Text('5%'))),
+                            value: '5',
+                            child: Center(
+                                child: Text('5%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '10', child: Center(child: Text('10%'))),
+                            value: '10',
+                            child: Center(
+                                child: Text('10%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '15', child: Center(child: Text('15%'))),
+                            value: '15',
+                            child: Center(
+                                child: Text('15%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '20', child: Center(child: Text('20%'))),
+                            value: '20',
+                            child: Center(
+                                child: Text('20%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '25', child: Center(child: Text('25%'))),
+                            value: '25',
+                            child: Center(
+                                child: Text('25%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '30', child: Center(child: Text('30%'))),
+                            value: '30',
+                            child: Center(
+                                child: Text('30%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '35', child: Center(child: Text('35%'))),
+                            value: '35',
+                            child: Center(
+                                child: Text('35%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '40', child: Center(child: Text('40%'))),
+                            value: '40',
+                            child: Center(
+                                child: Text('40%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '45', child: Center(child: Text('45%'))),
+                            value: '45',
+                            child: Center(
+                                child: Text('45%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '50', child: Center(child: Text('50%'))),
+                            value: '50',
+                            child: Center(
+                                child: Text('50%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
-                            value: '60', child: Center(child: Text('60%'))),
+                            value: '60',
+                            child: Center(
+                                child: Text('60%',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'other',
-                            child: Center(child: Text('other'))),
+                            child: Center(
+                                child: Text('other',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -866,22 +996,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'cost',
+              TextFormField(
                 controller: deliveryCost,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -893,22 +1022,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'weight',
+              TextFormField(
                 controller: totalWeight,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -920,23 +1048,22 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'netValue',
+              TextFormField(
                 controller: netOrderValue,
                 enabled: false,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -952,9 +1079,10 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xff941420)),
-                    ),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xff941420)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9)))),
                     icon: Icon(
                       Icons.cloud_upload_outlined,
                       size: 19,
@@ -985,20 +1113,21 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'notes',
+              TextFormField(
                 controller: notes,
                 maxLines: 6,
                 style: TextStyle(fontSize: 13),
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
+                  fillColor: Colors.white,
+                  filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),

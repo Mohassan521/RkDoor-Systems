@@ -59,8 +59,6 @@ class _HotLeadsTableState extends State<HotLeadsTable> {
                   : (list.isEmpty)
                       ? 1
                       : list.length,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Color(0xff941420)),
               columns: const <DataColumn>[
                 DataColumn(
                     label: Expanded(

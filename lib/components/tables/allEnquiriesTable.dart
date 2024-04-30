@@ -238,12 +238,12 @@ class MyData extends DataTableSource {
             style: TextStyle(fontSize: 12.5))),
         DataCell((result.newSymbol != "")
             ? Container(
-                width: MediaQuery.sizeOf(context).height * 0.1,
+                width: MediaQuery.sizeOf(context).height * 0.07,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.5),
                   color: Color(0xffff0000),
                 ),
-                height: MediaQuery.sizeOf(context).height * 0.04,
+                height: MediaQuery.sizeOf(context).height * 0.042,
                 child: Center(
                     child: Text(
                   result.newSymbol!,
@@ -264,7 +264,7 @@ class MyData extends DataTableSource {
           },
           color: Colors.blue,
           width: MediaQuery.sizeOf(context).width * 0.18,
-          height: MediaQuery.sizeOf(context).height * 0.05,
+          height: MediaQuery.sizeOf(context).height * 0.042,
         )),
         DataCell(
             Text(result.enquiryType ?? '', style: TextStyle(fontSize: 12.5))),
@@ -277,7 +277,7 @@ class MyData extends DataTableSource {
                           ? Color(0xffffa500)
                           : Color(0xffff0000),
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.24,
               child: Center(
                   child: Text(
@@ -336,7 +336,7 @@ class MyData extends DataTableSource {
           },
           color: Colors.blue,
           width: MediaQuery.sizeOf(context).width * 0.18,
-          height: MediaQuery.sizeOf(context).height * 0.05,
+          height: MediaQuery.sizeOf(context).height * 0.042,
         )),
         DataCell(Center(
             child: Text(result.enquiryEntered ?? '',
@@ -349,7 +349,7 @@ class MyData extends DataTableSource {
           },
           color: Colors.blue,
           width: MediaQuery.sizeOf(context).width * 0.19,
-          height: MediaQuery.sizeOf(context).height * 0.05,
+          height: MediaQuery.sizeOf(context).height * 0.042,
         )),
         DataCell(Row(
           children: [

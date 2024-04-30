@@ -405,7 +405,8 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  height:
+                      MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
                       color: quote.orderStatusVal == "Deposit Received" ||
@@ -420,7 +421,7 @@ class MyData extends DataTableSource {
                                   "Awaiting Survey / Dimensions"
                           ? Colors.red
                           : Color(0xffb5e51d),
-                      borderRadius: BorderRadius.circular(5.5)),
+                      borderRadius: BorderRadius.circular(19)),
                   child: Center(
                     child: Text(
                       (quote.orderStatusVal == "Deposit Received" ||
@@ -505,7 +506,7 @@ class MyData extends DataTableSource {
                                                                 : Color(
                                                                     0xff7092bf),
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.30,
                     child: Center(
                         child: Text(
@@ -760,7 +761,7 @@ class MyData extends DataTableSource {
                 text: "Financial History",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //16
               DataCell(
@@ -1095,7 +1096,7 @@ class MyData extends DataTableSource {
                 text: "Notes",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               // custom handle file
               //38
@@ -1104,6 +1105,7 @@ class MyData extends DataTableSource {
                 text: "Custom Handle",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.23,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               ))),
               //39
               DataCell(RoundButton(
@@ -1119,6 +1121,7 @@ class MyData extends DataTableSource {
                 text: "Quote Analysis",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.21,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //40
               DataCell(RoundButton(
@@ -1129,6 +1132,7 @@ class MyData extends DataTableSource {
                 text: "Back To Quote",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.18,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //41
               DataCell(Text(
@@ -1155,7 +1159,7 @@ class MyData extends DataTableSource {
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
 
               DataCell(

@@ -50,6 +50,7 @@ class _EntranceDoorEnquiriesState extends State<EntranceDoorEnquiries> {
               'Entrance Door Enquiries',
               style: TextStyle(color: Colors.white),
             ),
+            centerTitle: true,
           ),
           body: ListView(
             children: [

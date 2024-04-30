@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/services/services.dart';
@@ -80,8 +79,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'first_name',
+                  TextFormField(
                     controller: fname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -104,8 +102,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'last_name',
+                  TextFormField(
                     controller: lname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -169,8 +166,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'mark_up',
+                  TextFormField(
                     controller: markup,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -193,8 +189,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'post_code',
+                  TextFormField(
                     controller: postCode,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -217,8 +212,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'tel',
+                  TextFormField(
                     controller: telephone,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -241,8 +235,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'discount',
+                  TextFormField(
                     controller: discount,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -265,8 +258,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'email',
+                  TextFormField(
                     controller: email,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -289,8 +281,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'password',
+                  TextFormField(
                     controller: password,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -313,8 +304,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'confirm',
+                  TextFormField(
                     controller: cpassword,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -364,8 +354,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                         SizedBox(
                           height: 5,
                         ),
-                        FormBuilderTextField(
-                          name: 'address1',
+                        TextFormField(
                           controller: address1,
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,
@@ -388,8 +377,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                         SizedBox(
                           height: 5,
                         ),
-                        FormBuilderTextField(
-                          name: 'address2',
+                        TextFormField(
                           controller: address2,
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,
@@ -412,8 +400,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                         SizedBox(
                           height: 5,
                         ),
-                        FormBuilderTextField(
-                          name: 'address3',
+                        TextFormField(
                           controller: address3,
                           style: TextStyle(fontSize: 13),
                           textAlign: TextAlign.center,

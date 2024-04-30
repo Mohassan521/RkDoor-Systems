@@ -199,6 +199,11 @@ class _AdminAllSteelOrdersState extends State<AdminAllSteelOrders> {
               )),
               DataColumn(
                   label: Text(
+                'Custom Handle',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
                 'Delivery Cost',
                 style: TextStyle(color: Color(0xff941420)),
               )),
@@ -398,8 +403,9 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
-                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
+                  height:
+                      MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+                  width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
                       color: quote.steelOrderStatusVal == "Deposit Received" ||
                               quote.steelOrderStatusVal ==
@@ -413,7 +419,7 @@ class MyData extends DataTableSource {
                                   "Awaiting Survey / Dimensions"
                           ? Colors.red
                           : Color(0xffb5e51d),
-                      borderRadius: BorderRadius.circular(5.5)),
+                      borderRadius: BorderRadius.circular(19)),
                   child: Center(
                     child: Text(
                       (quote.steelOrderStatusVal == "Deposit Received" ||
@@ -517,7 +523,7 @@ class MyData extends DataTableSource {
                                                                     : Colors
                                                                         .white,
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.35,
                     child: DropdownButton<String>(
                       style: TextStyle(
@@ -744,7 +750,7 @@ class MyData extends DataTableSource {
                                                         ? Color(0xff0d714b)
                                                         : Colors.yellow,
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.26,
                     child: Center(
                       child: DropdownButton<String>(
@@ -1233,6 +1239,18 @@ class MyData extends DataTableSource {
                 quote.steelTotalOrderValue ?? "",
                 style: TextStyle(fontSize: 12.5),
               )),
+
+              DataCell(RoundButton(
+                onTap: () {},
+                text: "Custom Handle",
+                color: quote.steelCustomHandle == null ||
+                        quote.steelCustomHandle == "NO"
+                    ? Colors.blue
+                    : Colors.red,
+                width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+              )),
+
               //25
               DataCell(Text(
                 quote.steelDeliveryCost ?? "",
@@ -1460,7 +1478,7 @@ class MyData extends DataTableSource {
                 text: "Notes",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //31
               DataCell(Center(
@@ -1525,7 +1543,7 @@ class MyData extends DataTableSource {
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
 
               DataCell(Row(

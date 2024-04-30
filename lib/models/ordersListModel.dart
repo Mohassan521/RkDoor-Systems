@@ -199,7 +199,7 @@ class OrdersModel {
       orderDate: json['order_date'] ?? "NA",
       doorCCEmailVal: json['door_CC_email_val'] ?? "NA",
       orderStatusVal: json['order_status_val'] ?? "NA",
-      orderPaymentStatusVal: json['order_payment_status_val'] ?? "NA",
+      orderPaymentStatusVal: json['order_payment_status_val'] ?? "",
       ankaStatusVal: json['anka_status_val'] ?? "NA",
       anticipatedDateVal: json['anticipated_date_val'] ?? "NA",
       orderNVal: json['order_n_val'] ?? "NA",

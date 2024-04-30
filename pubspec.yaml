@@ -50,7 +50,7 @@ dependencies:
   open_file: ^3.3.2
   url_launcher: ^6.2.4
   syncfusion_flutter_pdfviewer: ^24.1.47
-  flutter_form_builder: ^9.2.1
+  lottie: ^3.1.0
 
 
 dev_dependencies:

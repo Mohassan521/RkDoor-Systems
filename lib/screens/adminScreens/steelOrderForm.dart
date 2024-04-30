@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
@@ -55,6 +54,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
   TextEditingController telephone = TextEditingController();
   TextEditingController totalOrderValue = TextEditingController();
   String discount = "";
+  String custom_handles = "YES";
   TextEditingController deliveryCost = TextEditingController();
   TextEditingController totalWeight = TextEditingController();
   TextEditingController netOrderValue = TextEditingController();
@@ -77,6 +77,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
           'Steel Order Form',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -93,7 +94,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -102,6 +103,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     child: DropdownButton<String>(
                       alignment: Alignment.center,
                       isExpanded: false,
+                      style: TextStyle(color: Colors.blueGrey),
                       value: productType,
                       underline: SizedBox(),
                       onChanged: (String? newValue) {
@@ -172,22 +174,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'cname',
+              TextFormField(
                 controller: cname,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -199,22 +200,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'qnum',
+              TextFormField(
                 controller: qnum,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -232,7 +232,8 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                       future: NetworkApiServices().getAllDealers(),
                       builder: ((context, snapshot) {
                         return Container(
-                          height: MediaQuery.sizeOf(context).height * 0.05,
+                          height: MediaQuery.sizeOf(context).height * 0.032,
+                          padding: EdgeInsets.only(left: 9),
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey, width: 1),
                               borderRadius: BorderRadius.circular(5.5),
@@ -240,9 +241,10 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                           child: DropdownButton<String>(
                             hint: Text(
                               'Select value',
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.black),
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.blueGrey),
                             ),
+                            style: TextStyle(color: Colors.blueGrey),
                             alignment: Alignment.center,
                             isExpanded: false,
                             value: user,
@@ -277,22 +279,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'dealer',
+              TextFormField(
                 controller: dealer,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -304,22 +305,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'salesperson',
+              TextFormField(
                 controller: salesperson,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -334,13 +334,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white),
                     child: DropdownButton<String>(
                       alignment: Alignment.center,
+                      style: TextStyle(color: Colors.blueGrey),
                       isExpanded: false,
                       value: useDealerAddress,
                       underline: SizedBox(),
@@ -372,13 +373,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       isExpanded: false,
                       value: vat,
@@ -427,13 +429,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       isExpanded: false,
                       value: supply,
@@ -501,22 +504,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address1',
+              TextFormField(
                 controller: address,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -528,22 +530,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address2',
+              TextFormField(
                 controller: address2,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -555,22 +556,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address3',
+              TextFormField(
                 controller: address3,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -582,22 +582,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'postcode',
+              TextFormField(
                 controller: postcode,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -613,13 +612,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                   ),
                   Container(
                     child: Container(
-                      height: MediaQuery.sizeOf(context).height * 0.05,
+                      height: MediaQuery.sizeOf(context).height * 0.032,
                       padding: EdgeInsets.only(left: 9),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 1),
                           borderRadius: BorderRadius.circular(5.5),
                           color: Colors.white),
                       child: DropdownButton<String>(
+                        style: TextStyle(color: Colors.blueGrey),
                         alignment: Alignment.center,
                         isExpanded: false,
                         value: color,
@@ -688,21 +688,20 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address_diff',
+              TextFormField(
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -714,22 +713,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'frame',
+              TextFormField(
                 controller: frame,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -741,22 +739,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'email',
+              TextFormField(
                 controller: cusEmail,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -768,22 +765,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 controller: telephone,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -795,22 +791,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'totalValue',
+              TextFormField(
                 controller: totalOrderValue,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -825,13 +820,14 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       isExpanded: false,
                       value: discount,
@@ -948,22 +944,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'del_cost',
+              TextFormField(
                 controller: deliveryCost,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -975,22 +970,21 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'weight',
+              TextFormField(
                 controller: totalWeight,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -1002,30 +996,29 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'netValue',
+              TextFormField(
                 enabled: false,
                 controller: netOrderValue,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Color.fromARGB(255, 246, 245, 245),
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
               SizedBox(
                 height: 15,
               ),
-              const Text('File Upload',
+              const Text('Quotation File',
                   style: TextStyle(color: Color(0xff941420))),
               SizedBox(
                 height: 5,
@@ -1034,9 +1027,10 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xff941420)),
-                    ),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xff941420)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9)))),
                     icon: Icon(
                       Icons.cloud_upload_outlined,
                       size: 19,
@@ -1064,6 +1058,50 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 15,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Custom Handles: ',
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.032,
+                    padding: EdgeInsets.only(left: 9),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5.5),
+                        color: Colors.white),
+                    child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
+                      alignment: Alignment.center,
+                      isExpanded: false,
+                      value: custom_handles,
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          discount = newValue ?? discount;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: "YES", child: Center(child: Text("YES"))),
+                        DropdownMenuItem<String>(
+                            value: 'NO',
+                            child: Center(
+                                child: Text(
+                              'NO',
+                              style: TextStyle(fontSize: 12),
+                            ))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(
+                height: 15,
+              ),
               const Text(
                 'Notes',
                 style: TextStyle(color: Color(0xff941420)),
@@ -1071,8 +1109,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'notes',
+              TextFormField(
                 maxLines: 6,
                 controller: notes,
                 style: TextStyle(fontSize: 13),
@@ -1122,7 +1159,8 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                       totalWeight.text,
                       netOrderValue.text,
                       filesToUpload,
-                      notes.text);
+                      notes.text,
+                      custom_handles);
                 },
                 child: Text("Submit"),
               )

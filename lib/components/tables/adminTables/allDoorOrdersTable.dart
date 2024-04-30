@@ -441,7 +441,7 @@ class MyData extends DataTableSource {
               DataCell(
                 Container(
                   height:
-                      MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.05,
+                      MediaQuery.sizeOf(myGlobalBuildContext!).height * 0.042,
                   width: MediaQuery.sizeOf(myGlobalBuildContext!).width * 0.24,
                   decoration: BoxDecoration(
                       color: quote.orderStatusVal == "Deposit Received" ||
@@ -456,7 +456,7 @@ class MyData extends DataTableSource {
                                   "Awaiting Survey / Dimensions"
                           ? Colors.red
                           : Color(0xffb5e51d),
-                      borderRadius: BorderRadius.circular(5.5)),
+                      borderRadius: BorderRadius.circular(19)),
                   child: Center(
                     child: Text(
                       (quote.orderStatusVal == "Deposit Received" ||
@@ -549,7 +549,7 @@ class MyData extends DataTableSource {
                                                                 : Color(
                                                                     0xff7092bf),
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.40,
                     child: DropdownButton<String>(
                       alignment: Alignment.center,
@@ -744,7 +744,7 @@ class MyData extends DataTableSource {
                                                       ? Color(0xff0d714b)
                                                       : Colors.yellow,
                       borderRadius: BorderRadius.circular(5.5)),
-                  height: MediaQuery.sizeOf(context).height * 0.05,
+                  height: MediaQuery.sizeOf(context).height * 0.042,
                   width: MediaQuery.sizeOf(context).width * 0.35,
                   child: DropdownButton<String>(
                     style: TextStyle(

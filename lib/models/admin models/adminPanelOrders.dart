@@ -285,22 +285,22 @@ class OrdersCompleteResponse {
   final String? dealerName;
   final int userId;
 
-  OrdersCompleteResponse({
-     required this.orders,
-     this.displayName,
-     this.dealerName,
-     required this.userId
-  });
+  OrdersCompleteResponse(
+      {required this.orders,
+      this.displayName,
+      this.dealerName,
+      required this.userId});
 
   factory OrdersCompleteResponse.fromJson(Map<String, dynamic> json) {
-    List<dynamic> quoteList = json['quotes'];
-    List<AdminPanelOrders> quotes = quoteList.map((quoteJson) => AdminPanelOrders.fromJson(quoteJson)).toList();
+    var quoteList = json['quotes'] as List;
+    List<AdminPanelOrders> quotes = quoteList
+        .map((quoteJson) => AdminPanelOrders.fromJson(quoteJson))
+        .toList();
 
     return OrdersCompleteResponse(
-      orders: quotes,
-      displayName: json['display_name'],
-      dealerName: json['dealerName'],
-      userId: json['user_id']
-    );
+        orders: quotes,
+        displayName: json['display_name'],
+        dealerName: json['dealerName'],
+        userId: json['user_id']);
   }
 }

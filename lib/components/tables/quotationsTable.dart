@@ -316,12 +316,12 @@ class MyData extends DataTableSource {
             },
             color: Colors.blue,
             width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.18,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           )),
           DataCell(RoundButton(
             text: 'Notes',
-            width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.13,
-            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.08,
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
             onTap: () async {
               notesController.text = result.notes!;
               await showDialog(
@@ -408,6 +408,7 @@ class MyData extends DataTableSource {
             },
             color: Colors.blue,
             width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           )),
           DataCell(Row(
             children: [

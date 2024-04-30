@@ -3,7 +3,6 @@ import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/allDoorOrdersTable.dart';
 import 'package:price_link/components/tables/adminTables/doorAwaitingDeposit.dart';
 import 'package:price_link/components/tables/adminTables/doorAwaitingPayment.dart';
-import 'package:price_link/components/tables/adminTables/doorAwaitingSurvey.dart';
 import 'package:price_link/components/tables/adminTables/doorDelayed.dart';
 import 'package:price_link/components/tables/adminTables/doorDelivered.dart';
 import 'package:price_link/components/tables/adminTables/doorDepositReceived.dart';

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/services/services.dart';
 
 class CreateAdministrationStaff extends StatefulWidget {
@@ -65,12 +63,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 30,
                   ),
                   const Text('First Name',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'first_name',
+                  TextFormField(
                     controller: fname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -93,12 +93,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Last Name',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'last_name',
+                  TextFormField(
                     controller: lname,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -121,12 +123,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Post Code',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'post_code',
+                  TextFormField(
                     controller: postCode,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -149,12 +153,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Telephone',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'tel',
+                  TextFormField(
                     controller: telephone,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -177,12 +183,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Email',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'email',
+                  TextFormField(
                     controller: email,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -205,12 +213,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Password',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'password',
+                  TextFormField(
                     controller: password,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,
@@ -233,12 +243,14 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                     height: 15,
                   ),
                   const Text('Confirm Password',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 5,
                   ),
-                  FormBuilderTextField(
-                    name: 'confirm',
+                  TextFormField(
                     controller: cpassword,
                     style: TextStyle(fontSize: 13),
                     textAlign: TextAlign.center,

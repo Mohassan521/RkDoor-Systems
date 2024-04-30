@@ -22,6 +22,7 @@ class AdminSteelOrder {
   final String? steelCustomerEmail;
   final String? steelCustomerTel;
   final String? steelTotalOrderValue;
+  final String? steelCustomHandle;
   final String? steelDiscount;
   final String? steelWeight;
   final String? steelDeliveryCost;
@@ -49,54 +50,55 @@ class AdminSteelOrder {
   final String? steelBalDueBeforeDelivery;
 
   AdminSteelOrder({
-     this.id,
-     this.productType,
-     this.steelQNumber,
-     this.steelSalePerson,
-     this.steelDealerEmail,
-     this.steelDealerTelNo,
-     this.deliveryPostCode,
-     this.steelSupplyType,
-     this.steelCustomerName,
-     this.steelColor,
-     this.customerAddress,
-     this.customerAddress2,
-     this.customerAddress3,
-     this.saleBonus,
-     this.steelOrderSaleBonus,
-     this.steelOrderAdminStaffBonus,
-     this.steelSupplier,
-     this.emailSaleBouns,
-     this.date,
-     this.time,
-     this.steelCustomerEmail,
-     this.steelCustomerTel,
-     this.steelTotalOrderValue,
-     this.steelDiscount,
-     this.steelWeight,
-     this.steelDeliveryCost,
-     this.steelInstCost,
-     this.steelOrderNetVal,
-     this.steelFrameSize,
-     this.pdfImageURL,
-     this.manualPDFImageURL,
-     this.steelDelNotes,
-     this.steelOrderStatusVal,
-     this.steelOrderPaymentStatusVal,
-     this.steelFacOrderNoVal,
-     this.steelOrderConfFile,
-     this.steelInvoices,
-     this.steelAnticipatedDate,
-     this.steelFacWeekVal,
-     this.notes,
-     this.steelDepositAmountPaid,
-     this.steelDepPayDate,
-     this.steelAddPayAmount,
-     this.steelAddPayDate,
-     this.steelBalPayAmount,
-     this.steelFinHisNoteBox,
-     this.steelBalPayDate,
-     this.steelBalDueBeforeDelivery,
+    this.id,
+    this.productType,
+    this.steelQNumber,
+    this.steelSalePerson,
+    this.steelDealerEmail,
+    this.steelDealerTelNo,
+    this.deliveryPostCode,
+    this.steelCustomHandle,
+    this.steelSupplyType,
+    this.steelCustomerName,
+    this.steelColor,
+    this.customerAddress,
+    this.customerAddress2,
+    this.customerAddress3,
+    this.saleBonus,
+    this.steelOrderSaleBonus,
+    this.steelOrderAdminStaffBonus,
+    this.steelSupplier,
+    this.emailSaleBouns,
+    this.date,
+    this.time,
+    this.steelCustomerEmail,
+    this.steelCustomerTel,
+    this.steelTotalOrderValue,
+    this.steelDiscount,
+    this.steelWeight,
+    this.steelDeliveryCost,
+    this.steelInstCost,
+    this.steelOrderNetVal,
+    this.steelFrameSize,
+    this.pdfImageURL,
+    this.manualPDFImageURL,
+    this.steelDelNotes,
+    this.steelOrderStatusVal,
+    this.steelOrderPaymentStatusVal,
+    this.steelFacOrderNoVal,
+    this.steelOrderConfFile,
+    this.steelInvoices,
+    this.steelAnticipatedDate,
+    this.steelFacWeekVal,
+    this.notes,
+    this.steelDepositAmountPaid,
+    this.steelDepPayDate,
+    this.steelAddPayAmount,
+    this.steelAddPayDate,
+    this.steelBalPayAmount,
+    this.steelFinHisNoteBox,
+    this.steelBalPayDate,
+    this.steelBalDueBeforeDelivery,
   });
 
   factory AdminSteelOrder.fromJson(Map<String, dynamic> json) {
@@ -108,6 +110,7 @@ class AdminSteelOrder {
       steelDealerEmail: json['steel_dealer_email'] ?? '',
       steelDealerTelNo: json['steel_dealer_telno'] ?? '',
       deliveryPostCode: json['dilevery_post_code_c13'] ?? '',
+      steelCustomHandle: json['steel_custom_handle'] ?? '',
       steelSupplyType: json['steel_supply_type'] ?? '',
       steelCustomerName: json['steel_customer_name'] ?? '',
       steelColor: json['steel_color'] ?? '',
@@ -116,7 +119,8 @@ class AdminSteelOrder {
       customerAddress3: json['customer_address_3'] ?? '',
       saleBonus: json['sale_bonus'] ?? '',
       steelOrderSaleBonus: json['steel_order_sale_bonus']?.toDouble() ?? 0.0,
-      steelOrderAdminStaffBonus: json['steel_order_admin_staff_bonus']?.toDouble() ?? 0.0,
+      steelOrderAdminStaffBonus:
+          json['steel_order_admin_staff_bonus']?.toDouble() ?? 0.0,
       steelSupplier: json['steel_supplier'] ?? '',
       emailSaleBouns: json['email_sale_bouns'] ?? '',
       date: json['date'] ?? '',
@@ -159,22 +163,19 @@ class CompletedSteelOrdersResponse {
   final String? displayName;
   final int? userId;
 
-  CompletedSteelOrdersResponse({
-    this.steelOrders,
-     this.displayName,
-     this.dealerName,
-     this.userId
-  });
+  CompletedSteelOrdersResponse(
+      {this.steelOrders, this.displayName, this.dealerName, this.userId});
 
   factory CompletedSteelOrdersResponse.fromJson(Map<String, dynamic> json) {
     List<dynamic> quoteList = json['quotes'];
-    List<AdminSteelOrder> quotes = quoteList.map((quoteJson) => AdminSteelOrder.fromJson(quoteJson)).toList();
+    List<AdminSteelOrder> quotes = quoteList
+        .map((quoteJson) => AdminSteelOrder.fromJson(quoteJson))
+        .toList();
 
     return CompletedSteelOrdersResponse(
-      steelOrders: quotes,
-      displayName: json['display_name'],
-      dealerName: json['dealerName'],
-      userId: json['user_id']
-    );
+        steelOrders: quotes,
+        displayName: json['display_name'],
+        dealerName: json['dealerName'],
+        userId: json['user_id']);
   }
 }

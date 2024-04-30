@@ -36,6 +36,10 @@ import 'package:price_link/screens/adminScreens/adminHome.dart';
 import 'package:price_link/screens/adminScreens/administrationStaffForm.dart';
 import 'package:price_link/screens/adminScreens/administratorsList.dart';
 import 'package:price_link/screens/adminScreens/ankaItems.dart';
+import 'package:price_link/screens/adminScreens/archiveDoorOrders.dart';
+import 'package:price_link/screens/adminScreens/archiveEnquiries.dart';
+import 'package:price_link/screens/adminScreens/archiveQuotations.dart';
+import 'package:price_link/screens/adminScreens/archiveSteelOrders.dart';
 import 'package:price_link/screens/adminScreens/dealerList.dart';
 import 'package:price_link/screens/adminScreens/enquiryAllocation.dart';
 import 'package:price_link/screens/adminScreens/newEnquiryForm.dart';
@@ -2242,6 +2246,73 @@ class _DrawerPageState extends State<DrawerPage> {
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
+                  Visibility(
+                    visible: widget.role == "admin" ? true : false,
+                    child: ExpansionTile(
+                      collapsedIconColor: Color(0xffFFFFFF),
+                      title: Text('Archives',
+                          style: TextStyle(color: Colors.white)),
+                      children: [
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ArchiveEnquiries(
+                                          dealerId: widget.dealer_id,
+                                          dealerName: widget.dealerName,
+                                          role: widget.role,
+                                        )));
+                          },
+                          title: Text('Enquiries',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ArchiveDoorOrders(
+                                          dealerId: widget.dealer_id,
+                                          dealerName: widget.dealerName!,
+                                          role: widget.role,
+                                        )));
+                          },
+                          title: Text('Entrance Door Orders',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ArchiveSteelOrders(
+                                          dealer_id: widget.dealer_id!,
+                                          dealer_name: widget.dealerName!,
+                                          role: widget.role,
+                                        )));
+                          },
+                          title: Text('Steel Orders',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ArchiveQuotations(
+                                          dealerId: widget.dealer_id!,
+                                          dealerName: widget.dealerName!,
+                                          role: widget.role,
+                                        )));
+                          },
+                          title: Text('Entrance Door Quotations',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  ),
+
                   Visibility(
                     visible: widget.role == "dealer" ? true : false,
                     child: ListTile(

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
@@ -94,10 +94,11 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff941420),
-        title: const Text(
+        title: Text(
           'ENQUIRY RECORD',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -111,16 +112,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 children: [
                   const Text(
                     'Product Type: ',
-                    style: TextStyle(color: Color(0xff941420)),
+                    style: TextStyle(
+                        color: Color(0xff941420), fontWeight: FontWeight.bold),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       isExpanded: false,
                       value: entranceDoorValue,
@@ -161,12 +164,14 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Enquiry Allocated To:',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   FutureBuilder<List<AllDealersModel>>(
                       future: apiServices.getAllDealers(),
                       builder: ((context, snapshot) {
                         return Container(
-                          height: MediaQuery.sizeOf(context).height * 0.05,
+                          height: MediaQuery.sizeOf(context).height * 0.032,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.5),
                               color: Colors.white,
@@ -180,6 +185,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                             isExpanded: false,
                             value: enqAllocatedTo,
                             underline: SizedBox(),
+                            style: TextStyle(color: Colors.blueGrey),
                             onChanged: (newValue) {
                               enqAllocatedTo = newValue ?? "";
                               setState(() {});
@@ -204,26 +210,27 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               SizedBox(
                 height: 10,
               ),
-              const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
+              const Text('Dealer',
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'Dealer',
+              TextFormField(
                 controller: dealerController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.5),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.5),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -234,15 +241,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Enquiry Entered By: ',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5.5),
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       value: enqEnteredBy,
                       underline: SizedBox(),
@@ -335,15 +345,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Enquiry Source: ',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       value: enquirySourceValue,
                       underline: SizedBox(),
@@ -437,15 +450,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Requirements: ',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       value: requirementValue,
                       alignment: Alignment.center,
                       underline: SizedBox(),
@@ -500,52 +516,53 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Name',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'Customer Name',
+              TextFormField(
                 controller: cusNameController,
-                style: TextStyle(fontSize: 13),
+                style: TextStyle(fontSize: 10),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              const Text('Company', style: TextStyle(color: Color(0xff941420))),
+              const Text('Company',
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'Company',
+              TextFormField(
                 controller: companyController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -556,15 +573,18 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Supply Type: ',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       value: supplyTypeValue,
                       underline: SizedBox(),
@@ -603,26 +623,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Address Line 1',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address1',
+              TextFormField(
                 controller: deliveryAddressController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -630,26 +650,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Address Line 2',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address2',
+              TextFormField(
                 controller: deliveryAddressController2,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -657,26 +677,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Address Line 3',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address3',
+              TextFormField(
                 controller: deliveryAddressController3,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -684,26 +704,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Address Line 4',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address4',
+              TextFormField(
                 controller: deliveryAddressController4,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -711,26 +731,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Delivery Post Code',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'postcode',
+              TextFormField(
                 controller: deliveryPostCode,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -738,26 +758,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Email',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'email',
+              TextFormField(
                 controller: emailController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -765,26 +785,26 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('Customer Tel Number',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 controller: telephoneController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -795,18 +815,21 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Priority Level: ',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Color(0xff941420),
+                          fontWeight: FontWeight.bold)),
                   SizedBox(
                     width: 20,
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
+                        borderRadius: BorderRadius.circular(6.5),
                         color: Colors.white,
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
+                      style: TextStyle(color: Colors.blueGrey),
                       alignment: Alignment.center,
                       isExpanded: false,
                       value: priorityValue,
@@ -841,7 +864,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('File Upload',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
@@ -849,6 +873,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.5))),
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xff941420)),
                     ),
@@ -879,7 +905,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 height: 10,
               ),
               const Text('File Upload (Door Design Enquiries)',
-                  style: TextStyle(color: Color(0xff941420))),
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 5,
               ),
@@ -887,6 +914,8 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.5))),
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xff941420)),
                     ),
@@ -916,7 +945,9 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
               SizedBox(
                 height: 10,
               ),
-              const Text('Notes', style: TextStyle(color: Color(0xff941420))),
+              const Text('Notes',
+                  style: TextStyle(
+                      color: Color(0xff941420), fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 10,
               ),

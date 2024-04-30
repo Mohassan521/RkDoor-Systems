@@ -431,7 +431,8 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  height:
+                      MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
                       color: quote.orderStatusVal == "Deposit Received" ||
@@ -446,7 +447,7 @@ class MyData extends DataTableSource {
                                   "Awaiting Survey / Dimensions"
                           ? Colors.red
                           : Color(0xffb5e51d),
-                      borderRadius: BorderRadius.circular(5.5)),
+                      borderRadius: BorderRadius.circular(19)),
                   child: Center(
                     child: Text(
                       (quote.orderStatusVal == "Deposit Received" ||
@@ -500,8 +501,8 @@ class MyData extends DataTableSource {
               //7
               DataCell(Builder(builder: (context) {
                 return Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
-                    width: MediaQuery.sizeOf(context).width * 0.27,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
+                    width: MediaQuery.sizeOf(context).width * 0.34,
                     decoration: BoxDecoration(
                         color: quote.orderStatusVal == "Order Received"
                             ? Color(0xff9ad9ea)
@@ -663,7 +664,7 @@ class MyData extends DataTableSource {
               //9
               DataCell(Builder(builder: (context) {
                 return Container(
-                  height: MediaQuery.sizeOf(context).height * 0.05,
+                  height: MediaQuery.sizeOf(context).height * 0.042,
                   width: MediaQuery.sizeOf(context).width * 0.40,
                   decoration: BoxDecoration(
                       color: quote.orderPaymentStatusVal == "Awaiting Deposit"

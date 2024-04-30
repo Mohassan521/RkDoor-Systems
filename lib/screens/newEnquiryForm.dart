@@ -1,12 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/components/round_button.dart';
-import 'package:price_link/services/fetchify_api.dart';
 import 'package:price_link/services/services.dart';
 import 'package:provider/provider.dart';
 
@@ -106,6 +103,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
           'ENQUIRY RECORD',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -122,7 +120,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                     style: TextStyle(color: Color(0xff941420)),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -141,13 +139,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       items: [
                         DropdownMenuItem<String>(
                             value: 'Entrance Door',
-                            child: Center(child: Text('Entrance Door'))),
+                            child: Center(
+                                child: Text(
+                              'Entrance Door',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Internal Steel',
-                            child: Center(child: Text('Internal Steel'))),
+                            child: Center(
+                                child: Text('Internal Steel',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'External Steel',
-                            child: Center(child: Text('External Steel'))),
+                            child: Center(
+                                child: Text('External Steel',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -160,22 +166,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'dealer',
+              TextFormField(
                 controller: dealerController,
-                style: TextStyle(fontSize: 13, color: Colors.black),
+                style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -187,22 +192,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'enq_entered',
+              TextFormField(
                 controller: enquiryEnteredByController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -215,11 +219,11 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   const Text('Enquiry Source',
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * .05,
+                    height: MediaQuery.sizeOf(context).height * .032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
                         color: Colors.white,
+                        borderRadius: BorderRadius.circular(5.5),
                         border: Border.all(color: Colors.grey, width: 1)),
                     child: DropdownButton<String>(
                       isExpanded: false,
@@ -232,46 +236,102 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       items: [
                         DropdownMenuItem<String>(
                             value: 'Instagram',
-                            child: Center(child: Text('Instagram'))),
+                            child: Center(
+                                child: Text(
+                              'Instagram',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Internet Search',
-                            child: Center(child: Text('Internet Search'))),
+                            child: Center(
+                                child: Text(
+                              'Internet Search',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Returning Customer',
-                            child: Center(child: Text('Returning Customer'))),
+                            child: Center(
+                                child: Text(
+                              'Returning Customer',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Door Configurator',
-                            child: Center(child: Text('Door Configurator'))),
+                            child: Center(
+                                child: Text(
+                              'Door Configurator',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Steel Configurator',
-                            child: Center(child: Text('Steel Configurator'))),
+                            child: Center(
+                                child: Text(
+                              'Steel Configurator',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Swindon SBC',
-                            child: Center(child: Text('Swindon SBC'))),
+                            child: Center(
+                                child: Text(
+                              'Swindon SBC',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Chat Box',
-                            child: Center(child: Text('Chat Box'))),
+                            child: Center(
+                                child: Text(
+                              'Chat Box',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Info@',
-                            child: Center(child: Text('Info@'))),
+                            child: Center(
+                                child: Text(
+                              'Info@',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Recommendation',
-                            child: Center(child: Text('Recommendation'))),
+                            child: Center(
+                                child: Text(
+                              'Recommendation',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Showroom Visit',
-                            child: Center(child: Text('Showroom Visit'))),
+                            child: Center(
+                                child: Text(
+                              'Showroom Visit',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Trade Window Company',
-                            child: Center(child: Text('Trade Window Company'))),
+                            child: Center(
+                                child: Text(
+                              'Trade Window Company',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Telephone Enquiry',
-                            child: Center(child: Text('Telephone Enquiry'))),
+                            child: Center(
+                                child: Text(
+                              'Telephone Enquiry',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Trade',
-                            child: Center(child: Text('Trade'))),
+                            child: Center(
+                                child: Text(
+                              'Trade',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Other',
-                            child: Center(child: Text('Other'))),
+                            child: Center(
+                                child: Text(
+                              'Other',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -286,7 +346,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   const Text('Requirements',
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -301,26 +361,41 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       items: [
                         DropdownMenuItem<String>(
                             value: 'Call Back',
-                            child: Center(child: Text('Call Back'))),
+                            child: Center(
+                                child: Text(
+                              'Call Back',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'brochure',
-                            child: Center(child: Text('brochure'))),
+                            child: Center(
+                                child: Text('brochure',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Quotation',
-                            child: Center(child: Text('Quotation'))),
+                            child: Center(
+                                child: Text('Quotation',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Chasing Configurator Enquiry',
                             child: Center(
-                                child: Text('Chasing Configurator Enquiry'))),
+                                child: Text('Chasing Configurator Enquiry',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Technical Details',
-                            child: Center(child: Text('Technical Details'))),
+                            child: Center(
+                                child: Text('Technical Details',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Dealership',
-                            child: Center(child: Text('Dealership'))),
+                            child: Center(
+                                child: Text('Dealership',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Others',
-                            child: Center(child: Text('Others'))),
+                            child: Center(
+                                child: Text('Others',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -334,22 +409,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'cus_name',
+              TextFormField(
                 controller: cusNameController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -360,22 +434,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'company',
+              TextFormField(
                 controller: companyController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -388,7 +461,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   const Text('Supply Type',
                       style: TextStyle(color: Color(0xff941420))),
                   Container(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     padding: EdgeInsets.only(left: 9),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
@@ -406,16 +479,26 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                       items: [
                         DropdownMenuItem<String>(
                             value: 'Supply Only',
-                            child: Center(child: Text('Supply Only'))),
+                            child: Center(
+                                child: Text(
+                              'Supply Only',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'Installation',
-                            child: Center(child: Text('Installation'))),
+                            child: Center(
+                                child: Text('Installation',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Not Applicable',
-                            child: Center(child: Text('Not Applicable'))),
+                            child: Center(
+                                child: Text('Not Applicable',
+                                    style: TextStyle(fontSize: 12)))),
                         DropdownMenuItem<String>(
                             value: 'Not Specified',
-                            child: Center(child: Text('Not Specified'))),
+                            child: Center(
+                                child: Text('Not Specified',
+                                    style: TextStyle(fontSize: 12)))),
                       ],
                     ),
                   ),
@@ -429,22 +512,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'del_address',
+              TextFormField(
                 controller: deliveryAddressController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -456,22 +538,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address2',
+              TextFormField(
                 controller: deliveryAddressController2,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -483,22 +564,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address3',
+              TextFormField(
                 controller: deliveryAddressController3,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -510,22 +590,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'address4',
+              TextFormField(
                 controller: deliveryAddressController4,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -537,22 +616,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'post_code',
+              TextFormField(
                 controller: deliveryPostCode,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -564,22 +642,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'email',
+              TextFormField(
                 controller: emailController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -591,22 +668,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'tel',
+              TextFormField(
                 controller: telephoneController,
                 style: TextStyle(fontSize: 13),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
                   fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),
@@ -621,7 +697,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(left: 9),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.032,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.5),
                         border: Border.all(width: 1),
@@ -652,15 +728,24 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                             child: Center(
                                 child: Text(
                               'LOW',
+                              style: TextStyle(fontSize: 12),
                             ))),
                         DropdownMenuItem<String>(
                             value: 'MEDIUM',
                             alignment: Alignment.center,
-                            child: Center(child: Text('MEDIUM'))),
+                            child: Center(
+                                child: Text(
+                              'MEDIUM',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                         DropdownMenuItem<String>(
                             value: 'HIGH',
                             alignment: Alignment.center,
-                            child: Center(child: Text('HIGH'))),
+                            child: Center(
+                                child: Text(
+                              'HIGH',
+                              style: TextStyle(fontSize: 12),
+                            ))),
                       ],
                     ),
                   ),
@@ -678,9 +763,10 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xff941420)),
-                    ),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xff941420)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9)))),
                     icon: Icon(
                       Icons.cloud_upload_outlined,
                       size: 19,
@@ -711,22 +797,21 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
               SizedBox(
                 height: 5,
               ),
-              FormBuilderTextField(
-                name: 'notes',
+              TextFormField(
                 controller: notesController,
                 style: TextStyle(fontSize: 13),
                 maxLines: 6,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
                   labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Color.fromARGB(255, 246, 245, 245),
+                  fillColor: Colors.white,
                   filled: true,
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey)),
                 ),
               ),

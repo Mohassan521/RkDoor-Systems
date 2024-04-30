@@ -36,6 +36,7 @@ class _HotLeadsState extends State<HotLeads> {
           'Hot Leads',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [

@@ -84,9 +84,9 @@ class _EntranceDoorQuotationsState extends State<EntranceDoorQuotations> {
                               listen: false)
                           .getAllData(widget.dealerId!, value);
                     } else if (widget.role == "admin") {
-                      Provider.of<QuotationsSearchedDataForAdmin>(context,
-                              listen: false)
-                          .getAllData(widget.dealerId!, value);
+                      // Provider.of<QuotationsSearchedDataForAdmin>(context,
+                      //         listen: false)
+                      //     .getAllData(widget.dealerId!, value);
                     }
                   },
                   decoration: InputDecoration(

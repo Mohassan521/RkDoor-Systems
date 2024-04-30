@@ -18,6 +18,10 @@ import 'package:price_link/models/admin%20models/adminPanelOrders.dart';
 import 'package:price_link/models/admin%20models/adminQuotesModel.dart';
 import 'package:price_link/models/admin%20models/administratorsModel.dart';
 import 'package:price_link/models/admin%20models/allDealersModel.dart';
+import 'package:price_link/models/admin%20models/archiveEnquiries.dart';
+import 'package:price_link/models/admin%20models/archiveOrderModel.dart';
+import 'package:price_link/models/admin%20models/archiveQuotations.dart';
+import 'package:price_link/models/admin%20models/archiveSteelOrder.dart';
 import 'package:price_link/models/admin%20models/dealersList.dart';
 import 'package:price_link/models/admin%20models/steelOrderModel.dart';
 import 'package:price_link/models/careAndMaintenanceModel.dart';
@@ -38,6 +42,7 @@ import 'package:price_link/models/technicalWiring.dart';
 import 'package:price_link/models/testingModel.dart';
 import 'package:price_link/models/updatedModel.dart';
 import 'package:price_link/screens/adminScreens/adminHome.dart';
+import 'package:price_link/screens/adminScreens/archiveEnquiries.dart';
 import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -1867,36 +1872,6 @@ class NetworkApiServices {
         });
       });
 
-      // Now, apply secondary sorting to maintain original order for quotes with equal dates
-      quotes.forEach((element) {
-        element.quotes.sort((a, b) {
-          DateTime aDate = DateTime.parse(a.date!);
-          DateTime bDate = DateTime.parse(b.date!);
-
-          // Compare dates first
-          int dateComparison = bDate.compareTo(aDate);
-          if (dateComparison != 0) {
-            return dateComparison;
-          } else {
-            return element.quotes
-                .indexOf(a)
-                .compareTo(element.quotes.indexOf(b));
-          }
-        });
-      });
-
-      // Sort the quotes list based on the creation date of the first quote in each CompleteResponse object
-      quotes.sort((a, b) {
-        DateTime aDate = a.quotes.isNotEmpty
-            ? DateTime.parse(a.quotes.first.date ?? "")
-            : DateTime.now();
-
-        DateTime bDate = b.quotes.isNotEmpty
-            ? DateTime.parse(b.quotes.first.date!)
-            : DateTime.now();
-        return bDate.compareTo(aDate);
-      });
-
       return quotes;
     } else {
       throw Exception('Failed to load quotes');
@@ -2181,7 +2156,8 @@ class NetworkApiServices {
       weight,
       netOrderValue,
       List<File>? fileToUpload,
-      String notes) async {
+      String notes,
+      String customHandle) async {
     var apiUrl =
         "https://pricelink.net/wp-json/mobile_api/v1/save_steel_orderApi";
 
@@ -2223,6 +2199,7 @@ class NetworkApiServices {
     request.fields["steel_weight"] = weight;
     request.fields["steel_order_net_val"] = netOrderValue;
     request.fields["Notes"] = notes;
+    request.fields["steel_custom_handle"] = customHandle;
 
     var response = await request.send();
 
@@ -4186,6 +4163,83 @@ class NetworkApiServices {
       Utils().showToast('Notes updated', Color(0xff941420), Colors.white);
     } else {
       print('something went wrng');
+    }
+  }
+
+  Future<List<ArchiveEnquiriesModel>> getArchiveEnquiries() async {
+    var response = await http.get(Uri.parse(
+        "https://pricelink.net/wp-json/mobile_api/v1/admin_get_all_archive_enquiries/1"));
+
+    if (response.statusCode == 200) {
+      List<dynamic> enquiries = jsonDecode(response.body);
+
+      List<ArchiveEnquiriesModel> archives = enquiries
+          .map((data) => ArchiveEnquiriesModel.fromJson(data))
+          .toList();
+
+      archives.sort((a, b) {
+        DateTime aDate = DateTime.parse(a.date ?? "");
+        DateTime bDate = DateTime.parse(b.date ?? "");
+        return bDate.compareTo(aDate);
+      });
+
+      return archives;
+    } else {
+      throw Exception("something went wrong");
+    }
+  }
+
+  Future<List<ArchiveOrdersModel>> getArchiveOrders() async {
+    var response = await http.get(Uri.parse(
+        "https://pricelink.net/wp-json/mobile_api/v1/admin_get_all_archive_orders/1"));
+
+    if (response.statusCode == 200) {
+      List<dynamic> orders = jsonDecode(response.body);
+
+      List<ArchiveOrdersModel> ordersData =
+          orders.map((data) => ArchiveOrdersModel.fromJson(data)).toList();
+
+      return ordersData;
+    } else {
+      throw Exception("something went wrong");
+    }
+  }
+
+  Future<List<ArchiveSteelOrdersModel>> getArchiveSteelOrders() async {
+    var response = await http.get(Uri.parse(
+        "https://pricelink.net/wp-json/mobile_api/v1/admin_get_all_archive_steel_orders/1"));
+
+    if (response.statusCode == 200) {
+      List<dynamic> orders = jsonDecode(response.body);
+
+      List<ArchiveSteelOrdersModel> ordersData =
+          orders.map((data) => ArchiveSteelOrdersModel.fromJson(data)).toList();
+
+      return ordersData;
+    } else {
+      throw Exception("something went wrong");
+    }
+  }
+
+  Future<List<ArchiveQuotationsModel>> getArchiveQuotations() async {
+    var response = await http.get(Uri.parse(
+        "https://pricelink.net/wp-json/mobile_api/v1/admin_get_all_archive_quotes/1"));
+
+    if (response.statusCode == 200) {
+      List<dynamic> orders = jsonDecode(response.body);
+
+      List<ArchiveQuotationsModel> ordersData =
+          orders.map((data) => ArchiveQuotationsModel.fromJson(data)).toList();
+
+      ordersData.sort((a, b) {
+        DateTime aDate = DateTime.parse(a.date ?? "");
+        DateTime bDate = DateTime.parse(b.date ?? "");
+        return bDate.compareTo(aDate);
+      });
+
+      return ordersData;
+    } else {
+      throw Exception("something went wrong");
     }
   }
 }

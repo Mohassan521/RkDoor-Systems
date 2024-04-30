@@ -40,7 +40,9 @@ class _UpdatesState extends State<Updates> {
         centerTitle: true,
       ),
       floatingActionButton: widget.role == "admin"
-          ? FloatingActionButton(
+          ? FloatingActionButton.small(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.5)),
               onPressed: () async {
                 showModalBottomSheet<void>(
                   context: context,

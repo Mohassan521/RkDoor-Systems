@@ -334,7 +334,10 @@ class MyData extends DataTableSource {
       color: MaterialStatePropertyAll(Colors.white),
       index: index,
       cells: <DataCell>[
-        DataCell(Text(result.name ?? "", style: TextStyle(fontSize: 12.5))),
+        DataCell(Text(
+          result.name ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
         DataCell(Text(result.quotationNumber ?? "",
             style: TextStyle(fontSize: 12.5))),
         DataCell(Text(dealerData.dealerName ?? "",
@@ -344,6 +347,7 @@ class MyData extends DataTableSource {
             style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
           return Container(
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: result.orderStatusVal == "Order Received"
                       ? Color(0xff9ad9ea)
@@ -372,13 +376,12 @@ class MyData extends DataTableSource {
                                                           ? Color(0xff9ad9ea)
                                                           : Color(0xff7092bf),
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.28,
+              height: MediaQuery.sizeOf(context).height * 0.042,
+              width: MediaQuery.sizeOf(context).width * 0.29,
               child: Center(
                   child: Text(
                 result.orderStatusVal!,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black, fontSize: 12),
+                style: TextStyle(color: Colors.black, fontSize: 8),
               )));
         })),
 
@@ -410,12 +413,12 @@ class MyData extends DataTableSource {
                                                   : Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
               height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.30,
+              width: MediaQuery.sizeOf(context).width * 0.22,
               child: Center(
                   child: Text(
                 result.orderPaymentStatusVal!,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black, fontSize: 12),
+                style: TextStyle(color: Colors.black, fontSize: 8),
               )));
         })),
         DataCell(
@@ -458,7 +461,7 @@ class MyData extends DataTableSource {
                               : (fileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 15,
+                          size: 16,
                           color: Colors.blue,
                         ),
                       ),
@@ -466,7 +469,6 @@ class MyData extends DataTableSource {
                 )
               : Center(child: Text('')),
         ),
-
         //DataCell(result.facConfDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
             style: TextStyle(fontSize: 12.5))),
@@ -475,7 +477,7 @@ class MyData extends DataTableSource {
               decoration: BoxDecoration(
                   color: Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
@@ -525,7 +527,7 @@ class MyData extends DataTableSource {
                               : (invoiceFileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 15,
+                          size: 16,
                           color: Colors.blue,
                         ),
                       ),
@@ -579,7 +581,7 @@ class MyData extends DataTableSource {
                               : (ddFileExtension == '.pdf')
                                   ? Icons.picture_as_pdf
                                   : Icons.file_present,
-                          size: 15,
+                          size: 16,
                           color: Colors.blue,
                         ),
                       ),
@@ -598,7 +600,7 @@ class MyData extends DataTableSource {
                       ? Color(0xff9ad9ea)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
@@ -617,7 +619,7 @@ class MyData extends DataTableSource {
                       ? Colors.yellow
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
@@ -642,13 +644,12 @@ class MyData extends DataTableSource {
                       ? Color(0xff9ad9ea)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.30,
+              height: MediaQuery.sizeOf(context).height * 0.042,
+              width: MediaQuery.sizeOf(context).width * 0.35,
               child: Center(
                   child: Text(
                 result.thresholdType ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black, fontSize: 12),
+                style: TextStyle(color: Colors.black, fontSize: 8),
               )));
         })),
         DataCell(Text(result.ekeylessAccess ?? "",
@@ -733,6 +734,8 @@ class MyData extends DataTableSource {
         //DataCell(Text(result.orderFinHisNoteBox ?? "")),
         //DataCell(Text(result.customNotes ?? "")),
         DataCell(RoundButton(
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           text: 'Financial History',
           onTap: () {
             Navigator.push(
@@ -745,8 +748,6 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
         )),
         DataCell(RoundButton(
           text: 'Notes',
@@ -821,8 +822,8 @@ class MyData extends DataTableSource {
                     ));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.13,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.12,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
         )),
         DataCell(RoundButton(
           text: 'Quote Analysis',
@@ -836,8 +837,8 @@ class MyData extends DataTableSource {
                         )));
           },
           color: Colors.blue,
-          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.21,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
         )),
 
         DataCell(Text('${result.date} ${result.orderStatusVal ?? ""}',

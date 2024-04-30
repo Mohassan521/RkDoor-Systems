@@ -49,6 +49,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
               'Enquiries',
               style: TextStyle(color: Colors.white),
             ),
+            centerTitle: true,
           ),
           floatingActionButton: FloatingActionButton.extended(
               label: Text(

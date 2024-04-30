@@ -421,7 +421,8 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  height:
+                      MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.25,
                   decoration: BoxDecoration(
                       color: quote.steelOrderStatusVal == "Deposit Received" ||
@@ -436,7 +437,7 @@ class MyData extends DataTableSource {
                                   "Awaiting Survey / Dimensions"
                           ? Colors.red
                           : Color(0xffb5e51d),
-                      borderRadius: BorderRadius.circular(5.5)),
+                      borderRadius: BorderRadius.circular(19)),
                   child: Center(
                     child: Text(
                       (quote.steelOrderStatusVal == "Deposit Received" ||
@@ -540,7 +541,7 @@ class MyData extends DataTableSource {
                                                                     : Colors
                                                                         .white,
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.35,
                     child: DropdownButton<String>(
                       style: TextStyle(
@@ -767,7 +768,7 @@ class MyData extends DataTableSource {
                                                         ? Color(0xff0d714b)
                                                         : Colors.yellow,
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.26,
                     child: Center(
                       child: DropdownButton<String>(
@@ -1099,7 +1100,7 @@ class MyData extends DataTableSource {
                 text: "Financial History",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //15
               DataCell(
@@ -1205,7 +1206,7 @@ class MyData extends DataTableSource {
                             ? Colors.orange
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(5.5)),
-                    height: MediaQuery.sizeOf(context).height * 0.05,
+                    height: MediaQuery.sizeOf(context).height * 0.042,
                     width: MediaQuery.sizeOf(context).width * 0.29,
                     child: Center(
                         child: Text(
@@ -1483,7 +1484,7 @@ class MyData extends DataTableSource {
                 text: "Notes",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
               //31
               DataCell(Center(
@@ -1548,7 +1549,7 @@ class MyData extends DataTableSource {
                 text: "Order Complete - Archive File",
                 color: Colors.blue,
                 width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
-                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
               )),
 
               DataCell(Row(

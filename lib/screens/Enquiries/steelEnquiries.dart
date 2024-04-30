@@ -50,6 +50,7 @@ class _SteelEnquiriesState extends State<SteelEnquiries> {
               'Steel Enquiries',
               style: TextStyle(color: Colors.white),
             ),
+            centerTitle: true,
           ),
           body: ListView(
             children: [

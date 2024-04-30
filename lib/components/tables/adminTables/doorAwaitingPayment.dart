@@ -431,7 +431,8 @@ class MyData extends DataTableSource {
               //2
               DataCell(
                 Container(
-                  height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+                  height:
+                      MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
                   width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
                   decoration: BoxDecoration(
                       color: quote.orderStatusVal == "Deposit Received" ||

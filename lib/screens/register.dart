@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/round_button.dart';
+import 'package:price_link/screens/login.dart';
 import 'package:price_link/services/services.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -108,13 +109,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
+                    hintStyle: TextStyle(color: Colors.grey),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'First Name'),
+                    hintText: 'FIRST NAME'),
               ),
             ),
             SizedBox(
@@ -126,6 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: lNameController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -135,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Last Name'),
+                    hintText: 'LAST NAME'),
               ),
             ),
             SizedBox(
@@ -147,6 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: dealerController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -156,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Dealer'),
+                    hintText: 'DEALER'),
               ),
             ),
             SizedBox(
@@ -168,6 +172,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: dealerAddressOneController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -177,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Dealer Address 1'),
+                    hintText: 'DEALER ADDRESS 1'),
               ),
             ),
             SizedBox(
@@ -189,6 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: dealerAddressTwoController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -198,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Dealer Address 2'),
+                    hintText: 'DEALER ADDRESS 2'),
               ),
             ),
             SizedBox(
@@ -210,6 +216,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: dealerAddressThreeController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -219,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Dealer Address 3'),
+                    hintText: 'DEALER ADDRESS 3'),
               ),
             ),
             SizedBox(
@@ -231,6 +238,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: postCodeController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -240,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Post Code'),
+                    hintText: 'POST CODE'),
               ),
             ),
             SizedBox(
@@ -252,6 +260,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: telephoneController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -261,7 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Telephone'),
+                    hintText: 'TELEPHONE'),
               ),
             ),
             SizedBox(
@@ -273,6 +282,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: emailController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -282,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Email'),
+                    hintText: 'EMAIL'),
               ),
             ),
             SizedBox(
@@ -294,6 +304,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: passwordController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -303,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Password'),
+                    hintText: 'PASSWORD'),
               ),
             ),
             SizedBox(
@@ -315,6 +326,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontSize: 15),
                 controller: confirmPasswordController,
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.only(left: 20, bottom: 10),
                     fillColor: Color.fromARGB(255, 246, 245, 245),
                     filled: true,
@@ -324,24 +336,44 @@ class _RegisterPageState extends State<RegisterPage> {
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.5),
                         borderSide: BorderSide(color: Colors.grey)),
-                    hintText: 'Confirm Password'),
+                    hintText: 'CONFIRM PASSWORD'),
               ),
             ),
             SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, right: 25),
-              child: RoundButton(
-                text: 'Register',
-                onTap: () async {},
-                color: Color(0xff941420),
-                width: double.infinity,
-              ),
+            MaterialButton(
+              child: Text('Register'),
+              onPressed: () async {},
+              color: Color(0xff941420),
+              textColor: Colors.white,
             ),
             SizedBox(
-              height: 40,
-            )
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Already have an account? ',
+                  textAlign: TextAlign.center,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  },
+                  child: Text(
+                    'Login? ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xff941420)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),

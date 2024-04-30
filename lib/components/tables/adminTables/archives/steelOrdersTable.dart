@@ -1,0 +1,1530 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:price_link/components/date_button.dart';
+import 'package:price_link/components/round_button.dart';
+import 'package:price_link/models/admin%20models/archiveSteelOrder.dart';
+import 'package:price_link/services/services.dart';
+
+class ArchiveSteelOrdersTable extends StatefulWidget {
+  final String dealerId;
+  final String dealerName;
+  final String? role;
+  const ArchiveSteelOrdersTable(
+      {super.key, required this.dealerId, required this.dealerName, this.role});
+
+  @override
+  State<ArchiveSteelOrdersTable> createState() =>
+      _ArchiveSteelOrdersTableState();
+}
+
+class _ArchiveSteelOrdersTableState extends State<ArchiveSteelOrdersTable> {
+  NetworkApiServices apiServices = NetworkApiServices();
+
+  @override
+  Widget build(BuildContext context) {
+    print(widget.dealerId);
+    print(widget.dealerName);
+
+    DateTime _dateTime = DateTime.now();
+    void _showDatePicker() {
+      showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2050))
+          .then((value) {
+        setState(() {
+          _dateTime = value!;
+        });
+      });
+    }
+
+    return FutureBuilder(
+      future: apiServices.getArchiveSteelOrders(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('${snapshot.error}');
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: Text('Data is being loaded...'));
+        }
+
+        List<ArchiveSteelOrdersModel> list = snapshot.data ?? [];
+
+        // List<CompletedSteelOrdersResponse> filteredList =
+        //     Provider.of<AllSteelOrdersData>(context)
+        //         .filteredSteelOrderListForAdmin;
+        // List<CompletedSteelOrdersResponse>? displayData =
+        //     filteredList.isNotEmpty ? filteredList : list;
+
+        return PaginatedDataTable(
+            showEmptyRows: false,
+            columnSpacing: 20,
+            headingRowHeight: 48,
+            dataRowMaxHeight: 48,
+            rowsPerPage: (list.length >= 5 && list.isNotEmpty)
+                ? 5
+                : list.isEmpty
+                    ? list.length
+                    : 1,
+            // headingRowColor: MaterialStateProperty.resolveWith(
+            //     (states) => Color(0xff941420)),
+            columns: const <DataColumn>[
+              DataColumn(
+                  label: Text(
+                'Customer Name',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Action Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Username',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation Number',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Dealer',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Order No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Filter Order Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Order Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Payment Status',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Order Confirmation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Anticipated Delivery Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Steel Invoices',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Balance Due',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Financial History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Supply Type',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Frame Size',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Colour',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Factory Delivery Week',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Post Code',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Weight',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Tel No.',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Email',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Total Order Value',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Custom Handle',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Delivery Cost',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'File Upload',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Quotation',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Date',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Time',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Notes',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Net Order Value (From Steel Order Form)',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Discount',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Sale Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Gross bonus payment',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Sale Staff Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Admin Staff Bonus',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Filter Supplier',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Supplier',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Order Date History',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                'Completed Orders',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+              DataColumn(
+                  label: Text(
+                '',
+                style: TextStyle(color: Color(0xff941420)),
+              )),
+            ],
+            source: MyData(list, _dateTime, widget.dealerId, widget.dealerName,
+                _showDatePicker,
+                myGlobalBuildContext: context));
+      },
+    );
+  }
+}
+
+class MyData extends DataTableSource {
+  final String? dealerId;
+  final String? dealerName;
+  NetworkApiServices apiServices = NetworkApiServices();
+  DateTime _datetime = DateTime.now();
+  //final String? prevNotesValue;
+  void Function()? _showDatePicker;
+  final BuildContext myGlobalBuildContext;
+  TextEditingController orderNotesController = TextEditingController();
+  final List<ArchiveSteelOrdersModel>? data;
+
+  MyData(this.data, this._datetime, this.dealerId, this.dealerName,
+      this._showDatePicker,
+      {required this.myGlobalBuildContext});
+
+  File? _image;
+  List<File> filesToUpload = [];
+  Future<List<File>> getImage() async {
+    final _picker = ImagePicker();
+
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      filesToUpload.clear();
+      filesToUpload.add(_image!);
+      return filesToUpload;
+    } else {
+      print('no image selected');
+      return [];
+    }
+  }
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= totalRowCount) return null;
+
+    showImageDialog(BuildContext context, String imageUrl) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          insetPadding: EdgeInsets.all(9),
+          content: SizedBox(
+            height: 200.0, // Set the height as needed
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      );
+    }
+
+    TextEditingController facOrderNo = TextEditingController();
+    TextEditingController facDeliveryWeek = TextEditingController();
+    TextEditingController notesController = TextEditingController();
+    // TextEditingController ankaValue = TextEditingController();
+
+    return DataRow.byIndex(
+      color: MaterialStatePropertyAll(Colors.white),
+      index: index,
+      cells: [
+        DataCell(Text(
+          data![index].steelCustomerName ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //2
+        DataCell(
+          Container(
+            height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+            width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+            decoration: BoxDecoration(
+                color: data![index].steelOrderStatusVal == "Deposit Received" ||
+                        data![index].steelOrderStatusVal ==
+                            "Preliminary Confirmation Issued" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Deposit" ||
+                        data![index].steelOrderStatusVal ==
+                            "Revised Confirmation Issued" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Balance Payment" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Survey / Dimensions"
+                    ? Colors.red
+                    : Color(0xffb5e51d),
+                borderRadius: BorderRadius.circular(19)),
+            child: Center(
+              child: Text(
+                (data![index].steelOrderStatusVal == "Deposit Received" ||
+                        data![index].steelOrderStatusVal ==
+                            "Preliminary Confirmation Issued" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Deposit" ||
+                        data![index].steelOrderStatusVal ==
+                            "Revised Confirmation Issued" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Balance Payment" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Survey / Dimensions")
+                    ? 'Action Required'
+                    : "No Action Required",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ),
+        //3
+        DataCell(Text(
+          data![index].steelDealerEmail ?? "",
+          style: TextStyle(fontSize: 12),
+        )),
+        //4
+        DataCell(Text(
+          data![index].steelQNumber ?? "",
+          style: TextStyle(fontSize: 12),
+        )),
+        //5
+        DataCell(Text(
+          "",
+          style: TextStyle(fontSize: 12),
+        )),
+        //6
+        DataCell(Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+              controller: facOrderNo,
+              onEditingComplete: () {},
+            ))),
+        //7
+        DataCell(Text(
+          data![index].steelOrderStatusVal ?? "",
+          style: TextStyle(fontSize: 12),
+        )),
+        //8
+        DataCell(Builder(builder: (context) {
+          return Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: data![index].steelOrderStatusVal ==
+                              "Awaiting Deposit" ||
+                          data![index].steelOrderStatusVal ==
+                              "Awaiting Balance Payment"
+                      ? Colors.yellow
+                      : data![index].steelOrderStatusVal == "Delayed" ||
+                              data![index].steelOrderStatusVal ==
+                                  "Preliminary Confirmation Issued"
+                          ? Colors.red
+                          : data![index].steelOrderStatusVal ==
+                                      "In Production" ||
+                                  data![index].steelOrderStatusVal ==
+                                      "Delivered"
+                              ? Color(0xffb5e51d)
+                              : data![index].steelOrderStatusVal ==
+                                      "Ready For Shipping"
+                                  ? Color(0xff008001)
+                                  : data![index].steelOrderStatusVal ==
+                                          "Order Received"
+                                      ? Color(0xff9ad9ea)
+                                      : data![index].steelOrderStatusVal ==
+                                              "Order Placed"
+                                          ? Color(0xffffc90d)
+                                          : data![index].steelOrderStatusVal ==
+                                                  "Revised Confirmation Issued"
+                                              ? Color(0xffa747a2)
+                                              : data![index]
+                                                          .steelOrderStatusVal ==
+                                                      "Final Confirmation Issued"
+                                                  ? Color(0xffc7bfe6)
+                                                  : data![index]
+                                                              .steelOrderStatusVal ==
+                                                          "In Transit To UK"
+                                                      ? Color(0xfffeaec9)
+                                                      : data![index]
+                                                                  .steelOrderStatusVal ==
+                                                              "In RKDS Warehouse"
+                                                          ? Color(0xff9ad9ea)
+                                                          : data![index].steelOrderStatusVal ==
+                                                                      "Out For Delivery" ||
+                                                                  data![index]
+                                                                          .steelOrderStatusVal ==
+                                                                      "Awaiting Survey / Dimensions"
+                                                              ? Color(
+                                                                  0xff7092bf)
+                                                              : Colors.white,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.042,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              child: DropdownButton<String>(
+                style: TextStyle(
+                  fontSize: 8,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+                alignment: Alignment.center,
+                iconEnabledColor: data![index].steelOrderStatusVal ==
+                            "Awaiting Deposit" ||
+                        data![index].steelOrderStatusVal ==
+                            "Awaiting Balance Payment"
+                    ? Colors.yellow
+                    : data![index].steelOrderStatusVal == "Delayed" ||
+                            data![index].steelOrderStatusVal ==
+                                "Preliminary Confirmation Issued"
+                        ? Colors.red
+                        : data![index].steelOrderStatusVal == "In Production" ||
+                                data![index].steelOrderStatusVal == "Delivered"
+                            ? Color(0xffb5e51d)
+                            : data![index].steelOrderStatusVal ==
+                                    "Ready For Shipping"
+                                ? Color(0xff008001)
+                                : data![index].steelOrderStatusVal ==
+                                        "Order Received"
+                                    ? Color(0xff9ad9ea)
+                                    : data![index].steelOrderStatusVal ==
+                                            "Order Placed"
+                                        ? Color(0xffffc90d)
+                                        : data![index].steelOrderStatusVal ==
+                                                "Revised Confirmation Issued"
+                                            ? Color(0xffa747a2)
+                                            : data![index]
+                                                        .steelOrderStatusVal ==
+                                                    "Final Confirmation Issued"
+                                                ? Color(0xffc7bfe6)
+                                                : data![index]
+                                                            .steelOrderStatusVal ==
+                                                        "In Transit To UK"
+                                                    ? Color(0xfffeaec9)
+                                                    : data![index]
+                                                                .steelOrderStatusVal ==
+                                                            "In RKDS Warehouse"
+                                                        ? Color(0xff9ad9ea)
+                                                        : data![index].steelOrderStatusVal ==
+                                                                    "Out For Delivery" ||
+                                                                data![index]
+                                                                        .steelOrderStatusVal ==
+                                                                    "Awaiting Survey / Dimensions"
+                                                            ? Color(0xff7092bf)
+                                                            : Colors.white,
+                isExpanded: true,
+                //value: orderStatus,
+                underline: Container(
+                  height: 2,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  //newValue = result.orderFollowup;
+                  if (newValue != null) {
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(newValue: newValue, quoteId: result.id!);
+                    //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                    // apiServices.setSteelOrderStatusForAdmin(
+                    //     dealerData.userId!, quote.id!, newValue);
+                  } else {
+                    // String value = quote.steelOrderStatusVal ?? "";
+                    // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                    //     .changeValue(
+                    //         newValue: result.orderFollowup, quoteId: result.id!);
+                    // apiServices.setSteelOrderStatusForAdmin(
+                    //     dealerData.userId!, quote.id!, value);
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: '',
+                      child: Text(
+                        '',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Deposit Received',
+                      child: Text(
+                        'Deposit Received',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Received',
+                      child: Text(
+                        'Order Received',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Order Placed',
+                      child: Text(
+                        'Order Placed',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Survey / Dimensions',
+                      child: Text(
+                        'Awaiting Survey / Dimensions',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Deposit',
+                      child: Text(
+                        'Awaiting Deposit',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Preliminary Confirmation Issued',
+                      child: Text(
+                        'Preliminary Confirmation Issued',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Revised Confirmation Issued',
+                      child: Text(
+                        'Revised Confirmation Issued',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Final Confirmation Issued',
+                      child: Text(
+                        'Final Confirmation Issued',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Production',
+                      child: Text(
+                        'In Production',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Ready For Shipping',
+                      child: Text(
+                        'Ready For Shipping',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In Transit To UK',
+                      child: Text(
+                        'In Transit To UK',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'In RKDS Warehouse',
+                      child: Text(
+                        'In RKDS Warehouse',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Awaiting Balance Payment',
+                      child: Text(
+                        'Awaiting Balance Payment',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Out For Delivery',
+                      child: Text(
+                        'Out For Delivery',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delivered',
+                      child: Text(
+                        'Delivered',
+                        textAlign: TextAlign.center,
+                      )),
+                  DropdownMenuItem<String>(
+                      alignment: Alignment.center,
+                      value: 'Delayed',
+                      child: Text(
+                        'Delayed',
+                        textAlign: TextAlign.center,
+                      )),
+                ],
+              ));
+        })),
+        //9
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: data![index].steelOrderPaymentStatusVal ==
+                          "Awaiting Deposit"
+                      ? Colors.yellow
+                      : data![index].steelOrderPaymentStatusVal ==
+                              "Deposit Received"
+                          ? Color(0xffffd5cd)
+                          : data![index].steelOrderPaymentStatusVal ==
+                                  "Awaiting Survey Fee"
+                              ? Color(0xffbde2fd)
+                              : data![index].steelOrderPaymentStatusVal ==
+                                      "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : data![index].steelOrderPaymentStatusVal ==
+                                          "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : data![index]
+                                                  .steelOrderPaymentStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : data![index]
+                                                      .steelOrderPaymentStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : data![index]
+                                                          .steelOrderPaymentStatusVal ==
+                                                      "All Invoices Paid"
+                                                  ? Color(0xff0d714b)
+                                                  : Colors.yellow,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.042,
+              width: MediaQuery.sizeOf(context).width * 0.26,
+              child: Center(
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+                  alignment: Alignment.center,
+                  iconEnabledColor: data![index].steelOrderPaymentStatusVal ==
+                          "Awaiting Deposit"
+                      ? Colors.yellow
+                      : data![index].steelOrderPaymentStatusVal ==
+                              "Deposit Received"
+                          ? Color(0xffffd5cd)
+                          : data![index].steelOrderPaymentStatusVal ==
+                                  "Awaiting Survey Fee"
+                              ? Color(0xffbde2fd)
+                              : data![index].steelOrderPaymentStatusVal ==
+                                      "Survey Fee Received"
+                                  ? Color(0xffd2ecbd)
+                                  : data![index].steelOrderPaymentStatusVal ==
+                                          "Awaiting Balance"
+                                      ? Color(0xffffe8a1)
+                                      : data![index]
+                                                  .steelOrderPaymentStatusVal ==
+                                              "Balance Paid"
+                                          ? Colors.orange
+                                          : data![index]
+                                                      .steelOrderPaymentStatusVal ==
+                                                  "Awaiting Install Payment"
+                                              ? Color(0xfffbd0ca)
+                                              : data![index]
+                                                          .steelOrderPaymentStatusVal ==
+                                                      "All Invoices Paid"
+                                                  ? Color(0xff0d714b)
+                                                  : Colors.yellow,
+                  isExpanded: true,
+                  //value: paymentStatus,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    //newValue = result.orderFollowup;
+                    if (newValue != null) {
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(newValue: newValue, data![index]Id: result.id!);
+                      //apiServices.setOrderStatus(quote.id!, dealerData.userId, newValue);
+                      // apiServices.setSteelPaymentStatus(
+                      //     dealerData.userId!, quote.id!, newValue);
+                    } else {
+                      // String value =
+                      //     quote.steelOrderPaymentStatusVal ?? "";
+                      // Provider.of<setFollowUpOrderValue>(context, listen: false)
+                      //     .changeValue(
+                      //         newValue: result.orderFollowup, quoteId: result.id!);
+                      //apiServices.setOrderStatus(quote.id!, dealerData.userId, orderStatus);
+                      // apiServices.setSteelPaymentStatus(
+                      //     dealerData.userId!, quote.id!, value);
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: '',
+                        child: Text(
+                          '',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Deposit',
+                        child: Text(
+                          'Awaiting Deposit',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Deposit Received',
+                        child: Text(
+                          'Deposit Received',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Survey Fee',
+                        child: Text(
+                          'Awaiting Survey Fee',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Survey Fee Received',
+                        child: Text(
+                          'Survey Fee Received',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Balance',
+                        child: Text(
+                          'Awaiting Balance',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Balance Paid',
+                        child: Text(
+                          'Balance Paid',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'Awaiting Install Payment',
+                        child: Text(
+                          'Awaiting Install Payment',
+                          textAlign: TextAlign.center,
+                        )),
+                    DropdownMenuItem<String>(
+                        alignment: Alignment.center,
+                        value: 'All Invoices Paid',
+                        child: Text(
+                          'All Invoices Paid',
+                          textAlign: TextAlign.center,
+                        )),
+                  ],
+                ),
+              ));
+        })),
+
+        DataCell(Text(data![index].steelOrderConfFile ?? "")),
+
+        //10
+        // DataCell(
+        //   data![index].steelOrderConfFile!.isNotEmpty
+        //       ? Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelOrderConfFile(
+        //                         quote.id!, dealerData.userId!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               SizedBox(width: 10),
+        //               // Create icons for each file
+        //               for (var file in quote.steelOrderConfFile!)
+        //                 InkWell(
+        //                   onTap: () {
+        //                     String fileExtension =
+        //                         extension(file).toLowerCase();
+        //                     if (fileExtension == ".pdf") {
+        //                       print(file);
+        //                       Navigator.push(
+        //                         myGlobalBuildContext,
+        //                         MaterialPageRoute(
+        //                           builder: (context) =>
+        //                               PDFViewer(url: file),
+        //                         ),
+        //                       );
+        //                     } else if (fileExtension == ".jpg" ||
+        //                         fileExtension == ".jpeg" ||
+        //                         fileExtension == ".png") {
+        //                       print(file);
+        //                       showImageDialog(myGlobalBuildContext, file);
+        //                     } else {
+        //                       print(file);
+        //                       Utils().showToast(
+        //                         'File Format not supported',
+        //                         Color(0xff941420),
+        //                         Colors.white,
+        //                       );
+        //                     }
+        //                   },
+        //                   child: Icon(
+        //                     (fileExtension == '.jpg' ||
+        //                             fileExtension == '.jpeg' ||
+        //                             fileExtension == '.png')
+        //                         ? Icons.file_open
+        //                         : (fileExtension == '.pdf')
+        //                             ? Icons.picture_as_pdf
+        //                             : Icons.file_present,
+        //                     size: 16,
+        //                     color: Colors.blue,
+        //                   ),
+        //                 ),
+        //             ],
+        //           ),
+        //         )
+        //       : Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelOrderConfFile(
+        //                         quote.id!, dealerData.userId!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               Text(
+        //                 'Add Files',
+        //                 style: TextStyle(color: Colors.grey),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        // ),
+
+        //11
+        DataCell(Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              (data![index].steelAnticipatedDate != null)
+                  ? data![index].steelAnticipatedDate!
+                  : "mm/dd/yyyy",
+              style: TextStyle(fontSize: 12.5),
+            ),
+            DateButton(
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: myGlobalBuildContext,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2050),
+                );
+
+                if (pickedDate != null) {
+                  // apiServices.setSteelOrderAnticipatedDate(
+                  //     dealerData.userId!, quote.id!, pickedDate);
+                }
+              },
+              icon: Icons.calendar_month,
+            )
+          ],
+        )),
+
+        DataCell(Text(data![index].steelInvoices ?? "")),
+
+        //12
+        // DataCell(
+        //   quote.steelInvoices!.isNotEmpty
+        //       ? Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelInvoicesForAdmin(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               SizedBox(width: 10),
+        //               // Create icons for each file
+        //               for (var file in quote.steelInvoices!)
+        //                 InkWell(
+        //                   onTap: () {
+        //                     String fileExtension =
+        //                         extension(file).toLowerCase();
+        //                     if (fileExtension == ".pdf") {
+        //                       print(file);
+        //                       Navigator.push(
+        //                         myGlobalBuildContext,
+        //                         MaterialPageRoute(
+        //                           builder: (context) =>
+        //                               PDFViewer(url: file),
+        //                         ),
+        //                       );
+        //                     } else if (fileExtension == ".jpg" ||
+        //                         fileExtension == ".jpeg" ||
+        //                         fileExtension == ".png") {
+        //                       print(file);
+        //                       showImageDialog(myGlobalBuildContext, file);
+        //                     } else {
+        //                       print(file);
+        //                       Utils().showToast(
+        //                         'File Format not supported',
+        //                         Color(0xff941420),
+        //                         Colors.white,
+        //                       );
+        //                     }
+        //                   },
+        //                   child: Icon(
+        //                     (invoiceFileExtension == '.jpg' ||
+        //                             invoiceFileExtension == '.jpeg' ||
+        //                             invoiceFileExtension == '.png')
+        //                         ? Icons.file_open
+        //                         : (invoiceFileExtension == '.pdf')
+        //                             ? Icons.picture_as_pdf
+        //                             : Icons.file_present,
+        //                     size: 16,
+        //                     color: Colors.blue,
+        //                   ),
+        //                 ),
+        //             ],
+        //           ),
+        //         )
+        //       : Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelInvoicesForAdmin(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               Text(
+        //                 'Add Files',
+        //                 style: TextStyle(color: Colors.grey),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        // ),
+
+        //13
+        DataCell(Center(
+            child: Text(
+          "",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //14
+        DataCell(RoundButton(
+          onTap: () {},
+          text: "Financial History",
+          color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+        )),
+        //15
+
+        DataCell(Text(data![index].steelDelNotes ?? "")),
+        // DataCell(
+        //   quote.steelDelNotes!.isNotEmpty
+        //       ? Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelDeliveryNotes(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               SizedBox(width: 10),
+        //               // Create icons for each file
+        //               for (var file in quote.steelDelNotes!)
+        //                 InkWell(
+        //                   onTap: () {
+        //                     String fileExtension =
+        //                         extension(file).toLowerCase();
+        //                     if (fileExtension == ".pdf") {
+        //                       print(file);
+        //                       Navigator.push(
+        //                         myGlobalBuildContext,
+        //                         MaterialPageRoute(
+        //                           builder: (context) =>
+        //                               PDFViewer(url: file),
+        //                         ),
+        //                       );
+        //                     } else if (fileExtension == ".jpg" ||
+        //                         fileExtension == ".jpeg" ||
+        //                         fileExtension == ".png") {
+        //                       print(file);
+        //                       showImageDialog(myGlobalBuildContext, file);
+        //                     } else {
+        //                       print(file);
+        //                       Utils().showToast(
+        //                         'File Format not supported',
+        //                         Color(0xff941420),
+        //                         Colors.white,
+        //                       );
+        //                     }
+        //                   },
+        //                   child: Icon(
+        //                     (delNotesFileExtension == '.jpg' ||
+        //                             delNotesFileExtension == '.jpeg' ||
+        //                             delNotesFileExtension == '.png')
+        //                         ? Icons.file_open
+        //                         : (delNotesFileExtension == '.pdf')
+        //                             ? Icons.picture_as_pdf
+        //                             : Icons.file_present,
+        //                     size: 16,
+        //                     color: Colors.blue,
+        //                   ),
+        //                 ),
+        //             ],
+        //           ),
+        //         )
+        //       : Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setSteelDeliveryNotes(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               Text(
+        //                 'Add Files',
+        //                 style: TextStyle(color: Colors.grey),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        // ),
+
+        //16
+        DataCell(Text(
+          data![index].steelSupplyType ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //17
+        DataCell(Text(
+          data![index].steelFrameSize ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //18
+        DataCell(Builder(builder: (context) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: data![index].steelColor == "RAL 9003 MS" ||
+                          data![index].steelColor == "RAL 7021 MS" ||
+                          data![index].steelColor == "RAL 7039 MS" ||
+                          data![index].steelColor == "RAL 7022 MS" ||
+                          data![index].steelColor == "DB703 MS" ||
+                          data![index].steelColor == "CUSTOM COLOUR"
+                      ? Colors.orange
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(5.5)),
+              height: MediaQuery.sizeOf(context).height * 0.05,
+              width: MediaQuery.sizeOf(context).width * 0.29,
+              child: Center(
+                  child: Text(
+                data![index].steelColor ?? "",
+                style: TextStyle(color: Colors.black, fontSize: 12.5),
+              )));
+        })),
+
+        //19
+        DataCell(Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+              controller: facDeliveryWeek,
+              onEditingComplete: () {
+                // String value = facDeliveryWeek.text;
+                // apiServices.setSteelFactoryDeliveryWeek(
+                //     dealerData.userId!, quote.id!, value);
+                // Timer(Duration(seconds: 5), () {
+                //   apiServices.factoryDeliveryWeekSteelOrder(
+                //       dealerId, value, result.id!);
+                // });
+              },
+            ))),
+        //20
+        DataCell(Text(
+          data![index].dileveryPostCodeC13 ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //21
+        DataCell(Text(
+          data![index].steelWeight ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //22
+        DataCell(Text(
+          data![index].steelCustomerTel ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //23
+        DataCell(Text(
+          data![index].steelDealerEmail ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //24
+        DataCell(Text(
+          data![index].steelTotalOrderValue ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+
+        DataCell(RoundButton(
+          onTap: () {},
+          text: "Custom Handle",
+          color: Colors.red,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+        )),
+
+        //25
+        DataCell(Text(
+          data![index].steelDeliveryCost ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //26
+        DataCell(Text(data![index].manualPDFImageURL ?? "")),
+        // DataCell(
+        //   quote.manualPDFImageURL!.isNotEmpty
+        //       ? Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setFileUploadForAdmin(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               SizedBox(width: 10),
+        //               // Create icons for each file
+        //               for (var file in quote.manualPDFImageURL!)
+        //                 InkWell(
+        //                   onTap: () {
+        //                     String fileExtension =
+        //                         extension(file).toLowerCase();
+        //                     if (fileExtension == ".pdf") {
+        //                       print(file);
+        //                       Navigator.push(
+        //                         myGlobalBuildContext,
+        //                         MaterialPageRoute(
+        //                           builder: (context) =>
+        //                               PDFViewer(url: file),
+        //                         ),
+        //                       );
+        //                     } else if (fileExtension == ".jpg" ||
+        //                         fileExtension == ".jpeg" ||
+        //                         fileExtension == ".png") {
+        //                       print(file);
+        //                       showImageDialog(myGlobalBuildContext, file);
+        //                     } else {
+        //                       print(file);
+        //                       Utils().showToast(
+        //                         'File Format not supported',
+        //                         Color(0xff941420),
+        //                         Colors.white,
+        //                       );
+        //                     }
+        //                   },
+        //                   child: Icon(
+        //                     (pdfUrlFileExtension == '.jpg' ||
+        //                             pdfUrlFileExtension == '.jpeg' ||
+        //                             pdfUrlFileExtension == '.png')
+        //                         ? Icons.file_open
+        //                         : (pdfUrlFileExtension == '.pdf')
+        //                             ? Icons.picture_as_pdf
+        //                             : Icons.file_present,
+        //                     size: 16,
+        //                     color: Colors.blue,
+        //                   ),
+        //                 ),
+        //             ],
+        //           ),
+        //         )
+        //       : Center(
+        //           child: Row(
+        //             children: [
+        //               IconButton(
+        //                 onPressed: () {
+        //                   getImage().then((value) {
+        //                     apiServices.setFileUploadForAdmin(
+        //                         dealerData.userId!, quote.id!, value);
+        //                   });
+        //                 },
+        //                 icon: Icon(Icons.add_circle_outline),
+        //               ),
+        //               Text(
+        //                 'Add Files',
+        //                 style: TextStyle(color: Colors.grey),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        // ),
+
+        //27
+        DataCell(Text(data![index].pDFImageURL ?? "")),
+        // DataCell(
+        //     quote.pdfImageURL!.isNotEmpty || quote.pdfImageURL != null
+        //         ? InkWell(
+        //             onTap: () {
+        //               pdfImageUrlFileExtension == ".pdf"
+        //                   ? Navigator.push(
+        //                       myGlobalBuildContext,
+        //                       MaterialPageRoute(
+        //                           builder: (context) => PDFViewer(
+        //                               url: quote.pdfImageURL!
+        //                                           .isNotEmpty ||
+        //                                       quote.pdfImageURL != null
+        //                                   ? quote.pdfImageURL![0]
+        //                                   : [])))
+        //                   : pdfImageUrlFileExtension == ".jpg" ||
+        //                           pdfImageUrlFileExtension == ".jpeg" ||
+        //                           pdfImageUrlFileExtension == ".png"
+        //                       ? showImageDialog(
+        //                           myGlobalBuildContext,
+        //                           quote.pdfImageURL![
+        //                               0]) // showImageDialog(context, pdfImageUrl)
+        //                       : Utils().showToast(
+        //                           'File Format not supported ${pdfImageUrlFileExtension}',
+        //                           Color(0xff941420),
+        //                           Colors.white);
+        //               // print(quote.steelInvoices![0]);
+        //             },
+        //             child: Center(
+        //               child: Icon(
+        //                 (pdfImageUrlFileExtension == '.jpg' ||
+        //                         pdfImageUrlFileExtension == '.jpeg' ||
+        //                         pdfImageUrlFileExtension == '.png')
+        //                     ? Icons.file_open
+        //                     : (pdfImageUrlFileExtension == '.pdf')
+        //                         ? Icons.picture_as_pdf
+        //                         : Icons.file_present,
+        //                 size: 16,
+        //                 color: Colors.blue,
+        //               ),
+        //             ),
+        //           )
+        //         : Text("No file uploaded")),
+
+        //28
+        DataCell(Text(
+          data![index].steelDate ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //29
+        DataCell(Text(
+          data![index].steelTime ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //30
+        DataCell(RoundButton(
+          onTap: () async {
+            notesController.text = data![index].notes ?? "";
+            await showDialog(
+                context: myGlobalBuildContext,
+                builder: (context) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      insetPadding: EdgeInsets.all(9),
+                      content: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                              right: -40,
+                              top: -40,
+                              child: InkResponse(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const CircleAvatar(
+                                  backgroundColor: Color(0xff941420),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )),
+                          Form(
+                              child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Center(
+                                  child: Text('Enter Notes',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff941420),
+                                          fontWeight: FontWeight.w600))),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  maxLines: 6,
+                                  // initialValue: result.notes,
+                                  controller: notesController,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xff941420))),
+                                      hintText: 'Notes'),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              RoundButton(
+                                text: 'Save',
+                                onTap: () async {
+                                  apiServices.setSteelOrderNotes(
+                                      int.parse(data![index].userId!),
+                                      data![index].id!,
+                                      notesController.text);
+
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop('dialog');
+                                },
+                                color: Color(0xff941420),
+                              )
+                            ],
+                          ))
+                        ],
+                      ),
+                    ));
+          },
+          text: "Notes",
+          color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+        )),
+        //31
+        DataCell(Center(
+            child: Text(
+          data![index].steelOrderNetVal ?? "",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //32
+        DataCell(Center(
+            child: Text(
+          data![index].steelDiscount ?? "",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //33
+        DataCell(Center(
+            child: Text(
+          data![index].saleBonus ?? "",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //34
+        DataCell(Text("")),
+        //35
+        DataCell(Center(
+            child: Text(
+          data![index].steelOrderSaleBonus.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //36
+        DataCell(Center(
+            child: Text(
+          data![index].steelOrderAdminStaffBonus.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //37
+        DataCell(Center(
+            child: Text(
+          data![index].steelSupplier ?? "",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12.5),
+        ))),
+        //38
+        DataCell(Text(
+          data![index].steelSupplier ?? "",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //39
+        DataCell(Text(
+          "${data![index].steelDate} ${data![index].steelOrderStatusVal}",
+          style: TextStyle(fontSize: 12.5),
+        )),
+        //40
+        DataCell(RoundButton(
+          onTap: () {
+            apiServices.completeSteelOrderForAdmin(
+                int.parse(data![index].userId!), data![index].id!);
+          },
+          text: "Order Complete - Archive File",
+          color: Colors.blue,
+          width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.35,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
+        )),
+
+        DataCell(Icon(
+          Icons.delete,
+          size: 14,
+          color: Colors.red,
+        ))
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => totalRowCount;
+
+  @override
+  int get selectedRowCount => 0;
+
+  int get totalRowCount => data != null ? data!.length : 1;
+}

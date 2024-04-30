@@ -417,6 +417,7 @@ class MyData extends DataTableSource {
                 },
                 text: "Quote Analysis",
                 width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.042,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -502,12 +503,14 @@ class MyData extends DataTableSource {
                 },
                 text: "Notes",
                 width: MediaQuery.sizeOf(context).width * 0.15,
+                height: MediaQuery.sizeOf(context).height * 0.042,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
                 onTap: () {},
                 text: "Survey Form",
                 width: MediaQuery.sizeOf(context).width * 0.23,
+                height: MediaQuery.sizeOf(context).height * 0.042,
                 color: Colors.blue,
               )),
               DataCell(RoundButton(
@@ -517,6 +520,7 @@ class MyData extends DataTableSource {
                 },
                 text: "Create Order",
                 width: MediaQuery.sizeOf(context).width * 0.20,
+                height: MediaQuery.sizeOf(context).height * 0.042,
                 color: Colors.blue,
               )),
               DataCell(Row(

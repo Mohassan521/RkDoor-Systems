@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:price_link/screens/adminScreens/adminHome.dart';
 import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/screens/login.dart';
@@ -83,10 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: Image(image: AssetImage('assets/images/logo.jpeg')),
-            ),
+            child: Lottie.asset("assets/images/animation.json"),
           ),
         ],
       ),

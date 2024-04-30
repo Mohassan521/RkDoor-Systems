@@ -381,8 +381,8 @@ class MyData extends DataTableSource {
                                                           ? Color(0xff9ad9ea)
                                                           : Color(0xff7092bf),
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.33,
+              height: MediaQuery.sizeOf(context).height * 0.042,
+              width: MediaQuery.sizeOf(context).width * 0.25,
               child: Center(
                   child: Text(
                 result.orderStatusVal!,
@@ -421,11 +421,11 @@ class MyData extends DataTableSource {
                                                   ? Color(0xff0d714b)
                                                   : Colors.yellow,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.22,
               child: Center(
                   child: Text(
-                result.orderPaymentStatusVal!,
+                result.orderPaymentStatusVal ?? "",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 8,
@@ -434,51 +434,49 @@ class MyData extends DataTableSource {
         })),
         DataCell(
           result.documents!.isNotEmpty
-              ? Center(
-                  child: Row(
-                    children: [
-                      // Create icons for each file
-                      for (var file in result.documents!)
-                        InkWell(
-                          onTap: () {
-                            String fileExtension =
-                                extension(file).toLowerCase();
-                            if (fileExtension == ".pdf") {
-                              print(file);
-                              Navigator.push(
-                                myGlobalBuildContext,
-                                MaterialPageRoute(
-                                  builder: (context) => PDFViewer(url: file),
-                                ),
-                              );
-                            } else if (fileExtension == ".jpg" ||
-                                fileExtension == ".jpeg" ||
-                                fileExtension == ".png") {
-                              print(file);
-                              showImageDialog(myGlobalBuildContext, file);
-                            } else {
-                              print(file);
-                              Utils().showToast(
-                                'File Format not supported',
-                                Color(0xff941420),
-                                Colors.white,
-                              );
-                            }
-                          },
-                          child: Icon(
-                            (fileExtension == '.jpg' ||
-                                    fileExtension == '.jpeg' ||
-                                    fileExtension == '.png')
-                                ? Icons.file_open
-                                : (fileExtension == '.pdf')
-                                    ? Icons.picture_as_pdf
-                                    : Icons.file_present,
-                            size: 21,
-                            color: Colors.blue,
-                          ),
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.documents!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (fileExtension == '.jpg' ||
+                                  fileExtension == '.jpeg' ||
+                                  fileExtension == '.png')
+                              ? Icons.file_open
+                              : (fileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 )
               : Center(child: Text('')),
         ),
@@ -487,69 +485,69 @@ class MyData extends DataTableSource {
         DataCell(Text(result.quickPdfUrl != null ? result.quickPdfUrl! : "",
             style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
-          return Container(
-              decoration: BoxDecoration(
-                  color: result.anticipatedDateVal != ""
-                      ? Colors.yellow
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.28,
-              child: Center(
-                  child: Text(
-                result.anticipatedDateVal ?? "",
-                style: TextStyle(color: Colors.black, fontSize: 12.5),
-              )));
+          return Center(
+            child: Container(
+                decoration: BoxDecoration(
+                    color: result.anticipatedDateVal != ""
+                        ? Colors.yellow
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(5.5)),
+                height: MediaQuery.sizeOf(context).height * 0.042,
+                width: MediaQuery.sizeOf(context).width * 0.28,
+                child: Center(
+                    child: Text(
+                  result.anticipatedDateVal ?? "",
+                  style: TextStyle(color: Colors.black, fontSize: 12.5),
+                ))),
+          );
         })),
         // DataCell(Text(
         //     result.invoicesDocuments!.map((e) => e.toString()).join(', '))),
         DataCell(
           result.invoicesDocuments!.isNotEmpty
-              ? Center(
-                  child: Row(
-                    children: [
-                      // Create icons for each file
-                      for (var file in result.invoicesDocuments!)
-                        InkWell(
-                          onTap: () {
-                            String fileExtension =
-                                extension(file).toLowerCase();
-                            if (fileExtension == ".pdf") {
-                              print(file);
-                              Navigator.push(
-                                myGlobalBuildContext,
-                                MaterialPageRoute(
-                                  builder: (context) => PDFViewer(url: file),
-                                ),
-                              );
-                            } else if (fileExtension == ".jpg" ||
-                                fileExtension == ".jpeg" ||
-                                fileExtension == ".png") {
-                              print(file);
-                              showImageDialog(myGlobalBuildContext, file);
-                            } else {
-                              print(file);
-                              Utils().showToast(
-                                'File Format not supported',
-                                Color(0xff941420),
-                                Colors.white,
-                              );
-                            }
-                          },
-                          child: Icon(
-                            (invoiceFileExtension == '.jpg' ||
-                                    invoiceFileExtension == '.jpeg' ||
-                                    invoiceFileExtension == '.png')
-                                ? Icons.file_open
-                                : (invoiceFileExtension == '.pdf')
-                                    ? Icons.picture_as_pdf
-                                    : Icons.file_present,
-                            size: 21,
-                            color: Colors.blue,
-                          ),
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.invoicesDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (invoiceFileExtension == '.jpg' ||
+                                  invoiceFileExtension == '.jpeg' ||
+                                  invoiceFileExtension == '.png')
+                              ? Icons.file_open
+                              : (invoiceFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 )
               : Center(child: Text('')),
         ),
@@ -561,51 +559,49 @@ class MyData extends DataTableSource {
         // DataCell(result.deliveryDocuments!.isNotEmpty ? Text('file available') : Text("")),
         DataCell(
           result.deliveryDocuments!.isNotEmpty
-              ? Center(
-                  child: Row(
-                    children: [
-                      // Create icons for each file
-                      for (var file in result.deliveryDocuments!)
-                        InkWell(
-                          onTap: () {
-                            String fileExtension =
-                                extension(file).toLowerCase();
-                            if (fileExtension == ".pdf") {
-                              print(file);
-                              Navigator.push(
-                                myGlobalBuildContext,
-                                MaterialPageRoute(
-                                  builder: (context) => PDFViewer(url: file),
-                                ),
-                              );
-                            } else if (fileExtension == ".jpg" ||
-                                fileExtension == ".jpeg" ||
-                                fileExtension == ".png") {
-                              print(file);
-                              showImageDialog(myGlobalBuildContext, file);
-                            } else {
-                              print(file);
-                              Utils().showToast(
-                                'File Format not supported',
-                                Color(0xff941420),
-                                Colors.white,
-                              );
-                            }
-                          },
-                          child: Icon(
-                            (ddFileExtension == '.jpg' ||
-                                    ddFileExtension == '.jpeg' ||
-                                    ddFileExtension == '.png')
-                                ? Icons.file_open
-                                : (ddFileExtension == '.pdf')
-                                    ? Icons.picture_as_pdf
-                                    : Icons.file_present,
-                            size: 21,
-                            color: Colors.blue,
-                          ),
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Create icons for each file
+                    for (var file in result.deliveryDocuments!)
+                      InkWell(
+                        onTap: () {
+                          String fileExtension = extension(file).toLowerCase();
+                          if (fileExtension == ".pdf") {
+                            print(file);
+                            Navigator.push(
+                              myGlobalBuildContext,
+                              MaterialPageRoute(
+                                builder: (context) => PDFViewer(url: file),
+                              ),
+                            );
+                          } else if (fileExtension == ".jpg" ||
+                              fileExtension == ".jpeg" ||
+                              fileExtension == ".png") {
+                            print(file);
+                            showImageDialog(myGlobalBuildContext, file);
+                          } else {
+                            print(file);
+                            Utils().showToast(
+                              'File Format not supported',
+                              Color(0xff941420),
+                              Colors.white,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          (ddFileExtension == '.jpg' ||
+                                  ddFileExtension == '.jpeg' ||
+                                  ddFileExtension == '.png')
+                              ? Icons.file_open
+                              : (ddFileExtension == '.pdf')
+                                  ? Icons.picture_as_pdf
+                                  : Icons.file_present,
+                          size: 16,
+                          color: Colors.blue,
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 )
               : Center(child: Text('')),
         ),
@@ -614,19 +610,22 @@ class MyData extends DataTableSource {
         DataCell(
             Text(result.doorModel ?? "", style: TextStyle(fontSize: 12.5))),
         DataCell(Builder(builder: (context) {
-          return Container(
-              decoration: BoxDecoration(
-                  color: result.marineGradeVal == "YES"
-                      ? Color(0xff9ad9ea)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
-              width: MediaQuery.sizeOf(context).width * 0.35,
-              child: Center(
+          return Center(
+            child: Container(
+                decoration: BoxDecoration(
+                    color: result.marineGradeVal == "YES"
+                        ? Color(0xff9ad9ea)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(5.5)),
+                height: MediaQuery.sizeOf(context).height * 0.042,
+                width: MediaQuery.sizeOf(context).width * 0.18,
+                child: Center(
                   child: Text(
-                result.marineGradeVal ?? "",
-                style: TextStyle(fontSize: 12.5),
-              )));
+                    result.marineGradeVal ?? "",
+                    style: TextStyle(fontSize: 12.5),
+                  ),
+                )),
+          );
         })),
 
         DataCell(Text(result.frameSizeHeightWidth ?? "",
@@ -639,7 +638,7 @@ class MyData extends DataTableSource {
                       ? const Color.fromARGB(255, 200, 197, 169)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.18,
               child: Center(
                   child: Text(
@@ -664,7 +663,7 @@ class MyData extends DataTableSource {
                       ? Color(0xff9ad9ea)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(5.5)),
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.sizeOf(context).height * 0.042,
               width: MediaQuery.sizeOf(context).width * 0.33,
               child: Center(
                   child: Text(
@@ -758,7 +757,7 @@ class MyData extends DataTableSource {
         //DataCell(Text(result.customNotes ?? "")),
         DataCell(RoundButton(
           width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.24,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           text: 'Financial History',
           onTap: () {
             Navigator.push(
@@ -774,7 +773,7 @@ class MyData extends DataTableSource {
         )),
         DataCell(RoundButton(
           width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.15,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           text: 'Notes',
           onTap: () async {
             orderNotesController.text = result.notes!;
@@ -850,7 +849,7 @@ class MyData extends DataTableSource {
         )),
         DataCell(RoundButton(
           width: MediaQuery.sizeOf(myGlobalBuildContext).width * 0.20,
-          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.05,
+          height: MediaQuery.sizeOf(myGlobalBuildContext).height * 0.042,
           text: 'Quote Analysis',
           onTap: () {
             Navigator.push(
