@@ -490,8 +490,8 @@ class MyData extends DataTableSource {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 10),
                     controller: confcode,
-                    onChanged: (value) {
-                      value = confcode.text;
+                    onEditingComplete: () {
+                      String value = confcode.text;
                       apiServices.setOrderNum(
                           quote.id!, dealerData.userId, value);
                     },
@@ -1202,8 +1202,8 @@ class MyData extends DataTableSource {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 10),
                     controller: facDeliveryWeek,
-                    onChanged: (value) {
-                      value = facDeliveryWeek.text;
+                    onEditingComplete: () {
+                      String value = facDeliveryWeek.text;
                       apiServices.setFacDeliveryWeekValue(
                           quote.id!, dealerData.userId, value);
                       // Timer(Duration(seconds: 5), () {

@@ -72,8 +72,6 @@ class _AdminDoorOrdersState extends State<AdminDoorOrders> {
           dataRowMaxHeight: 48,
           columnSpacing: 20,
           rowsPerPage: 5,
-          // headingRowColor: MaterialStateProperty.resolveWith(
-          //     (states) => Color(0xff941420)),
           columns: const <DataColumn>[
             DataColumn(
                 label: Text(
@@ -494,18 +492,20 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //6
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: confcode,
-                    onChanged: (value) {
-                      value = confcode.text;
-                      apiServices.setOrderNum(
-                          quote.id!, dealerData.userId, value);
-                    },
-                  ))),
+              DataCell(Builder(builder: (context) {
+                return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10),
+                      controller: confcode,
+                      onEditingComplete: () {
+                        String value = confcode.text;
+                        apiServices.setOrderNum(
+                            quote.id!, dealerData.userId, value);
+                      },
+                    ));
+              })),
 
               //7
               DataCell(Text(
@@ -800,7 +800,7 @@ class MyData extends DataTableSource {
                     items: [
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
-                          value: '',
+                          value: quote.orderPaymentStatusVal == "1" ? "1" : "",
                           child: Text('')),
                       DropdownMenuItem<String>(
                           alignment: Alignment.center,
@@ -1290,22 +1290,24 @@ class MyData extends DataTableSource {
               )),
 
               //25
-              DataCell(Container(
+              DataCell(
+                Container(
                   margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: facDeliveryWeek,
-                    onChanged: (value) {
-                      value = facDeliveryWeek.text;
-                      apiServices.setFacDeliveryWeekValue(
-                          quote.id!, dealerData.userId, value);
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+                  child: Builder(
+                    builder: (context) => TextFormField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10),
+                      controller: facDeliveryWeek,
+                      onEditingComplete: () {
+                        String value = facDeliveryWeek.text;
+                        apiServices.setFacDeliveryWeekValue(
+                            quote.id!, dealerData.userId, value);
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
               //26
               DataCell(Text(
                 quote.telephoneNumber ?? "",
@@ -1407,19 +1409,21 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //35
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: ankaValue,
-                    onChanged: (value) {
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+              DataCell(Builder(builder: (context) {
+                return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10),
+                      controller: ankaValue,
+                      onChanged: (value) {
+                        // Timer(Duration(seconds: 5), () {
+                        //   apiServices.factoryDeliveryWeekSteelOrder(
+                        //       dealerId, value, result.id!);
+                        // });
+                      },
+                    ));
+              })),
               //36
               DataCell(
                 quote.facConfDocuments!.isNotEmpty

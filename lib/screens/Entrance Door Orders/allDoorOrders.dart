@@ -102,7 +102,7 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(7.0),
                     ),
-                    hintText: 'Search here',
+                    hintText: 'Search by ID,Username or dealer name..',
                   ),
                 )),
             SizedBox(

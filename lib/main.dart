@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => setFollowUpOrderValue()),
         ChangeNotifierProvider(create: (_) => FollowUpOrderDate()),
         ChangeNotifierProvider(create: (_) => setEmployeeStatus()),
-
         ChangeNotifierProvider(create: (_) => DealerData()),
         ChangeNotifierProvider(create: (_) => AllSteelOrdersData()),
         ChangeNotifierProvider(
@@ -42,11 +41,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AllEnquiriesSearchedData()),
         ChangeNotifierProvider(create: (_) => QuotationsSearchedDataForAdmin()),
         ChangeNotifierProvider(create: (_) => AllDoorOrdersForAdmin()),
-        ChangeNotifierProvider(create: (_) => AllEnquiriesSearchedDataForAdmin()),
+        ChangeNotifierProvider(
+            create: (_) => AllEnquiriesSearchedDataForAdmin()),
         ChangeNotifierProvider(create: (_) => AllAdministratorsSearchedData()),
         ChangeNotifierProvider(create: (_) => CompleteSteelOrderSearchData()),
         ChangeNotifierProvider(create: (_) => allDealersList()),
-        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

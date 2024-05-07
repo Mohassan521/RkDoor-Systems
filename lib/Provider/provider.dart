@@ -664,42 +664,6 @@ class AllDoorOrdersForAdmin extends ChangeNotifier {
 
   List<OrdersCompleteResponse> get filteredDataModel => _filteredDataModel;
 
-//   Future<void> getAllData(String dealerId, String query) async {
-//   if (_dataModel.isEmpty) {
-//     _dataModel = await NetworkApiServices().getAdminOrders();
-//   }
-
-//   _filteredDataModel = _dataModel.where((quotations) {
-//     // Search in displayName and dealerName
-//     bool matchesDisplayName = quotations.displayName!.toLowerCase().contains(query.toLowerCase());
-//     bool matchesDealerName = quotations.dealerName!.toLowerCase().contains(query.toLowerCase());
-
-//     if (matchesDisplayName || matchesDealerName) {
-//       return true; // If either display name or dealer name matches, include the record
-//     }
-
-//     // Iterate over each quote object in the quotes array and perform the search operation
-//     bool quoteMatches = false;
-//     for (var quote in quotations.orders) {
-//       bool matchesQuoteName = (quote.name?.toLowerCase().contains(query.toLowerCase()) ?? false);
-//       bool matchesQuoteId = (quote.id?.toLowerCase() == query.toLowerCase());
-//       bool matchesQuotePaymentStatus = (quote.orderPaymentStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
-//       bool matchesQuoteOrderStatus = (quote.orderStatusVal?.toLowerCase().contains(query.toLowerCase()) ?? false);
-//       bool matchesQuoteTelephone = (quote.telephoneNumber?.toLowerCase().contains(query.toLowerCase()) ?? false);
-//       bool matchesQuoteEmail = (quote.customerEmail?.toLowerCase().contains(query.toLowerCase()) ?? false);
-
-//       if (matchesQuoteName || matchesQuoteId || matchesQuotePaymentStatus || matchesQuoteOrderStatus || matchesQuoteTelephone || matchesQuoteEmail) {
-//         quoteMatches = true;
-//         break; // If any match is found, break the loop
-//       }
-//     }
-
-//     return quoteMatches;
-//   }).toList();
-
-//   notifyListeners();
-// }
-
   Future<void> getAllData(String dealerId, String query) async {
     if (_dataModel.isEmpty) {
       _dataModel = await NetworkApiServices().getAdminOrders();
@@ -717,55 +681,15 @@ class AllDoorOrdersForAdmin extends ChangeNotifier {
       }
 
       return quotations.orders.any((quote) {
-        bool matchesName = (quote.name?.toLowerCase() == query.toLowerCase() ||
-            quote.name!.toLowerCase().contains(query.toLowerCase()));
-
         bool matchesId = (quote.id?.toString().toLowerCase() ==
                 query.toLowerCase() ||
             quote.id!.toString().toLowerCase().contains(query.toLowerCase()));
 
-        bool matchesPaymentStatus =
-            (quote.orderPaymentStatusVal?.toLowerCase() ==
-                    query.toLowerCase() ||
-                quote.orderPaymentStatusVal!
-                    .toLowerCase()
-                    .contains(query.toLowerCase()));
-
-        bool matchesTelephone = (quote.telephoneNumber?.toLowerCase() ==
-                query.toLowerCase() ||
-            quote.telephoneNumber!.toLowerCase().contains(query.toLowerCase()));
-
-        bool matchesEmail = (quote.customerEmail?.toLowerCase() ==
-                query.toLowerCase() ||
-            quote.customerEmail!.toLowerCase().contains(query.toLowerCase()));
-
-        bool matchedFacNum =
-            (quote.orderNoVal?.toLowerCase() == query.toLowerCase() ||
-                quote.orderNoVal!.toLowerCase().contains(query.toLowerCase()));
-
-        bool matchesOrderStatus = (quote.orderStatusVal?.toLowerCase() ==
-                query.toLowerCase() ||
-            quote.orderStatusVal!.toLowerCase().contains(query.toLowerCase()));
-
-        if (matchesDisplayName ||
-            matchesDealerName ||
-            matchesName ||
-            matchesId ||
-            matchesEmail ||
-            matchesPaymentStatus ||
-            matchesTelephone ||
-            matchedFacNum ||
-            matchesOrderStatus) {
+        if (matchesDisplayName || matchesDealerName || matchesId) {
           return true; // If either display name or dealer name matches, include the record
         }
 
-        return matchesName ||
-            matchesId ||
-            matchesPaymentStatus ||
-            matchesOrderStatus ||
-            matchesTelephone ||
-            matchesEmail ||
-            matchedFacNum;
+        return matchesId;
       });
     }).toList();
 

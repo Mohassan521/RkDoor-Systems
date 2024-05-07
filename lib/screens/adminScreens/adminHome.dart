@@ -29,23 +29,8 @@ class AdminHomePage extends StatefulWidget {
   State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
-class _AdminHomePageState extends State<AdminHomePage>
-    with SingleTickerProviderStateMixin {
-  TextEditingController fname = TextEditingController();
-  TextEditingController lname = TextEditingController();
-  TextEditingController markup = TextEditingController();
-  TextEditingController postCode = TextEditingController();
-  TextEditingController telephone = TextEditingController();
-  TextEditingController discount = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController cpassword = TextEditingController();
-  TextEditingController address1 = TextEditingController();
-  TextEditingController address2 = TextEditingController();
-  TextEditingController address3 = TextEditingController();
-
+class _AdminHomePageState extends State<AdminHomePage> {
   NetworkApiServices apiServices = NetworkApiServices();
-  final Duration animationDuration = const Duration(milliseconds: 300);
 
   @override
   Widget build(BuildContext context) {
@@ -824,9 +809,8 @@ class _AdminHomePageState extends State<AdminHomePage>
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
+                              color: Color(0xff941420),
+                              width: 3.0,
                             ),
                           ),
                         ),
