@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/components/round_button.dart';
 import 'package:price_link/screens/login.dart';
 import 'package:price_link/services/services.dart';
 
@@ -32,6 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       // appBar: PreferredSize(
       //   preferredSize:
       //       Size.fromHeight(MediaQuery.sizeOf(context).height * 0.16),

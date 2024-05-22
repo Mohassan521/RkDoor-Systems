@@ -101,11 +101,11 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
                 'Dealer',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Factory Order No.',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Factory Order No.',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Order Status',
@@ -191,11 +191,11 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
                 'Keyless Access',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Factory Delivery Week',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Factory Delivery Week',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Customer Tel No',
@@ -241,11 +241,11 @@ class _AdminDoorDeliveredState extends State<AdminDoorDelivered> {
                 'Quote ID',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Anka Items',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Anka Items',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Notes',
@@ -484,18 +484,18 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //6
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: confcode,
-                    onEditingComplete: () {
-                      String value = confcode.text;
-                      apiServices.setOrderNum(
-                          quote.id!, dealerData.userId, value);
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 10),
+              //       controller: confcode,
+              //       onEditingComplete: () {
+              //         String value = confcode.text;
+              //         apiServices.setOrderNum(
+              //             quote.id!, dealerData.userId, value);
+              //       },
+              //     ))),
 
               //7
               DataCell(Builder(builder: (context) {
@@ -1196,22 +1196,22 @@ class MyData extends DataTableSource {
               //25
               //24
 
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: facDeliveryWeek,
-                    onEditingComplete: () {
-                      String value = facDeliveryWeek.text;
-                      apiServices.setFacDeliveryWeekValue(
-                          quote.id!, dealerData.userId, value);
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 10),
+              //       controller: facDeliveryWeek,
+              //       onEditingComplete: () {
+              //         String value = facDeliveryWeek.text;
+              //         apiServices.setFacDeliveryWeekValue(
+              //             quote.id!, dealerData.userId, value);
+              //         // Timer(Duration(seconds: 5), () {
+              //         //   apiServices.factoryDeliveryWeekSteelOrder(
+              //         //       dealerId, value, result.id!);
+              //         // });
+              //       },
+              //     ))),
               //25
               DataCell(Text(
                 quote.telephoneNumber ?? "",
@@ -1310,19 +1310,19 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //34
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
-                    controller: ankaValue,
-                    onChanged: (value) {
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 13),
+              //       controller: ankaValue,
+              //       onChanged: (value) {
+              //         // Timer(Duration(seconds: 5), () {
+              //         //   apiServices.factoryDeliveryWeekSteelOrder(
+              //         //       dealerId, value, result.id!);
+              //         // });
+              //       },
+              //     ))),
 
               //35
               DataCell(RoundButton(

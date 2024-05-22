@@ -32,20 +32,6 @@ class _AdminDoorDepositReceivedState extends State<AdminDoorDepositReceived> {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    DateTime _dateTime = DateTime.now();
-    void _showDatePicker() {
-      showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2050))
-          .then((value) {
-        setState(() {
-          _dateTime = value!;
-        });
-      });
-    }
-
     return FutureBuilder(
       future: apiServices.getAdminOrders(),
       builder: (context, snapshot) {
@@ -102,11 +88,11 @@ class _AdminDoorDepositReceivedState extends State<AdminDoorDepositReceived> {
                 'Dealer',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Factory Order No.',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Factory Order No.',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Order Status',
@@ -192,11 +178,11 @@ class _AdminDoorDepositReceivedState extends State<AdminDoorDepositReceived> {
                 'Keyless Access',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Factory Delivery Week',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Factory Delivery Week',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Customer Tel No',
@@ -242,11 +228,11 @@ class _AdminDoorDepositReceivedState extends State<AdminDoorDepositReceived> {
                 'Quote ID',
                 style: TextStyle(color: Color(0xff941420)),
               )),
-              DataColumn(
-                  label: Text(
-                'Anka Items',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
+              // DataColumn(
+              //     label: Text(
+              //   'Anka Items',
+              //   style: TextStyle(color: Color(0xff941420)),
+              // )),
               DataColumn(
                   label: Text(
                 'Notes',
@@ -293,8 +279,7 @@ class _AdminDoorDepositReceivedState extends State<AdminDoorDepositReceived> {
                 style: TextStyle(color: Color(0xff941420)),
               )),
             ],
-            source: MyData(list!, _dateTime, widget.dealerId, widget.dealerName,
-                _showDatePicker,
+            source: MyData(list!, widget.dealerId, widget.dealerName,
                 myGlobalBuildContext: context));
       },
     );
@@ -305,15 +290,12 @@ class MyData extends DataTableSource {
   final String? dealerId;
   final String? dealerName;
   NetworkApiServices apiServices = NetworkApiServices();
-  DateTime _datetime = DateTime.now();
   //final String? prevNotesValue;
-  void Function()? _showDatePicker;
   final BuildContext myGlobalBuildContext;
   TextEditingController orderNotesController = TextEditingController();
   final List<OrdersCompleteResponse>? dealerDataList;
 
-  MyData(this.dealerDataList, this._datetime, this.dealerId, this.dealerName,
-      this._showDatePicker,
+  MyData(this.dealerDataList, this.dealerId, this.dealerName,
       {required this.myGlobalBuildContext});
 
   File? _image;
@@ -388,10 +370,10 @@ class MyData extends DataTableSource {
         String pdfUrlFilePath = pdfUrl.isNotEmpty ? pdfUrl.first : '';
         String pdfUrlFileExtension = extension(pdfUrlFilePath).toLowerCase();
 
-        List<dynamic> facConfDocuments = quote.facConfDocuments ?? [];
-        String facConfDocsFilepath =
-            facConfDocuments.isNotEmpty ? facConfDocuments.first : '';
-        String facConfExtension = extension(facConfDocsFilepath).toLowerCase();
+        // List<dynamic> facConfDocuments = quote.facConfDocuments ?? [];
+        // String facConfDocsFilepath =
+        //     facConfDocuments.isNotEmpty ? facConfDocuments.first : '';
+        // String facConfExtension = extension(facConfDocsFilepath).toLowerCase();
 
         List<AdminPanelOrders> getFilteredQuotes() {
           List<AdminPanelOrders> filteredQuotes = [];
@@ -485,18 +467,18 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //6
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: confcode,
-                    onEditingComplete: () {
-                      String value = confcode.text;
-                      apiServices.setOrderNum(
-                          quote.id!, dealerData.userId, value);
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 10),
+              //       controller: confcode,
+              //       onEditingComplete: () {
+              //         String value = confcode.text;
+              //         apiServices.setOrderNum(
+              //             quote.id!, dealerData.userId, value);
+              //       },
+              //     ))),
 
               //7
               DataCell(Builder(builder: (context) {
@@ -1197,22 +1179,22 @@ class MyData extends DataTableSource {
               //25
               //24
 
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
-                    controller: facDeliveryWeek,
-                    onEditingComplete: () {
-                      String value = facDeliveryWeek.text;
-                      apiServices.setFacDeliveryWeekValue(
-                          quote.id!, dealerData.userId, value);
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 10),
+              //       controller: facDeliveryWeek,
+              //       onEditingComplete: () {
+              //         String value = facDeliveryWeek.text;
+              //         apiServices.setFacDeliveryWeekValue(
+              //             quote.id!, dealerData.userId, value);
+              //         // Timer(Duration(seconds: 5), () {
+              //         //   apiServices.factoryDeliveryWeekSteelOrder(
+              //         //       dealerId, value, result.id!);
+              //         // });
+              //       },
+              //     ))),
               //25
               DataCell(Text(
                 quote.telephoneNumber ?? "",
@@ -1311,19 +1293,19 @@ class MyData extends DataTableSource {
                 style: TextStyle(fontSize: 12.5),
               )),
               //34
-              DataCell(Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
-                    controller: ankaValue,
-                    onChanged: (value) {
-                      // Timer(Duration(seconds: 5), () {
-                      //   apiServices.factoryDeliveryWeekSteelOrder(
-                      //       dealerId, value, result.id!);
-                      // });
-                    },
-                  ))),
+              // DataCell(Container(
+              //     margin: EdgeInsets.only(bottom: 10),
+              //     child: TextFormField(
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(fontSize: 13),
+              //       controller: ankaValue,
+              //       onChanged: (value) {
+              //         // Timer(Duration(seconds: 5), () {
+              //         //   apiServices.factoryDeliveryWeekSteelOrder(
+              //         //       dealerId, value, result.id!);
+              //         // });
+              //       },
+              //     ))),
 
               //35
               DataCell(RoundButton(
