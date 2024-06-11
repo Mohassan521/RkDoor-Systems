@@ -1879,20 +1879,24 @@ class _DrawerPageState extends State<DrawerPage> {
                       ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BIMFiles(
-                                        dealerId: widget.dealer_id!,
-                                        dealerName: widget.dealerName!,
-                                        role: widget.role,
-                                        empId: widget.empId,
-                                      )));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BIMFiles(
+                                dealerId: widget.dealer_id!,
+                                dealerName: widget.dealerName!,
+                                role: widget.role,
+                                empId: widget.empId,
+                              ),
+                            ),
+                          );
                         },
                         title: FutureBuilder(
                           future: NetworkApiServices().getSubFolder9Downloads(),
                           builder: (context, snapshot) {
-                            return Text(snapshot.data ?? "",
-                                style: TextStyle(color: Colors.white));
+                            return Text(
+                              snapshot.data ?? "",
+                              style: TextStyle(color: Colors.white),
+                            );
                           },
                         ),
                         trailing: IconButton(
@@ -2352,14 +2356,16 @@ class _DrawerPageState extends State<DrawerPage> {
                     child: ListTile(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EmployeeDetails(
-                                      empId: widget.empId!,
-                                      empName: widget.dealerName!,
-                                      role: widget.role,
-                                      dealerId: widget.dealer_id,
-                                    )));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EmployeeDetails(
+                              empId: widget.empId!,
+                              empName: widget.dealerName!,
+                              role: widget.role,
+                              dealerId: widget.dealer_id,
+                            ),
+                          ),
+                        );
                       },
                       title: Text('Settings',
                           style: TextStyle(color: Colors.white)),

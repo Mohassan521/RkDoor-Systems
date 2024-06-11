@@ -36,19 +36,19 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.only(right: 25.0, left: 25),
             child: TextFormField(
-              style: TextStyle(fontSize: 14.5),
+              style: TextStyle(fontSize: 17),
               controller: emailController,
               decoration: InputDecoration(
                   fillColor: Color.fromARGB(255, 246, 245, 245),
                   filled: true,
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                      EdgeInsets.symmetric(horizontal: 18, vertical: 22),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.5),
-                      borderSide: BorderSide(color: Colors.grey)),
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.5),
-                      borderSide: BorderSide(color: Colors.grey)),
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
                   hintText: 'Email'),
             ),
           ),
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.only(left: 25.0, right: 25),
             child: TextFormField(
-              style: TextStyle(fontSize: 14.5),
+              style: TextStyle(fontSize: 16),
               obscureText: visibility == false ? true : false,
               controller: passwordController,
               decoration: InputDecoration(
@@ -78,25 +78,33 @@ class _LoginPageState extends State<LoginPage> {
                   fillColor: Color.fromARGB(255, 246, 245, 245),
                   filled: true,
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                      EdgeInsets.symmetric(horizontal: 18, vertical: 22),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.5),
-                      borderSide: BorderSide(color: Colors.grey)),
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.5),
-                      borderSide: BorderSide(color: Colors.grey)),
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
                   hintText: 'Password'),
             ),
           ),
           SizedBox(
             height: 30,
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 25.0, right: 25),
-              child: Stack(
-                children: [
-                  MaterialButton(
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 25),
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.5),
+                    gradient: LinearGradient(
+                      colors: [Color(0xff98141F), Color(0xffE7131F)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: MaterialButton(
                     onPressed: () async {
                       setState(() {
                         isLoading = true;
@@ -118,28 +126,25 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                     child: Text(isLoading ? '' : 'Login'),
-                    color: Color(0xffEB1420),
                     textColor: Colors.white,
                     minWidth: double.infinity,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.5)),
                   ),
-                  Positioned.fill(
-                    child: Center(
-                      child: isLoading
-                          ? SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.04,
-                              width: MediaQuery.sizeOf(context).width * 0.08,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.0,
-                              ),
-                            )
-                          : SizedBox(),
-                    ),
+                ),
+                Positioned.fill(
+                  child: Center(
+                    child: isLoading
+                        ? SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.04,
+                            width: MediaQuery.sizeOf(context).width * 0.08,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.0,
+                            ),
+                          )
+                        : SizedBox(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           SizedBox(

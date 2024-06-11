@@ -343,10 +343,14 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 30,
             ),
             MaterialButton(
-              child: Text('Register'),
+              child: Text(
+                'Sign up',
+                style: TextStyle(fontSize: 17),
+              ),
               onPressed: () async {},
               color: Color(0xff941420),
               textColor: Colors.white,
+              minWidth: MediaQuery.sizeOf(context).width * 0.3,
             ),
             SizedBox(
               height: 15,

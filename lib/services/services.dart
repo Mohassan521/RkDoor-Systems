@@ -138,13 +138,13 @@ class NetworkApiServices {
         print('userId in login API $userId');
 
         if (user_role == "dealer") {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => DashboardPage(
                       dealer_name: user, dealer_id: userId, role: user_role)));
         } else if (user_role == "employee") {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => DashboardPage(
@@ -154,7 +154,7 @@ class NetworkApiServices {
                         role: user_role,
                       )));
         } else if (user_role == "") {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => AdminHomePage(
