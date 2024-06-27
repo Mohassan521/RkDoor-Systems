@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/AdminAllEnquiryTable.dart';
 import 'package:price_link/components/tables/allEnquiriesTable.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class AllEnquiries extends StatefulWidget {
   final String? dealerId;
