@@ -102,7 +102,8 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                 child: widget.role == "admin"
                     ? AdminAllEnquiriesTable(
                         dealerId: widget.dealerId,
-                        dealerName: widget.dealerName)
+                        dealerName: widget.dealerName,
+                      )
                     : AllEnquiriesTable(
                         dealerId: widget.role == "employee"
                             ? widget.empId

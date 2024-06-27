@@ -2006,7 +2006,7 @@ class NetworkApiServices {
       //   return bDate.compareTo(aDate);
       // });
 
-      print("steel orders after looping: $steelorders");
+      print("steel orders after looping: ${steelorders.length}");
 
       return steelorders;
     } else {
