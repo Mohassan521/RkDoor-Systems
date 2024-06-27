@@ -69,6 +69,7 @@ class _AdminDoorAwaitingDepositState extends State<AdminDoorAwaitingDeposit> {
             headingRowHeight: 48,
             dataRowMaxHeight: 48,
             showEmptyRows: false,
+            headingRowColor: WidgetStatePropertyAll(Color(0xff941420)),
             rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
                 ? 5
                 : (list!.isEmpty)
@@ -78,27 +79,27 @@ class _AdminDoorAwaitingDepositState extends State<AdminDoorAwaitingDeposit> {
               DataColumn(
                   label: Text(
                 'Customer Name',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Action Status',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Username',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Quotation Number',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Dealer',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               // DataColumn(
               //     label: Text(
@@ -108,87 +109,87 @@ class _AdminDoorAwaitingDepositState extends State<AdminDoorAwaitingDeposit> {
               DataColumn(
                   label: Text(
                 'Order Status',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Payment Status',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Order Confirmation',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Quick PDF Quotation',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Anticipated Delivery Date',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Invoices',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Balance Due',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Financial History',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Delivery Notes',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Profile',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Door Model',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Marine Grade Finish',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Frame Size',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Goalpost Construction',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Overall Weight',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Threshold Type',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Keyless Access',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               // DataColumn(
               //     label: Text(
@@ -198,97 +199,97 @@ class _AdminDoorAwaitingDepositState extends State<AdminDoorAwaitingDeposit> {
               DataColumn(
                   label: Text(
                 'Customer Tel No',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Customer Email',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Post Code',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Date',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Time',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Total Quote Value (inc. VAT)',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Follow Up Date',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Follow Up Made',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Quote ID',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               // DataColumn(
               //     label: Text(
               //   'Anka Items',
-              //   style: TextStyle(color: Color(0xff941420)),
+              //   style: TextStyle(color: Colors.white),
               // )),
               DataColumn(
                   label: Text(
                 'Notes',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Custom Handles',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Quote Analysis',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Back to Quote',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Order Date History',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Sales Bonus',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Dealer Support',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 'Completed Orders',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
               DataColumn(
                   label: Text(
                 '',
-                style: TextStyle(color: Color(0xff941420)),
+                style: TextStyle(color: Colors.white),
               )),
             ],
             source: MyData(list!, _dateTime, widget.dealerId, widget.dealerName,

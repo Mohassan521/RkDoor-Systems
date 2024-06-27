@@ -58,33 +58,33 @@ class _AllSteelOrdersState extends State<AllSteelOrders> {
             SizedBox(
               height: 18,
             ),
-            Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: TextFormField(
-                  onChanged: (value) {
-                    if (widget.role == "dealer" || widget.role == "employee") {
-                      Provider.of<AllSteelOrdersData>(context, listen: false)
-                          .getAllData(context, widget.dealer_id, value);
-                    } else if (widget.role == "admin") {
-                      Provider.of<AllSteelOrdersData>(context, listen: false)
-                          .getAllDataForAdmin(context, widget.dealer_id, value);
-                    }
-                  },
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                    hintText: 'Search here',
-                  ),
-                )),
-            SizedBox(
-              height: 20,
-            ),
+            // Container(
+            //     padding: EdgeInsets.only(left: 20, right: 20),
+            //     child: TextFormField(
+            //       onChanged: (value) {
+            //         if (widget.role == "dealer" || widget.role == "employee") {
+            //           Provider.of<AllSteelOrdersData>(context, listen: false)
+            //               .getAllData(context, widget.dealer_id, value);
+            //         } else if (widget.role == "admin") {
+            //           Provider.of<AllSteelOrdersData>(context, listen: false)
+            //               .getAllDataForAdmin(context, widget.dealer_id, value);
+            //         }
+            //       },
+            //       decoration: InputDecoration(
+            //         contentPadding: EdgeInsets.symmetric(vertical: 5),
+            //         prefixIcon: IconButton(
+            //           icon: Icon(Icons.search),
+            //           onPressed: () {},
+            //         ),
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(7.0),
+            //         ),
+            //         hintText: 'Search here',
+            //       ),
+            //     )),
+            // SizedBox(
+            //   height: 20,
+            // ),
             Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8),
               child: widget.role == "admin"

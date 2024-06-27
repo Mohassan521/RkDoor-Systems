@@ -132,7 +132,7 @@ class AdminQuotesModel {
 }
 
 class CompleteResponse {
-  final List<AdminQuotesModel> quotes;
+  List<AdminQuotesModel> quotes;
   String? displayName;
   String? dealerName;
   final int? userId;

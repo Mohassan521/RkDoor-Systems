@@ -118,9 +118,10 @@ class AdminSteelOrder {
       customerAddress2: json['customer_address_2'] ?? '',
       customerAddress3: json['customer_address_3'] ?? '',
       saleBonus: json['sale_bonus'] ?? '',
-      steelOrderSaleBonus: json['steel_order_sale_bonus']?.toDouble() ?? 0.0,
+      steelOrderSaleBonus:
+          double.parse(json['steel_order_sale_bonus'].toString()),
       steelOrderAdminStaffBonus:
-          json['steel_order_admin_staff_bonus']?.toDouble() ?? 0.0,
+          double.parse(json['steel_order_admin_staff_bonus'].toString()),
       steelSupplier: json['steel_supplier'] ?? '',
       emailSaleBouns: json['email_sale_bouns'] ?? '',
       date: json['date'] ?? '',

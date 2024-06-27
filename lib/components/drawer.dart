@@ -1900,108 +1900,108 @@ class _DrawerPageState extends State<DrawerPage> {
                           },
                         ),
                         trailing: IconButton(
-                            onPressed: () {
-                              NetworkApiServices()
-                                  .getSubFolder9Downloads()
-                                  .then((value) async {
+                          onPressed: () {
+                            NetworkApiServices().getSubFolder9Downloads().then(
+                              (value) async {
                                 subFolder9.text = value;
                                 await showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          insetPadding: EdgeInsets.all(9),
-                                          content: Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Positioned(
-                                                  right: -40,
-                                                  top: -40,
-                                                  child: InkResponse(
-                                                    onTap: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: const CircleAvatar(
-                                                      backgroundColor:
-                                                          Color(0xff941420),
-                                                      child: Icon(
-                                                        Icons.close,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  )),
-                                              Form(
-                                                  key: _formKey9,
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Center(
-                                                          child: Text(
-                                                              'Edit subfolder',
-                                                              style: TextStyle(
-                                                                  fontSize: 20,
-                                                                  color: Color(
-                                                                      0xff941420),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600))),
-                                                      SizedBox(
-                                                        height: 15,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8),
-                                                        child: TextFormField(
-                                                          maxLines: 6,
-                                                          // initialValue: result.notes,
-                                                          controller:
-                                                              subFolder9,
-                                                          decoration: InputDecoration(
-                                                              border: OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          color:
-                                                                              Color(0xff941420))),
-                                                              hintText: 'Notes'),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      RoundButton(
-                                                        text: 'Save',
-                                                        onTap: () async {
-                                                          if (_formKey9
-                                                              .currentState!
-                                                              .validate()) {
-                                                            NetworkApiServices()
-                                                                .updateSubFolder9(
-                                                                    subFolder9
-                                                                        .text);
-                                                          }
-
-                                                          Navigator.of(context,
-                                                                  rootNavigator:
-                                                                      true)
-                                                              .pop('dialog');
-                                                        },
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    insetPadding: EdgeInsets.all(9),
+                                    content: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Positioned(
+                                          right: -40,
+                                          top: -40,
+                                          child: InkResponse(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xff941420),
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Form(
+                                            key: _formKey9,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Center(
+                                                  child: Text(
+                                                    'Edit subfolder',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
                                                         color:
                                                             Color(0xff941420),
-                                                      )
-                                                    ],
-                                                  ))
-                                            ],
-                                          ),
-                                        ));
-                              });
-                            },
-                            icon: Visibility(
-                                visible: widget.role == "admin" ? true : false,
-                                child: Icon(Icons.edit, color: Colors.white))),
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  child: TextFormField(
+                                                    maxLines: 6,
+                                                    // initialValue: result.notes,
+                                                    controller: subFolder9,
+                                                    decoration: InputDecoration(
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xff941420),
+                                                          ),
+                                                        ),
+                                                        hintText: 'Notes'),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                RoundButton(
+                                                  text: 'Save',
+                                                  onTap: () async {
+                                                    if (_formKey9.currentState!
+                                                        .validate()) {
+                                                      NetworkApiServices()
+                                                          .updateSubFolder9(
+                                                              subFolder9.text);
+                                                    }
+
+                                                    Navigator.of(context,
+                                                            rootNavigator: true)
+                                                        .pop('dialog');
+                                                  },
+                                                  color: Color(0xff941420),
+                                                )
+                                              ],
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          icon: Visibility(
+                            visible: widget.role == "admin" ? true : false,
+                            child: Icon(Icons.edit, color: Colors.white),
+                          ),
+                        ),
                       ),
                       ListTile(
                         onTap: () {

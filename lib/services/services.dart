@@ -42,7 +42,6 @@ import 'package:price_link/models/technicalWiring.dart';
 import 'package:price_link/models/testingModel.dart';
 import 'package:price_link/models/updatedModel.dart';
 import 'package:price_link/screens/adminScreens/adminHome.dart';
-import 'package:price_link/screens/adminScreens/archiveEnquiries.dart';
 import 'package:price_link/screens/dashboard.dart';
 import 'package:price_link/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -1772,80 +1771,7 @@ class NetworkApiServices {
   ///
   ///
 
-//   Future<List<CompleteResponse>> getAdminQuotes() async {
-//   final apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_quotes/1";
-
-//   final response = await http.get(Uri.parse(apiUrl));
-//   if (response.statusCode == 200) {
-//     Map<String, dynamic> data = jsonDecode(response.body);
-//     List<CompleteResponse> quotes = [];
-
-//     // Iterate over each object with names like "1", "3", "4", "5", etc.
-//     data.forEach((key, value) {
-//       // Extract quotes array from each object
-//       List<dynamic> quotesData = value['quotes'];
-
-//       // Convert quotesData into a list of Quote objects
-//       List<AdminQuotesModel> quotesList = quotesData.map((quoteData) => AdminQuotesModel.fromJson(quoteData)).toList();
-
-//       // Create a CompleteResponse object with the list of quotes
-//       CompleteResponse completeResponse = CompleteResponse(quotes: quotesList);
-
-//       // Add the CompleteResponse object to the quotes list
-//       quotes.add(completeResponse);
-//     });
-
-//     // Sort quotes based on the date present in the quotes array
-//     quotes.forEach((completeResponse) {
-//       completeResponse.quotes.sort((a, b) {
-//         DateTime aDate = DateTime.parse(a.date!);
-//         DateTime bDate = DateTime.parse(b.date!);
-//         return bDate.compareTo(aDate);
-//       });
-//     });
-
-//     return quotes;
-//   } else {
-//     throw Exception('Failed to load quotes');
-//   }
-// }
-
-// Future<List<CompleteResponse>> getAdminQuotes() async {
-//   final apiUrl = "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_quotes/1";
-
-//   final response = await http.get(Uri.parse(apiUrl));
-//   if (response.statusCode == 200) {
-//     Map<String, dynamic> data = jsonDecode(response.body);
-//     List<CompleteResponse> quotes = [];
-//     data.forEach((key, value) {
-//       // Create a CompleteResponse object from each entry in the data map
-//       CompleteResponse completeResponse = CompleteResponse.fromJson(value);
-
-//       // Sort the quotes within each CompleteResponse object based on date
-//       completeResponse.quotes.sort((a, b) {
-//         DateTime aDate = DateTime.parse(a.date ?? "");
-//         DateTime bDate = DateTime.parse(b.date ?? "");
-//         return bDate.compareTo(aDate);
-//       });
-
-//       // Add the sorted CompleteResponse object to the quotes list
-//       quotes.add(completeResponse);
-//     });
-
-//     // Sort the quotes list based on the date of the first quote in each CompleteResponse
-//     // quotes.sort((a, b) {
-//     //   DateTime aDate = a.quotes.isNotEmpty ? DateTime.parse(a.quotes.first.date ?? "") : DateTime.now();
-//     //   DateTime bDate = b.quotes.isNotEmpty ? DateTime.parse(b.quotes.first.date ?? "") : DateTime.now();
-//     //   return bDate.compareTo(aDate);
-//     // });
-
-//     return quotes;
-//   } else {
-//     throw Exception('Failed to load quotes');
-//   }
-// }
-
-  Future<List<CompleteResponse>> getAdminQuotes() async {
+  Future<List<CompleteResponse>> getAdminQuotes({String? searchQuery}) async {
     final apiUrl =
         "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_quotes/1";
 
@@ -1858,19 +1784,38 @@ class NetworkApiServices {
       data.forEach((key, value) {
         CompleteResponse completeResponse = CompleteResponse.fromJson(value);
 
-        completeResponse.quotes.sort((a, b) =>
-            DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
-
         quotes.add(completeResponse);
       });
 
-      quotes.forEach((element) {
-        element.quotes.sort((a, b) {
-          DateTime aDate = DateTime.parse(a.date!);
-          DateTime bDate = DateTime.parse(b.date!);
-          return bDate.compareTo(aDate);
-        });
-      });
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerSearchQuery = searchQuery.toLowerCase();
+
+        quotes = quotes.where((quote) {
+          bool matchesDisplayName = quote.displayName != null &&
+              quote.displayName!.toLowerCase().contains(lowerSearchQuery);
+
+          var filterNestedOrders = quote.quotes.where((nestedOrder) {
+            return nestedOrder.id != null &&
+                nestedOrder.id!.toLowerCase().contains(lowerSearchQuery);
+          }).toList();
+
+          bool hasMatchingOrders = filterNestedOrders.isNotEmpty;
+
+          if (hasMatchingOrders) {
+            quote.quotes = filterNestedOrders;
+          }
+
+          return matchesDisplayName || hasMatchingOrders;
+        }).toList();
+      }
+
+      // quotes.forEach((element) {
+      //   element.quotes.sort((a, b) {
+      //     DateTime aDate = DateTime.parse(a.date!);
+      //     DateTime bDate = DateTime.parse(b.date!);
+      //     return bDate.compareTo(aDate);
+      //   });
+      // });
 
       return quotes;
     } else {
@@ -1878,7 +1823,8 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<OrdersCompleteResponse>> getAdminOrders() async {
+  Future<List<OrdersCompleteResponse>> getAdminOrders(
+      {String? searchQuery}) async {
     var apiUrl =
         "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_orders/1";
 
@@ -1892,31 +1838,43 @@ class NetworkApiServices {
         OrdersCompleteResponse completeResponse =
             OrdersCompleteResponse.fromJson(value);
 
+        orders.add(completeResponse);
+      });
+
+      // If searchQuery is provided, filter the orders
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerSearchQuery = searchQuery.toLowerCase();
+
+        orders = orders.where((order) {
+          // Check if the displayName contains the query
+          bool matchesDisplayName = order.displayName != null &&
+              order.displayName!.toLowerCase().contains(lowerSearchQuery);
+
+          // Filter the nested orders array to include only those that match the query
+          var filteredNestedOrders = order.orders.where((nestedOrder) {
+            return nestedOrder.id != null &&
+                nestedOrder.id!.toLowerCase().contains(lowerSearchQuery);
+          }).toList();
+
+          // Check if any nested orders remain after filtering
+          bool hasMatchingNestedOrders = filteredNestedOrders.isNotEmpty;
+
+          // Update the orders list with filtered nested orders
+          if (hasMatchingNestedOrders) {
+            order.orders = filteredNestedOrders;
+          }
+
+          return matchesDisplayName || hasMatchingNestedOrders;
+        }).toList();
+      }
+
+      // Sort the nested orders by date after filtering
+      orders.forEach((completeResponse) {
         completeResponse.orders.sort((a, b) {
           DateTime aDate = DateTime.parse(a.date!);
           DateTime bDate = DateTime.parse(b.date!);
           return bDate.compareTo(aDate);
         });
-
-        orders.add(completeResponse);
-      });
-
-      orders.forEach((element) {
-        element.orders.sort((a, b) {
-          DateTime aDate = DateTime.parse(a.date ?? "");
-          DateTime bDate = DateTime.parse(b.date ?? "");
-          return bDate.compareTo(aDate);
-        });
-      });
-
-      orders.sort((a, b) {
-        DateTime aDate = a.orders.isNotEmpty
-            ? DateTime.parse(a.orders.first.date ?? "")
-            : DateTime.now();
-        DateTime bDate = b.orders.isNotEmpty
-            ? DateTime.parse(b.orders.first.date ?? "")
-            : DateTime.now();
-        return bDate.compareTo(aDate);
       });
 
       return orders;
@@ -1925,36 +1883,130 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<CompletedSteelOrdersResponse>> getSteelOrdersForAdmin() async {
+  // Future<List<OrdersCompleteResponse>> getAdminOrders(
+  //     {String? searchQuery}) async {
+  //   var apiUrl =
+  //       "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_orders/1";
+
+  //   var response = await http.get(Uri.parse(apiUrl));
+
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> data = jsonDecode(response.body);
+
+  //     List<OrdersCompleteResponse> orders = [];
+  //     data.forEach((key, value) {
+  //       OrdersCompleteResponse completeResponse =
+  //           OrdersCompleteResponse.fromJson(value);
+
+  //       completeResponse.orders.sort((a, b) {
+  //         DateTime aDate = DateTime.parse(a.date!);
+  //         DateTime bDate = DateTime.parse(b.date!);
+  //         return bDate.compareTo(aDate);
+  //       });
+
+  //       orders.add(completeResponse);
+
+  //       // orders.map((or) {
+  //       //   or.orders.sort((a, b) {
+  //       //     DateTime aDate = DateTime.parse(a.date!);
+  //       //     DateTime bDate = DateTime.parse(b.date!);
+  //       //     return bDate.compareTo(aDate);
+  //       //   });
+  //       // });
+  //     });
+
+  //     // orders.forEach((element) {
+  //     //   element.orders.sort((a, b) {
+  //     //     DateTime aDate = DateTime.parse(a.date ?? "");
+  //     //     DateTime bDate = DateTime.parse(b.date ?? "");
+  //     //     return bDate.compareTo(aDate);
+  //     //   });
+  //     // });
+
+  //     // orders.sort((a, b) {
+  //     //   DateTime aDate = a.orders.isNotEmpty
+  //     //       ? DateTime.parse(a.orders.first.date ?? "")
+  //     //       : DateTime.now();
+  //     //   DateTime bDate = b.orders.isNotEmpty
+  //     //       ? DateTime.parse(b.orders.first.date ?? "")
+  //     //       : DateTime.now();
+  //     //   return bDate.compareTo(aDate);
+  //     // });
+
+  //     if (searchQuery != null && searchQuery.isNotEmpty) {
+  //       orders = orders.where((order) {
+  //         return order.orders.any((nestedOrder) {
+  //           return nestedOrder.id!
+  //               .toLowerCase()
+  //               .contains(searchQuery.toLowerCase());
+  //         });
+  //       }).toList();
+  //     }
+
+  //     return orders;
+  //   } else {
+  //     throw Exception('something went wrong');
+  //   }
+  // }
+
+  Future<List<CompletedSteelOrdersResponse>> getSteelOrdersForAdmin(
+      {String? searchQuery}) async {
     var apiUrl =
         "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_steelorders/1";
 
     var response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
+      print(response.body);
       Map<String, dynamic> data = jsonDecode(response.body);
       List<CompletedSteelOrdersResponse> steelorders = [];
       data.forEach((key, value) {
         steelorders.add(CompletedSteelOrdersResponse.fromJson(value));
       });
 
-      steelorders.forEach((completeResponse) {
-        completeResponse.steelOrders!.sort((a, b) {
-          DateTime aDate = DateTime.parse(a.date ?? "");
-          DateTime bDate = DateTime.parse(b.date ?? "");
-          return bDate.compareTo(aDate);
-        });
-      });
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerCaseQuery = searchQuery.toLowerCase();
 
-      steelorders.sort((a, b) {
-        DateTime aDate = a.steelOrders!.isNotEmpty
-            ? DateTime.parse(a.steelOrders!.first.date ?? "")
-            : DateTime.now();
-        DateTime bDate = b.steelOrders!.isNotEmpty
-            ? DateTime.parse(b.steelOrders!.first.date ?? "")
-            : DateTime.now();
-        return bDate.compareTo(aDate);
-      });
+        steelorders = steelorders.where((steelorder) {
+          bool matchesDisplayName = steelorder.displayName != null &&
+              steelorder.displayName!.contains(lowerCaseQuery);
+
+          var filterNestedOrders =
+              steelorder.steelOrders!.where((nestedSteelOrder) {
+            return nestedSteelOrder.steelQNumber!
+                .toLowerCase()
+                .contains(lowerCaseQuery);
+          }).toList();
+
+          bool hasMatchingOrders = filterNestedOrders.isNotEmpty;
+
+          if (hasMatchingOrders) {
+            steelorder.steelOrders = filterNestedOrders;
+          }
+
+          return matchesDisplayName || hasMatchingOrders;
+        }).toList();
+      }
+
+      // steelorders.forEach((completeResponse) {
+      //   completeResponse.steelOrders!.sort((a, b) {
+      //     DateTime aDate = DateTime.parse(a.date ?? "");
+      //     DateTime bDate = DateTime.parse(b.date ?? "");
+      //     return bDate.compareTo(aDate);
+      //   });
+      // });
+
+      // steelorders.sort((a, b) {
+      //   DateTime aDate = a.steelOrders!.isNotEmpty
+      //       ? DateTime.parse(a.steelOrders!.first.date ?? "")
+      //       : DateTime.now();
+      //   DateTime bDate = b.steelOrders!.isNotEmpty
+      //       ? DateTime.parse(b.steelOrders!.first.date ?? "")
+      //       : DateTime.now();
+      //   return bDate.compareTo(aDate);
+      // });
+
+      print("steel orders after looping: $steelorders");
 
       return steelorders;
     } else {
@@ -1962,7 +2014,8 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<CompleteResponseOfEnquiries>> getAdminPanelEnquiries() async {
+  Future<List<CompleteResponseOfEnquiries>> getAdminPanelEnquiries(
+      {String? searchQuery}) async {
     var apiUrl =
         "https://www.pricelink.net/wp-json/mobile_api/v1/admin_get_all_enquries/1";
 
@@ -1971,28 +2024,54 @@ class NetworkApiServices {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       List<CompleteResponseOfEnquiries> dealerDataList = [];
+
       data.forEach((key, value) {
         dealerDataList.add(CompleteResponseOfEnquiries.fromJson(value));
       });
 
-      dealerDataList.forEach((completeResponse) {
-        completeResponse.quotes.sort((a, b) {
-          DateTime aDate = DateTime.parse(a.date ?? "");
-          DateTime bDate = DateTime.parse(b.date ?? "");
-          return bDate.compareTo(aDate);
-        });
-      });
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerSearchQuery = searchQuery.toLowerCase();
 
-      dealerDataList.sort((a, b) {
-        DateTime aDate = a.quotes.isNotEmpty
-            ? DateTime.parse(a.quotes.first.date ?? "")
-            : DateTime.now();
+        dealerDataList = dealerDataList.where((quote) {
+          bool matchesDisplayName =
+              quote.displayName.toLowerCase().contains(lowerSearchQuery);
 
-        DateTime bDate = b.quotes.isNotEmpty
-            ? DateTime.parse(b.quotes.first.date ?? "")
-            : DateTime.now();
-        return bDate.compareTo(aDate);
-      });
+          var filterNestedOrders = quote.quotes.where((nestedOrder) {
+            return nestedOrder.enquiryCustomerEmail != null &&
+                nestedOrder.enquiryCustomerEmail!
+                    .toLowerCase()
+                    .contains(lowerSearchQuery);
+          }).toList();
+
+          bool hasMatchingOrders = filterNestedOrders.isNotEmpty;
+
+          if (hasMatchingOrders) {
+            // quote. = filterNestedOrders;
+            quote.quotes = filterNestedOrders;
+          }
+
+          return matchesDisplayName || hasMatchingOrders;
+        }).toList();
+      }
+
+      // dealerDataList.forEach((completeResponse) {
+      //   completeResponse.quotes.sort((a, b) {
+      //     DateTime aDate = DateTime.parse(a.date ?? "");
+      //     DateTime bDate = DateTime.parse(b.date ?? "");
+      //     return bDate.compareTo(aDate);
+      //   });
+      // });
+
+      // dealerDataList.sort((a, b) {
+      //   DateTime aDate = a.quotes.isNotEmpty
+      //       ? DateTime.parse(a.quotes.first.date ?? "")
+      //       : DateTime.now();
+
+      //   DateTime bDate = b.quotes.isNotEmpty
+      //       ? DateTime.parse(b.quotes.first.date ?? "")
+      //       : DateTime.now();
+      //   return bDate.compareTo(aDate);
+      // });
 
       return dealerDataList;
     } else {

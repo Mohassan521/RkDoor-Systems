@@ -41,18 +41,47 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
       appBar: AppBar(
         backgroundColor: const Color(0xff941420),
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          'Create Administration Staff',
-          style: TextStyle(color: Colors.white),
-        ),
+        // title: const Text(
+        //   'Create Administration Staff',
+        //   style: TextStyle(color: Colors.white),
+        // ),
       ),
       // backgroundColor: Colors.green,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
-            child: Padding(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 36),
+              width: MediaQuery.sizeOf(context).width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color(0xff821919),
+              ),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Text(
+                    "CREATE ADMINISTRATION STAFF",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0.1, // Adjust the spacing as needed
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width *
+                          0.90, // Adjust the width as needed
+                      height: 1.5, // Adjust the height of the underline
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(right: 25.0, left: 25.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -62,11 +91,13 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                   SizedBox(
                     height: 30,
                   ),
-                  const Text('First Name',
-                      style: TextStyle(
-                          color: Color(0xff941420),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                  const Text(
+                    'First Name',
+                    style: TextStyle(
+                        color: Color(0xff941420),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -82,21 +113,25 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                       fillColor: Colors.white,
                       filled: true,
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('Last Name',
-                      style: TextStyle(
-                          color: Color(0xff941420),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Last Name',
+                    style: TextStyle(
+                        color: Color(0xff941420),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -112,21 +147,25 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                       fillColor: Colors.white,
                       filled: true,
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('Post Code',
-                      style: TextStyle(
-                          color: Color(0xff941420),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Post Code',
+                    style: TextStyle(
+                        color: Color(0xff941420),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -142,21 +181,25 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                       fillColor: Colors.white,
                       filled: true,
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('Telephone',
-                      style: TextStyle(
-                          color: Color(0xff941420),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Telephone',
+                    style: TextStyle(
+                        color: Color(0xff941420),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -298,7 +341,7 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

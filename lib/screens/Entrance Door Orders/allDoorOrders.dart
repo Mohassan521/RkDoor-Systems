@@ -80,34 +80,34 @@ class _AllDoorOrdersState extends State<AllDoorOrders> {
             SizedBox(
               height: 18,
             ),
-            Container(
-                padding: EdgeInsets.only(left: 20.0, right: 20),
-                child: TextFormField(
-                  onChanged: (value) {
-                    if (widget.role == "dealer" || widget.role == "employee") {
-                      Provider.of<AllEntranceDoorOrderSearchedData>(context,
-                              listen: false)
-                          .getAllData(widget.dealerId!, value);
-                    } else if (widget.role == "admin") {
-                      Provider.of<AllDoorOrdersForAdmin>(context, listen: false)
-                          .getAllData(widget.dealerId!, value);
-                    }
-                  },
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 5),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                    hintText: 'Search by Order ID...',
-                  ),
-                )),
-            SizedBox(
-              height: 20,
-            ),
+            // Container(
+            //     padding: EdgeInsets.only(left: 20.0, right: 20),
+            //     child: TextFormField(
+            //       onChanged: (value) {
+            //         if (widget.role == "dealer" || widget.role == "employee") {
+            //           Provider.of<AllEntranceDoorOrderSearchedData>(context,
+            //                   listen: false)
+            //               .getAllData(widget.dealerId!, value);
+            //         } else if (widget.role == "admin") {
+            //           Provider.of<AllDoorOrdersForAdmin>(context, listen: false)
+            //               .getAllData(widget.dealerId!, value);
+            //         }
+            //       },
+            //       decoration: InputDecoration(
+            //         contentPadding: EdgeInsets.symmetric(vertical: 5),
+            //         prefixIcon: IconButton(
+            //           icon: Icon(Icons.search),
+            //           onPressed: () {},
+            //         ),
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(7.0),
+            //         ),
+            //         hintText: 'Search by Username',
+            //       ),
+            //     )),
+            // SizedBox(
+            //   height: 20,
+            // ),
             Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8),
               child: widget.role == "employee"

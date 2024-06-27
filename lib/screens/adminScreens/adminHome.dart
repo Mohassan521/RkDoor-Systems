@@ -16,6 +16,7 @@ import 'package:price_link/components/tables/adminTables/doorRCIssued.dart';
 import 'package:price_link/components/tables/adminTables/doorReadyForShipping.dart';
 import 'package:price_link/components/tables/adminTables/inRKDSWarehouse.dart';
 import 'package:price_link/components/tables/adminTables/transitToUk.dart';
+import 'package:price_link/screens/adminScreens/HomeScreen.dart/allDoorOrders.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
 
@@ -51,24 +52,50 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return RefreshIndicator(
       onRefresh: _handleRefresh,
       child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.black),
+            backgroundColor: Colors.white,
+            leading: Builder(
+              builder: (context) {
+                return InkWell(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                      size: 28.5,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           drawer: DrawerPage(
             dealerName: widget.dealer_name,
             dealer_id: widget.dealer_id,
             role: widget.role,
           ),
-          appBar: AppBar(
-            iconTheme: const IconThemeData(color: Colors.white),
-            backgroundColor: Color(0xff941420),
-          ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CalculatorWebView(
-                          dealerId: widget.dealer_id!,
-                          url:
-                              'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealer_id}&method=order&mobile_token=true')));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CalculatorWebView(
+                      dealerId: widget.dealer_id!,
+                      url:
+                          'https://www.pricelink.net/rk-door-calulator-by-admin?user_id=${widget.dealer_id}&method=order&mobile_token=true'),
+                ),
+              );
             },
             label: Text(
               'Add New Order',
@@ -88,29 +115,36 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Administrator',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w600),
-                          ),
-                          // Text(
-                          //     'App Developer\nGulshan e Iqbal block 11\nsame as above\n74600')
-                        ],
+                Image(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    image: const AssetImage('assets/images/logo.jpeg')),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2),
+                  ),
+                  child: ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (bounds) => LinearGradient(
+                      colors: [Color(0xffFF2D2D), Color(0xffA53B3B)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds),
+                    child: Text(
+                      'ADMINISTRATOR',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff941420),
                       ),
-                      Image(
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          image: const AssetImage('assets/images/logo.jpeg'))
-                    ],
+                    ),
                   ),
                 ),
+
                 SizedBox(
                   height: 50,
                 ),
@@ -118,25 +152,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'All Door Orders',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'ALL DOOR ORDERS',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -146,7 +169,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: AdminDoorOrders(
+                  child: AllDoorOrdersHomePage(
                     dealerId: widget.dealer_id ?? "",
                     dealerName: widget.dealer_name ?? "",
                   ),
@@ -159,27 +182,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Order Received',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'ORDER RECEIVED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -202,27 +212,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Awaiting Deposit',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'AWAITING DEPOSIT',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -245,26 +242,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Deposit Received',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'DEPOSIT RECEIVED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -330,27 +315,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Order Placed',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'ORDER PLACED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -373,28 +345,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'PC Issued',
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'PC ISSUED',
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -417,27 +376,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'RC Issued',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'RC ISSUED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -460,27 +406,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'In Production',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'IN PRODUCTION',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -503,27 +436,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Delayed',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'DELAYED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -546,27 +466,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Ready For Shipping',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'READY FOR SHIPPING',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -589,27 +496,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'In Transit To UK',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'IN TRANSIT TO UK',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -632,27 +526,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'In RKDS Warehouse',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'IN RKDS WAREHOUSE',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -675,26 +556,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Awaiting Balance Payment',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'AWAITING BALANCE PAYMENT',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -717,27 +585,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Out For Delivery',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'OUT FOR DELIVERY',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -760,27 +615,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color:
-                                  Color(0xff941420), // Adjust color as needed
-                              width: 3.0, // Adjust thickness as needed
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Delivered',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'DELIVERED',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
@@ -803,26 +645,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            bottom: 8), // Adjust padding as needed
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'On Hold',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'ON HOLD',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
