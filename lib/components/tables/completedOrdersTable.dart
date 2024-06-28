@@ -22,6 +22,7 @@ class CompletedOrdersTable extends StatefulWidget {
 
 class _CompletedOrdersTableState extends State<CompletedOrdersTable> {
   List<DealersModel> dealers = [];
+  String searchInput = "";
 
   @override
   void initState() {
@@ -35,146 +36,309 @@ class _CompletedOrdersTableState extends State<CompletedOrdersTable> {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<CompletedOrders>>(
-      future: apiServices.getCompletedOrders(widget.dealerId),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 12, right: 12),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(
+                  () {
+                    searchInput = value;
+                  },
+                );
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Quote ID',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<CompletedOrders>>(
+          future: apiServices.getCompletedOrders(widget.dealerId,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                      columnSpacing: 20,
+                      headingRowHeight: 48,
+                      dataRowMaxHeight: 48,
+                      rowsPerPage: 1,
+                      columns: const <DataColumn>[
+                        DataColumn(
+                            label: Text(
+                          'Quotation Number',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Dealer',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote Created By',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Name',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Factory Order No',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Confirmation',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Anticipated Delivery Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Invoices',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Delivery Note',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Tel No',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Email',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Post Code',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote ID',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Time',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Total Quote Value (inc. VAT)',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Follow Up Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Follow Up Made',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Notes',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote Analysis',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Edit',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                      ],
+                      source: MyData(
+                          [], context, widget.dealerId, widget.dealerName)),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
 
-        List<CompletedOrders>? list = snapshot.data ?? [];
+            List<CompletedOrders>? list = snapshot.data ?? [];
 
-        List<CompletedOrders> filteredList =
-            Provider.of<CompletedOrdersSearchData>(context).filteredDataModel;
-        List<CompletedOrders>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+            List<CompletedOrders> filteredList =
+                Provider.of<CompletedOrdersSearchData>(context)
+                    .filteredDataModel;
+            List<CompletedOrders>? displayData =
+                filteredList.isNotEmpty ? filteredList : list;
 
-        return PaginatedDataTable(
-            columnSpacing: 20,
-            headingRowHeight: 48,
-            dataRowMaxHeight: 48,
-            rowsPerPage: (list.length >= 5 && list.isNotEmpty)
-                ? 5
-                : (list.isEmpty)
-                    ? 1
-                    : list.length,
-            columns: const <DataColumn>[
-              DataColumn(
-                  label: Text(
-                'Quotation Number',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Dealer',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Created By',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Name',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Factory Order No',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Order Status',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Order Confirmation',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Anticipated Delivery Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Invoices',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Delivery Note',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Tel No',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Email',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Post Code',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote ID',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Time',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Total Quote Value (inc. VAT)',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow Up Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow Up Made',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Notes',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Analysis',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Edit',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-            ],
-            source: MyData(
-                displayData, context, widget.dealerId, widget.dealerName));
-      },
+            return PaginatedDataTable(
+                columnSpacing: 20,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                rowsPerPage: (list.length >= 5 && list.isNotEmpty)
+                    ? 5
+                    : (list.isEmpty)
+                        ? 1
+                        : list.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Created By',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Factory Order No',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Confirmation',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Anticipated Delivery Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Invoices',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Delivery Note',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Tel No',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote ID',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Total Quote Value (inc. VAT)',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow Up Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow Up Made',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Analysis',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(
+                    displayData, context, widget.dealerId, widget.dealerName));
+          },
+        ),
+      ],
     );
   }
 }

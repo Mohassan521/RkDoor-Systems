@@ -1361,7 +1361,8 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<CompletedOrders>> getCompletedOrders(String dealerId) async {
+  Future<List<CompletedOrders>> getCompletedOrders(String dealerId,
+      {String? searchQuery}) async {
     var apiUrl =
         "https://pricelink.net/wp-json/mobile_api/v1/closeorders/$dealerId";
 
@@ -1373,6 +1374,16 @@ class NetworkApiServices {
       List<CompletedOrders> list = jsonResponse.map((ordersList) {
         return CompletedOrders.fromJson(ordersList);
       }).toList();
+
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerCaseQuery = searchQuery.toLowerCase();
+
+        list = list.where((ls) {
+          bool matchesId = ls.id!.toLowerCase().contains(lowerCaseQuery);
+
+          return matchesId;
+        }).toList();
+      }
 
       return list;
     } else {
