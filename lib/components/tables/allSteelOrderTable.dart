@@ -34,192 +34,399 @@ class AllSteelOrdersTable extends StatefulWidget {
 class _AllSteelOrdersTableState extends State<AllSteelOrdersTable> {
   NetworkApiServices apiServices = NetworkApiServices();
   List<SteelOrderModel>? list = [];
+  String searchInput = "";
 
   @override
   Widget build(BuildContext context) {
     print(widget.dealerId);
     print(widget.dealerName);
 
-    return FutureBuilder<List<SteelOrderModel>>(
-      future: apiServices.allSteelOrders(context, widget.dealerId),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 5, right: 5),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(
+                  () {
+                    searchInput = value;
+                  },
+                );
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Customer Name or Quotation No.',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<SteelOrderModel>>(
+          future: apiServices.allSteelOrders(context, widget.dealerId,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                      columnSpacing: 20,
+                      headingRowHeight: 48,
+                      dataRowMaxHeight: 48,
+                      rowsPerPage: 1,
+                      columns: const <DataColumn>[
+                        DataColumn(
+                            label: Text(
+                          'Customer Name',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Action Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Username',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quotation Number',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Dealer',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Factory Order No.',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Steel Order Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Payment Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Steel Order Confirmation',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Anticipated Delivery Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Steel Invoices',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Balance Due',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Financial History',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Delivery Notes',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Supply Type',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Frame Size',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Color',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Factory Delivery Week',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Post Code',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Weight',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Tel No.',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Email',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Total Order Value (including VAT)',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'File Upload',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quotation',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Time',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Notes',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Date History',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Edit',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                      ],
+                      source: MyData([],
+                          context,
+                          widget.dealerId,
+                          widget.dealerName,
+                          widget.role ?? "",
+                          widget.empId ?? "")),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
 
-        list = snapshot.data ?? [];
+            list = snapshot.data ?? [];
 
-        List<SteelOrderModel> filteredList =
-            Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
-        List<SteelOrderModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
+            List<SteelOrderModel> filteredList =
+                Provider.of<AllSteelOrdersData>(context).filteredSteelOrderList;
+            List<SteelOrderModel>? displayData =
+                filteredList.isNotEmpty ? filteredList : list;
 
-        return PaginatedDataTable(
-            columnSpacing: 20,
-            headingRowHeight: 48,
-            dataRowMaxHeight: 48,
-            rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                ? 5
-                : (list!.isEmpty)
-                    ? 1
-                    : list!.length,
-            columns: const <DataColumn>[
-              DataColumn(
-                  label: Text(
-                'Customer Name',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Action Status',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Username',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quotation Number',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Dealer',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Factory Order No.',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Steel Order Status',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Payment Status',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Steel Order Confirmation',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Anticipated Delivery Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Steel Invoices',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Balance Due',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Financial History',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Delivery Notes',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Supply Type',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Frame Size',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Color',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Factory Delivery Week',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Post Code',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Weight',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Tel No.',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Email',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Total Order Value (including VAT)',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'File Upload',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quotation',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Time',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Notes',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Order Date History',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Edit',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-            ],
-            source: MyData(displayData, context, widget.dealerId,
-                widget.dealerName, widget.role ?? "", widget.empId ?? ""));
-      },
+            return PaginatedDataTable(
+                columnSpacing: 20,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
+                    ? 5
+                    : (list!.isEmpty)
+                        ? 1
+                        : list!.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Action Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Username',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Factory Order No.',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Steel Order Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Payment Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Steel Order Confirmation',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Anticipated Delivery Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Steel Invoices',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Balance Due',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Financial History',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Delivery Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Supply Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Frame Size',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Color',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Factory Delivery Week',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Weight',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Tel No.',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Total Order Value (including VAT)',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'File Upload',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Date History',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(displayData, context, widget.dealerId,
+                    widget.dealerName, widget.role ?? "", widget.empId ?? ""));
+          },
+        ),
+      ],
     );
   }
 }

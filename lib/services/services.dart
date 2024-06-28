@@ -426,7 +426,8 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<OrdersModel>> getOrdersList(String dealerId, String? id) async {
+  Future<List<OrdersModel>> getOrdersList(String dealerId, String? id,
+      {String? searchInput}) async {
     final response = await http.get(Uri.parse(
         'https://www.pricelink.net/wp-json/mobile_api/v1/orders/$dealerId'));
 
@@ -443,6 +444,19 @@ class NetworkApiServices {
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
       });
+
+      if (searchInput != null && searchInput.isNotEmpty) {
+        String lowerCaseQuery = searchInput.toLowerCase();
+
+        orders = orders.where((quote) {
+          bool matchQuoteId = quote.id!.toLowerCase().contains(lowerCaseQuery);
+
+          bool matchCustomerName = quote.name != null &&
+              quote.name!.toLowerCase().contains(lowerCaseQuery);
+
+          return matchQuoteId || matchCustomerName;
+        }).toList();
+      }
 
       return orders;
     } else {
@@ -512,7 +526,8 @@ class NetworkApiServices {
   }
 
   Future<List<SteelOrderModel>> allSteelOrders(
-      BuildContext? context, String dealerId) async {
+      BuildContext? context, String dealerId,
+      {String? searchQuery}) async {
     final response = await http.get(Uri.parse(
         'https://pricelink.net/wp-json/mobile_api/v1/steelorders/${dealerId}'));
 
@@ -530,6 +545,20 @@ class NetworkApiServices {
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
       });
+
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerCaseQuery = searchQuery.toLowerCase();
+
+        steelOrders = steelOrders.where((quote) {
+          bool matchQuotationNum = quote.steelQNumber != null &&
+              quote.steelQNumber!.toLowerCase().contains(lowerCaseQuery);
+
+          bool matchCustomerName = quote.steelCustomerName != null &&
+              quote.steelCustomerName!.toLowerCase().contains(lowerCaseQuery);
+
+          return matchQuotationNum || matchCustomerName;
+        }).toList();
+      }
 
       return steelOrders;
     } else {

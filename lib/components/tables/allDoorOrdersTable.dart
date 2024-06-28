@@ -42,225 +42,459 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
     });
   }
 
+  String searchInput = "";
+
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder(
-      future: apiServices.getOrdersList(widget.dealerId!, ""),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
-
-        list = snapshot.data ?? [];
-
-        List<OrdersModel> filteredList =
-            Provider.of<AllEntranceDoorOrderSearchedData>(context)
-                .filteredDataModel;
-        List<OrdersModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : list;
-
-        return Consumer(builder: (context, value, child) {
-          return PaginatedDataTable(
-              showEmptyRows: false,
-              headingRowHeight: 48,
-              dataRowMaxHeight: 48,
-              columnSpacing: 20,
-              rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
-                  ? 5
-                  : (list!.isEmpty)
-                      ? 1
-                      : list!.length,
-              // headingRowColor:
-              //     MaterialStateProperty.resolveWith((states) => Colors.white),
-              columns: <DataColumn>[
-                DataColumn(
-                  label: Text(
-                    'Customer Name',
-                    style: TextStyle(
-                      color: Color(0xff941420),
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(
+                  () {
+                    searchInput = value;
+                  },
+                );
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Customer Name or Quote ID',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder(
+          future: apiServices.getOrdersList(widget.dealerId!, "",
+              searchInput: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                      showEmptyRows: false,
+                      headingRowHeight: 48,
+                      dataRowMaxHeight: 48,
+                      columnSpacing: 20,
+                      rowsPerPage: 1,
+                      // headingRowColor:
+                      //     MaterialStateProperty.resolveWith((states) => Colors.white),
+                      columns: <DataColumn>[
+                        DataColumn(
+                          label: Text(
+                            'Customer Name',
+                            style: TextStyle(
+                              color: Color(0xff941420),
+                            ),
+                          ),
+                        ),
+                        DataColumn(
+                            label: Text(
+                          'Quotation Number',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Dealer',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote Created By',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Factory Order No.',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Payment Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Confirmation',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quick PDF Quotation',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Anticipated Delivery Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Invoices',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Balance Due',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Delivery Note',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Profile',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Door Model',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Marine Grade Finish',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Frame Size',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Goalpost Construction',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Overall Weight',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Threshold Type',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Keyless access',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Tel No.',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Email',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Post Code',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote ID',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Time',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Total Quote Value',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Follow up Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Follow up Made',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Financial History',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Notes',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Quote Analysis',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Order Date History',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          '',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                      ],
+                      source: MyData([], _dateTime, widget.dealerId,
+                          widget.dealerName, _showDatePicker,
+                          myGlobalBuildContext: context)),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
                     ),
                   ),
-                ),
-                DataColumn(
+                ],
+              );
+            }
+
+            list = snapshot.data ?? [];
+
+            List<OrdersModel> filteredList =
+                Provider.of<AllEntranceDoorOrderSearchedData>(context)
+                    .filteredDataModel;
+            List<OrdersModel>? displayData =
+                filteredList.isNotEmpty ? filteredList : list;
+
+            return PaginatedDataTable(
+                showEmptyRows: false,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                columnSpacing: 20,
+                rowsPerPage: (list!.length >= 5 && list!.isNotEmpty)
+                    ? 5
+                    : (list!.isEmpty)
+                        ? 1
+                        : list!.length,
+                // headingRowColor:
+                //     MaterialStateProperty.resolveWith((states) => Colors.white),
+                columns: <DataColumn>[
+                  DataColumn(
                     label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Created By',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Factory Order No.',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Status',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Payment Status',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Confirmation',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quick PDF Quotation',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Anticipated Delivery Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Invoices',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Balance Due',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Delivery Note',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Profile',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Door Model',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Marine Grade Finish',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Frame Size',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Goalpost Construction',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Overall Weight',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Threshold Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Keyless access',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Tel No.',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Email',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote ID',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Total Quote Value',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Follow up Made',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Financial History',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quote Analysis',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Order Date History',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  '',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-              ],
-              source: MyData(displayData!, _dateTime, widget.dealerId,
-                  widget.dealerName, _showDatePicker,
-                  myGlobalBuildContext: context));
-        });
-      },
+                      'Customer Name',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Created By',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Factory Order No.',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Payment Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Confirmation',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quick PDF Quotation',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Anticipated Delivery Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Invoices',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Balance Due',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Delivery Note',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Profile',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Door Model',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Marine Grade Finish',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Frame Size',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Goalpost Construction',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Overall Weight',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Threshold Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Keyless access',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Tel No.',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote ID',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Total Quote Value',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Made',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Financial History',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Analysis',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Order Date History',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(displayData!, _dateTime, widget.dealerId,
+                    widget.dealerName, _showDatePicker,
+                    myGlobalBuildContext: context));
+          },
+        ),
+      ],
     );
   }
 }

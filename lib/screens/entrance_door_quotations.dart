@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/drawer.dart';
 import 'package:price_link/components/tables/adminTables/quotationsTable.dart';
 import 'package:price_link/components/tables/quotationsTable.dart';
 import 'package:price_link/screens/calculatorWebView.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class EntranceDoorQuotations extends StatefulWidget {
   final String? dealerId;
