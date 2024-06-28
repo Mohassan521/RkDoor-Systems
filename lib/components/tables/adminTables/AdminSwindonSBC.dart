@@ -45,23 +45,24 @@ class _AdminSwindonSBCTableState extends State<AdminSwindonSBCTable> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 20.0, right: 20),
-            child: TextFormField(
-              onChanged: (value) {
-                searchEnquiries(value);
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5),
-                prefixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                hintText: 'Search by Enq Allocated To or Email',
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: TextFormField(
+            onChanged: (value) {
+              searchEnquiries(value);
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 5),
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
               ),
-            )),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+              ),
+              hintText: 'Search by Enq Allocated To or Email',
+            ),
+          ),
+        ),
         SizedBox(
           height: 20,
         ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/enquiriesModel.dart';
 import 'package:price_link/screens/Enquiries/editEnquiry.dart';
 import 'package:price_link/screens/Enquiries/enquiryDetails.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class SwindonSBCTable extends StatefulWidget {
   final String? dealerId;
@@ -17,6 +15,8 @@ class SwindonSBCTable extends StatefulWidget {
 }
 
 class _SwindonSBCTableState extends State<SwindonSBCTable> {
+  String searchInput = "";
+
   // String? _filePath;
   // String selectedValue = "";
 
@@ -51,150 +51,297 @@ class _SwindonSBCTableState extends State<SwindonSBCTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<EnquiriesModel>>(
-      future: apiServices.getAllEnquiries(widget.dealerId!),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  searchInput = value;
+                });
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Customer Name',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<EnquiriesModel>>(
+          future: apiServices.getAllEnquiries(widget.dealerId!,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return PaginatedDataTable(
+                  columnSpacing: 20,
+                  headingRowHeight: 48,
+                  dataRowMaxHeight: 48,
+                  rowsPerPage: 1,
+                  columns: const <DataColumn>[
+                    DataColumn(
+                        label: Text(
+                      'Enquiry Allocated To',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Customer Name',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Company',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Tel Number',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Product Type',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Priority',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Requirement',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Supply Type',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Dealer',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Address',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Email',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Post Code',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Enquiry Source',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Configurator Code',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'File Upload',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'File Upload (From Enquiry Form)',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Quotation Number',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Enquiry Date',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Time',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Notes',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Close Enquiry',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Edit',
+                      style: TextStyle(color: Color(0xff941420)),
+                    )),
+                  ],
+                  source: MyData(
+                      swindonSBCList: [],
+                      dealer_id: widget.dealerId!,
+                      dealer_name: widget.dealerName!,
+                      context: context));
+            }
 
-        List<EnquiriesModel>? list = snapshot.data ?? [];
-        List<EnquiriesModel>? swindonSBCList = list
-            .where((result) => result.enquirySource == "Swindon SBC")
-            .toList();
+            List<EnquiriesModel>? list = snapshot.data ?? [];
+            List<EnquiriesModel>? swindonSBCList = list
+                .where((result) => result.enquirySource == "Swindon SBC")
+                .toList();
 
-        return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              columnSpacing: 20,
-              headingRowHeight: 48,
-              dataRowMaxHeight: 48,
-              rowsPerPage:
-                  (swindonSBCList.length >= 5 && swindonSBCList.isNotEmpty)
-                      ? 5
-                      : (swindonSBCList.isEmpty)
-                          ? 1
-                          : swindonSBCList.length,
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Enquiry Allocated To',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Company',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Tel Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Product Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Priority',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Requirement',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Address',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Email',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Source',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Configurator Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'File Upload',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'File Upload (From Enquiry Form)',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Notes',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Close Enquiry',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Edit',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-              ],
-              source: MyData(list,
-                  swindonSBCList: swindonSBCList,
-                  dealer_id: widget.dealerId!,
-                  dealer_name: widget.dealerName!,
-                  context: context));
-        });
-      },
+            return PaginatedDataTable(
+                columnSpacing: 20,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                rowsPerPage:
+                    (swindonSBCList.length >= 5 && swindonSBCList.isNotEmpty)
+                        ? 5
+                        : (swindonSBCList.isEmpty)
+                            ? 1
+                            : swindonSBCList.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Allocated To',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Company',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Tel Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Product Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Priority',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Requirement',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Supply Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Address',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Source',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Configurator Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'File Upload',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'File Upload (From Enquiry Form)',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Close Enquiry',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(
+                    swindonSBCList: swindonSBCList,
+                    dealer_id: widget.dealerId!,
+                    dealer_name: widget.dealerName!,
+                    context: context));
+          },
+        ),
+      ],
     );
   }
 }
@@ -204,9 +351,8 @@ class MyData extends DataTableSource {
   final String dealer_name;
   List<EnquiriesModel> swindonSBCList;
   final BuildContext context;
-  final List<EnquiriesModel> data;
 
-  MyData(this.data,
+  MyData(
       {required this.swindonSBCList,
       required this.dealer_id,
       required this.dealer_name,

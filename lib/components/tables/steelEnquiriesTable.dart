@@ -18,160 +18,312 @@ class SteelEnquiriesTable extends StatefulWidget {
 }
 
 class _SteelEnquiriesTableState extends State<SteelEnquiriesTable> {
+  String searchInput = "";
+
   @override
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<EnquiriesModel>>(
-      future: apiServices.getAllEnquiries(widget.dealerId!),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  searchInput = value;
+                });
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Customer Name',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<EnquiriesModel>>(
+          future: apiServices.getAllEnquiries(widget.dealerId!,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                      columnSpacing: 20,
+                      headingRowHeight: 48,
+                      dataRowMaxHeight: 48,
+                      rowsPerPage: 1,
+                      columns: const <DataColumn>[
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Allocated To',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Name',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Company',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Status',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Details',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Product Type',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Priority',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Requirement',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Supply Type',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Dealer',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Address',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Post Code',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Source',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Configurator Code',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Date',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Time',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Hot Leads',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Entered By',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Close Enquiry',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Edit',
+                          style: TextStyle(color: Color(0XFF941420)),
+                        )),
+                      ],
+                      source: MyData(context,
+                          steelEnquiriesList: [],
+                          dealer_id: widget.dealerId!,
+                          dealer_name: widget.dealerName!)),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
 
-        List<EnquiriesModel>? list = snapshot.data ?? [];
-        List<EnquiriesModel>? steelEnquiriesList = list
-            .where((result) =>
-                result.enquiryType == "Internal Steel" ||
-                result.enquiryType == "External Steel")
-            .toList();
+            List<EnquiriesModel>? list = snapshot.data ?? [];
+            List<EnquiriesModel>? steelEnquiriesList = list
+                .where((result) =>
+                    result.enquiryType == "Internal Steel" ||
+                    result.enquiryType == "External Steel")
+                .toList();
 
-        return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              columnSpacing: 20,
-              headingRowHeight: 48,
-              dataRowMaxHeight: 48,
-              rowsPerPage: (steelEnquiriesList.length >= 5 &&
-                      steelEnquiriesList.isNotEmpty)
-                  ? 5
-                  : (steelEnquiriesList.isEmpty)
-                      ? 1
-                      : steelEnquiriesList.length,
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Enquiry Allocated To',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Company',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Status',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Details',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Product Type',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Priority',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Requirement',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Address',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Source',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Configurator Code',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload',
-                //   style: TextStyle(color: Color(0XFF941420)),
-                // )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload (From Enquiry Form)',
-                //   style: TextStyle(color: Color(0XFF941420)),
-                // )),
-                // DataColumn(
-                //     label: Text(
-                //   'Quotation Number',
-                //   style: TextStyle(color: Color(0XFF941420)),
-                // )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Date',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Hot Leads',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Entered By',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Close Enquiry',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Edit',
-                  style: TextStyle(color: Color(0XFF941420)),
-                )),
-              ],
-              source: MyData(list, context,
-                  steelEnquiriesList: steelEnquiriesList,
-                  dealer_id: widget.dealerId!,
-                  dealer_name: widget.dealerName!));
-        });
-      },
+            return PaginatedDataTable(
+                columnSpacing: 20,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                rowsPerPage: (steelEnquiriesList.length >= 5 &&
+                        steelEnquiriesList.isNotEmpty)
+                    ? 5
+                    : (steelEnquiriesList.isEmpty)
+                        ? 1
+                        : steelEnquiriesList.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Allocated To',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Company',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Status',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Details',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Product Type',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Priority',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Requirement',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Supply Type',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Address',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Source',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Configurator Code',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload',
+                  //   style: TextStyle(color: Color(0XFF941420)),
+                  // )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload (From Enquiry Form)',
+                  //   style: TextStyle(color: Color(0XFF941420)),
+                  // )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'Quotation Number',
+                  //   style: TextStyle(color: Color(0XFF941420)),
+                  // )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Date',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Hot Leads',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Entered By',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Close Enquiry',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Color(0XFF941420)),
+                  )),
+                ],
+                source: MyData(context,
+                    steelEnquiriesList: steelEnquiriesList,
+                    dealer_id: widget.dealerId!,
+                    dealer_name: widget.dealerName!));
+          },
+        ),
+      ],
     );
   }
 }
@@ -181,9 +333,8 @@ class MyData extends DataTableSource {
   final String dealer_name;
   List<EnquiriesModel> steelEnquiriesList;
   final BuildContext context;
-  final List<EnquiriesModel> data;
 
-  MyData(this.data, this.context,
+  MyData(this.context,
       {required this.steelEnquiriesList,
       required this.dealer_id,
       required this.dealer_name});

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/date_button.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/admin%20models/adminEnquiryModel.dart';
@@ -11,7 +10,6 @@ import 'package:price_link/screens/adminScreens/enquiryEdit.dart';
 import 'package:price_link/screens/pdfViewer.dart';
 import 'package:price_link/services/services.dart';
 import 'package:price_link/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class AdminAllEnquiriesTable extends StatefulWidget {
   final String? dealerId;
@@ -47,7 +45,7 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 20.0, right: 20),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: TextFormField(
               onChanged: (value) {
                 searchEnquiries(value);
@@ -83,10 +81,13 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                     rowsPerPage: 5,
                     columns: const <DataColumn>[
                       DataColumn(
-                          label: Text(
-                        'Enquiry Allocated To',
-                        style: TextStyle(color: Color(0xff941420)),
-                      )),
+                        label: Text(
+                          'Enquiry Allocated To',
+                          style: TextStyle(
+                            color: Color(0xff941420),
+                          ),
+                        ),
+                      ),
                       DataColumn(
                           label: Text(
                         'Customer Name',

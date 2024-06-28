@@ -133,7 +133,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'PRODUCT TYPE: ',
+                        'Product Type: ',
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w500),
                       ),
@@ -186,10 +186,11 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('ENQUIRY ALLOCATED TO:',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500)),
+                      const Text(
+                        'Enquiry Allocated To:',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                      ),
                       FutureBuilder<List<AllDealersModel>>(
                           future: apiServices.getAllDealers(),
                           builder: ((context, snapshot) {
@@ -215,16 +216,21 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                                   setState(() {});
                                 },
                                 items: snapshot.data != null
-                                    ? snapshot.data!.map((e) {
-                                        print("name present in API: ${e.name}");
-                                        return DropdownMenuItem(
+                                    ? snapshot.data!.map(
+                                        (e) {
+                                          print(
+                                              "name present in API: ${e.name}");
+                                          return DropdownMenuItem(
                                             value: e.name ?? "",
                                             child: Center(
-                                                child: Text(
-                                              e.name ?? "",
-                                              style: TextStyle(fontSize: 12),
-                                            )));
-                                      }).toList()
+                                              child: Text(
+                                                e.name ?? "",
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ).toList()
                                     : [],
                               ),
                             );
@@ -234,7 +240,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('DEALER',
+                  const Text('Dealer',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -252,13 +258,13 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                       fillColor: Colors.white,
                       filled: true,
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.5),
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 1.1)),
+                        borderRadius: BorderRadius.circular(6.5),
+                        borderSide: BorderSide(color: Colors.black, width: 1.1),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.5),
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 1.1)),
+                        borderRadius: BorderRadius.circular(6.5),
+                        borderSide: BorderSide(color: Colors.black, width: 1.1),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -267,7 +273,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('ENQUIRY ENTERED BY: ',
+                      const Text('Enquiry Entered By: ',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500)),
@@ -372,7 +378,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('ENQUIRY SOURCE: ',
+                      const Text('Enquiry Source: ',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500)),
@@ -481,7 +487,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('REQUIREMENTS: ',
+                      const Text('Requirements: ',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500)),
@@ -550,7 +556,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER NAME',
+                  const Text('Customer Name',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -584,7 +590,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('COMPANY',
+                  const Text('Company',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -621,7 +627,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('SUPPLY TYPE: ',
+                      const Text('Supply Type: ',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500)),
@@ -684,7 +690,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER ADDRESS LINE 1',
+                  const Text('Customer Address Line 1',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -718,7 +724,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER ADDRESS LINE 2',
+                  const Text('Customer Address Line 2',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -752,7 +758,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER ADDRESS LINE 3',
+                  const Text('Customer Address Line 3',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -786,7 +792,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER ADDRESS LINE 4',
+                  const Text('Customer Address Line 4',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -823,7 +829,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                     height: 18,
                   ),
                   const Text(
-                    'DELIVERY POST CODE',
+                    'Delivery Post Code',
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w500),
                   ),
@@ -860,7 +866,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER EMAIL',
+                  const Text('Customer Email',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
@@ -896,7 +902,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('CUSTOMER TEL NUMBER',
+                  const Text('Customer Tel Number',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
@@ -935,7 +941,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('PRIORITY LEVEL: ',
+                      const Text('Priority Level: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
@@ -986,7 +992,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('FILE UPLOAD',
+                  const Text('File Upload',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -1027,7 +1033,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('FILE UPLOAD (Door Design Enquiries)',
+                  const Text('File Upload (Door Design Enquiries)',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
@@ -1068,7 +1074,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                   SizedBox(
                     height: 18,
                   ),
-                  const Text('NOTES',
+                  const Text('Notes',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(

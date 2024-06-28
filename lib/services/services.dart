@@ -389,7 +389,8 @@ class NetworkApiServices {
     }
   }
 
-  Future<List<EnquiriesModel>> getAllEnquiries(String dealerId) async {
+  Future<List<EnquiriesModel>> getAllEnquiries(String dealerId,
+      {String? searchQuery}) async {
     final response = await http.get(Uri.parse(
         'https://www.pricelink.net/wp-json/mobile_api/v1/enquries/$dealerId'));
 
@@ -407,6 +408,17 @@ class NetworkApiServices {
         DateTime bdate = DateTime.parse(b.date!);
         return bdate.compareTo(adate);
       });
+
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        String lowerCaseQuery = searchQuery.toLowerCase();
+
+        enquiries = enquiries.where((enquiry) {
+          bool matchesCustomerName = enquiry.enquiryCusName != null &&
+              enquiry.enquiryCusName!.toLowerCase().contains(lowerCaseQuery);
+
+          return matchesCustomerName;
+        }).toList();
+      }
 
       return enquiries;
     } else {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:price_link/Provider/provider.dart';
 import 'package:price_link/components/round_button.dart';
 import 'package:price_link/models/enquiriesModel.dart';
 import 'package:price_link/screens/Enquiries/editEnquiry.dart';
 import 'package:price_link/screens/Enquiries/enquiryDetails.dart';
 import 'package:price_link/services/services.dart';
-import 'package:provider/provider.dart';
 
 class EntranceDoorEnquiriesTable extends StatefulWidget {
   final String? dealerId;
@@ -20,6 +18,8 @@ class EntranceDoorEnquiriesTable extends StatefulWidget {
 
 class _EntranceDoorEnquiriesTableState
     extends State<EntranceDoorEnquiriesTable> {
+  String searchInput = "";
+
   // String? _filePath;
   // String selectedValue = "";
 
@@ -54,153 +54,318 @@ class _EntranceDoorEnquiriesTableState
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
 
-    return FutureBuilder<List<EnquiriesModel>>(
-      future: apiServices.getAllEnquiries(widget.dealerId!),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  searchInput = value;
+                });
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Customer Name',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<EnquiriesModel>>(
+          future: apiServices.getAllEnquiries(widget.dealerId!,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                      columnSpacing: 20,
+                      headingRowHeight: 48,
+                      dataRowMaxHeight: 48,
+                      rowsPerPage: 1,
+                      columns: const <DataColumn>[
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Allocated To',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Customer Name',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Company',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Status',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Details',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Product Type',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Priority',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Requirement',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Supply Type',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Dealer',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Address',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Post Code',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Source',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Configurator Code',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        // DataColumn(
+                        //     label: Text(
+                        //   'File Upload',
+                        //   style: TextStyle(color: Color(0xff941420)),
+                        // )),
+                        // DataColumn(
+                        //     label: Text(
+                        //   'File Upload (From Enquiry Form)',
+                        //   style: TextStyle(color: Color(0xff941420)),
+                        // )),
+                        DataColumn(
+                            label: Text(
+                          'Quotation Number',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Date',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Time',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Hot Leads',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Enquiry Entered By',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Close Enquiry',
+                          style: TextStyle(color: Color(0xff941420)),
+                        )),
+                        DataColumn(
+                          label: Text(
+                            'Edit',
+                            style: TextStyle(color: Color(0xff941420)),
+                          ),
+                        ),
+                      ],
+                      source: MyData(
+                          context, widget.dealerId!, widget.dealerName ?? "",
+                          entranceDoorList: [])),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
 
-        List<EnquiriesModel>? list = snapshot.data ?? [];
-        List<EnquiriesModel>? entranceDoorList = list
-            .where((result) => result.enquiryType == "Entrance Door")
-            .toList();
+            var list = snapshot.data ?? [];
+            List<EnquiriesModel>? entranceDoorList = list
+                .where((result) => result.enquiryType == "Entrance Door")
+                .toList();
 
-        return Consumer<PaginationProvider>(builder: (context, value, child) {
-          return PaginatedDataTable(
-              columnSpacing: 20,
-              headingRowHeight: 48,
-              dataRowMaxHeight: 48,
-              rowsPerPage:
-                  (entranceDoorList.length >= 5 && entranceDoorList.isNotEmpty)
-                      ? 5
-                      : (entranceDoorList.isEmpty)
-                          ? 1
-                          : entranceDoorList.length,
-              columns: const <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Enquiry Allocated To',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Customer Name',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Company',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Status',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Details',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Product Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Priority',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Requirement',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Supply Type',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Dealer',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Address',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Post Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Source',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Configurator Code',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload',
-                //   style: TextStyle(color: Color(0xff941420)),
-                // )),
-                // DataColumn(
-                //     label: Text(
-                //   'File Upload (From Enquiry Form)',
-                //   style: TextStyle(color: Color(0xff941420)),
-                // )),
-                DataColumn(
-                    label: Text(
-                  'Quotation Number',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Date',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Time',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Hot Leads',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Enquiry Entered By',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Close Enquiry',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Edit',
-                  style: TextStyle(color: Color(0xff941420)),
-                )),
-              ],
-              source: MyData(
-                  list, context, widget.dealerId!, widget.dealerName ?? "",
-                  entranceDoorList: entranceDoorList));
-        });
-      },
+            return PaginatedDataTable(
+                columnSpacing: 20,
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                rowsPerPage: (entranceDoorList.length >= 5 &&
+                        entranceDoorList.isNotEmpty)
+                    ? 5
+                    : (entranceDoorList.isEmpty)
+                        ? 1
+                        : entranceDoorList.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Allocated To',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Company',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Status',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Details',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Product Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Priority',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Requirement',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Supply Type',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Dealer',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Address',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Source',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Configurator Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload',
+                  //   style: TextStyle(color: Color(0xff941420)),
+                  // )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'File Upload (From Enquiry Form)',
+                  //   style: TextStyle(color: Color(0xff941420)),
+                  // )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Hot Leads',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Enquiry Entered By',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Close Enquiry',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Edit',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(
+                    context, widget.dealerId!, widget.dealerName ?? "",
+                    entranceDoorList: entranceDoorList));
+          },
+        ),
+      ],
     );
   }
 }
@@ -210,9 +375,8 @@ class MyData extends DataTableSource {
   final String dealer_id;
   final String dealer_name;
   List<EnquiriesModel> entranceDoorList;
-  final List<EnquiriesModel> data;
 
-  MyData(this.data, this.context, this.dealer_id, this.dealer_name,
+  MyData(this.context, this.dealer_id, this.dealer_name,
       {required this.entranceDoorList});
 
   @override

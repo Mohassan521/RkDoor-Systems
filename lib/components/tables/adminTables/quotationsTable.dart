@@ -52,11 +52,15 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
             initialDate: DateTime.now(),
             firstDate: DateTime(2000),
             lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
+        .then(
+      (value) {
+        setState(
+          () {
+            _dateTime = value!;
+          },
+        );
+      },
+    );
   }
 
   @override

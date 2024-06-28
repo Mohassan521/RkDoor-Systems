@@ -346,25 +346,14 @@ class _DashboardPageState extends State<DashboardPage> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Owner',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'Owner',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -384,25 +373,14 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Employee List',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'Employee List',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -426,25 +404,14 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Orders',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'Orders',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -470,25 +437,14 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xff941420),
-                              width: 3.0,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'Quotations',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              height: 1.5,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      Text(
+                        'Quotations',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            height: 1.5,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
                       ),
                       InkWell(
                         onTap: () async {
