@@ -23,6 +23,7 @@ class QuotationsTable extends StatefulWidget {
 class _QuotationsTableState extends State<QuotationsTable> {
   DateTime _dateTime = DateTime.now();
   NetworkApiServices apiServices = NetworkApiServices();
+  String searchInput = "";
 
   void _showDatePicker() {
     showDatePicker(
@@ -41,127 +42,269 @@ class _QuotationsTableState extends State<QuotationsTable> {
   Widget build(BuildContext context) {
     NetworkApiServices apiServices = NetworkApiServices();
     print(widget.dealerName);
-    return FutureBuilder<List<QuotationsModel>>(
-      future: apiServices.getQuotationsList(widget.dealerId),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('${snapshot.error}');
-        }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Data is being loaded...'));
-        }
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  searchInput = value;
+                });
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5),
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // Perform the search here
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                hintText: 'Search by Username or Quote ID',
+              ),
+            )),
+        SizedBox(
+          height: 20,
+        ),
+        FutureBuilder<List<QuotationsModel>>(
+          future: apiServices.getQuotationsList(widget.dealerId,
+              searchQuery: searchInput),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('${snapshot.error}');
+            }
 
-        List<QuotationsModel> data = snapshot.data ?? [];
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Stack(
+                children: [
+                  PaginatedDataTable(
+                    headingRowHeight: 48,
+                    dataRowMaxHeight: 48,
+                    columnSpacing: 20,
+                    showEmptyRows: false,
+                    rowsPerPage: 1,
+                    columns: const <DataColumn>[
+                      DataColumn(
+                          label: Text(
+                        'Customer Name',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Quotation Number',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Quote Created By',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Customer Tel No.',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Customer Email',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Post Code',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Date',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Time',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Total Quote Value (inc. VAT)',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Quote ID',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Follow up Date',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Follow up Made',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Quote Analysis',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Notes',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Action',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        '',
+                        style: TextStyle(color: Color(0xff941420)),
+                      )),
+                    ],
+                    source: MyData(
+                      myGlobalBuildContext: context,
+                      [],
+                      widget.dealerId,
+                      dealerName: widget.dealerName!,
+                      showDatePickerCallback: _showDatePicker,
+                      empId: widget.empId,
+                      datetime: _dateTime,
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 55),
+                        Text('Getting your desired result'),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
 
-        List<QuotationsModel> filteredList =
-            Provider.of<QuotationsSearchedData>(context).filteredDataModel;
-        List<QuotationsModel>? displayData =
-            filteredList.isNotEmpty ? filteredList : data;
-        //print(object)
+            List<QuotationsModel> data = snapshot.data ?? [];
 
-        return PaginatedDataTable(
-            headingRowHeight: 48,
-            dataRowMaxHeight: 48,
-            columnSpacing: 20,
-            showEmptyRows: false,
-            rowsPerPage: (data.length >= 5 && data.isNotEmpty)
-                ? 5
-                : (data.isEmpty)
-                    ? 1
-                    : data.length,
-            columns: const <DataColumn>[
-              DataColumn(
-                  label: Text(
-                'Customer Name',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quotation Number',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Created By',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Tel No.',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Customer Email',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Post Code',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Time',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Total Quote Value (inc. VAT)',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote ID',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow up Date',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Follow up Made',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Quote Analysis',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Notes',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                'Action',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-              DataColumn(
-                  label: Text(
-                '',
-                style: TextStyle(color: Color(0xff941420)),
-              )),
-            ],
-            source: MyData(
-              myGlobalBuildContext: context,
-              displayData,
-              widget.dealerId,
-              dealerName: widget.dealerName!,
-              showDatePickerCallback: _showDatePicker,
-              empId: widget.empId,
-              datetime: _dateTime,
-            ));
-      },
+            List<QuotationsModel> filteredList =
+                Provider.of<QuotationsSearchedData>(context).filteredDataModel;
+            List<QuotationsModel>? displayData =
+                filteredList.isNotEmpty ? filteredList : data;
+            //print(object)
+
+            return PaginatedDataTable(
+                headingRowHeight: 48,
+                dataRowMaxHeight: 48,
+                columnSpacing: 20,
+                showEmptyRows: false,
+                rowsPerPage: (data.length >= 5 && data.isNotEmpty)
+                    ? 5
+                    : (data.isEmpty)
+                        ? 1
+                        : data.length,
+                columns: const <DataColumn>[
+                  DataColumn(
+                      label: Text(
+                    'Customer Name',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quotation Number',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Created By',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Tel No.',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Customer Email',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Post Code',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Time',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Total Quote Value (inc. VAT)',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote ID',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Date',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Follow up Made',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Quote Analysis',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Notes',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Action',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    '',
+                    style: TextStyle(color: Color(0xff941420)),
+                  )),
+                ],
+                source: MyData(
+                  myGlobalBuildContext: context,
+                  displayData,
+                  widget.dealerId,
+                  dealerName: widget.dealerName!,
+                  showDatePickerCallback: _showDatePicker,
+                  empId: widget.empId,
+                  datetime: _dateTime,
+                ));
+          },
+        ),
+      ],
     );
   }
 }
