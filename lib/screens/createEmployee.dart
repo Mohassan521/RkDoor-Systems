@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:price_link/components/drawer.dart';
-import 'package:price_link/models/dealersModel.dart';
 import 'package:price_link/services/services.dart';
 
 class CreateEmployee extends StatefulWidget {
@@ -51,20 +50,36 @@ class _CreateEmployeeState extends State<CreateEmployee> {
         role: widget.role,
       ),
       appBar: AppBar(
-        backgroundColor: const Color(0xff941420),
+        backgroundColor: const Color(0xff821919),
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          'Create Employee',
-          style: TextStyle(color: Colors.white),
-        ),
+        // title: const Text(
+        //   'Create Employee',
+        //   style: TextStyle(color: Colors.white),
+        // ),
       ),
       // backgroundColor: Colors.green,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
-            child: Padding(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 28),
+              width: MediaQuery.sizeOf(context).width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color(0xff821919),
+              ),
+              child: Text(
+                "CREATE EMPLOYEE",
+                style: TextStyle(
+                  letterSpacing: 2.2,
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(right: 25.0, left: 25.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +90,8 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     height: 30,
                   ),
                   const Text('First Name',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -87,18 +103,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Last Name',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -110,11 +129,13 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
@@ -125,14 +146,18 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     children: [
                       const Text('Quotation Type',
                           style: TextStyle(
-                              fontSize: 15, color: Color(0xff941420))),
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          )),
                       Container(
-                        height: MediaQuery.sizeOf(context).height * 0.05,
+                        height: MediaQuery.sizeOf(context).height * 0.055,
                         padding: EdgeInsets.only(left: 9),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.5),
                             color: Colors.white,
-                            border: Border.all(color: Colors.grey, width: 1)),
+                            border:
+                                Border.all(color: Colors.black, width: 1.1)),
                         child: DropdownButton<String>(
                           alignment: Alignment.center,
                           isExpanded: false,
@@ -162,7 +187,8 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     height: 15,
                   ),
                   const Text('Mark Up',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -174,18 +200,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Post Code',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -197,18 +226,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Telephone',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -220,18 +252,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Max Discount',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -243,18 +278,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Email',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -266,18 +304,21 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Password',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
                   ),
@@ -289,18 +330,20 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   const Text('Confirm Password',
-                      style: TextStyle(color: Color(0xff941420))),
+                      style: TextStyle(color: Colors.black)),
                   SizedBox(
                     height: 5,
                   ),
@@ -312,11 +355,13 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
@@ -350,7 +395,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('Customer Address 1',
-                            style: TextStyle(color: Color(0xff941420))),
+                            style: TextStyle(color: Colors.black)),
                         SizedBox(
                           height: 5,
                         ),
@@ -362,18 +407,20 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                             enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         const Text('Customer Address 2',
-                            style: TextStyle(color: Color(0xff941420))),
+                            style: TextStyle(color: Colors.black)),
                         SizedBox(
                           height: 5,
                         ),
@@ -385,18 +432,20 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                             enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         const Text('Customer Address 3',
-                            style: TextStyle(color: Color(0xff941420))),
+                            style: TextStyle(color: Colors.black)),
                         SizedBox(
                           height: 5,
                         ),
@@ -408,11 +457,13 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                             enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(6.5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.1)),
                           ),
                         ),
                       ],
@@ -450,7 +501,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

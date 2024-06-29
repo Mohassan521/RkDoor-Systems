@@ -77,7 +77,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
+        backgroundColor: Color(0xff821919),
         // title: const Text(
         //   'Steel Order Form',
         //   style: TextStyle(color: Colors.white),
