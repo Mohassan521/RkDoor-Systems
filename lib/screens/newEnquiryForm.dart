@@ -98,759 +98,850 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Color(0xff941420),
-        title: const Text(
-          'ENQUIRY RECORD',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
+        backgroundColor: Color(0xff821919),
+        // title: const Text(
+        //   'ENQUIRY RECORD',
+        //   style: TextStyle(color: Colors.white),
+        // ),
+        // centerTitle: true,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 28),
+              width: MediaQuery.sizeOf(context).width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color(0xff821919),
+              ),
+              child: Text(
+                "ENQUIRY RECORD",
+                style: TextStyle(
+                  letterSpacing: 2.2,
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Product Type',
-                    style: TextStyle(color: Color(0xff941420)),
-                  ),
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * 0.032,
-                    padding: EdgeInsets.only(left: 9),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: DropdownButton<String>(
-                      alignment: Alignment.center,
-                      // isExpanded: true,
-                      value: entranceDoorValue,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Product Type',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                      ),
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.055,
+                        padding: EdgeInsets.only(left: 9),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.5),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                        ),
+                        child: DropdownButton<String>(
+                          alignment: Alignment.center,
+                          // isExpanded: true,
+                          value: entranceDoorValue,
 
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          entranceDoorValue = newValue ?? entranceDoorValue;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'Entrance Door',
-                            child: Center(
-                                child: Text(
-                              'Entrance Door',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Internal Steel',
-                            child: Center(
-                                child: Text('Internal Steel',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'External Steel',
-                            child: Center(
-                                child: Text('External Steel',
-                                    style: TextStyle(fontSize: 12)))),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Dealer', style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: dealerController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Enquiry Entered By',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: enquiryEnteredByController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Enquiry Source',
-                      style: TextStyle(color: Color(0xff941420))),
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * .032,
-                    padding: EdgeInsets.only(left: 9),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.5),
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: DropdownButton<String>(
-                      isExpanded: false,
-                      value: enquirySourceValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          enquirySourceValue = newValue ?? enquirySourceValue;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'Instagram',
-                            child: Center(
-                                child: Text(
-                              'Instagram',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Internet Search',
-                            child: Center(
-                                child: Text(
-                              'Internet Search',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Returning Customer',
-                            child: Center(
-                                child: Text(
-                              'Returning Customer',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Door Configurator',
-                            child: Center(
-                                child: Text(
-                              'Door Configurator',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Steel Configurator',
-                            child: Center(
-                                child: Text(
-                              'Steel Configurator',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Swindon SBC',
-                            child: Center(
-                                child: Text(
-                              'Swindon SBC',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Chat Box',
-                            child: Center(
-                                child: Text(
-                              'Chat Box',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Info@',
-                            child: Center(
-                                child: Text(
-                              'Info@',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Recommendation',
-                            child: Center(
-                                child: Text(
-                              'Recommendation',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Showroom Visit',
-                            child: Center(
-                                child: Text(
-                              'Showroom Visit',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Trade Window Company',
-                            child: Center(
-                                child: Text(
-                              'Trade Window Company',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Telephone Enquiry',
-                            child: Center(
-                                child: Text(
-                              'Telephone Enquiry',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Trade',
-                            child: Center(
-                                child: Text(
-                              'Trade',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Other',
-                            child: Center(
-                                child: Text(
-                              'Other',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Requirements',
-                      style: TextStyle(color: Color(0xff941420))),
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * 0.032,
-                    padding: EdgeInsets.only(left: 9),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: DropdownButton<String>(
-                      isExpanded: false,
-                      value: requirementValue,
-                      onChanged: (String? newValue) {
-                        requirementValue = newValue ?? enquirySourceValue;
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'Call Back',
-                            child: Center(
-                                child: Text(
-                              'Call Back',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'brochure',
-                            child: Center(
-                                child: Text('brochure',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Quotation',
-                            child: Center(
-                                child: Text('Quotation',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Chasing Configurator Enquiry',
-                            child: Center(
-                                child: Text('Chasing Configurator Enquiry',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Technical Details',
-                            child: Center(
-                                child: Text('Technical Details',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Dealership',
-                            child: Center(
-                                child: Text('Dealership',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Others',
-                            child: Center(
-                                child: Text('Others',
-                                    style: TextStyle(fontSize: 12)))),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Name',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: cusNameController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Company', style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: companyController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Supply Type',
-                      style: TextStyle(color: Color(0xff941420))),
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * 0.032,
-                    padding: EdgeInsets.only(left: 9),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: DropdownButton<String>(
-                      alignment: Alignment.center,
-                      isExpanded: false,
-                      value: supplyTypeValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          supplyTypeValue = newValue ?? supplyTypeValue;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'Supply Only',
-                            child: Center(
-                                child: Text(
-                              'Supply Only',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'Installation',
-                            child: Center(
-                                child: Text('Installation',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Not Applicable',
-                            child: Center(
-                                child: Text('Not Applicable',
-                                    style: TextStyle(fontSize: 12)))),
-                        DropdownMenuItem<String>(
-                            value: 'Not Specified',
-                            child: Center(
-                                child: Text('Not Specified',
-                                    style: TextStyle(fontSize: 12)))),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Address Line 1',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: deliveryAddressController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Address Line 2',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: deliveryAddressController2,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Address Line 3',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: deliveryAddressController3,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Address Line 4',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: deliveryAddressController4,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Delivery Post Code',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: deliveryPostCode,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Customer Email',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: emailController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Telephone',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: telephoneController,
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Priority Level',
-                      style: TextStyle(color: Color(0xff941420))),
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 9),
-                    height: MediaQuery.sizeOf(context).height * 0.032,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        border: Border.all(width: 1),
-                        color: priorityValue == "LOW"
-                            ? Colors.pink
-                            : priorityValue == "MEDIUM"
-                                ? Colors.orange
-                                : Colors.red),
-                    child: DropdownButton<String>(
-                      isExpanded: false,
-                      alignment: Alignment.center,
-                      value: priorityValue,
-                      underline: SizedBox(),
-                      iconEnabledColor: priorityValue == "LOW"
-                          ? Colors.pink
-                          : priorityValue == "MEDIUM"
-                              ? Colors.orange
-                              : Colors.red,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          priorityValue = newValue ?? priorityValue;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<String>(
-                            value: 'LOW',
-                            alignment: Alignment.center,
-                            child: Center(
-                                child: Text(
-                              'LOW',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'MEDIUM',
-                            alignment: Alignment.center,
-                            child: Center(
-                                child: Text(
-                              'MEDIUM',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                        DropdownMenuItem<String>(
-                            value: 'HIGH',
-                            alignment: Alignment.center,
-                            child: Center(
-                                child: Text(
-                              'HIGH',
-                              style: TextStyle(fontSize: 12),
-                            ))),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('File Upload',
-                  style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff941420)),
-                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(9)))),
-                    icon: Icon(
-                      Icons.cloud_upload_outlined,
-                      size: 19,
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      'Browse',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      getImage();
-                    },
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              entranceDoorValue = newValue ?? entranceDoorValue;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: 'Entrance Door',
+                                child: Center(
+                                    child: Text(
+                                  'Entrance Door',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Internal Steel',
+                                child: Center(
+                                    child: Text('Internal Steel',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'External Steel',
+                                child: Center(
+                                    child: Text('External Steel',
+                                        style: TextStyle(fontSize: 12)))),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    width: 60,
+                    height: 20,
                   ),
-                  Text(
-                    _image != null && _image!.path.isNotEmpty
-                        ? "File Uploaded"
-                        : "",
+                  const Text('Dealer',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
                   ),
+                  TextFormField(
+                    controller: dealerController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Enquiry Entered By',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: enquiryEnteredByController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Enquiry Source',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500)),
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * .055,
+                        padding: EdgeInsets.only(left: 9),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5.5),
+                            border: Border.all(color: Colors.black, width: 1)),
+                        child: DropdownButton<String>(
+                          isExpanded: false,
+                          value: enquirySourceValue,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              enquirySourceValue =
+                                  newValue ?? enquirySourceValue;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: 'Instagram',
+                                child: Center(
+                                    child: Text(
+                                  'Instagram',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Internet Search',
+                                child: Center(
+                                    child: Text(
+                                  'Internet Search',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Returning Customer',
+                                child: Center(
+                                    child: Text(
+                                  'Returning Customer',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Door Configurator',
+                                child: Center(
+                                    child: Text(
+                                  'Door Configurator',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Steel Configurator',
+                                child: Center(
+                                    child: Text(
+                                  'Steel Configurator',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Swindon SBC',
+                                child: Center(
+                                    child: Text(
+                                  'Swindon SBC',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Chat Box',
+                                child: Center(
+                                    child: Text(
+                                  'Chat Box',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Info@',
+                                child: Center(
+                                    child: Text(
+                                  'Info@',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Recommendation',
+                                child: Center(
+                                    child: Text(
+                                  'Recommendation',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Showroom Visit',
+                                child: Center(
+                                    child: Text(
+                                  'Showroom Visit',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Trade Window Company',
+                                child: Center(
+                                    child: Text(
+                                  'Trade Window Company',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Telephone Enquiry',
+                                child: Center(
+                                    child: Text(
+                                  'Telephone Enquiry',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Trade',
+                                child: Center(
+                                    child: Text(
+                                  'Trade',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Other',
+                                child: Center(
+                                    child: Text(
+                                  'Other',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Requirements',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500)),
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.055,
+                        padding: EdgeInsets.only(left: 9),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.5),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black, width: 1)),
+                        child: DropdownButton<String>(
+                          isExpanded: false,
+                          value: requirementValue,
+                          onChanged: (String? newValue) {
+                            requirementValue = newValue ?? enquirySourceValue;
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: 'Call Back',
+                                child: Center(
+                                    child: Text(
+                                  'Call Back',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'brochure',
+                                child: Center(
+                                    child: Text('brochure',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Quotation',
+                                child: Center(
+                                    child: Text('Quotation',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Chasing Configurator Enquiry',
+                                child: Center(
+                                    child: Text('Chasing Configurator Enquiry',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Technical Details',
+                                child: Center(
+                                    child: Text('Technical Details',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Dealership',
+                                child: Center(
+                                    child: Text('Dealership',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Others',
+                                child: Center(
+                                    child: Text('Others',
+                                        style: TextStyle(fontSize: 12)))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Name',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: cusNameController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Company',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: companyController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Supply Type',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500)),
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.055,
+                        padding: EdgeInsets.only(left: 9),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.5),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black, width: 1)),
+                        child: DropdownButton<String>(
+                          alignment: Alignment.center,
+                          isExpanded: false,
+                          value: supplyTypeValue,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              supplyTypeValue = newValue ?? supplyTypeValue;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: 'Supply Only',
+                                child: Center(
+                                    child: Text(
+                                  'Supply Only',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'Installation',
+                                child: Center(
+                                    child: Text('Installation',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Not Applicable',
+                                child: Center(
+                                    child: Text('Not Applicable',
+                                        style: TextStyle(fontSize: 12)))),
+                            DropdownMenuItem<String>(
+                                value: 'Not Specified',
+                                child: Center(
+                                    child: Text('Not Specified',
+                                        style: TextStyle(fontSize: 12)))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Address Line 1',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: deliveryAddressController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Address Line 2',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: deliveryAddressController2,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Address Line 3',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: deliveryAddressController3,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Address Line 4',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: deliveryAddressController4,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Delivery Post Code',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: deliveryPostCode,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Customer Email',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Telephone',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: telephoneController,
+                    style: TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Priority Level',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500)),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 9),
+                        height: MediaQuery.sizeOf(context).height * 0.055,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.5),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.black,
+                            ),
+                            color: priorityValue == "LOW"
+                                ? Colors.pink
+                                : priorityValue == "MEDIUM"
+                                    ? Colors.orange
+                                    : Colors.red),
+                        child: DropdownButton<String>(
+                          isExpanded: false,
+                          alignment: Alignment.center,
+                          value: priorityValue,
+                          underline: SizedBox(),
+                          iconEnabledColor: priorityValue == "LOW"
+                              ? Colors.pink
+                              : priorityValue == "MEDIUM"
+                                  ? Colors.orange
+                                  : Colors.red,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              priorityValue = newValue ?? priorityValue;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<String>(
+                                value: 'LOW',
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Text(
+                                  'LOW',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'MEDIUM',
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Text(
+                                  'MEDIUM',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                            DropdownMenuItem<String>(
+                                value: 'HIGH',
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Text(
+                                  'HIGH',
+                                  style: TextStyle(fontSize: 12),
+                                ))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('File Upload',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            Color(0xff941420),
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.cloud_upload_outlined,
+                          size: 19,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Browse',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          getImage();
+                        },
+                      ),
+                      SizedBox(
+                        width: 60,
+                      ),
+                      Text(
+                        _image != null && _image!.path.isNotEmpty
+                            ? "File Uploaded"
+                            : "",
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Notes',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    controller: notesController,
+                    style: TextStyle(fontSize: 13),
+                    maxLines: 6,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
+                      labelStyle:
+                          TextStyle(color: Color(0xff941420), fontSize: 13),
+                      fillColor: Colors.white,
+                      filled: true,
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MaterialButton(
+                    minWidth: double.infinity,
+                    child: Text('Save'),
+                    onPressed: () {
+                      apiServices.createEnquiries(
+                          widget.dealerId,
+                          entranceDoorValue,
+                          dealerController.text,
+                          enquiryEnteredByController.text,
+                          requirementValue,
+                          cusNameController.text,
+                          companyController.text,
+                          supplyTypeValue,
+                          deliveryAddressController.text,
+                          deliveryAddressController2.text,
+                          deliveryAddressController3.text,
+                          deliveryAddressController4.text,
+                          deliveryPostCode.text,
+                          emailController.text,
+                          telephoneController.text,
+                          priorityValue,
+                          filesToUpload,
+                          notesController.text,
+                          enquirySourceValue,
+                          enquiryEnteredByController.text);
+                    },
+                    color: Color(0xff941420),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.5)),
+                  )
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              const Text('Notes', style: TextStyle(color: Color(0xff941420))),
-              SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: notesController,
-                style: TextStyle(fontSize: 13),
-                maxLines: 6,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 2.5, horizontal: 10),
-                  labelStyle: TextStyle(color: Color(0xff941420), fontSize: 13),
-                  fillColor: Colors.white,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.grey)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                minWidth: double.infinity,
-                child: Text('Save'),
-                onPressed: () {
-                  apiServices.createEnquiries(
-                      widget.dealerId,
-                      entranceDoorValue,
-                      dealerController.text,
-                      enquiryEnteredByController.text,
-                      requirementValue,
-                      cusNameController.text,
-                      companyController.text,
-                      supplyTypeValue,
-                      deliveryAddressController.text,
-                      deliveryAddressController2.text,
-                      deliveryAddressController3.text,
-                      deliveryAddressController4.text,
-                      deliveryPostCode.text,
-                      emailController.text,
-                      telephoneController.text,
-                      priorityValue,
-                      filesToUpload,
-                      notesController.text,
-                      enquirySourceValue,
-                      enquiryEnteredByController.text);
-                },
-                color: Color(0xff941420),
-                textColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.5)),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
