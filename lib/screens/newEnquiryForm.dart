@@ -837,14 +837,16 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                   SizedBox(
                     height: 20,
                   ),
-                  const Text('File Upload',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    height: 5,
-                  ),
                   Row(
                     children: [
+                      const Text(
+                        'File Upload',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        width: 28,
+                      ),
                       ElevatedButton.icon(
                         style: ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(
@@ -865,7 +867,7 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                         },
                       ),
                       SizedBox(
-                        width: 60,
+                        width: 30,
                       ),
                       Text(
                         _image != null && _image!.path.isNotEmpty
@@ -873,6 +875,9 @@ class _NewEnquiryFormState extends State<NewEnquiryForm> {
                             : "",
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 5,
                   ),
                   SizedBox(
                     height: 20,

@@ -58,27 +58,13 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
               decoration: BoxDecoration(
                 color: Color(0xff821919),
               ),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Text(
-                    "CREATE ADMINISTRATION STAFF",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0.1, // Adjust the spacing as needed
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width *
-                          0.90, // Adjust the width as needed
-                      height: 1.5, // Adjust the height of the underline
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              child: Text(
+                "CREATE ADMINISTRATION STAFF",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(

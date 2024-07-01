@@ -32,7 +32,6 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     futureQuotes = apiServices.getAdminQuotes();
   }
@@ -48,11 +47,11 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
 
   void _showDatePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2050),
+    ).then(
       (value) {
         setState(
           () {
@@ -65,31 +64,31 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkApiServices apiServices = NetworkApiServices();
     print(widget.dealerName);
 
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: TextFormField(
-              onChanged: (value) {
-                searchOrders(value);
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5),
-                prefixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    // Perform the search here
-                  },
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                hintText: 'Search by Username or Quote ID',
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: TextFormField(
+            onChanged: (value) {
+              searchOrders(value);
+            },
+            decoration: InputDecoration(
+              // contentPadding: EdgeInsets.symmetric(vertical: 5),
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  // Perform the search here
+                },
               ),
-            )),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+              ),
+              hintText: 'Search by Username or Quote ID',
+            ),
+          ),
+        ),
         SizedBox(
           height: 20,
         ),
@@ -117,15 +116,21 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
                           ),
                         ),
                         DataColumn(
-                            label: Text(
-                          'Username',
-                          style: TextStyle(color: Color(0xff941420)),
-                        )),
+                          label: Text(
+                            'Username',
+                            style: TextStyle(
+                              color: Color(0xff941420),
+                            ),
+                          ),
+                        ),
                         DataColumn(
-                            label: Text(
-                          'Quotation Number',
-                          style: TextStyle(color: Color(0xff941420)),
-                        )),
+                          label: Text(
+                            'Quotation Number',
+                            style: TextStyle(
+                              color: Color(0xff941420),
+                            ),
+                          ),
+                        ),
                         DataColumn(
                             label: Text(
                           'Dealer',
@@ -265,15 +270,21 @@ class _AdminQuotationsTableState extends State<AdminQuotationsTable> {
                 rowsPerPage: 5,
                 columns: const <DataColumn>[
                   DataColumn(
-                      label: Text(
-                    'Customer Name',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Customer Name',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
-                      label: Text(
-                    'Username',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Username',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
                       label: Text(
                     'Quotation Number',

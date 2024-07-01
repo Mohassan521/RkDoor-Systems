@@ -1162,24 +1162,28 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                       fillColor: Colors.white,
                       filled: true,
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.grey)),
+                          borderRadius: BorderRadius.circular(6.5),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 1.1)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  const Text('File Upload',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    height: 5,
-                  ),
                   Row(
                     children: [
+                      const Text(
+                        'File Upload',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        width: 28,
+                      ),
                       ElevatedButton.icon(
                         style: ButtonStyle(
                           backgroundColor:
@@ -1199,7 +1203,7 @@ class _SteelOrderFormState extends State<SteelOrderForm> {
                         },
                       ),
                       SizedBox(
-                        width: 60,
+                        width: 30,
                       ),
                       Text(
                         _image != null && _image!.path.isNotEmpty

@@ -1875,14 +1875,6 @@ class NetworkApiServices {
         }).toList();
       }
 
-      // quotes.forEach((element) {
-      //   element.quotes.sort((a, b) {
-      //     DateTime aDate = DateTime.parse(a.date!);
-      //     DateTime bDate = DateTime.parse(b.date!);
-      //     return bDate.compareTo(aDate);
-      //   });
-      // });
-
       return quotes;
     } else {
       throw Exception('Failed to load quotes');
@@ -2035,7 +2027,7 @@ class NetworkApiServices {
 
         steelorders = steelorders.where((steelorder) {
           bool matchesDisplayName = steelorder.displayName != null &&
-              steelorder.displayName!.contains(lowerCaseQuery);
+              steelorder.displayName!.toLowerCase().contains(lowerCaseQuery);
 
           var filterNestedOrders =
               steelorder.steelOrders!.where((nestedSteelOrder) {
