@@ -390,6 +390,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                   SizedBox(
                     height: 20,
                   ),
+                  // if the above checkbox is checked, 3 more input fields will be appeared in the form like customer address 1, 2 and 3
                   if (isChecked == true)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,6 +476,7 @@ class _CreateEmployeeState extends State<CreateEmployee> {
                     minWidth: double.infinity,
                     child: Text('Register'),
                     onPressed: () {
+                      //if(password and confirm password values are same, then this post request will be done inside this function otherwise it wont)
                       if (password.text == cpassword.text) {
                         NetworkApiServices().createEmployees(
                             widget.dealerId,

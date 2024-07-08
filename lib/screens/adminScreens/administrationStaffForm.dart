@@ -309,6 +309,7 @@ class _CreateAdministrationStaffState extends State<CreateAdministrationStaff> {
                         borderRadius: BorderRadius.circular(5.5)),
                     minWidth: double.infinity,
                     onPressed: () {
+                      // if these 2 password field values will be same then this API will work, otherwise request to server will not be sent
                       if (password.text == cpassword.text) {
                         NetworkApiServices().createAdministrator(
                             fname.text,

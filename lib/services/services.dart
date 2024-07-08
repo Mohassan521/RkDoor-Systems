@@ -2091,12 +2091,14 @@ class NetworkApiServices {
         String lowerSearchQuery = searchQuery.toLowerCase();
 
         dealerDataList = dealerDataList.where((quote) {
-          bool matchesDisplayName =
-              quote.displayName.toLowerCase().contains(lowerSearchQuery);
+          // bool matchesDisplayName =
+          //     quote.displayName.toLowerCase().contains(lowerSearchQuery);
 
           var filterNestedOrders = quote.quotes.where((nestedOrder) {
-            return nestedOrder.enquiryCustomerEmail != null &&
-                nestedOrder.enquiryCustomerEmail!
+            return nestedOrder.enquiryCustomerEmail!
+                    .toLowerCase()
+                    .contains(lowerSearchQuery) ||
+                nestedOrder.enquiryAllocatedTo!
                     .toLowerCase()
                     .contains(lowerSearchQuery);
           }).toList();
@@ -2108,7 +2110,7 @@ class NetworkApiServices {
             quote.quotes = filterNestedOrders;
           }
 
-          return matchesDisplayName || hasMatchingOrders;
+          return hasMatchingOrders;
         }).toList();
       }
 

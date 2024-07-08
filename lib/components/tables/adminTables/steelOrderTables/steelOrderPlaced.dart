@@ -23,12 +23,14 @@ class AdminSteelOrdersPlaced extends StatefulWidget {
 }
 
 class _AdminSteelOrdersPlacedState extends State<AdminSteelOrdersPlaced> {
+  // an instance of networkapiservices class where all API functions are defined
   NetworkApiServices apiServices = NetworkApiServices();
-  // List<CompletedSteelOrdersResponse>? list = [];
-
+  // search variable to get search query results
   String searchInput = '';
+  // variable named futureEnquiries of type List<CompleteResponseofEnquiries>
   late Future<List<CompletedSteelOrdersResponse>> futureSteelOrders;
 
+  // this function rebuilds atleast once when the application get hot restart
   @override
   void initState() {
     // TODO: implement initState
@@ -36,6 +38,7 @@ class _AdminSteelOrdersPlacedState extends State<AdminSteelOrdersPlaced> {
     futureSteelOrders = apiServices.getSteelOrdersForAdmin();
   }
 
+  // used for searching of records based on the value of input field
   void searchSteelOrders(String query) {
     setState(
       () {
@@ -88,6 +91,8 @@ class _AdminSteelOrdersPlacedState extends State<AdminSteelOrdersPlaced> {
         SizedBox(
           height: 20,
         ),
+        // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+        // then it will show
         FutureBuilder(
           future: apiServices.getSteelOrdersForAdmin(searchQuery: searchInput),
           builder: (context, snapshot) {

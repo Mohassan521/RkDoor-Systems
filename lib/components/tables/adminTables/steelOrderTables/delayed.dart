@@ -23,6 +23,7 @@ class AdminSteelDelayed extends StatefulWidget {
 }
 
 class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
+  // an instance of networkapiservices class where all API functions are defined
   NetworkApiServices apiServices = NetworkApiServices();
   List<CompletedSteelOrdersResponse>? list = [];
 
@@ -45,6 +46,8 @@ class _AdminSteelDelayedState extends State<AdminSteelDelayed> {
       });
     }
 
+    // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+    // then it will show
     return FutureBuilder(
       future: apiServices.getSteelOrdersForAdmin(),
       builder: (context, snapshot) {

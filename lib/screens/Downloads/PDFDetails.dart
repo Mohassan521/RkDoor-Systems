@@ -157,6 +157,8 @@ class _PDFDetailsState extends State<PDFDetails> {
                                         Row(
                                           children: [
                                             InkWell(
+                                                // this ontap function contains a modal which contains the corresponding name of this category
+                                                // which is used to edit it, it is admin functionality only
                                                 onTap: () async {
                                                   TextEditingController value =
                                                       controllers[index];

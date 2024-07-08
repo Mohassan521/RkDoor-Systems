@@ -24,6 +24,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
   List<File> filesToUpload = [];
   List<File> filesToUploadForDoorDesign = [];
 
+  // to pick image from gallery
   Future getImageForDoorDesign() async {
     final pickedFile =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -38,6 +39,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
     }
   }
 
+  // to pick image from gallery
   Future getImage() async {
     final pickedFile =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -1098,6 +1100,7 @@ class _AdminEnquiryFormState extends State<AdminEnquiryForm> {
                         child: Text('Save'),
                         color: Color(0xff941420),
                         onPressed: () {
+                          // to save enquiry details in database
                           apiServices.createEnquiriesForAdmin(
                               widget.dealerId,
                               entranceDoorValue,

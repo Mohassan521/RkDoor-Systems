@@ -42,6 +42,8 @@ class _CADDetailsState extends State<CADDetails> {
   Widget build(BuildContext context) {
     File? _image;
     List<File> filesToUpload = [];
+
+    // to get image from gallery
     Future<List<File>> getImage() async {
       final _picker = ImagePicker();
 
@@ -78,6 +80,8 @@ class _CADDetailsState extends State<CADDetails> {
       ),
       floatingActionButton: widget.role == "admin"
           ? FloatingActionButton.small(
+              // this functionality inside onPressed is a modal which contains a field where admin can add category name and that category
+              // will be shown on this page
               onPressed: () async {
                 showModalBottomSheet(
                   context: context,
@@ -114,6 +118,8 @@ class _CADDetailsState extends State<CADDetails> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(color: Color(0xfff3f4f4)),
+                  // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+                  // then it will show
                   child: FutureBuilder(
                     future: apiServices.getCEDDetails(),
                     builder: (context, snapshot) {
@@ -169,6 +175,8 @@ class _CADDetailsState extends State<CADDetails> {
                                           Row(
                                             children: [
                                               InkWell(
+                                                  // this ontap function contains a modal which contains the corresponding name of this category
+                                                  // which is used to edit it, it is admin functionality only
                                                   onTap: () async {
                                                     TextEditingController
                                                         value =

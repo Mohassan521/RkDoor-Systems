@@ -21,6 +21,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
   final _picker = ImagePicker();
   List<File> filesToUpload = [];
 
+  // to pick image from gallery
   Future getImage() async {
     final pickedFile =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -1385,6 +1386,7 @@ class _SteelOrderFormForAdminState extends State<SteelOrderFormForAdmin> {
                         borderRadius: BorderRadius.circular(5.5)),
                     minWidth: double.infinity,
                     onPressed: () {
+                      // to save data of steel order form in database
                       NetworkApiServices().createSteelOrderForAdmin(
                           widget.dealerId,
                           productType,

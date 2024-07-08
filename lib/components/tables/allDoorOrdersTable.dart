@@ -31,15 +31,19 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
   List<OrdersModel>? list = [];
   void _showDatePicker() {
     showDatePicker(
-            context: context as BuildContext,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2050))
-        .then((value) {
-      setState(() {
-        _dateTime = value!;
-      });
-    });
+      context: context as BuildContext,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2050),
+    ).then(
+      (value) {
+        setState(
+          () {
+            _dateTime = value!;
+          },
+        );
+      },
+    );
   }
 
   String searchInput = "";
@@ -51,27 +55,28 @@ class _AllDoorOrdersTableState extends State<AllDoorOrdersTable> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 20.0, right: 20),
-            child: TextFormField(
-              onChanged: (value) {
-                setState(
-                  () {
-                    searchInput = value;
-                  },
-                );
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5),
-                prefixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                hintText: 'Search by Customer Name or Quote ID',
+          padding: EdgeInsets.only(left: 20.0, right: 20),
+          child: TextFormField(
+            onChanged: (value) {
+              setState(
+                () {
+                  searchInput = value;
+                },
+              );
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 5),
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
               ),
-            )),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+              ),
+              hintText: 'Search by Customer Name or Quote ID',
+            ),
+          ),
+        ),
         SizedBox(
           height: 20,
         ),

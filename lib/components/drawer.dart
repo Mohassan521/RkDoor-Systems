@@ -911,6 +911,7 @@ class _DrawerPageState extends State<DrawerPage> {
                           },
                         ),
                         trailing: IconButton(
+                            // this onPressed is used to edit download's section categories name, the rest is same below as well
                             onPressed: () {
                               NetworkApiServices()
                                   .getSubFolder1Downloads()
@@ -2393,6 +2394,9 @@ class _DrawerPageState extends State<DrawerPage> {
                   //   ),
                   // ),
                   ListTile(
+                    // sharedPreference is set during login which works like the user wont need to login again and again
+                    // if this bool value of isLogin is set to true, user will be redirected to dashboard without logging in again, but
+                    // if this value is set to false, he has to login again
                     onTap: () async {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();

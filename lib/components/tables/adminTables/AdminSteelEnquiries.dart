@@ -23,52 +23,27 @@ class AdminSteelEnquiries extends StatefulWidget {
 }
 
 class _AdminSteelEnquiriesState extends State<AdminSteelEnquiries> {
+  // an instance of networkapiservices class where all API functions are defined
   NetworkApiServices apiServices = NetworkApiServices();
+  // search variable to get search query results
   String searchInput = '';
+  // variable named futureEnquiries of type List<CompleteResponseofEnquiries>
   late Future<List<CompleteResponseOfEnquiries>> futureEnquiries;
 
+  // this function rebuilds atleast once when the application get hot restart
   @override
   void initState() {
     super.initState();
     futureEnquiries = apiServices.getAdminPanelEnquiries();
   }
 
+  // used for searching of records based on the value of input field
   void searchEnquiries(String query) {
     setState(() {
       searchInput = query;
       futureEnquiries = apiServices.getAdminPanelEnquiries(searchQuery: query);
     });
   }
-
-  // String? _filePath;
-  // String selectedValue = "";
-
-  // List<String> enquiryStatus = [
-  //   'VIEWED',
-  //   'QUOTATION ISSUED',
-  //   'REVISED QUOTATION ISSUED',
-  //   '1ST FOLLOW UP MADE',
-  //   '2ND FOLLOW UP MADE',
-  //   'POTENTIAL ORDER',
-  //   'ORDERED',
-  //   'CLOSED'
-  // ];
-
-  // Future<void> _pickFile() async {
-  //   try {
-  //     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-  //     if (result != null) {
-  //       setState(() {
-  //         _filePath = result.files.single.path;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error picking file: $e');
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +70,8 @@ class _AdminSteelEnquiriesState extends State<AdminSteelEnquiries> {
         SizedBox(
           height: 20,
         ),
+        // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+        // then it will show
         FutureBuilder(
           future: apiServices.getAdminPanelEnquiries(searchQuery: searchInput),
           builder: (context, snapshot) {

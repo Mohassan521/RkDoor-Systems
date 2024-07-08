@@ -23,16 +23,21 @@ class AdminAllEnquiriesTable extends StatefulWidget {
 }
 
 class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
+  // an instance of networkapiservices class where all API functions are defined
   NetworkApiServices apiServices = NetworkApiServices();
+  // search variable to get search query results
   String searchInput = '';
+  // variable named futureEnquiries of type List<CompleteResponseofEnquiries>
   late Future<List<CompleteResponseOfEnquiries>> futureEnquiries;
 
+  // this function rebuilds atleast once when the application get hot restart
   @override
   void initState() {
     super.initState();
     futureEnquiries = apiServices.getAdminPanelEnquiries();
   }
 
+  // used for searching of records based on the value of input field
   void searchEnquiries(String query) {
     setState(() {
       searchInput = query;
@@ -45,26 +50,29 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: TextFormField(
-              onChanged: (value) {
-                searchEnquiries(value);
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5),
-                prefixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                hintText: 'Search by Enq Allocated To or Email',
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: TextFormField(
+            onChanged: (value) {
+              searchEnquiries(value);
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 5),
+              prefixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
               ),
-            )),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7.0),
+              ),
+              hintText: 'Search by Enq Allocated To or Email',
+            ),
+          ),
+        ),
         SizedBox(
           height: 20,
         ),
+        // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+        // then it will show
         FutureBuilder(
           future: apiServices.getAdminPanelEnquiries(searchQuery: searchInput),
           builder: (context, snapshot) {
@@ -252,25 +260,37 @@ class _AdminAllEnquiriesTableState extends State<AdminAllEnquiriesTable> {
                 rowsPerPage: 5,
                 columns: const <DataColumn>[
                   DataColumn(
-                      label: Text(
-                    'Enquiry Allocated To',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Enquiry Allocated To',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
-                      label: Text(
-                    'Customer Name',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Customer Name',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
-                      label: Text(
-                    'Company',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Company',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
-                      label: Text(
-                    'Enquiry Status',
-                    style: TextStyle(color: Color(0xff941420)),
-                  )),
+                    label: Text(
+                      'Enquiry Status',
+                      style: TextStyle(
+                        color: Color(0xff941420),
+                      ),
+                    ),
+                  ),
                   DataColumn(
                       label: Text(
                     'Enquiry Details',
@@ -405,6 +425,8 @@ class MyData extends DataTableSource {
 
   File? _image;
   List<File> filesToUpload = [];
+
+  // used to pick images from gallery, will be uploaded on server and its path will be saved in database
   Future<List<File>> getImage() async {
     final _picker = ImagePicker();
 
@@ -426,6 +448,7 @@ class MyData extends DataTableSource {
   DataRow? getRow(int index) {
     if (index >= totalRowCount) return null;
 
+    // used to show images
     showImageDialog(BuildContext context, String imageUrl) {
       showDialog(
         context: context,
@@ -445,6 +468,7 @@ class MyData extends DataTableSource {
     }
 
     int currentIndex = 0;
+    // 2 types of data will be displayed here, one which is inside quotes object, and other which is outside, thats why 2 for loops
     for (var dealerData in dealerDataList) {
       for (var quote in dealerData.quotes) {
         TextEditingController configuratorCode = TextEditingController();

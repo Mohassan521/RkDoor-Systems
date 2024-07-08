@@ -43,6 +43,8 @@ class _UpdatesState extends State<Updates> {
           ? FloatingActionButton.small(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6.5)),
+              // this functionality iside onPressed is a modal which contains a field where admin can add update and that update will be shown
+              // on this page
               onPressed: () async {
                 showModalBottomSheet<void>(
                   context: context,
@@ -122,6 +124,8 @@ class _UpdatesState extends State<Updates> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5)),
+                  // it is used to handle future functions response, like when it in loading state, or has an error, or has no data, or if has data
+                  // then it will show
                   child: FutureBuilder(
                     future: NetworkApiServices().getUpdatesValue(),
                     builder: (context, snapshot) {
